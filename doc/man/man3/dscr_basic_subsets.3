@@ -1,0 +1,178 @@
+.TH "dscr::basic_subsets< BoolType >" 3 "Fri Feb 26 2016" "Version 1" "discreture" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dscr::basic_subsets< BoolType > \- 
+.PP
+class of all 2^n subsets of the set {0,1,\&.\&.\&.,n-1}, expressed as incidence vectors  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Subsets\&.hpp>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBiterator\fP"
+.br
+.RI "\fIRandom access iterator class\&. It's much more efficient as a bidirectional iterator than purely random access\&. \fP"
+.ti -1c
+.RI "class \fBreverse_iterator\fP"
+.br
+.RI "\fIReverse random access iterator class\&. It's much more efficient as a bidirectional iterator than purely random access\&. \fP"
+.in -1c
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "typedef long long int \fBdifference_type\fP"
+.br
+.ti -1c
+.RI "typedef unsigned long long int \fBsize_type\fP"
+.br
+.ti -1c
+.RI "typedef vector< BoolType > \fBvalue_type\fP"
+.br
+.ti -1c
+.RI "typedef vector< BoolType > \fBsubset\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBbasic_subsets\fP (size_t n)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "size_type \fBsize\fP () const "
+.br
+.RI "\fIThe total number of subsets\&. \fP"
+.ti -1c
+.RI "size_type \fBget_index\fP (const subset &set) const "
+.br
+.RI "\fIReturns the ID of the iterator whose value is set\&. That is, the index of subset sub in the lexicographic order\&. \fP"
+.ti -1c
+.RI "const \fBiterator\fP & \fBbegin\fP () const "
+.br
+.ti -1c
+.RI "const \fBiterator\fP & \fBend\fP () const "
+.br
+.ti -1c
+.RI "const \fBreverse_iterator\fP & \fBrbegin\fP () const "
+.br
+.ti -1c
+.RI "const \fBreverse_iterator\fP & \fBrend\fP () const "
+.br
+.ti -1c
+.RI "subset \fBoperator[]\fP (size_type m) const "
+.br
+.RI "\fIAccess to the m-th subset (slow for iteration) \fP"
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBnext_subset\fP (subset &data)"
+.br
+.ti -1c
+.RI "static void \fBprev_subset\fP (subset &data)"
+.br
+.ti -1c
+.RI "static void \fBconstruct_subset\fP (subset &data, size_type m)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class BoolType>class dscr::basic_subsets< BoolType >"
+class of all 2^n subsets of the set {0,1,\&.\&.\&.,n-1}, expressed as incidence vectors 
+
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIBoolType\fP is at least a bool, but it can be an int, uint, etc\&. It can be signed or unsigned\&. 
+.SH "Example:"
+.PP
+.RE
+.PP
+.PP
+.nf
+subsets X(4);
+for (const auto& x : X)
+    cout << x << " ";
+.fi
+.PP
+.PP
+Prints out: 
+.PP
+.nf
+[0000] [1000] [0100] [1100] [0010] [1010] [0110] [1110] [0001] [1001] [0101] [1101] [0011] [1011] [0111] [1111]
+.fi
+.PP
+ 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class BoolType > \fBdscr::basic_subsets\fP< BoolType >::\fBbasic_subsets\fP (size_tn)\fC [inline]\fP"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is an integer >= 0 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class BoolType > size_type \fBdscr::basic_subsets\fP< BoolType >::get_index (const subset &set) const\fC [inline]\fP"
+
+.PP
+Returns the ID of the iterator whose value is set\&. That is, the index of subset sub in the lexicographic order\&. Inverse of operator[]\&. If subset x is the m-th subset, then get_index(x) is m\&. If one has a subsets::iterator, then the member function ID() should return the same value\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+the index of subset sub, as if \fBbasic_subsets\fP was a proper data structure 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+This constructs the proper index from scratch\&. If an iterator is already known, calling ID on the iterator is much more efficient\&. 
+.RE
+.PP
+
+.SS "template<class BoolType > subset \fBdscr::basic_subsets\fP< BoolType >::operator[] (size_typem) const\fC [inline]\fP"
+
+.PP
+Access to the m-th subset (slow for iteration) This is equivalent to calling *(begin()+m) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIm\fP should be an integer between 0 and \fBsize()\fP\&. Undefined behavior otherwise\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The m-th subset, as defined in the order of iteration (lexicographic) 
+.RE
+.PP
+
+.SS "template<class BoolType > size_type \fBdscr::basic_subsets\fP< BoolType >::size () const\fC [inline]\fP"
+
+.PP
+The total number of subsets\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+2^n 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for discreture from the source code\&.

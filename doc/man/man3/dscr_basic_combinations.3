@@ -1,0 +1,327 @@
+.TH "dscr::basic_combinations< IntType >" 3 "Fri Feb 26 2016" "Version 1" "discreture" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dscr::basic_combinations< IntType > \- 
+.PP
+class of all n choose k combinations of size k of the set {0,1,\&.\&.\&.,n-1}\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Combinations\&.hpp>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBiterator\fP"
+.br
+.RI "\fIRandom access iterator class\&. It's much more efficient as a bidirectional iterator than purely random access\&. \fP"
+.ti -1c
+.RI "class \fBreverse_iterator\fP"
+.br
+.RI "\fIReverse random access iterator class\&. It's much more efficient as a bidirectional iterator than purely random access\&. \fP"
+.in -1c
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "typedef long long int \fBdifference_type\fP"
+.br
+.ti -1c
+.RI "typedef unsigned long long int \fBsize_type\fP"
+.br
+.ti -1c
+.RI "typedef vector< IntType > \fBvalue_type\fP"
+.br
+.ti -1c
+.RI "typedef vector< IntType > \fBcombination\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBbasic_combinations\fP (IntType n, IntType k)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "size_type \fBsize\fP () const "
+.br
+.RI "\fIThe total number of combinations\&. \fP"
+.ti -1c
+.RI "size_type \fBget_index\fP (const combination &comb) const "
+.br
+.RI "\fIReturns the ID of the iterator whose value is comb\&. That is, the index of combination comb in the lexicographic order\&. \fP"
+.ti -1c
+.RI "IntType \fBget_n\fP () const "
+.br
+.ti -1c
+.RI "IntType \fBget_k\fP () const "
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBget_iterator\fP (const combination &comb)"
+.br
+.ti -1c
+.RI "const \fBiterator\fP & \fBbegin\fP () const "
+.br
+.ti -1c
+.RI "const \fBiterator\fP & \fBend\fP () const "
+.br
+.ti -1c
+.RI "const \fBreverse_iterator\fP & \fBrbegin\fP () const "
+.br
+.ti -1c
+.RI "const \fBreverse_iterator\fP & \fBrend\fP () const "
+.br
+.ti -1c
+.RI "combination \fBoperator[]\fP (size_type m) const "
+.br
+.RI "\fIAccess to the m-th combination (slow for iteration) \fP"
+.ti -1c
+.RI "template<class PartialPredicate > \fBiterator\fP \fBfind_if\fP (PartialPredicate pred)"
+.br
+.RI "\fIThis is an efficient way to construct a combination of size k which fully satisfies a predicate\&. \fP"
+.ti -1c
+.RI "template<class PartialPredicate > vector< combination > \fBfind_all\fP (PartialPredicate pred)"
+.br
+.RI "\fIThis is an efficient way to construct all combination of size k which fully satisfy a predicate\&. \fP"
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static IntType \fBnext_combination\fP (combination &data, IntType hint=0)"
+.br
+.ti -1c
+.RI "static void \fBprev_combination\fP (combination &data)"
+.br
+.ti -1c
+.RI "static void \fBconstruct_combination\fP (combination &data, size_type m)"
+.br
+.ti -1c
+.RI "static bool \fBcompare\fP (const combination &lhs, const combination &rhs)"
+.br
+.RI "\fICombination comparison 'less than' operator\&. Assumes lhs and rhs have the same size\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class IntType>class dscr::basic_combinations< IntType >"
+class of all n choose k combinations of size k of the set {0,1,\&.\&.\&.,n-1}\&. 
+
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIIntType\fP should be an integral type with enough space to store n and k\&. It can be signed or unsigned\&. 
+.br
+\fIn\fP the size of the set 
+.br
+\fIk\fP the size of the combination (subset)\&. Should be an integer such that n choose k is not bigger than the largest unsigned long int there is\&. For example, typically 50 choose 25 is already larger than the largest long unsigned int\&. 
+.SH "Example:"
+.PP
+.RE
+.PP
+.PP
+.nf
+combinations X(6,3);
+for (const auto& x : X)
+    cout << x << " ";
+.fi
+.PP
+.PP
+Prints out: 
+.PP
+.nf
+[ 0 1 2 ] [ 0 1 3 ] [ 0 2 3 ] [ 1 2 3 ] [ 0 1 4 ] [ 0 2 4 ] [ 1 2 4 ] [ 0 3 4 ] [ 1 3 4 ] [ 2 3 4 ] [ 0 1 5 ] [ 0 2 5 ] [ 1 2 5 ] [ 0 3 5 ] [ 1 3 5 ] [ 2 3 5 ] [ 0 4 5 ] [ 1 4 5 ] [ 2 4 5 ] [ 3 4 5 ]
+
+.fi
+.PP
+.PP
+.SH "Example 2:"
+.PP
+.PP
+.PP
+.nf
+basic_combinations<short int> X(5,1);
+for (const auto& x : X)
+    cout << x << " ";
+Prints out:
+    [0] [1] [2] [3] [4]
+.fi
+.PP
+.PP
+.SH "Example 3:"
+.PP
+.PP
+.PP
+.nf
+string A = "helloworld";
+combinations X(A.size(),2);
+for (const auto& x : X)
+{
+    auto b = compose(A,x);
+    cout << b << "-";
+}
+
+Prints out:
+    he-hl-el-hl-el-ll-ho-eo-lo-lo-hw-ew-lw-lw-ow-ho-eo-lo-lo-oo-wo-hr-er-lr-lr-or-wr-or-hl-el-ll-ll-ol-wl-ol-rl-hd-ed-ld-ld-od-wd-od-rd-ld-.fi
+.PP
+ 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class IntType > \fBdscr::basic_combinations\fP< IntType >::\fBbasic_combinations\fP (IntTypen, IntTypek)\fC [inline]\fP"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is an integer >= 0 
+.br
+\fIk\fP is an integer with 0 <= k <= n 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class IntType > static bool \fBdscr::basic_combinations\fP< IntType >::compare (const combination &lhs, const combination &rhs)\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Combination comparison 'less than' operator\&. Assumes lhs and rhs have the same size\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+true if lhs would appear before rhs in the normal iteration order, false otherwise 
+.RE
+.PP
+
+.SS "template<class IntType > template<class PartialPredicate > vector<combination> \fBdscr::basic_combinations\fP< IntType >::find_all (PartialPredicatepred)\fC [inline]\fP"
+
+.PP
+This is an efficient way to construct all combination of size k which fully satisfy a predicate\&. This function is similar to find_if, but it returns a vector with all combinations which satisfy pred,
+.PP
+.SH "Example:"
+.PP
+.PP
+.PP
+.nf
+combinations X(12,6);
+auto vall = X.find_all([](const vector<int>& comb) -> bool
+{
+    for (int i = 0; i < comb.size()-1; ++i)
+    {
+        if (comb[i]+1 == comb[i+1])
+            return false;
+    }
+    return true;
+});
+for (const auto& v : vall)
+    cout << v << endl;
+.fi
+.PP
+.PP
+Prints out: [ 0 2 4 6 8 ] [ 0 2 4 6 9 ] [ 0 2 4 7 9 ] [ 0 2 5 7 9 ] [ 0 3 5 7 9 ] [ 1 3 5 7 9 ] which are all combinations which don't contain two consecutive elements
+.PP
+\fBParameters:\fP
+.RS 4
+\fIPred\fP should be what we call a \fIpartial predicate\fP: It takes a combination as a parameter and returns either true or false\&.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+An vector<combination> filled will all permutations which fully satisfy the predicate\&.
+.RE
+.PP
+\fBTodo\fP
+.RS 4
+Perhaps one should be able to iterate over all such permutations without constructing a vector of them!
+.RE
+.PP
+
+.SS "template<class IntType > template<class PartialPredicate > \fBiterator\fP \fBdscr::basic_combinations\fP< IntType >::find_if (PartialPredicatepred)\fC [inline]\fP"
+
+.PP
+This is an efficient way to construct a combination of size k which fully satisfies a predicate\&. This function is conceptually equivalent to std::find_if(begin(), end(), Pred), but much faster if the predicate can be evaluated on a partial combination (so as to prune the search tree)
+.PP
+.SH "Example:"
+.PP
+.PP
+.PP
+.nf
+combinations X(40,6);
+auto it = X.find_if([](const vector<int>& comb) -> bool
+{
+    for (int i = 0; i < comb.size()-1; ++i)
+    {
+        if (2*comb[i] + 1 > comb[i+1])
+            return false;
+    }
+    return true;
+});
+cout << *it << endl;
+.fi
+.PP
+.PP
+Prints out: [ 0 1 3 7 15 31 ]
+.PP
+\fBParameters:\fP
+.RS 4
+\fIPred\fP should be what we call a \fIpartial predicate\fP: It takes a combination as a parameter and returns either true or false\&.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+An interator to a combination which fully satisfies the predicate\&. 
+.RE
+.PP
+
+.SS "template<class IntType > size_type \fBdscr::basic_combinations\fP< IntType >::get_index (const combination &comb) const\fC [inline]\fP"
+
+.PP
+Returns the ID of the iterator whose value is comb\&. That is, the index of combination comb in the lexicographic order\&. Inverse of operator[]\&. If combination x is the m-th combination, then get_index(x) is m\&. If one has a combinations::iterator, then the member function ID() should return the same value\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+the index of combination comb, as if \fBbasic_combinations\fP was a proper data structure 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+This constructs the proper index from scratch\&. If an iterator is already known, calling ID on the iterator is much more efficient\&. 
+.RE
+.PP
+
+.SS "template<class IntType > combination \fBdscr::basic_combinations\fP< IntType >::operator[] (size_typem) const\fC [inline]\fP"
+
+.PP
+Access to the m-th combination (slow for iteration) This is equivalent to calling *(begin()+m) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIm\fP should be an integer between 0 and \fBsize()\fP\&. Undefined behavior otherwise\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The m-th combination, as defined in the order of iteration (lexicographic) 
+.RE
+.PP
+
+.SS "template<class IntType > size_type \fBdscr::basic_combinations\fP< IntType >::size () const\fC [inline]\fP"
+
+.PP
+The total number of combinations\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+binomial(n,r) 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for discreture from the source code\&.

@@ -1,0 +1,82 @@
+.TH "dscr::range< IntType >::iterator" 3 "Fri Feb 26 2016" "Version 1" "discreture" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dscr::range< IntType >::iterator \- 
+.PP
+Random access iterator class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Range\&.hpp>\fP
+.PP
+Inherits iterator< std::random_access_iterator_tag, vector< IntType > >\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBiterator\fP (size_type t_from)"
+.br
+.ti -1c
+.RI "\fBiterator\fP (size_type t_from, size_type t_step)"
+.br
+.ti -1c
+.RI "\fBiterator\fP & \fBoperator++\fP ()"
+.br
+.ti -1c
+.RI "\fBiterator\fP & \fBoperator--\fP ()"
+.br
+.ti -1c
+.RI "const IntType & \fBoperator*\fP () const "
+.br
+.ti -1c
+.RI "\fBiterator\fP & \fBoperator+=\fP (long int n)"
+.br
+.RI "\fIRandom access capabilities to the iterators\&. \fP"
+.ti -1c
+.RI "\fBiterator\fP & \fBoperator-=\fP (long int n)"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (const \fBiterator\fP &it)"
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (const \fBiterator\fP &it)"
+.br
+.ti -1c
+.RI "difference_type \fBoperator-\fP (const \fBiterator\fP &it)"
+.br
+.ti -1c
+.RI "size_type \fBstep\fP () const "
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBrange\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class IntType>class dscr::range< IntType >::iterator"
+Random access iterator class\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class IntType > \fBiterator\fP& \fBdscr::range\fP< IntType >::iterator::operator+= (long intn)\fC [inline]\fP"
+
+.PP
+Random access capabilities to the iterators\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP -> This assumes 0 <= n+ID <= size(n) 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for discreture from the source code\&.

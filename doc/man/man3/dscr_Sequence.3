@@ -1,0 +1,111 @@
+.TH "dscr::Sequence" 3 "Fri Feb 26 2016" "Version 1" "discreture" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dscr::Sequence \- 
+.PP
+A class to help store known and constant sequences, such as the factorial sequence\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Sequences\&.hpp>\fP
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "lluint \fBfactorial\fP (suint n)"
+.br
+.RI "\fIn! \fP"
+.ti -1c
+.RI "lluint \fBbinomial\fP (lluint n, lluint r)"
+.br
+.RI "\fIThe number of subsets of size r chosen from a set of size n\&. \fP"
+.ti -1c
+.RI "lluint \fBcatalan\fP (suint n)"
+.br
+.RI "\fIThe n-th catalan number\&. \fP"
+.ti -1c
+.RI "lluint \fBmotzkin\fP (suint n)"
+.br
+.RI "\fIThe n-th motzkin number\&. \fP"
+.ti -1c
+.RI "lluint \fBpartition_number\fP (suint n)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+A class to help store known and constant sequences, such as the factorial sequence\&. 
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "lluint binomial (lluintn, lluintr)\fC [friend]\fP"
+
+.PP
+The number of subsets of size r chosen from a set of size n\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is a (small) nonnegative integer 
+.br
+\fIr\fP is a small integer between 0 and n (inclusive) 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+n!/(r!*(n-r)!) 
+.RE
+.PP
+
+.SS "lluint catalan (suintn)\fC [friend]\fP"
+
+.PP
+The n-th catalan number\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is a (small) nonnegative integer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binomial(2n,n)/(n+1) 
+.RE
+.PP
+
+.SS "lluint factorial (suintn)\fC [friend]\fP"
+
+.PP
+n! 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is a (small) nonnegative integer\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+n! 
+.RE
+.PP
+
+.SS "lluint motzkin (suintn)\fC [friend]\fP"
+
+.PP
+The n-th motzkin number\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is a (small) nonnegative integer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+M_n 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for discreture from the source code\&.

@@ -1,0 +1,506 @@
+.TH "dscr" 3 "Fri Feb 26 2016" "Version 1" "discreture" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dscr \- 
+.PP
+Namespace under which all the discreture library resides\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBbasic_combinations\fP"
+.br
+.RI "\fIclass of all n choose k combinations of size k of the set {0,1,\&.\&.\&.,n-1}\&. \fP"
+.ti -1c
+.RI "class \fBbasic_dyck_paths\fP"
+.br
+.RI "\fIClass for iterating through all dyck (dyck) paths\&. \fP"
+.ti -1c
+.RI "class \fBbasic_motzkin_paths\fP"
+.br
+.RI "\fIClass for iterating through all motzkin paths\&. \fP"
+.ti -1c
+.RI "class \fBbasic_multisets\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_partitions\fP"
+.br
+.RI "\fIclass of partitions of the number n\&. \fP"
+.ti -1c
+.RI "class \fBbasic_permutations\fP"
+.br
+.RI "\fIclass of all n! permutation of size n of the set {0,1,\&.\&.\&.,n-1}\&. \fP"
+.ti -1c
+.RI "class \fBrange\fP"
+.br
+.RI "\fISimilar to python range(n) or range(n,m) or range(n,m,step)\&. \fP"
+.ti -1c
+.RI "class \fBSequence\fP"
+.br
+.RI "\fIA class to help store known and constant sequences, such as the factorial sequence\&. \fP"
+.ti -1c
+.RI "class \fBbasic_subsets\fP"
+.br
+.RI "\fIclass of all 2^n subsets of the set {0,1,\&.\&.\&.,n-1}, expressed as incidence vectors \fP"
+.ti -1c
+.RI "class \fBRClock\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef short int \fBsint\fP"
+.br
+.ti -1c
+.RI "typedef long int \fBlint\fP"
+.br
+.ti -1c
+.RI "typedef long long int \fBllint\fP"
+.br
+.ti -1c
+.RI "typedef unsigned char \fBuchar\fP"
+.br
+.ti -1c
+.RI "typedef short unsigned int \fBsuint\fP"
+.br
+.ti -1c
+.RI "typedef unsigned int \fBnuint\fP"
+.br
+.ti -1c
+.RI "typedef long unsigned int \fBluint\fP"
+.br
+.ti -1c
+.RI "typedef long long unsigned int \fBlluint\fP"
+.br
+.ti -1c
+.RI "using \fBcombinations\fP = \fBbasic_combinations\fP< int >"
+.br
+.ti -1c
+.RI "using \fBdyck_paths\fP = \fBbasic_dyck_paths\fP< int >"
+.br
+.ti -1c
+.RI "using \fBmotzkin_paths\fP = \fBbasic_motzkin_paths\fP< int >"
+.br
+.ti -1c
+.RI "typedef \fBbasic_multisets\fP< int > \fBmultisets\fP"
+.br
+.ti -1c
+.RI "using \fBpartitions\fP = \fBbasic_partitions\fP< int >"
+.br
+.ti -1c
+.RI "typedef \fBbasic_permutations\fP< int > \fBpermutations\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_subsets\fP< bool > \fBsubsets\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_subsets\fP
+.br
+< uint_fast8_t > \fBsubsets_fast\fP"
+.br
+.ti -1c
+.RI "typedef 
+.br
+std::chrono::time_point
+.br
+< std::chrono::high_resolution_clock > \fBclockt\fP"
+.br
+.ti -1c
+.RI "typedef vector< bool > \fBVB\fP"
+.br
+.ti -1c
+.RI "typedef vector< char > \fBVC\fP"
+.br
+.ti -1c
+.RI "typedef vector< sint > \fBVSI\fP"
+.br
+.ti -1c
+.RI "typedef vector< int > \fBVI\fP"
+.br
+.ti -1c
+.RI "typedef vector< lint > \fBVLI\fP"
+.br
+.ti -1c
+.RI "typedef vector< nuint > \fBVUI\fP"
+.br
+.ti -1c
+.RI "typedef vector< suint > \fBVSUI\fP"
+.br
+.ti -1c
+.RI "typedef vector< size_t > \fBVLUI\fP"
+.br
+.ti -1c
+.RI "typedef vector< uchar > \fBVUC\fP"
+.br
+.ti -1c
+.RI "typedef vector< double > \fBVR\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "luint \fBfactorial\fP (luint n)"
+.br
+.ti -1c
+.RI "luint \fBbinomial\fP (nuint n, nuint r)"
+.br
+.ti -1c
+.RI "double \fBlinear_convert\fP (double x, double a, double b, double u, double v)"
+.br
+.RI "\fIThis function of x is just the linear function from [a,b] to [u,v]\&. \fP"
+.ti -1c
+.RI "long \fBabs\fP (long a)"
+.br
+.RI "\fIFor those who hate typing fabs, labs, llabs instead of abs\&. \fP"
+.ti -1c
+.RI "long long \fBabs\fP (long long a)"
+.br
+.ti -1c
+.RI "template<class NumType > NumType \fBabs\fP (NumType a)"
+.br
+.ti -1c
+.RI "template<class IntType > IntType \fBmodulo\fP (IntType a, IntType b)"
+.br
+.RI "\fIThis is what operator % should be but isn't (!)\&. \fP"
+.ti -1c
+.RI "size_t \fBtwoD_to_oneD\fP (nuint x, nuint y, nuint width, nuint height)"
+.br
+.RI "\fIHelper function to linearize tables\&. \fP"
+.ti -1c
+.RI "template<class T > T \fBClamped\fP (T x, T a, T b)"
+.br
+.RI "\fIClamps x to be in the interval [a,b]\&. \fP"
+.ti -1c
+.RI "template<typename T > int \fBsignof\fP (T val)"
+.br
+.RI "\fIEquivalent to x/|x| when x != 0, and 0 when x = 0\&. \fP"
+.ti -1c
+.RI "std::default_random_engine & \fBrandom_engine\fP ()"
+.br
+.ti -1c
+.RI "bool \fBprobability_of_true\fP (double p)"
+.br
+.ti -1c
+.RI "void \fBrandomize\fP ()"
+.br
+.ti -1c
+.RI "double \fBrandom_real\fP (double from, double upto)"
+.br
+.ti -1c
+.RI "void \fBset_seed_with_time\fP ()"
+.br
+.ti -1c
+.RI "template<class IntType > IntType \fBrandom_int\fP (IntType from, IntType thru)"
+.br
+.ti -1c
+.RI "double \fBrandom_real\fP ()"
+.br
+.ti -1c
+.RI "template<class IntType > \fBrange\fP< IntType >::iterator \fBoperator+\fP (typename \fBrange\fP< IntType >::iterator it, long int n)"
+.br
+.ti -1c
+.RI "template<class IntType > \fBrange\fP< IntType >::iterator \fBoperator-\fP (typename \fBrange\fP< IntType >::iterator it, long int n)"
+.br
+.ti -1c
+.RI "template<class T > void \fBoverwrite\fP (vector< T > &lhs, \fBrange\fP< T > rhs)"
+.br
+.ti -1c
+.RI "lluint \fBfactorial\fP (suint n)"
+.br
+.RI "\fIn! \fP"
+.ti -1c
+.RI "lluint \fBbinomial\fP (lluint n, lluint r)"
+.br
+.RI "\fIThe number of subsets of size r chosen from a set of size n\&. \fP"
+.ti -1c
+.RI "lluint \fBcatalan\fP (suint n)"
+.br
+.RI "\fIThe n-th catalan number\&. \fP"
+.ti -1c
+.RI "lluint \fBmotzkin\fP (suint n)"
+.br
+.RI "\fIThe n-th motzkin number\&. \fP"
+.ti -1c
+.RI "lluint \fBpartition_number\fP (suint n)"
+.br
+.ti -1c
+.RI "double \fBdiffclock\fP (clock_t a, clock_t b)"
+.br
+.ti -1c
+.RI "double \fBdiffclockt\fP (clockt a, clockt b)"
+.br
+.ti -1c
+.RI "double \fBTimeFromStart\fP ()"
+.br
+.ti -1c
+.RI "double \fBChronometer\fP ()"
+.br
+.ti -1c
+.RI "VB \fBoperator&\fP (const VB &A, const VB &B)"
+.br
+.RI "\fIBitwise and for vector<bool> \fP"
+.ti -1c
+.RI "VB \fBoperator|\fP (const VB &A, const VB &B)"
+.br
+.RI "\fIBitwise or for vector<bool> \fP"
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const VUI &rhs)"
+.br
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const VUC &rhs)"
+.br
+.RI "\fISpecialization for vector printouts for vector<unsigned char> \fP"
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const VSUI &rhs)"
+.br
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const VB &rhs)"
+.br
+.RI "\fISpecialization for vector printouts for vector<bool> so that it doesn't print out spaces\&. \fP"
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const vector< VB > &rhs)"
+.br
+.ti -1c
+.RI "template<class T , class U > vector< T > \fBConvert\fP (const vector< U > &G)"
+.br
+.RI "\fIConverts a vector<U> into a vector<T>, provided U can be converted to T\&. \fP"
+.ti -1c
+.RI "template<class numType > double \fBSum\fP (const vector< numType > &vi)"
+.br
+.RI "\fIFinds the sum of all elements of vector\&. Returns a double because it's easier\&. \fP"
+.ti -1c
+.RI "template<class T > std::ostream & \fBoperator<<\fP (std::ostream &os, const vector< T > &rhs)"
+.br
+.RI "\fIprints out a space separated vector\&. \fP"
+.ti -1c
+.RI "template<class T > std::ostream & \fBoperator<<\fP (std::ostream &os, const std::list< T > &rhs)"
+.br
+.RI "\fIprints out a space separated list\&. \fP"
+.ti -1c
+.RI "template<class T > T \fBmin\fP (const vector< T > &v)"
+.br
+.RI "\fIFind the minimum value of a vector\&. \fP"
+.ti -1c
+.RI "template<class T > T \fBmax\fP (const vector< T > &v)"
+.br
+.RI "\fIFind the max value of a vector\&. \fP"
+.ti -1c
+.RI "template<class T > size_t \fBargmin\fP (const vector< T > &v)"
+.br
+.RI "\fIFind the minimum index of a vector\&. \fP"
+.ti -1c
+.RI "template<class T > size_t \fBargmax\fP (const vector< T > &v)"
+.br
+.RI "\fIFind the maximum index of a vector\&. \fP"
+.ti -1c
+.RI "template<class T > vector< T > \fBoperator+\fP (const vector< T > &U, const vector< T > &V)"
+.br
+.RI "\fIvector coordinate-wise addition\&. \fP"
+.ti -1c
+.RI "template<class T > void \fBoperator+=\fP (vector< T > &U, const vector< T > &V)"
+.br
+.RI "\fIinplace vector coordinate-wise addition\&. \fP"
+.ti -1c
+.RI "template<class T , class NumType > void \fBoperator/=\fP (vector< T > &U, NumType t)"
+.br
+.RI "\fIinplace vector coordinate-wise division by a number\&. \fP"
+.ti -1c
+.RI "template<class T , class NumType > void \fBoperator*=\fP (vector< T > &U, NumType t)"
+.br
+.RI "\fIinplace vector coordinate-wise multiplication by a number\&. \fP"
+.ti -1c
+.RI "template<class T , class NumType > vector< T > \fBoperator*\fP (vector< T > U, NumType t)"
+.br
+.RI "\fIcoordinate-wise multiplication by a number\&. \fP"
+.ti -1c
+.RI "template<class T , class NumType > vector< T > \fBoperator/\fP (vector< T > U, NumType t)"
+.br
+.RI "\fIcoordinate-wise division by a number\&. \fP"
+.ti -1c
+.RI "template<class T > vector< T > \fBmincac\fP (const vector< T > &U, const vector< T > &V)"
+.br
+.RI "\fIreturns a vector W such that for each coordinate i, W[i] = min(V[i],U[i]) \fP"
+.ti -1c
+.RI "template<class T > vector< T > \fBmaxcac\fP (const vector< T > &U, const vector< T > &V)"
+.br
+.RI "\fIreturns a vector W such that for each coordinate i, W[i] = max(V[i],U[i]) \fP"
+.ti -1c
+.RI "template<class T > bool \fBoperator<=\fP (const vector< T > &A, const vector< T > &B)"
+.br
+.RI "\fILexicographic compare vector A and B\&. \fP"
+.ti -1c
+.RI "template<class T > bool \fBoperator==\fP (const vector< T > &A, const vector< T > &B)"
+.br
+.RI "\fIEquality comparison of vectors\&. \fP"
+.ti -1c
+.RI "template<class T > VB \fBCombinationToSubset\fP (const vector< T > &C, size_t size)"
+.br
+.RI "\fIGiven a subset S, written in combination form (1,2,4), returns the same subset written in subset form (01101) \fP"
+.ti -1c
+.RI "template<class vecT , class UIntType > vecT \fBcompose\fP (const vecT &f, const vector< UIntType > &g)"
+.br
+.RI "\fIFunction composition\&. \fP"
+.ti -1c
+.RI "template<class T > bool \fBAreTheyAllDifferent\fP (const vector< T > &G)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const double \fBpi\fP = 3\&.1415926535897932384626433832795"
+.br
+.ti -1c
+.RI "const double \fBe\fP = 2\&.718281828459045"
+.br
+.ti -1c
+.RI "const double \fBphi\fP = 1\&.618033988749895"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Namespace under which all the discreture library resides\&. 
+.SH "Function Documentation"
+.PP 
+.SS "lluint dscr::binomial (lluintn, lluintr)"
+
+.PP
+The number of subsets of size r chosen from a set of size n\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is a (small) nonnegative integer 
+.br
+\fIr\fP is a small integer between 0 and n (inclusive) 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+n!/(r!*(n-r)!) 
+.RE
+.PP
+
+.SS "lluint dscr::catalan (suintn)"
+
+.PP
+The n-th catalan number\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is a (small) nonnegative integer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binomial(2n,n)/(n+1) 
+.RE
+.PP
+
+.SS "template<class vecT , class UIntType > vecT dscr::compose (const vecT &f, const vector< UIntType > &g)"
+
+.PP
+Function composition\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+f o g 
+.RE
+.PP
+
+.SS "lluint dscr::factorial (suintn)"
+
+.PP
+n! 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is a (small) nonnegative integer\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+n! 
+.RE
+.PP
+
+.SS "double dscr::linear_convert (doublex, doublea, doubleb, doubleu, doublev)\fC [inline]\fP"
+
+.PP
+This function of x is just the linear function from [a,b] to [u,v]\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+f(x), where f:[a,b]->[u,v] is the only linear, monotone, biyective function\&. 
+.RE
+.PP
+
+.SS "template<class IntType > IntType dscr::modulo (IntTypea, IntTypeb)\fC [inline]\fP"
+
+.PP
+This is what operator % should be but isn't (!)\&. C++ modulo operator % is dumb for negative integers: (-7)%3 returns -1, instead of 2\&. This fixes it\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+an integer in [0,b) 
+.RE
+.PP
+
+.SS "lluint dscr::motzkin (suintn)"
+
+.PP
+The n-th motzkin number\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is a (small) nonnegative integer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+M_n 
+.RE
+.PP
+
+.SS "template<class T > bool dscr::operator<= (const vector< T > &A, const vector< T > &B)"
+
+.PP
+Lexicographic compare vector A and B\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+A <= B in lexicographic order\&. 
+.RE
+.PP
+
+.SS "template<class T > bool dscr::operator== (const vector< T > &A, const vector< T > &B)"
+
+.PP
+Equality comparison of vectors\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+A <= B in lexicographic order\&. 
+.RE
+.PP
+
+.SS "template<typename T > int dscr::signof (Tval)"
+
+.PP
+Equivalent to x/|x| when x != 0, and 0 when x = 0\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+1 if val is positive, -1 if it's negative, and 0 if it's 0 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for discreture from the source code\&.

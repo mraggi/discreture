@@ -1,0 +1,147 @@
+.TH "dscr::basic_dyck_paths< IntType >" 3 "Fri Feb 26 2016" "Version 1" "discreture" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dscr::basic_dyck_paths< IntType > \- 
+.PP
+Class for iterating through all dyck (dyck) paths\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <DyckPaths\&.hpp>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBiterator\fP"
+.br
+.RI "\fIForward iterator class\&. \fP"
+.ti -1c
+.RI "class \fBreverse_iterator\fP"
+.br
+.RI "\fIReverse random access iterator class\&. It's much more efficient as a bidirectional iterator than purely random access\&. \fP"
+.in -1c
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "typedef long long int \fBdifference_type\fP"
+.br
+.ti -1c
+.RI "typedef unsigned long long int \fBsize_type\fP"
+.br
+.ti -1c
+.RI "typedef vector< IntType > \fBvalue_type\fP"
+.br
+.ti -1c
+.RI "typedef vector< IntType > \fBdyck_path\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBbasic_dyck_paths\fP (IntType n)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "size_type \fBsize\fP () const "
+.br
+.RI "\fIThe total number of dyck_paths\&. \fP"
+.ti -1c
+.RI "IntType \fBget_n\fP () const "
+.br
+.ti -1c
+.RI "const \fBiterator\fP & \fBbegin\fP () const "
+.br
+.ti -1c
+.RI "const \fBiterator\fP & \fBend\fP () const "
+.br
+.ti -1c
+.RI "const \fBreverse_iterator\fP & \fBrbegin\fP () const "
+.br
+.ti -1c
+.RI "const \fBreverse_iterator\fP & \fBrend\fP () const "
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBnext_dyck_path\fP (dyck_path &data)"
+.br
+.ti -1c
+.RI "static void \fBprev_dyck_path\fP (dyck_path &data, IntType n)"
+.br
+.ti -1c
+.RI "static std::string \fBto_string\fP (const dyck_path &data, const string &delim='()')"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class IntType>class dscr::basic_dyck_paths< IntType >"
+Class for iterating through all dyck (dyck) paths\&. 
+
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIIntType\fP must be a SIGNED integer type\&.
+.RE
+.PP
+Dyck paths, also called Catalan Paths, are paths that go from $(0,0)$ to $(0,2n)$, which never go below the $ y=0$ line, in which each step is from $(x,y)$ to either $(x+1,y+1)$ or $(x+1,y-1)$ #Example Usage: 
+.PP
+.nf
+dyck_paths X(3)
+for (const auto& x : X)
+    cout << x << endl;
+
+.fi
+.PP
+ Prints out: [ 1 1 1 -1 -1 -1 ] [ 1 1 -1 1 -1 -1 ] [ 1 -1 1 1 -1 -1 ] [ 1 1 -1 -1 1 -1 ] [ 1 -1 1 -1 1 -1 ]
+.PP
+.SH "Example: Parenthesis"
+.PP
+.PP
+.PP
+.nf
+dyck_paths X(3)
+for (const auto& x : X)
+    cout << dyck_paths::to_string(x, "()") << endl;
+.fi
+.PP
+.PP
+Prints out: ((())) (()()) ()(()) (())() ()()() 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class IntType > \fBdscr::basic_dyck_paths\fP< IntType >::\fBbasic_dyck_paths\fP (IntTypen)\fC [inline]\fP"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is an integer >= 0 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class IntType > size_type \fBdscr::basic_dyck_paths\fP< IntType >::size () const\fC [inline]\fP"
+
+.PP
+The total number of dyck_paths\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+binomial(2n,n)/(n+1) 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for discreture from the source code\&.

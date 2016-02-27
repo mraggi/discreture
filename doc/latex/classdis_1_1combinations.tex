@@ -1,0 +1,109 @@
+\hypertarget{classdis_1_1combinations}{\section{dis\-:\-:combinations$<$ Int\-Type $>$ Class Template Reference}
+\label{classdis_1_1combinations}\index{dis\-::combinations$<$ Int\-Type $>$@{dis\-::combinations$<$ Int\-Type $>$}}
+}
+
+
+class of all n choose r combinations of size r of the set \{0,1,...,n-\/1\}.  
+
+
+
+
+{\ttfamily \#include $<$Combinations.\-hpp$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classdis_1_1combinations_1_1iterator}{iterator}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdis_1_1combinations_add89ccf03171ecf9fcb58e09416c4b7b}{combinations} (Int\-Type n, Int\-Type r)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{classdis_1_1combinations_a7404f4f47a971f2b6f1acbe3a1e73d6b}{size} () const 
+\begin{DoxyCompactList}\small\item\em The size of the object. \end{DoxyCompactList}\item 
+\hypertarget{classdis_1_1combinations_ae4cfd43aa62f18e07518177854b02d05}{const \hyperlink{classdis_1_1combinations_1_1iterator}{iterator} \& {\bfseries begin} () const }\label{classdis_1_1combinations_ae4cfd43aa62f18e07518177854b02d05}
+
+\item 
+\hypertarget{classdis_1_1combinations_a19774bc8f0790c4ae53c7d7a9b4613da}{const \hyperlink{classdis_1_1combinations_1_1iterator}{iterator} \& {\bfseries end} () const }\label{classdis_1_1combinations_a19774bc8f0790c4ae53c7d7a9b4613da}
+
+\item 
+vector$<$ Int\-Type $>$ \hyperlink{classdis_1_1combinations_adbb9b42c752097e0293db31959acca97}{operator\mbox{[}$\,$\mbox{]}} (luint m) const 
+\begin{DoxyCompactList}\small\item\em Access to the m-\/th combination (slow) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class Int\-Type = int$>$class dis\-::combinations$<$ Int\-Type $>$}
+
+class of all n choose r combinations of size r of the set \{0,1,...,n-\/1\}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Int\-Type} & should be an integral type with enough space to store n and r. It can be signed or unsigned. \subsection*{Example\-:}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyVerb}combinations<int> X(6,3);
+for (auto& x : X)
+    cout << x << " ";
+\end{DoxyVerb}
+
+
+Prints out\-: \begin{DoxyVerb}[ 0 1 2 ] [ 0 1 3 ] [ 0 2 3 ] [ 1 2 3 ] [ 0 1 4 ] [ 0 2 4 ] [ 1 2 4 ] [ 0 3 4 ] [ 1 3 4 ] [ 2 3 4 ] [ 0 1 5 ] [ 0 2 5 ] [ 1 2 5 ] [ 0 3 5 ] [ 1 3 5 ] [ 2 3 5 ] [ 0 4 5 ] [ 1 4 5 ] [ 2 4 5 ] [ 3 4 5 ]\end{DoxyVerb}
+ 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdis_1_1combinations_add89ccf03171ecf9fcb58e09416c4b7b}{\index{dis\-::combinations@{dis\-::combinations}!combinations@{combinations}}
+\index{combinations@{combinations}!dis::combinations@{dis\-::combinations}}
+\subsubsection[{combinations}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Int\-Type = int$>$ {\bf dis\-::combinations}$<$ Int\-Type $>$\-::{\bf combinations} (
+\begin{DoxyParamCaption}
+\item[{Int\-Type}]{n, }
+\item[{Int\-Type}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdis_1_1combinations_add89ccf03171ecf9fcb58e09416c4b7b}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is an integer $>$= 0 \\
+\hline
+{\em r} & is an integer with 0 $<$= r $<$= n \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdis_1_1combinations_adbb9b42c752097e0293db31959acca97}{\index{dis\-::combinations@{dis\-::combinations}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!dis::combinations@{dis\-::combinations}}
+\subsubsection[{operator[]}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Int\-Type = int$>$ vector$<$Int\-Type$>$ {\bf dis\-::combinations}$<$ Int\-Type $>$\-::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{luint}]{m}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdis_1_1combinations_adbb9b42c752097e0293db31959acca97}
+
+
+Access to the m-\/th combination (slow) 
+
+\begin{DoxyReturn}{Returns}
+The m-\/th combination, as defined in the order of iteration 
+\end{DoxyReturn}
+\hypertarget{classdis_1_1combinations_a7404f4f47a971f2b6f1acbe3a1e73d6b}{\index{dis\-::combinations@{dis\-::combinations}!size@{size}}
+\index{size@{size}!dis::combinations@{dis\-::combinations}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Int\-Type = int$>$ size\-\_\-t {\bf dis\-::combinations}$<$ Int\-Type $>$\-::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdis_1_1combinations_a7404f4f47a971f2b6f1acbe3a1e73d6b}
+
+
+The size of the object. 
+
+\begin{DoxyReturn}{Returns}
+binomial(n,r) 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Combinations.\-hpp\end{DoxyCompactItemize}

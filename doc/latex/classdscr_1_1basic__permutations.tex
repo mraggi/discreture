@@ -1,0 +1,197 @@
+\hypertarget{classdscr_1_1basic__permutations}{\section{dscr\-:\-:basic\-\_\-permutations$<$ Int\-Type $>$ Class Template Reference}
+\label{classdscr_1_1basic__permutations}\index{dscr\-::basic\-\_\-permutations$<$ Int\-Type $>$@{dscr\-::basic\-\_\-permutations$<$ Int\-Type $>$}}
+}
+
+
+class of all n! permutation of size n of the set \{0,1,...,n-\/1\}.  
+
+
+
+
+{\ttfamily \#include $<$Permutations.\-hpp$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classdscr_1_1basic__permutations_1_1iterator}{iterator}
+\begin{DoxyCompactList}\small\item\em Random access iterator class. It's much more efficient as a bidirectional iterator than purely random access. \end{DoxyCompactList}\item 
+class \hyperlink{classdscr_1_1basic__permutations_1_1reverse__iterator}{reverse\-\_\-iterator}
+\begin{DoxyCompactList}\small\item\em Reverse random access iterator class. It's much more efficient as a bidirectional iterator than purely random access. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classdscr_1_1basic__permutations_ae44b374bf15b6a7feabf3545cf022a65}{typedef long long int {\bfseries difference\-\_\-type}}\label{classdscr_1_1basic__permutations_ae44b374bf15b6a7feabf3545cf022a65}
+
+\item 
+\hypertarget{classdscr_1_1basic__permutations_ae85ee313c2f3b80625419877155175dd}{typedef unsigned long long int {\bfseries size\-\_\-type}}\label{classdscr_1_1basic__permutations_ae85ee313c2f3b80625419877155175dd}
+
+\item 
+\hypertarget{classdscr_1_1basic__permutations_ae0e9936b6638ba3ee2599cf58d47e6e9}{typedef vector$<$ Int\-Type $>$ {\bfseries value\-\_\-type}}\label{classdscr_1_1basic__permutations_ae0e9936b6638ba3ee2599cf58d47e6e9}
+
+\item 
+\hypertarget{classdscr_1_1basic__permutations_ab809907a9e41f5f3b21a34ff476e7547}{typedef vector$<$ Int\-Type $>$ {\bfseries permutation}}\label{classdscr_1_1basic__permutations_ab809907a9e41f5f3b21a34ff476e7547}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdscr_1_1basic__permutations_af32a55eb7b8374b977a85af224fed68b}{basic\-\_\-permutations} (Int\-Type n)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+size\-\_\-type \hyperlink{classdscr_1_1basic__permutations_a3708aa7e2fafd45c5c40c0470f8562a0}{size} () const 
+\begin{DoxyCompactList}\small\item\em The total number of permutations. \end{DoxyCompactList}\item 
+permutation \hyperlink{classdscr_1_1basic__permutations_ae99f68b50be24565cd38dbd0040d5cd9}{identity} () const 
+\begin{DoxyCompactList}\small\item\em Returns the identity permutation\-: \mbox{[}1, 2, 3, ... , (n-\/1)\mbox{]}. \end{DoxyCompactList}\item 
+\hypertarget{classdscr_1_1basic__permutations_abe586c609d61d40e6167923d0a208986}{permutation \hyperlink{classdscr_1_1basic__permutations_abe586c609d61d40e6167923d0a208986}{random} () const }\label{classdscr_1_1basic__permutations_abe586c609d61d40e6167923d0a208986}
+
+\begin{DoxyCompactList}\small\item\em Constructs a random permutation of \{0,1,2,...,n-\/1\}. \end{DoxyCompactList}\item 
+size\-\_\-type \hyperlink{classdscr_1_1basic__permutations_a334c7b5ba69d40907247e37524b1b243}{get\-\_\-index} (const permutation \&perm, size\-\_\-t start=0)
+\begin{DoxyCompactList}\small\item\em Returns the I\-D of the iterator whose value is perm. That is, the index of permutation perm in the lexicographic order. \end{DoxyCompactList}\item 
+\hypertarget{classdscr_1_1basic__permutations_a03951d52ff98e62219c92d3d6c786452}{const \hyperlink{classdscr_1_1basic__permutations_1_1iterator}{iterator} \& {\bfseries begin} () const }\label{classdscr_1_1basic__permutations_a03951d52ff98e62219c92d3d6c786452}
+
+\item 
+\hypertarget{classdscr_1_1basic__permutations_a8a376fa280a8bbfadc686bafe13af06e}{const \hyperlink{classdscr_1_1basic__permutations_1_1iterator}{iterator} \& {\bfseries end} () const }\label{classdscr_1_1basic__permutations_a8a376fa280a8bbfadc686bafe13af06e}
+
+\item 
+\hypertarget{classdscr_1_1basic__permutations_a6f15148494c5246a6252462a1b6c618b}{const \hyperlink{classdscr_1_1basic__permutations_1_1reverse__iterator}{reverse\-\_\-iterator} \& {\bfseries rbegin} () const }\label{classdscr_1_1basic__permutations_a6f15148494c5246a6252462a1b6c618b}
+
+\item 
+\hypertarget{classdscr_1_1basic__permutations_a6dbc50bc7416d7f9b317cd9f2d64335e}{const \hyperlink{classdscr_1_1basic__permutations_1_1reverse__iterator}{reverse\-\_\-iterator} \& {\bfseries rend} () const }\label{classdscr_1_1basic__permutations_a6dbc50bc7416d7f9b317cd9f2d64335e}
+
+\item 
+permutation \hyperlink{classdscr_1_1basic__permutations_a2167e2de096866868c0b539f01ad4d79}{operator\mbox{[}$\,$\mbox{]}} (size\-\_\-type m) const 
+\begin{DoxyCompactList}\small\item\em Access to the m-\/th permutation (slow for iteration) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classdscr_1_1basic__permutations_a988cde34f39cc9e935882d211551f315}{static void {\bfseries construct\-\_\-permutation} (permutation \&data, size\-\_\-type m)}\label{classdscr_1_1basic__permutations_a988cde34f39cc9e935882d211551f315}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class Int\-Type$>$class dscr\-::basic\-\_\-permutations$<$ Int\-Type $>$}
+
+class of all n! permutation of size n of the set \{0,1,...,n-\/1\}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Int\-Type} & should be an integral type with enough space to store n and k. It can be signed or unsigned. \\
+\hline
+{\em n} & should be an integer $<$= 20, since 20! already exceeds the numeric limits of a long unsigned int C++ \subsection*{Example\-:}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyVerb}permutations X(3);
+for (const auto& x : X)
+    cout << x << " ";
+
+Prints out:
+    [ 0 1 2 ] [ 0 2 1 ] [ 1 0 2 ] [ 1 2 0 ] [ 2 0 1 ] [ 2 1 0 ] 
+\end{DoxyVerb}
+
+
+\subsection*{Example 3\-:}
+
+\begin{DoxyVerb}string A = "abc";
+permutations X(A.size());
+for (const auto& x : X)
+{
+    auto b = compose(A,x);
+    cout << b << "-";
+}
+\end{DoxyVerb}
+
+
+Prints out\-: abc-\/acb-\/bac-\/bca-\/cab-\/cba-\/ 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdscr_1_1basic__permutations_af32a55eb7b8374b977a85af224fed68b}{\index{dscr\-::basic\-\_\-permutations@{dscr\-::basic\-\_\-permutations}!basic\-\_\-permutations@{basic\-\_\-permutations}}
+\index{basic\-\_\-permutations@{basic\-\_\-permutations}!dscr::basic_permutations@{dscr\-::basic\-\_\-permutations}}
+\subsubsection[{basic\-\_\-permutations}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Int\-Type $>$ {\bf dscr\-::basic\-\_\-permutations}$<$ Int\-Type $>$\-::{\bf basic\-\_\-permutations} (
+\begin{DoxyParamCaption}
+\item[{Int\-Type}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdscr_1_1basic__permutations_af32a55eb7b8374b977a85af224fed68b}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is an integer $>$= 0 \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdscr_1_1basic__permutations_a334c7b5ba69d40907247e37524b1b243}{\index{dscr\-::basic\-\_\-permutations@{dscr\-::basic\-\_\-permutations}!get\-\_\-index@{get\-\_\-index}}
+\index{get\-\_\-index@{get\-\_\-index}!dscr::basic_permutations@{dscr\-::basic\-\_\-permutations}}
+\subsubsection[{get\-\_\-index}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Int\-Type $>$ size\-\_\-type {\bf dscr\-::basic\-\_\-permutations}$<$ Int\-Type $>$\-::get\-\_\-index (
+\begin{DoxyParamCaption}
+\item[{const permutation \&}]{perm, }
+\item[{size\-\_\-t}]{start = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdscr_1_1basic__permutations_a334c7b5ba69d40907247e37524b1b243}
+
+
+Returns the I\-D of the iterator whose value is perm. That is, the index of permutation perm in the lexicographic order. 
+
+Inverse of operator\mbox{[}\mbox{]}. If permutation x is the m-\/th permutation, then get\-\_\-index(x) is m. If one has a permutations\-::iterator, then the member function I\-D() should return the same value. \begin{DoxyReturn}{Returns}
+the index of permutation comb, as if \hyperlink{classdscr_1_1basic__permutations}{basic\-\_\-permutations} was a proper data structure 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This constructs the proper index from scratch. If an iterator is already known, calling I\-D() on the iterator is much more efficient. 
+\end{DoxyNote}
+\hypertarget{classdscr_1_1basic__permutations_ae99f68b50be24565cd38dbd0040d5cd9}{\index{dscr\-::basic\-\_\-permutations@{dscr\-::basic\-\_\-permutations}!identity@{identity}}
+\index{identity@{identity}!dscr::basic_permutations@{dscr\-::basic\-\_\-permutations}}
+\subsubsection[{identity}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Int\-Type $>$ permutation {\bf dscr\-::basic\-\_\-permutations}$<$ Int\-Type $>$\-::identity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdscr_1_1basic__permutations_ae99f68b50be24565cd38dbd0040d5cd9}
+
+
+Returns the identity permutation\-: \mbox{[}1, 2, 3, ... , (n-\/1)\mbox{]}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is an integer $>$= 0 \\
+\hline
+\end{DoxyParams}
+\hypertarget{classdscr_1_1basic__permutations_a2167e2de096866868c0b539f01ad4d79}{\index{dscr\-::basic\-\_\-permutations@{dscr\-::basic\-\_\-permutations}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!dscr::basic_permutations@{dscr\-::basic\-\_\-permutations}}
+\subsubsection[{operator[]}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Int\-Type $>$ permutation {\bf dscr\-::basic\-\_\-permutations}$<$ Int\-Type $>$\-::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-type}]{m}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdscr_1_1basic__permutations_a2167e2de096866868c0b539f01ad4d79}
+
+
+Access to the m-\/th permutation (slow for iteration) 
+
+This is equivalent to calling $\ast$(begin()+m) 
+\begin{DoxyParams}{Parameters}
+{\em m} & should be an integer between 0 and \hyperlink{classdscr_1_1basic__permutations_a3708aa7e2fafd45c5c40c0470f8562a0}{size()}. Undefined behavior otherwise. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The m-\/th permutation, as defined in the order of iteration (lexicographic) 
+\end{DoxyReturn}
+\hypertarget{classdscr_1_1basic__permutations_a3708aa7e2fafd45c5c40c0470f8562a0}{\index{dscr\-::basic\-\_\-permutations@{dscr\-::basic\-\_\-permutations}!size@{size}}
+\index{size@{size}!dscr::basic_permutations@{dscr\-::basic\-\_\-permutations}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Int\-Type $>$ size\-\_\-type {\bf dscr\-::basic\-\_\-permutations}$<$ Int\-Type $>$\-::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdscr_1_1basic__permutations_a3708aa7e2fafd45c5c40c0470f8562a0}
+
+
+The total number of permutations. 
+
+\begin{DoxyReturn}{Returns}
+n! 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Permutations.\-hpp\end{DoxyCompactItemize}

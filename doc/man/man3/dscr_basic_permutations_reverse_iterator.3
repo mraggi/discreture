@@ -1,0 +1,88 @@
+.TH "dscr::basic_permutations< IntType >::reverse_iterator" 3 "Fri Feb 26 2016" "Version 1" "discreture" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dscr::basic_permutations< IntType >::reverse_iterator \- 
+.PP
+Reverse random access iterator class\&. It's much more efficient as a bidirectional iterator than purely random access\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Permutations\&.hpp>\fP
+.PP
+Inherits iterator< std::random_access_iterator_tag, vector< IntType > >\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBreverse_iterator\fP (IntType n)"
+.br
+.ti -1c
+.RI "\fBreverse_iterator\fP & \fBoperator++\fP ()"
+.br
+.ti -1c
+.RI "\fBreverse_iterator\fP & \fBoperator--\fP ()"
+.br
+.ti -1c
+.RI "const permutation & \fBoperator*\fP () const "
+.br
+.ti -1c
+.RI "\fBreverse_iterator\fP & \fBoperator+=\fP (long int m)"
+.br
+.RI "\fIRandom access capabilities to the iterators\&. \fP"
+.ti -1c
+.RI "\fBreverse_iterator\fP & \fBoperator-=\fP (long int n)"
+.br
+.ti -1c
+.RI "size_type \fBID\fP () const "
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (const \fBreverse_iterator\fP &it) const "
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (const \fBreverse_iterator\fP &it) const "
+.br
+.ti -1c
+.RI "void \fBreset\fP (IntType n)"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBbasic_permutations\fP"
+.br
+.ti -1c
+.RI "\fBreverse_iterator\fP \fBoperator+\fP (\fBreverse_iterator\fP lhs, difference_type n)"
+.br
+.ti -1c
+.RI "\fBreverse_iterator\fP \fBoperator-\fP (\fBreverse_iterator\fP lhs, difference_type n)"
+.br
+.ti -1c
+.RI "difference_type \fBoperator-\fP (const \fBreverse_iterator\fP &lhs, const \fBreverse_iterator\fP &rhs)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class IntType>class dscr::basic_permutations< IntType >::reverse_iterator"
+Reverse random access iterator class\&. It's much more efficient as a bidirectional iterator than purely random access\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class IntType > \fBreverse_iterator\fP& \fBdscr::basic_permutations\fP< IntType >::reverse_iterator::operator+= (long intm)\fC [inline]\fP"
+
+.PP
+Random access capabilities to the iterators\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP -> This assumes 0 <= n+ID <= size(n,k) 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for discreture from the source code\&.

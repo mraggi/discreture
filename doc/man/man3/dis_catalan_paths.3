@@ -1,0 +1,42 @@
+.TH "dis::catalan_paths" 3 "Sat Nov 21 2015" "Version 1" "Discreture" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dis::catalan_paths \- 
+Class for iterating through all catalan (dyck) paths\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <CatalanPaths\&.hpp>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBiterator\fP"
+.br
+.RI "\fIForward Iterator for iterating through catalan paths of a certain length\&. \fP"
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBcatalan_paths\fP (nuint n)"
+.br
+.ti -1c
+.RI "const \fBiterator\fP & \fBbegin\fP () const "
+.br
+.ti -1c
+.RI "const \fBiterator\fP & \fBend\fP () const "
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Class for iterating through all catalan (dyck) paths\&. 
+
+Catalan Paths, also called Dyck paths, are paths that go from $(0,0)$ to $(0,n)$, which never go below the $ y=0$ line, in which each step is from $(x,y)$ to either $(x+1,y+1)$ or $(x+1,y-1)$ 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Discreture from the source code\&.

@@ -1,0 +1,115 @@
+.TH "dis::combinations< IntType >" 3 "Sat Nov 21 2015" "Version 1" "Discreture" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dis::combinations< IntType > \- 
+.PP
+class of all n choose r combinations of size r of the set {0,1,\&.\&.\&.,n-1}\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Combinations\&.hpp>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBiterator\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBcombinations\fP (IntType n, IntType r)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "size_t \fBsize\fP () const "
+.br
+.RI "\fIThe size of the object\&. \fP"
+.ti -1c
+.RI "const \fBiterator\fP & \fBbegin\fP () const "
+.br
+.ti -1c
+.RI "const \fBiterator\fP & \fBend\fP () const "
+.br
+.ti -1c
+.RI "vector< IntType > \fBoperator[]\fP (luint m) const "
+.br
+.RI "\fIAccess to the m-th combination (slow) \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class IntType = int>class dis::combinations< IntType >"
+class of all n choose r combinations of size r of the set {0,1,\&.\&.\&.,n-1}\&. 
+
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIIntType\fP should be an integral type with enough space to store n and r\&. It can be signed or unsigned\&. 
+.SH "Example:"
+.PP
+.RE
+.PP
+.PP
+.nf
+combinations<int> X(6,3);
+for (auto& x : X)
+    cout << x << " ";
+.fi
+.PP
+.PP
+Prints out: 
+.PP
+.nf
+[ 0 1 2 ] [ 0 1 3 ] [ 0 2 3 ] [ 1 2 3 ] [ 0 1 4 ] [ 0 2 4 ] [ 1 2 4 ] [ 0 3 4 ] [ 1 3 4 ] [ 2 3 4 ] [ 0 1 5 ] [ 0 2 5 ] [ 1 2 5 ] [ 0 3 5 ] [ 1 3 5 ] [ 2 3 5 ] [ 0 4 5 ] [ 1 4 5 ] [ 2 4 5 ] [ 3 4 5 ]
+.fi
+.PP
+ 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class IntType = int> \fBdis::combinations\fP< IntType >::\fBcombinations\fP (IntTypen, IntTyper)\fC [inline]\fP"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is an integer >= 0 
+.br
+\fIr\fP is an integer with 0 <= r <= n 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class IntType = int> vector<IntType> \fBdis::combinations\fP< IntType >::operator[] (luintm) const\fC [inline]\fP"
+
+.PP
+Access to the m-th combination (slow) 
+.PP
+\fBReturns:\fP
+.RS 4
+The m-th combination, as defined in the order of iteration 
+.RE
+.PP
+
+.SS "template<class IntType = int> size_t \fBdis::combinations\fP< IntType >::size () const\fC [inline]\fP"
+
+.PP
+The size of the object\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+binomial(n,r) 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Discreture from the source code\&.

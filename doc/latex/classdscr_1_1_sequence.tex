@@ -1,0 +1,117 @@
+\hypertarget{classdscr_1_1_sequence}{\section{dscr\-:\-:Sequence Class Reference}
+\label{classdscr_1_1_sequence}\index{dscr\-::\-Sequence@{dscr\-::\-Sequence}}
+}
+
+
+A class to help store known and constant sequences, such as the factorial sequence.  
+
+
+
+
+{\ttfamily \#include $<$Sequences.\-hpp$>$}
+
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+lluint \hyperlink{classdscr_1_1_sequence_a1270a98e6b77cec86abce9542711c0c6}{factorial} (suint n)
+\begin{DoxyCompactList}\small\item\em n! \end{DoxyCompactList}\item 
+lluint \hyperlink{classdscr_1_1_sequence_a11b1ced236502fd33a7851ae12912387}{binomial} (lluint n, lluint r)
+\begin{DoxyCompactList}\small\item\em The number of subsets of size r chosen from a set of size n. \end{DoxyCompactList}\item 
+lluint \hyperlink{classdscr_1_1_sequence_ad04fc4341da3f34fa6a57033586a7f76}{catalan} (suint n)
+\begin{DoxyCompactList}\small\item\em The n-\/th catalan number. \end{DoxyCompactList}\item 
+lluint \hyperlink{classdscr_1_1_sequence_ac733d5b9ab1f17f2e37cbcecffb985c0}{motzkin} (suint n)
+\begin{DoxyCompactList}\small\item\em The n-\/th motzkin number. \end{DoxyCompactList}\item 
+\hypertarget{classdscr_1_1_sequence_a7e719c2c0234b0c82e1bbd0dc0a7ca61}{lluint {\bfseries partition\-\_\-number} (suint n)}\label{classdscr_1_1_sequence_a7e719c2c0234b0c82e1bbd0dc0a7ca61}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class to help store known and constant sequences, such as the factorial sequence. 
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classdscr_1_1_sequence_a11b1ced236502fd33a7851ae12912387}{\index{dscr\-::\-Sequence@{dscr\-::\-Sequence}!binomial@{binomial}}
+\index{binomial@{binomial}!dscr::Sequence@{dscr\-::\-Sequence}}
+\subsubsection[{binomial}]{\setlength{\rightskip}{0pt plus 5cm}lluint binomial (
+\begin{DoxyParamCaption}
+\item[{lluint}]{n, }
+\item[{lluint}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdscr_1_1_sequence_a11b1ced236502fd33a7851ae12912387}
+
+
+The number of subsets of size r chosen from a set of size n. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is a (small) nonnegative integer \\
+\hline
+{\em r} & is a small integer between 0 and n (inclusive) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+n!/(r!$\ast$(n-\/r)!) 
+\end{DoxyReturn}
+\hypertarget{classdscr_1_1_sequence_ad04fc4341da3f34fa6a57033586a7f76}{\index{dscr\-::\-Sequence@{dscr\-::\-Sequence}!catalan@{catalan}}
+\index{catalan@{catalan}!dscr::Sequence@{dscr\-::\-Sequence}}
+\subsubsection[{catalan}]{\setlength{\rightskip}{0pt plus 5cm}lluint catalan (
+\begin{DoxyParamCaption}
+\item[{suint}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdscr_1_1_sequence_ad04fc4341da3f34fa6a57033586a7f76}
+
+
+The n-\/th catalan number. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is a (small) nonnegative integer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binomial(2n,n)/(n+1) 
+\end{DoxyReturn}
+\hypertarget{classdscr_1_1_sequence_a1270a98e6b77cec86abce9542711c0c6}{\index{dscr\-::\-Sequence@{dscr\-::\-Sequence}!factorial@{factorial}}
+\index{factorial@{factorial}!dscr::Sequence@{dscr\-::\-Sequence}}
+\subsubsection[{factorial}]{\setlength{\rightskip}{0pt plus 5cm}lluint factorial (
+\begin{DoxyParamCaption}
+\item[{suint}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdscr_1_1_sequence_a1270a98e6b77cec86abce9542711c0c6}
+
+
+n! 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is a (small) nonnegative integer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+n! 
+\end{DoxyReturn}
+\hypertarget{classdscr_1_1_sequence_ac733d5b9ab1f17f2e37cbcecffb985c0}{\index{dscr\-::\-Sequence@{dscr\-::\-Sequence}!motzkin@{motzkin}}
+\index{motzkin@{motzkin}!dscr::Sequence@{dscr\-::\-Sequence}}
+\subsubsection[{motzkin}]{\setlength{\rightskip}{0pt plus 5cm}lluint motzkin (
+\begin{DoxyParamCaption}
+\item[{suint}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdscr_1_1_sequence_ac733d5b9ab1f17f2e37cbcecffb985c0}
+
+
+The n-\/th motzkin number. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is a (small) nonnegative integer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+M\-\_\-n 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Sequences.\-hpp\item 
+Sequences.\-cpp\end{DoxyCompactItemize}

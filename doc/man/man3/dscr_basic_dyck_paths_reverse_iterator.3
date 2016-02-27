@@ -1,0 +1,65 @@
+.TH "dscr::basic_dyck_paths< IntType >::reverse_iterator" 3 "Fri Feb 26 2016" "Version 1" "discreture" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dscr::basic_dyck_paths< IntType >::reverse_iterator \- 
+.PP
+Reverse random access iterator class\&. It's much more efficient as a bidirectional iterator than purely random access\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <DyckPaths\&.hpp>\fP
+.PP
+Inherits iterator< std::forward_iterator_tag, dyck_path >\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBreverse_iterator\fP (IntType n)"
+.br
+.ti -1c
+.RI "\fBreverse_iterator\fP & \fBoperator++\fP ()"
+.br
+.ti -1c
+.RI "\fBreverse_iterator\fP & \fBoperator--\fP ()"
+.br
+.ti -1c
+.RI "const dyck_path & \fBoperator*\fP ()"
+.br
+.ti -1c
+.RI "const dyck_path & \fBoperator*\fP () const "
+.br
+.ti -1c
+.RI "const dyck_path * \fBoperator->\fP () const "
+.br
+.ti -1c
+.RI "size_type \fBID\fP () const "
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (const \fBreverse_iterator\fP &it)"
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (const \fBreverse_iterator\fP &it)"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBbasic_dyck_paths\fP"
+.br
+.ti -1c
+.RI "difference_type \fBoperator-\fP (const \fBreverse_iterator\fP &lhs, const \fBreverse_iterator\fP &rhs)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class IntType>class dscr::basic_dyck_paths< IntType >::reverse_iterator"
+Reverse random access iterator class\&. It's much more efficient as a bidirectional iterator than purely random access\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for discreture from the source code\&.

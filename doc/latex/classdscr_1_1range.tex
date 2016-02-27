@@ -1,0 +1,91 @@
+\hypertarget{classdscr_1_1range}{\section{dscr\-:\-:range$<$ Int\-Type $>$ Class Template Reference}
+\label{classdscr_1_1range}\index{dscr\-::range$<$ Int\-Type $>$@{dscr\-::range$<$ Int\-Type $>$}}
+}
+
+
+Similar to python range(n) or range(n,m) or range(n,m,step).  
+
+
+
+
+{\ttfamily \#include $<$Range.\-hpp$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classdscr_1_1range_1_1iterator}{iterator}
+\begin{DoxyCompactList}\small\item\em Random access iterator class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classdscr_1_1range_a9103a7d7e47ee61a4573fc90b807d68f}{typedef long int {\bfseries difference\-\_\-type}}\label{classdscr_1_1range_a9103a7d7e47ee61a4573fc90b807d68f}
+
+\item 
+\hypertarget{classdscr_1_1range_acc40f3c534fdf9efcbeea0de92d650ba}{typedef Int\-Type {\bfseries size\-\_\-type}}\label{classdscr_1_1range_acc40f3c534fdf9efcbeea0de92d650ba}
+
+\item 
+\hypertarget{classdscr_1_1range_ab64808d7c694e90230fd27b90f8256ab}{typedef Int\-Type {\bfseries value\-\_\-type}}\label{classdscr_1_1range_ab64808d7c694e90230fd27b90f8256ab}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdscr_1_1range_a06f0f16f812d432d88dd8588f29f3181}{range} (Int\-Type n)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hypertarget{classdscr_1_1range_a4ad29f26b18f04b589bff44b72cf4d3d}{{\bfseries range} (Int\-Type t\-\_\-from, Int\-Type t\-\_\-to, Int\-Type t\-\_\-step=1)}\label{classdscr_1_1range_a4ad29f26b18f04b589bff44b72cf4d3d}
+
+\item 
+\hypertarget{classdscr_1_1range_a5c6479d75d8a1e2309cf64eaa8502a3f}{size\-\_\-type {\bfseries size} () const }\label{classdscr_1_1range_a5c6479d75d8a1e2309cf64eaa8502a3f}
+
+\item 
+\hypertarget{classdscr_1_1range_a7089c881081d554ffd65408b43750875}{{\bfseries operator vector$<$ Int\-Type $>$} () const }\label{classdscr_1_1range_a7089c881081d554ffd65408b43750875}
+
+\item 
+\hypertarget{classdscr_1_1range_ab779841b574efbfe5ff839126d0d581d}{const \hyperlink{classdscr_1_1range_1_1iterator}{iterator} \& {\bfseries begin} () const }\label{classdscr_1_1range_ab779841b574efbfe5ff839126d0d581d}
+
+\item 
+\hypertarget{classdscr_1_1range_a63c2677015e157b5fbfb98d47cf28073}{const \hyperlink{classdscr_1_1range_1_1iterator}{iterator} \& {\bfseries end} () const }\label{classdscr_1_1range_a63c2677015e157b5fbfb98d47cf28073}
+
+\item 
+\hypertarget{classdscr_1_1range_af959a5570e78ea9aa1f9ffc088e8347d}{Int\-Type {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\-\_\-type m) const }\label{classdscr_1_1range_af959a5570e78ea9aa1f9ffc088e8347d}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class Int\-Type$>$class dscr\-::range$<$ Int\-Type $>$}
+
+Similar to python range(n) or range(n,m) or range(n,m,step). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is an integer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an abstract random-\/access container whose elements are \{n,n+1,n+2,...,m-\/1\} 
+\end{DoxyReturn}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdscr_1_1range_a06f0f16f812d432d88dd8588f29f3181}{\index{dscr\-::range@{dscr\-::range}!range@{range}}
+\index{range@{range}!dscr::range@{dscr\-::range}}
+\subsubsection[{range}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Int\-Type $>$ {\bf dscr\-::range}$<$ Int\-Type $>$\-::{\bf range} (
+\begin{DoxyParamCaption}
+\item[{Int\-Type}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdscr_1_1range_a06f0f16f812d432d88dd8588f29f3181}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is an integer $>$= 0 \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Range.\-hpp\end{DoxyCompactItemize}

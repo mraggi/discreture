@@ -1,0 +1,91 @@
+.TH "dscr::basic_subsets< BoolType >::iterator" 3 "Fri Feb 26 2016" "Version 1" "discreture" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dscr::basic_subsets< BoolType >::iterator \- 
+.PP
+Random access iterator class\&. It's much more efficient as a bidirectional iterator than purely random access\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Subsets\&.hpp>\fP
+.PP
+Inherits iterator< std::random_access_iterator_tag, vector< BoolType > >\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBiterator\fP (size_t n)"
+.br
+.ti -1c
+.RI "\fBiterator\fP & \fBoperator++\fP ()"
+.br
+.ti -1c
+.RI "\fBiterator\fP & \fBoperator--\fP ()"
+.br
+.ti -1c
+.RI "const vector< BoolType > & \fBoperator*\fP () const "
+.br
+.ti -1c
+.RI "\fBiterator\fP & \fBoperator+=\fP (difference_type n)"
+.br
+.RI "\fIRandom access capabilities to the iterators\&. \fP"
+.ti -1c
+.RI "\fBiterator\fP & \fBoperator-=\fP (difference_type n)"
+.br
+.ti -1c
+.RI "size_type \fBID\fP () const "
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (const \fBiterator\fP &it) const "
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (const \fBiterator\fP &it) const "
+.br
+.ti -1c
+.RI "bool \fBis_at_end\fP (size_t n) const "
+.br
+.ti -1c
+.RI "void \fBreset\fP (size_t n)"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBbasic_subsets\fP"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBoperator+\fP (\fBiterator\fP lhs, difference_type n)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBoperator-\fP (\fBiterator\fP lhs, difference_type n)"
+.br
+.ti -1c
+.RI "difference_type \fBoperator-\fP (const \fBiterator\fP &lhs, const \fBiterator\fP &rhs)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class BoolType>class dscr::basic_subsets< BoolType >::iterator"
+Random access iterator class\&. It's much more efficient as a bidirectional iterator than purely random access\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class BoolType > \fBiterator\fP& \fBdscr::basic_subsets\fP< BoolType >::iterator::operator+= (difference_typen)\fC [inline]\fP"
+
+.PP
+Random access capabilities to the iterators\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP -> This assumes 0 <= n+ID <= size(n,k) 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for discreture from the source code\&.

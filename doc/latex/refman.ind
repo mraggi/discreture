@@ -1,0 +1,37 @@
+\begin{theindex}
+
+  \item {dis\discretionary {-}{}{}::\discretionary {-}{}{}Catalan\discretionary {-}{}{}Paths}, 
+		\hyperpage{3}
+  \item {dis\discretionary {-}{}{}::\discretionary {-}{}{}Catalan\discretionary {-}{}{}Paths\discretionary {-}{}{}::iterator}, 
+		\hyperpage{4}
+  \item {dis\discretionary {-}{}{}::\discretionary {-}{}{}Lexicographic\discretionary {-}{}{}Order$<$ T $>$}, 
+		\hyperpage{6}
+  \item {dis\discretionary {-}{}{}::\discretionary {-}{}{}Motzkin\discretionary {-}{}{}Paths}, 
+		\hyperpage{6}
+  \item {dis\discretionary {-}{}{}::\discretionary {-}{}{}Motzkin\discretionary {-}{}{}Paths\discretionary {-}{}{}::iterator}, 
+		\hyperpage{5}
+  \item {dis\discretionary {-}{}{}::\discretionary {-}{}{}Multiset\discretionary {-}{}{}Iterator$<$ Int\discretionary {-}{}{}Type $>$}, 
+		\hyperpage{7}
+  \item {dis\discretionary {-}{}{}::\discretionary {-}{}{}Multiset\discretionary {-}{}{}Iterator\discretionary {-}{}{}Decreasing\discretionary {-}{}{}Order$<$ Int\discretionary {-}{}{}Type $>$}, 
+		\hyperpage{7}
+  \item {dis\discretionary {-}{}{}::\discretionary {-}{}{}Subset\discretionary {-}{}{}Iterator}, 
+		\hyperpage{8}
+  \item {dis\discretionary {-}{}{}::\discretionary {-}{}{}Subset\discretionary {-}{}{}Iterator\discretionary {-}{}{}Decreasing\discretionary {-}{}{}Order}, 
+		\hyperpage{8}
+  \item {dis\discretionary {-}{}{}::combinations$<$ Int\discretionary {-}{}{}Type $>$}, 
+		\hyperpage{3}
+  \item {dis\discretionary {-}{}{}::combinations$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}::iterator}, 
+		\hyperpage{4}
+  \item {dis\discretionary {-}{}{}::multisets$<$ Int\discretionary {-}{}{}Type $>$}, 
+		\hyperpage{7}
+  \item {dis\discretionary {-}{}{}::multisets$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}::iterator}, 
+		\hyperpage{4}
+  \item {dis\discretionary {-}{}{}::partitions$<$ Int\discretionary {-}{}{}Type $>$}, 
+		\hyperpage{7}
+  \item {dis\discretionary {-}{}{}::partitions$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}::iterator}, 
+		\hyperpage{5}
+  \item {dis\discretionary {-}{}{}::subsets}, \hyperpage{8}
+  \item {dis\discretionary {-}{}{}::subsets\discretionary {-}{}{}::iterator}, 
+		\hyperpage{6}
+
+\end{theindex}
