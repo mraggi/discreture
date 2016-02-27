@@ -1,8 +1,10 @@
 # Discreture
 
-This is a modern C++ 11 (and 14) library designed to facilitate combinatorial research.
+This is a modern C++ 11 (and 14) library designed to facilitate combinatorial research by providing fast and easy iterators to a few combinatorial objects, such as combinations, permutations, partitions, and others. The idea is to have them resemble the STL containers as much as possible, without actually storing the whole set of objects in memory.
 
-Example use:
+Discreture is designed to follow the STL containers as closely as possible, by providing the standard ways of iterating. In addition, many of the algorithm described in the standard <algorithm> work as-is in these containers, but they should be treated as const containers.
+
+# Example use:
 
 ```c++
     #include <iostream>
@@ -50,3 +52,16 @@ sudo make install #optional
 ```
 
 You can run tests like this: `./testdiscreture`
+
+# Combinatorial Objects
+
+There are a few combinatorial objects, such as:
+	- Combinations
+	- Permutations
+	- Subsets
+	- Multisets
+	- Partitions
+	- Dyck Paths
+	- Motzkin Paths
+
+These all follow the same design principle: The templated class is calles basic_SOMETHING<class T>, and the most reasonable type for T is instantiated as SOMETHING. For example, `combinations` is a typedef of `basic_combinations<int>`, and `partitions` is a typedef of `basic_partitions<int>`.
