@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
-#include <cassert>
+#include <cassert> 
  
 
 //////////////////////
@@ -31,7 +31,7 @@ namespace dscr
 
 // 	typedef double real;
 	
-	const double pi = 3.1415926535897932384626433832795;
-	const double e = 2.718281828459045;
-	const double phi = 1.618033988749895;
+	constexpr double pi = 3.1415926535897932384626433832795;
+	constexpr double e = 2.718281828459045;
+	constexpr double phi = 1.618033988749895;
 }

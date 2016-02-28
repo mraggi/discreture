@@ -62,6 +62,7 @@ There are a few combinatorial objects, such as:
   - Multisets
   - Partitions
   - Dyck Paths
+  - Range
   - Motzkin Paths
 
 These all follow the same design principle: The templated class is calles basic_SOMETHING<class T>, and the most reasonable type for T is instantiated as SOMETHING. For example, `combinations` is a typedef of `basic_combinations<int>`, and `partitions` is a typedef of `basic_partitions<int>`.
