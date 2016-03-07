@@ -35,6 +35,8 @@ namespace dscr
 		//Declarations.
 		class iterator;
 		
+		
+		//TODO: Perhaps choose a different, more natural order!!
 		// **************** Begin static functions
 		static void next_partition(partition& data, IntType n)
 		{
@@ -45,9 +47,8 @@ namespace dscr
 				return;
 			}
 
-			if(data.front()-data.back() < 2)
+			if(data.front()-data.back() < 2) // We must change size!
 			{
-				//Hay que cambiar de tamano
 				data.pop_back();
 				data[0]=n-t+2;
 				for(size_t i=1; i<t-1; ++i)
@@ -56,8 +57,10 @@ namespace dscr
 				}
 				return;
 			}
-			//cuando no hay que cambiar de tamano
-			//Comenzando del final, buscamos al primero cuya diferencia sea 2 o más para pasar una unidad al primero que sea posible
+			
+			// If no size change is necessary
+			
+			// Starting from the end, we look at the first whose difference is at least 2 in order to transfer one unit from to the first possible.
 			IntType menor=data.back();
 			IntType suma=menor;
 			for(difference_type i=t-2; i>-1; --i)
@@ -91,16 +94,15 @@ namespace dscr
 					{
 						data[j] = data[i];
 					
-						exceso -= int(data[j]-1);
+						exceso -= difference_type(data[j]-1);
 					
 						continue;
 					}
 					data[j] = 1+exceso;
 					exceso = 0;
-					
 				}
 				return;
-			}
+			}		
 		}
 	
 		static void prev_partition(partition& data, IntType n)
@@ -158,7 +160,7 @@ namespace dscr
 		////////////////////////////////////////////////////////////
 		/// \brief Forward iterator class.
 		////////////////////////////////////////////////////////////
-		class iterator : public std::iterator<std::forward_iterator_tag,partition>
+		class iterator : public std::iterator<std::bidirectional_iterator_tag,partition>
 		{
 		public:
 			iterator() : m_ID(0), m_data(), m_n(0) {} //empty initializer
@@ -240,11 +242,11 @@ namespace dscr
 		////////////////////////////////////////////////////////////
 		/// \brief Forward Iterator class
 		////////////////////////////////////////////////////////////
-		class reverse_iterator : public std::iterator<std::forward_iterator_tag,partition>
+		class reverse_iterator : public std::iterator<std::bidirectional_iterator_tag,partition>
 		{
 		public:
 			reverse_iterator() : m_n(0), m_ID(0), m_data() {} //empty initializer
-			explicit reverse_iterator(IntType n) : m_n(n), m_ID(0), m_data(1,n)
+			explicit reverse_iterator(IntType n) : m_n(n), m_ID(0), m_data(n,1)
 			{
 			}
 			

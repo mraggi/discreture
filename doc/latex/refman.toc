@@ -1,21 +1,124 @@
-\contentsline {chapter}{\numberline {1}Class Index}{1}{chapter.1}
-\contentsline {section}{\numberline {1.1}Class List}{1}{section.1.1}
-\contentsline {chapter}{\numberline {2}Class Documentation}{3}{chapter.2}
-\contentsline {section}{\numberline {2.1}dis\discretionary {-}{}{}:\discretionary {-}{}{}:Catalan\discretionary {-}{}{}Paths Class Reference}{3}{section.2.1}
-\contentsline {section}{\numberline {2.2}dis\discretionary {-}{}{}:\discretionary {-}{}{}:combinations$<$ Int\discretionary {-}{}{}Type $>$ Class Template Reference}{3}{section.2.2}
-\contentsline {section}{\numberline {2.3}dis\discretionary {-}{}{}:\discretionary {-}{}{}:combinations$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{4}{section.2.3}
-\contentsline {section}{\numberline {2.4}dis\discretionary {-}{}{}:\discretionary {-}{}{}:multisets$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{4}{section.2.4}
-\contentsline {section}{\numberline {2.5}dis\discretionary {-}{}{}:\discretionary {-}{}{}:Catalan\discretionary {-}{}{}Paths\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{4}{section.2.5}
-\contentsline {section}{\numberline {2.6}dis\discretionary {-}{}{}:\discretionary {-}{}{}:Motzkin\discretionary {-}{}{}Paths\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{5}{section.2.6}
-\contentsline {section}{\numberline {2.7}dis\discretionary {-}{}{}:\discretionary {-}{}{}:partitions$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{5}{section.2.7}
-\contentsline {section}{\numberline {2.8}dis\discretionary {-}{}{}:\discretionary {-}{}{}:subsets\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{6}{section.2.8}
-\contentsline {section}{\numberline {2.9}dis\discretionary {-}{}{}:\discretionary {-}{}{}:Lexicographic\discretionary {-}{}{}Order$<$ T $>$ Class Template Reference}{6}{section.2.9}
-\contentsline {section}{\numberline {2.10}dis\discretionary {-}{}{}:\discretionary {-}{}{}:Motzkin\discretionary {-}{}{}Paths Class Reference}{6}{section.2.10}
-\contentsline {section}{\numberline {2.11}dis\discretionary {-}{}{}:\discretionary {-}{}{}:Multiset\discretionary {-}{}{}Iterator$<$ Int\discretionary {-}{}{}Type $>$ Class Template Reference}{7}{section.2.11}
-\contentsline {section}{\numberline {2.12}dis\discretionary {-}{}{}:\discretionary {-}{}{}:Multiset\discretionary {-}{}{}Iterator\discretionary {-}{}{}Decreasing\discretionary {-}{}{}Order$<$ Int\discretionary {-}{}{}Type $>$ Class Template Reference}{7}{section.2.12}
-\contentsline {section}{\numberline {2.13}dis\discretionary {-}{}{}:\discretionary {-}{}{}:multisets$<$ Int\discretionary {-}{}{}Type $>$ Class Template Reference}{7}{section.2.13}
-\contentsline {section}{\numberline {2.14}dis\discretionary {-}{}{}:\discretionary {-}{}{}:partitions$<$ Int\discretionary {-}{}{}Type $>$ Class Template Reference}{7}{section.2.14}
-\contentsline {section}{\numberline {2.15}dis\discretionary {-}{}{}:\discretionary {-}{}{}:Subset\discretionary {-}{}{}Iterator Class Reference}{8}{section.2.15}
-\contentsline {section}{\numberline {2.16}dis\discretionary {-}{}{}:\discretionary {-}{}{}:Subset\discretionary {-}{}{}Iterator\discretionary {-}{}{}Decreasing\discretionary {-}{}{}Order Class Reference}{8}{section.2.16}
-\contentsline {section}{\numberline {2.17}dis\discretionary {-}{}{}:\discretionary {-}{}{}:subsets Class Reference}{8}{section.2.17}
-\contentsline {part}{Index}{10}{section*.32}
+\contentsline {chapter}{\numberline {1}Discreture}{1}{chapter.1}
+\contentsline {chapter}{\numberline {2}Todo List}{3}{chapter.2}
+\contentsline {chapter}{\numberline {3}Namespace Index}{5}{chapter.3}
+\contentsline {section}{\numberline {3.1}Namespace List}{5}{section.3.1}
+\contentsline {chapter}{\numberline {4}Hierarchical Index}{7}{chapter.4}
+\contentsline {section}{\numberline {4.1}Class Hierarchy}{7}{section.4.1}
+\contentsline {chapter}{\numberline {5}Class Index}{9}{chapter.5}
+\contentsline {section}{\numberline {5.1}Class List}{9}{section.5.1}
+\contentsline {chapter}{\numberline {6}Namespace Documentation}{11}{chapter.6}
+\contentsline {section}{\numberline {6.1}dscr Namespace Reference}{11}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Detailed Description}{14}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.2}Function Documentation}{14}{subsection.6.1.2}
+\contentsline {subsubsection}{\numberline {6.1.2.1}binomial}{14}{subsubsection.6.1.2.1}
+\contentsline {subsubsection}{\numberline {6.1.2.2}catalan}{15}{subsubsection.6.1.2.2}
+\contentsline {subsubsection}{\numberline {6.1.2.3}compose}{15}{subsubsection.6.1.2.3}
+\contentsline {subsubsection}{\numberline {6.1.2.4}factorial}{15}{subsubsection.6.1.2.4}
+\contentsline {subsubsection}{\numberline {6.1.2.5}linear\discretionary {-}{}{}\_\discretionary {-}{}{}convert}{15}{subsubsection.6.1.2.5}
+\contentsline {subsubsection}{\numberline {6.1.2.6}modulo}{15}{subsubsection.6.1.2.6}
+\contentsline {subsubsection}{\numberline {6.1.2.7}motzkin}{16}{subsubsection.6.1.2.7}
+\contentsline {subsubsection}{\numberline {6.1.2.8}operator$<$=}{16}{subsubsection.6.1.2.8}
+\contentsline {subsubsection}{\numberline {6.1.2.9}operator==}{16}{subsubsection.6.1.2.9}
+\contentsline {subsubsection}{\numberline {6.1.2.10}signof}{16}{subsubsection.6.1.2.10}
+\contentsline {chapter}{\numberline {7}Class Documentation}{17}{chapter.7}
+\contentsline {section}{\numberline {7.1}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}combinations$<$ Int\discretionary {-}{}{}Type $>$ Class Template Reference}{17}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}Detailed Description}{18}{subsection.7.1.1}
+\contentsline {subsection}{\numberline {7.1.2}Constructor \& Destructor Documentation}{19}{subsection.7.1.2}
+\contentsline {subsubsection}{\numberline {7.1.2.1}basic\discretionary {-}{}{}\_\discretionary {-}{}{}combinations}{19}{subsubsection.7.1.2.1}
+\contentsline {subsection}{\numberline {7.1.3}Member Function Documentation}{19}{subsection.7.1.3}
+\contentsline {subsubsection}{\numberline {7.1.3.1}compare}{19}{subsubsection.7.1.3.1}
+\contentsline {subsubsection}{\numberline {7.1.3.2}find\discretionary {-}{}{}\_\discretionary {-}{}{}all}{19}{subsubsection.7.1.3.2}
+\contentsline {subsubsection}{\numberline {7.1.3.3}find\discretionary {-}{}{}\_\discretionary {-}{}{}if}{20}{subsubsection.7.1.3.3}
+\contentsline {subsubsection}{\numberline {7.1.3.4}get\discretionary {-}{}{}\_\discretionary {-}{}{}index}{20}{subsubsection.7.1.3.4}
+\contentsline {subsubsection}{\numberline {7.1.3.5}operator[]}{21}{subsubsection.7.1.3.5}
+\contentsline {subsubsection}{\numberline {7.1.3.6}size}{22}{subsubsection.7.1.3.6}
+\contentsline {section}{\numberline {7.2}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}dyck\discretionary {-}{}{}\_\discretionary {-}{}{}paths$<$ Int\discretionary {-}{}{}Type $>$ Class Template Reference}{22}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Detailed Description}{23}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}Constructor \& Destructor Documentation}{23}{subsection.7.2.2}
+\contentsline {subsubsection}{\numberline {7.2.2.1}basic\discretionary {-}{}{}\_\discretionary {-}{}{}dyck\discretionary {-}{}{}\_\discretionary {-}{}{}paths}{23}{subsubsection.7.2.2.1}
+\contentsline {subsection}{\numberline {7.2.3}Member Function Documentation}{23}{subsection.7.2.3}
+\contentsline {subsubsection}{\numberline {7.2.3.1}size}{23}{subsubsection.7.2.3.1}
+\contentsline {section}{\numberline {7.3}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}motzkin\discretionary {-}{}{}\_\discretionary {-}{}{}paths$<$ Int\discretionary {-}{}{}Type $>$ Class Template Reference}{24}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Detailed Description}{24}{subsection.7.3.1}
+\contentsline {subsection}{\numberline {7.3.2}Constructor \& Destructor Documentation}{25}{subsection.7.3.2}
+\contentsline {subsubsection}{\numberline {7.3.2.1}basic\discretionary {-}{}{}\_\discretionary {-}{}{}motzkin\discretionary {-}{}{}\_\discretionary {-}{}{}paths}{25}{subsubsection.7.3.2.1}
+\contentsline {subsection}{\numberline {7.3.3}Member Function Documentation}{25}{subsection.7.3.3}
+\contentsline {subsubsection}{\numberline {7.3.3.1}size}{25}{subsubsection.7.3.3.1}
+\contentsline {section}{\numberline {7.4}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}multisets$<$ Int\discretionary {-}{}{}Type $>$ Class Template Reference}{25}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}Constructor \& Destructor Documentation}{26}{subsection.7.4.1}
+\contentsline {subsubsection}{\numberline {7.4.1.1}basic\discretionary {-}{}{}\_\discretionary {-}{}{}multisets}{26}{subsubsection.7.4.1.1}
+\contentsline {section}{\numberline {7.5}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}partitions$<$ Int\discretionary {-}{}{}Type $>$ Class Template Reference}{26}{section.7.5}
+\contentsline {subsection}{\numberline {7.5.1}Detailed Description}{27}{subsection.7.5.1}
+\contentsline {subsection}{\numberline {7.5.2}Constructor \& Destructor Documentation}{27}{subsection.7.5.2}
+\contentsline {subsubsection}{\numberline {7.5.2.1}basic\discretionary {-}{}{}\_\discretionary {-}{}{}partitions}{27}{subsubsection.7.5.2.1}
+\contentsline {subsection}{\numberline {7.5.3}Member Function Documentation}{28}{subsection.7.5.3}
+\contentsline {subsubsection}{\numberline {7.5.3.1}size}{28}{subsubsection.7.5.3.1}
+\contentsline {section}{\numberline {7.6}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}permutations$<$ Int\discretionary {-}{}{}Type $>$ Class Template Reference}{28}{section.7.6}
+\contentsline {subsection}{\numberline {7.6.1}Detailed Description}{29}{subsection.7.6.1}
+\contentsline {subsection}{\numberline {7.6.2}Constructor \& Destructor Documentation}{29}{subsection.7.6.2}
+\contentsline {subsubsection}{\numberline {7.6.2.1}basic\discretionary {-}{}{}\_\discretionary {-}{}{}permutations}{29}{subsubsection.7.6.2.1}
+\contentsline {subsection}{\numberline {7.6.3}Member Function Documentation}{30}{subsection.7.6.3}
+\contentsline {subsubsection}{\numberline {7.6.3.1}get\discretionary {-}{}{}\_\discretionary {-}{}{}index}{30}{subsubsection.7.6.3.1}
+\contentsline {subsubsection}{\numberline {7.6.3.2}identity}{30}{subsubsection.7.6.3.2}
+\contentsline {subsubsection}{\numberline {7.6.3.3}operator[]}{30}{subsubsection.7.6.3.3}
+\contentsline {subsubsection}{\numberline {7.6.3.4}size}{30}{subsubsection.7.6.3.4}
+\contentsline {section}{\numberline {7.7}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}subsets$<$ Bool\discretionary {-}{}{}Type $>$ Class Template Reference}{30}{section.7.7}
+\contentsline {subsection}{\numberline {7.7.1}Detailed Description}{31}{subsection.7.7.1}
+\contentsline {subsection}{\numberline {7.7.2}Constructor \& Destructor Documentation}{32}{subsection.7.7.2}
+\contentsline {subsubsection}{\numberline {7.7.2.1}basic\discretionary {-}{}{}\_\discretionary {-}{}{}subsets}{32}{subsubsection.7.7.2.1}
+\contentsline {subsection}{\numberline {7.7.3}Member Function Documentation}{32}{subsection.7.7.3}
+\contentsline {subsubsection}{\numberline {7.7.3.1}get\discretionary {-}{}{}\_\discretionary {-}{}{}index}{32}{subsubsection.7.7.3.1}
+\contentsline {subsubsection}{\numberline {7.7.3.2}operator[]}{32}{subsubsection.7.7.3.2}
+\contentsline {subsubsection}{\numberline {7.7.3.3}size}{32}{subsubsection.7.7.3.3}
+\contentsline {section}{\numberline {7.8}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}dyck\discretionary {-}{}{}\_\discretionary {-}{}{}paths$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{33}{section.7.8}
+\contentsline {subsection}{\numberline {7.8.1}Detailed Description}{33}{subsection.7.8.1}
+\contentsline {section}{\numberline {7.9}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}motzkin\discretionary {-}{}{}\_\discretionary {-}{}{}paths$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{33}{section.7.9}
+\contentsline {subsection}{\numberline {7.9.1}Detailed Description}{34}{subsection.7.9.1}
+\contentsline {section}{\numberline {7.10}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}multisets$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{34}{section.7.10}
+\contentsline {section}{\numberline {7.11}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}partitions$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{35}{section.7.11}
+\contentsline {subsection}{\numberline {7.11.1}Detailed Description}{35}{subsection.7.11.1}
+\contentsline {section}{\numberline {7.12}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}combinations$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{35}{section.7.12}
+\contentsline {subsection}{\numberline {7.12.1}Detailed Description}{36}{subsection.7.12.1}
+\contentsline {subsection}{\numberline {7.12.2}Member Function Documentation}{36}{subsection.7.12.2}
+\contentsline {subsubsection}{\numberline {7.12.2.1}operator+=}{36}{subsubsection.7.12.2.1}
+\contentsline {section}{\numberline {7.13}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:range$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{36}{section.7.13}
+\contentsline {subsection}{\numberline {7.13.1}Detailed Description}{37}{subsection.7.13.1}
+\contentsline {subsection}{\numberline {7.13.2}Member Function Documentation}{37}{subsection.7.13.2}
+\contentsline {subsubsection}{\numberline {7.13.2.1}operator+=}{37}{subsubsection.7.13.2.1}
+\contentsline {section}{\numberline {7.14}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}subsets$<$ Bool\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{37}{section.7.14}
+\contentsline {subsection}{\numberline {7.14.1}Detailed Description}{38}{subsection.7.14.1}
+\contentsline {subsection}{\numberline {7.14.2}Member Function Documentation}{38}{subsection.7.14.2}
+\contentsline {subsubsection}{\numberline {7.14.2.1}operator+=}{38}{subsubsection.7.14.2.1}
+\contentsline {section}{\numberline {7.15}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}permutations$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:iterator Class Reference}{39}{section.7.15}
+\contentsline {subsection}{\numberline {7.15.1}Detailed Description}{39}{subsection.7.15.1}
+\contentsline {subsection}{\numberline {7.15.2}Member Function Documentation}{39}{subsection.7.15.2}
+\contentsline {subsubsection}{\numberline {7.15.2.1}operator+=}{39}{subsubsection.7.15.2.1}
+\contentsline {section}{\numberline {7.16}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:range$<$ Int\discretionary {-}{}{}Type $>$ Class Template Reference}{40}{section.7.16}
+\contentsline {subsection}{\numberline {7.16.1}Detailed Description}{40}{subsection.7.16.1}
+\contentsline {subsection}{\numberline {7.16.2}Constructor \& Destructor Documentation}{40}{subsection.7.16.2}
+\contentsline {subsubsection}{\numberline {7.16.2.1}range}{40}{subsubsection.7.16.2.1}
+\contentsline {section}{\numberline {7.17}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:R\discretionary {-}{}{}Clock Class Reference}{41}{section.7.17}
+\contentsline {section}{\numberline {7.18}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}subsets$<$ Bool\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:reverse\discretionary {-}{}{}\_\discretionary {-}{}{}iterator Class Reference}{41}{section.7.18}
+\contentsline {subsection}{\numberline {7.18.1}Detailed Description}{42}{subsection.7.18.1}
+\contentsline {subsection}{\numberline {7.18.2}Member Function Documentation}{42}{subsection.7.18.2}
+\contentsline {subsubsection}{\numberline {7.18.2.1}operator+=}{42}{subsubsection.7.18.2.1}
+\contentsline {section}{\numberline {7.19}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}permutations$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:reverse\discretionary {-}{}{}\_\discretionary {-}{}{}iterator Class Reference}{42}{section.7.19}
+\contentsline {subsection}{\numberline {7.19.1}Detailed Description}{43}{subsection.7.19.1}
+\contentsline {subsection}{\numberline {7.19.2}Member Function Documentation}{43}{subsection.7.19.2}
+\contentsline {subsubsection}{\numberline {7.19.2.1}operator+=}{43}{subsubsection.7.19.2.1}
+\contentsline {section}{\numberline {7.20}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}partitions$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:reverse\discretionary {-}{}{}\_\discretionary {-}{}{}iterator Class Reference}{43}{section.7.20}
+\contentsline {subsection}{\numberline {7.20.1}Detailed Description}{44}{subsection.7.20.1}
+\contentsline {section}{\numberline {7.21}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}combinations$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:reverse\discretionary {-}{}{}\_\discretionary {-}{}{}iterator Class Reference}{44}{section.7.21}
+\contentsline {subsection}{\numberline {7.21.1}Detailed Description}{45}{subsection.7.21.1}
+\contentsline {subsection}{\numberline {7.21.2}Member Function Documentation}{45}{subsection.7.21.2}
+\contentsline {subsubsection}{\numberline {7.21.2.1}operator+=}{45}{subsubsection.7.21.2.1}
+\contentsline {section}{\numberline {7.22}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:basic\discretionary {-}{}{}\_\discretionary {-}{}{}dyck\discretionary {-}{}{}\_\discretionary {-}{}{}paths$<$ Int\discretionary {-}{}{}Type $>$\discretionary {-}{}{}:\discretionary {-}{}{}:reverse\discretionary {-}{}{}\_\discretionary {-}{}{}iterator Class Reference}{45}{section.7.22}
+\contentsline {subsection}{\numberline {7.22.1}Detailed Description}{46}{subsection.7.22.1}
+\contentsline {section}{\numberline {7.23}dscr\discretionary {-}{}{}:\discretionary {-}{}{}:Sequence Class Reference}{46}{section.7.23}
+\contentsline {subsection}{\numberline {7.23.1}Detailed Description}{46}{subsection.7.23.1}
+\contentsline {subsection}{\numberline {7.23.2}Friends And Related Function Documentation}{46}{subsection.7.23.2}
+\contentsline {subsubsection}{\numberline {7.23.2.1}binomial}{46}{subsubsection.7.23.2.1}
+\contentsline {subsubsection}{\numberline {7.23.2.2}catalan}{46}{subsubsection.7.23.2.2}
+\contentsline {subsubsection}{\numberline {7.23.2.3}factorial}{47}{subsubsection.7.23.2.3}
+\contentsline {subsubsection}{\numberline {7.23.2.4}motzkin}{47}{subsubsection.7.23.2.4}
+\contentsline {part}{Index}{48}{section*.100}

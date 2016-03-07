@@ -1,4 +1,4 @@
-.TH "dscr::basic_partitions< IntType >" 3 "Fri Feb 26 2016" "Version 1" "discreture" \" -*- nroff -*-
+.TH "dscr::basic_partitions< IntType >" 3 "Sun Feb 28 2016" "Version 1" "discreture" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -10,7 +10,7 @@ class of partitions of the number n\&.
 .br
 .PP
 .PP
-\fC#include <partitionold\&.hpp>\fP
+\fC#include <Partitions\&.hpp>\fP
 .SS "Classes"
 
 .in +1c
@@ -27,18 +27,6 @@ class of partitions of the number n\&.
 
 .in +1c
 .ti -1c
-.RI "typedef long int \fBdifference_type\fP"
-.br
-.ti -1c
-.RI "typedef unsigned long int \fBsize_type\fP"
-.br
-.ti -1c
-.RI "typedef vector< int > \fBvalue_type\fP"
-.br
-.ti -1c
-.RI "typedef vector< int > \fBpartition\fP"
-.br
-.ti -1c
 .RI "typedef long long int \fBdifference_type\fP"
 .br
 .ti -1c
@@ -54,15 +42,6 @@ class of partitions of the number n\&.
 .SS "Public Member Functions"
 
 .in +1c
-.ti -1c
-.RI "\fBbasic_partitions\fP (int n)"
-.br
-.ti -1c
-.RI "const \fBiterator\fP & \fBbegin\fP () const "
-.br
-.ti -1c
-.RI "const \fBiterator\fP & \fBend\fP () const "
-.br
 .ti -1c
 .RI "\fBbasic_partitions\fP (IntType n)"
 .br
@@ -90,9 +69,6 @@ class of partitions of the number n\&.
 .SS "Static Public Member Functions"
 
 .in +1c
-.ti -1c
-.RI "static vector< int > \fBconjugate\fP (const vector< int > &P)"
-.br
 .ti -1c
 .RI "static void \fBnext_partition\fP (partition &data, IntType n)"
 .br

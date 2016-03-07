@@ -17,7 +17,7 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="logoterelimpio.svg"
-   inkscape:export-filename="/home/mraggi/Dropbox/sources/Mathematics/discreturebackup/logoterelimpio.png"
+   inkscape:export-filename="/home/mraggi/Dropbox/sources/Mathematics/discreture/Talk/logoteregrande.png"
    inkscape:export-xdpi="299.6424"
    inkscape:export-ydpi="299.6424">
   <defs
@@ -159,14 +159,14 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.4691406"
-     inkscape:cx="278.00269"
-     inkscape:cy="746.79956"
+     inkscape:zoom="1.2345703"
+     inkscape:cx="234.44855"
+     inkscape:cy="903.06851"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="3840"
-     inkscape:window-height="2043"
+     inkscape:window-width="1366"
+     inkscape:window-height="674"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
@@ -178,7 +178,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -188,7 +188,7 @@
      id="layer1">
     <g
        id="g4539"
-       transform="matrix(0.10425234,0,0,0.10425234,72.517778,40.210199)">
+       transform="matrix(0.32484437,0,0,0.32484437,-124.45019,-88.886383)">
       <circle
          r="243.60703"
          cy="584.45563"
@@ -347,7 +347,7 @@
     </g>
     <g
        id="g4735"
-       transform="matrix(0.10425234,0,0,0.10425234,93.290056,37.030503)">
+       transform="matrix(0.32484437,0,0,0.32484437,-59.724949,-98.794136)">
       <ellipse
          style="opacity:0.98999999;fill:#fbf0f4;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.66980332;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
          id="path10651"
@@ -398,7 +398,7 @@
     </g>
     <g
        id="g4725"
-       transform="matrix(0.10425234,0,0,0.10425234,93.415133,37.134755)">
+       transform="matrix(0.32484437,0,0,0.32484437,-59.335217,-98.469292)">
       <ellipse
          style="opacity:0.98999999;fill:#fbf0f4;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.66980332;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
          id="path10651-3"
@@ -449,7 +449,7 @@
     </g>
     <g
        id="g6216"
-       transform="matrix(-0.10425234,0,0,-0.10425234,263.18228,133.67627)">
+       transform="matrix(-0.32484437,0,0,-0.32484437,469.64956,202.34859)">
       <path
          inkscape:connector-curvature="0"
          id="path5768"
@@ -578,7 +578,7 @@
     </g>
     <g
        id="g6606"
-       transform="matrix(0.07823794,0,0,0.07823794,109.39206,55.877368)">
+       transform="matrix(0.24378498,0,0,0.24378498,-9.5520205,-40.068374)">
       <path
          inkscape:connector-curvature="0"
          id="path6590"

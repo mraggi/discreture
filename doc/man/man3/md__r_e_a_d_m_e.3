@@ -1,0 +1,65 @@
+.TH "md__r_e_a_d_m_e" 3 "Sun Feb 28 2016" "Version 1" "discreture" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md__r_e_a_d_m_e \- Discreture 
+This is a modern C++ 11 (and 14) library designed to facilitate combinatorial research by providing fast and easy iterators to a few combinatorial objects, such as combinations, permutations, partitions, and others\&. The idea is to have them resemble the STL containers as much as possible, without actually storing the whole set of objects in memory\&.
+.PP
+Discreture is designed to follow the STL containers as closely as possible, by providing the standard ways of iterating\&. In addition, many of the algorithm described in the standard <algorithm> work as-is in these containers, but they should be treated as const containers\&.
+.PP
+.SH "Example use:"
+.PP
+.PP
+```c++ #include <iostream> #include 'discreture\&.hpp' using namespace std; using namespace dscr; int main() { combinations X(5,3); for (const auto& x : X) cout << x << endl; return 0; } ``` The above code would produce the following output: 
+.PP
+.nf
+[ 0 1 2 ]
+[ 0 1 3 ]
+[ 0 2 3 ]
+[ 1 2 3 ]
+[ 0 1 4 ]
+[ 0 2 4 ]
+[ 1 2 4 ]
+[ 0 3 4 ]
+[ 1 3 4 ]
+[ 2 3 4 ]
+
+.fi
+.PP
+.PP
+Of course, you need to link with the discreture library: g++ -O3 -ldiscreture main\&.cpp
+.PP
+Some tests show discreture is usually faster when compiled with clang++ instead of g++\&.
+.PP
+.SH "Installation"
+.PP
+.PP
+To download and install, run the following commands:
+.PP
+```sh git clone https://github.com/mraggi/discreture.git cd discreture mkdir build cd build cmake \&.\&. make sudo make install #optional ```
+.PP
+You can run tests like this: \fC\&./testdiscreture\fP
+.PP
+.SH "Combinatorial Objects"
+.PP
+.PP
+There are a few combinatorial objects, such as:
+.IP "\(bu" 2
+Combinations
+.IP "\(bu" 2
+Permutations
+.IP "\(bu" 2
+Subsets
+.IP "\(bu" 2
+Multisets
+.IP "\(bu" 2
+Partitions
+.IP "\(bu" 2
+Dyck Paths
+.IP "\(bu" 2
+Range
+.IP "\(bu" 2
+Motzkin Paths
+.PP
+.PP
+These all follow the same design principle: The templated class is calles basic_SOMETHING<class T>, and the most reasonable type for T is instantiated as SOMETHING\&. For example, \fCcombinations\fP is a typedef of \fCbasic_combinations<int>\fP, and \fCpartitions\fP is a typedef of \fCbasic_partitions<int>\fP\&. 

@@ -1,9 +1,7 @@
 \form#0:$(0,0)$
-\form#1:$(0,n)$
+\form#1:$(0,2n)$
 \form#2:$ y=0$
 \form#3:$(x,y)$
 \form#4:$(x+1,y+1)$
 \form#5:$(x+1,y-1)$
-\form#6:$asdf$
-\form#7:$(0,2n)$
-\form#8:$(x+1,y)$
+\form#6:$(x+1,y)$

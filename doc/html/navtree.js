@@ -1,6 +1,7 @@
 var NAVTREE =
 [
   [ "discreture", "index.html", [
+    [ "Discreture", "md__r_e_a_d_m_e.html", null ],
     [ "Todo List", "todo.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
@@ -28,7 +29,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_basic_8hpp_source.html",
-"classdscr_1_1basic__permutations_1_1iterator.html#a664c38decc9fee5565e6020f45f1aed3"
+"classdscr_1_1basic__subsets.html#a084df4f877fa914fba387855c294038c"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

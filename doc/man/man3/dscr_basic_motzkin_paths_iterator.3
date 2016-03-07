@@ -1,4 +1,4 @@
-.TH "dscr::basic_motzkin_paths< IntType >::iterator" 3 "Fri Feb 26 2016" "Version 1" "discreture" \" -*- nroff -*-
+.TH "dscr::basic_motzkin_paths< IntType >::iterator" 3 "Sun Feb 28 2016" "Version 1" "discreture" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -12,7 +12,7 @@ Forward iterator class\&.
 .PP
 \fC#include <Motzkin\&.hpp>\fP
 .PP
-Inherits iterator< std::forward_iterator_tag, vector< IntType > >, and iterator< std::forward_iterator_tag, motzkin_path >\&.
+Inherits iterator< std::forward_iterator_tag, motzkin_path >\&.
 .SS "Public Member Functions"
 
 .in +1c
@@ -42,24 +42,6 @@ Inherits iterator< std::forward_iterator_tag, vector< IntType > >, and iterator<
 .br
 .ti -1c
 .RI "void \fBreset\fP (IntType n)"
-.br
-.ti -1c
-.RI "\fBiterator\fP (int n)"
-.br
-.ti -1c
-.RI "\fBiterator\fP & \fBoperator++\fP ()"
-.br
-.ti -1c
-.RI "const vector< IntType > & \fBoperator*\fP () const "
-.br
-.ti -1c
-.RI "vector< IntType > & \fBoperator*\fP ()"
-.br
-.ti -1c
-.RI "bool \fBoperator==\fP (const \fBiterator\fP &it) const "
-.br
-.ti -1c
-.RI "bool \fBoperator!=\fP (const \fBiterator\fP &it) const "
 .br
 .in -1c
 .SS "Friends"

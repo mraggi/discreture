@@ -1,0 +1,46 @@
+This is a modern C++ 11 (and 14) library designed to facilitate combinatorial research by providing fast and easy iterators to a few combinatorial objects, such as combinations, permutations, partitions, and others. The idea is to have them resemble the S\-T\-L containers as much as possible, without actually storing the whole set of objects in memory.
+
+Discreture is designed to follow the S\-T\-L containers as closely as possible, by providing the standard ways of iterating. In addition, many of the algorithm described in the standard $<$algorithm$>$ work as-\/is in these containers, but they should be treated as const containers.
+
+\section*{Example use\-:}
+
+```c++ \#include $<$iostream$>$ \#include \char`\"{}discreture.\-hpp\char`\"{} using namespace std; using namespace dscr; int main() \{ combinations X(5,3); for (const auto\& x \-: X) cout $<$$<$ x $<$$<$ endl; return 0; \} ``` The above code would produce the following output\-: \begin{DoxyVerb}[ 0 1 2 ]
+[ 0 1 3 ]
+[ 0 2 3 ]
+[ 1 2 3 ]
+[ 0 1 4 ]
+[ 0 2 4 ]
+[ 1 2 4 ]
+[ 0 3 4 ]
+[ 1 3 4 ]
+[ 2 3 4 ]
+\end{DoxyVerb}
+
+
+Of course, you need to link with the discreture library\-: g++ -\/\-O3 -\/ldiscreture main.\-cpp
+
+Some tests show discreture is usually faster when compiled with clang++ instead of g++.
+
+\section*{Installation}
+
+To download and install, run the following commands\-:
+
+```sh git clone \href{https://github.com/mraggi/discreture.git}{\tt https\-://github.\-com/mraggi/discreture.\-git} cd discreture mkdir build cd build cmake .. make sudo make install \#optional ```
+
+You can run tests like this\-: {\ttfamily ./testdiscreture}
+
+\section*{Combinatorial Objects}
+
+There are a few combinatorial objects, such as\-:
+\begin{DoxyItemize}
+\item Combinations
+\item Permutations
+\item Subsets
+\item Multisets
+\item Partitions
+\item Dyck Paths
+\item Range
+\item Motzkin Paths
+\end{DoxyItemize}
+
+These all follow the same design principle\-: The templated class is calles basic\-\_\-\-S\-O\-M\-E\-T\-H\-I\-N\-G$<$class T$>$, and the most reasonable type for T is instantiated as S\-O\-M\-E\-T\-H\-I\-N\-G. For example, {\ttfamily combinations} is a typedef of {\ttfamily basic\-\_\-combinations$<$int$>$}, and {\ttfamily partitions} is a typedef of {\ttfamily basic\-\_\-partitions$<$int$>$}. 
