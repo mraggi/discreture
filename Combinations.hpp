@@ -564,7 +564,7 @@ namespace dscr
 		/// 
 		/// # Example:
 		/// 
-		/// 	combinations X(12,6);
+		/// 	combinations X(10,5);
 		/// 	auto vall = X.find_all([](const vector<int>& comb) -> bool
 		///		{
 		///			for (int i = 0; i < comb.size()-1; ++i)

@@ -3,9 +3,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <algorithm>
+#include <algorithm> 
 #include <cassert> 
- 
+  
 
 //////////////////////
 /// \brief Namespace under which all the discreture library resides

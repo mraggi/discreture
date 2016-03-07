@@ -231,10 +231,15 @@ bool testMultiset()
 }
 bool testPartitions()
 {
-	partitions X(10);
+	int n = 10;
+	partitions X(n);
 	
 	for (const auto& x : X)
+	{
 		cout << x << endl;
+		if (static_cast<int>(Sum(x)) != n)
+			return false;
+	}
 	
 	basic_partitions<unsigned char> Y(8);
 	
@@ -244,11 +249,31 @@ bool testPartitions()
 	
 	return true;
 }
+
+bool dyckpathiscorrect(const vector<int>& x)
+{
+	int suma = 0;
+	for (auto u : x)
+	{
+		suma += u;
+		if (suma < 0)
+			return false;
+	}
+	if (suma != 0)
+		return false;
+	
+	return true;
+}
+
 bool testDyckPaths()
 {
 	dyck_paths X(3);
 	for (const auto& x : X)
+	{
 		cout << x << endl;
+		if (!dyckpathiscorrect(x))
+			return false;
+	}
 	
 	for (const auto& x : X)
 		cout << dyck_paths::to_string(x, "()") << endl;
@@ -263,7 +288,11 @@ bool testMotzkin()
 {
 	motzkin_paths X(4);
 	for (const auto& x : X)
+	{
 		cout << x << endl;
+		if (!dyckpathiscorrect(x))
+			return false;
+	}
 	
 	for (const auto& x : X)
 		cout << motzkin_paths::to_string(x) << endl;
@@ -411,6 +440,38 @@ void testSpeed()
 	testDyckPathsSpeed();
 	testMotzkinSpeed();
 }
+
+void testManualCombinations()
+{
+	lluint i = 0;
+	short n = 33;
+	++n;
+	--n;
+	for (int a00 = 0; a00 < n-15; ++a00)
+	for (int a01 = a00+1; a01 < n-14; ++a01)
+	for (int a02 = a01+1; a02 < n-13; ++a02)
+	for (int a03 = a02+1; a03 < n-12; ++a03)
+	for (int a04 = a03+1; a04 < n-11; ++a04)
+	for (int a05 = a04+1; a05 < n-10; ++a05)
+	for (int a06 = a05+1; a06 < n-9; ++a06)
+	for (int a07 = a06+1; a07 < n-8; ++a07)
+	for (int a08 = a07+1; a08 < n-7; ++a08)
+	for (int a09 = a08+1; a09 < n-6; ++a09)
+	for (int a10 = a09+1; a10 < n-5; ++a10)
+	for (int a11 = a10+1; a11 < n-4; ++a11)
+	for (int a12 = a11+1; a12 < n-3; ++a12)
+	for (int a13 = a12+1; a13 < n-2; ++a13)
+	for (int a14 = a13+1; a14 < n-1; ++a14)
+	for (int a15 = a14+1; a15 < n; ++a15)
+	{
+		++n;
+		if (a15 == 25 || n > 454)
+			++i;
+		--n;
+	}
+	cout << "total num: " << i << endl;
+}
+
 
 /*
 void testGSLComb()

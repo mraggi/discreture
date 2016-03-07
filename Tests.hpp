@@ -24,6 +24,7 @@ void testDyckPathsSpeed(int n = 18);
 void testMotzkinSpeed(int n = 20);
 
 // void testGSLCombinations(); // uncomment to test GSL combinations
+void testManualCombinations();
 
 void testCorrectness();
 void testSpeed();
