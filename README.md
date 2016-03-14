@@ -74,6 +74,7 @@ Within this library, one can construct a few combinatorial objects, such as:
   - Dyck Paths
   - Motzkin Paths
   - Range
+  - Set Partitions
 
 All follow the same design principle: The templated class is calles basic_SOMETHING<class T>, and the most reasonable type for T is instantiated as SOMETHING. For example, `combinations` is a typedef of `basic_combinations<int>`, and `partitions` is a typedef of `basic_partitions<int>`, following the standard string design: std::string is actually a typedef of std::basic_string<char>.
 
