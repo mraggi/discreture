@@ -186,6 +186,23 @@ bool testPermutations()
 	return true;
 }
 
+bool testSetPartitions()
+{
+	
+	set_partitions X(5);
+	int i = 0;
+	for (auto& x : X)
+	{
+		cout << i << ": " << x << endl;
+		++i;
+	}
+	
+	set_partitions Y(7,3,4); // set partitions of 7 with either 3 or 4 parts
+	for (auto& y : Y)
+		cout << y << endl;
+	return true;
+}
+
 bool testSubsets()
 {
 	cout << "========== Testing Subsets ==========" << endl;
@@ -384,6 +401,36 @@ void testPartitionsSpeed(int n)
 	cout << "Time taken to see all " << X.size() << " partitions of size " << n  << ": " << Chronometer() << "s" << endl;
 }
 
+
+void testSetPartitionSpeed(int n)
+{
+	Chronometer();
+	set_partitions X(n);
+	
+	lluint i = 0;
+	for (const auto& x : X)
+	{
+		if (x[0][1] == 3)
+			++i;
+	}
+// 	cout << "i = " << i << endl;
+	cout << "Time taken to see all " << X.size() << " set partitions of size " << n  << ": " << Chronometer() << "s" << endl;
+	
+	Chronometer();
+	set_partitions Y(n+2,4);
+	
+	i = 0;
+	for (const auto& y : Y)
+	{
+		if (y[0][1] == 3)
+			++i;
+	}
+// 	cout << "i = " << i << endl;
+	cout << "Time taken to see all " << Y.size() << " set partitions a set of " << n+2 << " elements with " << 4 << " parts: " << Chronometer() << "s" << endl;
+	
+	
+}
+
 void testDyckPathsSpeed(int n)
 {
 	Chronometer();
@@ -423,6 +470,7 @@ void testCorrectness()
 	testPartitions()	&&
 	testMultiset()		&&
 	testDyckPaths()		&&
+	testSetPartitions()		&&
 	testMotzkin())
 		cout << "\n\n All tests PASSED!" << endl;
 	else
@@ -439,6 +487,7 @@ void testSpeed()
 	testMultisetSpeed();
 	testDyckPathsSpeed();
 	testMotzkinSpeed();
+	testSetPartitionSpeed();
 }
 
 void testManualCombinations()

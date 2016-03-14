@@ -14,6 +14,7 @@ bool testPartitions();
 bool testDyckPaths();
 bool testMotzkin();
 bool testProbability();
+bool testSetPartitions();
 
 void testCombinationsSpeed(int n = 32, int k = 16);
 void testPermutationsSpeed(int n = 12);
@@ -22,6 +23,7 @@ void testPartitionsSpeed(int n = 90);
 void testMultisetSpeed();
 void testDyckPathsSpeed(int n = 18);
 void testMotzkinSpeed(int n = 20);
+void testSetPartitionSpeed(int n = 13);
 
 // void testGSLCombinations(); // uncomment to test GSL combinations
 void testManualCombinations();

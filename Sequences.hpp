@@ -5,30 +5,19 @@
 namespace dscr
 {
 	//////////////////////////////
-	/// \brief A class to help store known and constant sequences, such as the factorial sequence.
-	//////////////////////////////
-	class Sequence
-	{
-	private:
-		static vector<lluint> factorial; 
-		static vector<vector<lluint>> binomial;
-		static vector<lluint> catalan;
-		static vector<lluint> motzkin;
-		static vector<lluint> partitionNumbers;
-		
-		friend lluint factorial(suint n);
-		friend lluint binomial(lluint n, lluint r);
-		friend lluint catalan(suint n);
-		friend lluint motzkin(suint n);
-		friend lluint partition_number(suint n);
-	};
-
-	//////////////////////////////
 	/// \brief n!
 	/// \param n is a (small) nonnegative integer.
 	/// \return n!
 	//////////////////////////////
-	lluint factorial(suint n);
+	constexpr lluint factorial(lluint n)
+	{
+		lluint toReturn = 1;
+		if (n < 2)
+			return toReturn;
+		for (lluint i = 2; i < n+1; ++i)
+			toReturn *= i;
+		return toReturn;
+	}
 
 	//////////////////////////////
 	/// \brief The number of subsets of size r chosen from a set of size n
@@ -43,14 +32,44 @@ namespace dscr
 	/// \param n is a (small) nonnegative integer
 	/// \return binomial(2n,n)/(n+1)
 	//////////////////////////////
-	lluint catalan(suint n);
+	lluint catalan(lluint n);
 	
 	//////////////////////////////
 	/// \brief The n-th motzkin number
 	/// \param n is a (small) nonnegative integer
 	/// \return M_n
 	//////////////////////////////
-	lluint motzkin(suint n);
+	lluint motzkin(lluint n);
 	
-	lluint partition_number(suint n);
+	
+	//////////////////////////////
+	/// \brief The n-th partition number
+	/// \param n is a (small) nonnegative integer
+	/// \return P_n
+	//////////////////////////////
+	lluint partition_number(lluint n);
+	
+	//////////////////////////////
+	/// \brief The number of partitions of n with k parts
+	/// \param n is a (small) nonnegative integer
+	/// \param k <= n is a (small) nonnegative integer
+	/// \return P_{n,k}
+	//////////////////////////////
+	lluint partition_number(lluint n,lluint k);
+	
+	//////////////////////////////
+	/// \brief The number of permutations of n which have exactly k cycles.
+	/// \param n is a (small) nonnegative integer
+	/// \param k <= n is a (small) nonnegative integer
+	/// \return The stirling number of the first kind S(n,k)
+	//////////////////////////////
+	lluint stirling1(lluint n,lluint k);
+	
+	//////////////////////////////
+	/// \brief The number of partitions of a set of n elements with k parts
+	/// \param n is a (small) nonnegative integer
+	/// \param k <= n is a (small) nonnegative integer
+	/// \return P_{n,k}
+	//////////////////////////////
+	llint stirling2(lluint n,lluint k);
 }

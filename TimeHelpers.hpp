@@ -51,4 +51,9 @@ namespace dscr
 		return diffclockt(RClock::Instance().running_timer,tlast);
 	}
 	
+	inline double ChronometerPeek()
+	{
+		auto tlast = RClock::Instance().running_timer;
+		return diffclockt(std::chrono::high_resolution_clock::now(),tlast);
+	}
 }

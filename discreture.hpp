@@ -12,3 +12,4 @@
 #include "Partitions.hpp"
 #include "DyckPaths.hpp"
 #include "Motzkin.hpp"
+#include "SetPartitions.hpp"

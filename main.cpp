@@ -9,7 +9,10 @@ using namespace std;
 int main(int argc, char **argv) 
 {	
 	using namespace dscr;
-
+	set_partitions X(3);
+	for (auto& x : X)
+		cout << x << endl;
+	return 0;
 	cout << "\n================ Starting Correctness Tests ================" << endl;
 	testCorrectness();
 	cout << "\n================ Starting Speed Tests ================" << endl;

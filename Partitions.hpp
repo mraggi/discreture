@@ -36,25 +36,19 @@ namespace dscr
 		class iterator;
 		
 		
-		//TODO: Perhaps choose a different, more natural order!!
 		// **************** Begin static functions
 		static void next_partition(partition& data, IntType n)
 		{
 			size_t t = data.size();
 
-			if (t == 1) //At END
+			if (t < 2) //At END
 			{
 				return;
 			}
 
 			if(data.front()-data.back() < 2) // We must change size!
 			{
-				data.pop_back();
-				data[0]=n-t+2;
-				for(size_t i=1; i<t-1; ++i)
-				{
-					data[i]=1;
-				}
+				first_with_given_number_of_parts(data,n,t-1);
 				return;
 			}
 			
@@ -104,12 +98,20 @@ namespace dscr
 				return;
 			}		
 		}
-	
-		static void prev_partition(partition& data, IntType n)
-		{
-			
-		}
 		
+		static void first_with_given_number_of_parts(partition& data, IntType n, IntType k)
+		{
+			if (n == 0)
+			{
+				data.clear();
+				return;
+			}
+			data.resize(k);
+			data[0]=n-k+1;
+			for (size_t i = 1; i < k; ++i)
+				data[i] = 1;
+		}
+	
 		static partition conjugate(const partition& P) 
 		{
 			assert (!P.empty());
@@ -138,11 +140,36 @@ namespace dscr
 		/// \param n is an integer >= 0
 		///
 		////////////////////////////////////////////////////////////
-		basic_partitions(IntType n) : m_n(n), m_begin(n), m_end(), m_rbegin(n),  m_rend()
+		basic_partitions(IntType n) : m_n(n), m_minnumparts(1), m_maxnumparts(n), m_begin(n,n), m_end()
 		{
 			m_end.m_ID = size();
-			m_rend.m_ID = size();
 		}
+		
+		////////////////////////////////////////////////////////////
+		/// \brief Constructor
+		///
+		/// \param n is an integer >= 0
+		/// \param numparts is an integer >= 1 and <= n
+		///
+		////////////////////////////////////////////////////////////
+		basic_partitions(IntType n, IntType numparts) : m_n(n), m_minnumparts(numparts), m_maxnumparts(numparts), m_begin(n,numparts), m_end()
+		{
+			m_end.m_ID = size();
+		}
+
+		////////////////////////////////////////////////////////////
+		/// \brief Constructor
+		///
+		/// \param n is an integer >= 0
+		/// \param minnumparts is an integer >= 1 and <= n
+		/// \param maxnumparts is an integer >= minnumparts and <= n
+		///
+		////////////////////////////////////////////////////////////
+		basic_partitions(IntType n, IntType minnumparts,IntType maxnumparts) : m_n(n), m_minnumparts(minnumparts), m_maxnumparts(maxnumparts), m_begin(n,maxnumparts), m_end()
+		{
+			m_end.m_ID = size();
+		}
+
 		
 		////////////////////////////////////////////////////////////
 		/// \brief The total number of partitions
@@ -150,12 +177,17 @@ namespace dscr
 		/// \return p_n
 		///
 		////////////////////////////////////////////////////////////
-		size_type size() const { return partition_number(m_n); }
-		
-		
+		size_type size() const 
+		{ 
+			if (m_minnumparts == 1 && m_maxnumparts == m_n)
+				return partition_number(m_n);
+			size_type toReturn = 0;
+			for (size_t k = m_minnumparts; k <= m_maxnumparts; ++k)
+				toReturn += partition_number(m_n,k);
+			return toReturn;
+		}
 		
 		IntType get_n() const { return m_n; }
-		
 		
 		////////////////////////////////////////////////////////////
 		/// \brief Forward iterator class.
@@ -163,10 +195,11 @@ namespace dscr
 		class iterator : public std::iterator<std::bidirectional_iterator_tag,partition>
 		{
 		public:
-			iterator() : m_ID(0), m_data(), m_n(0) {} //empty initializer
+			iterator() : m_ID(0), m_data(), m_n(0) {}
 		public:
-			explicit iterator(IntType n) : m_ID(0), m_data(n,1), m_n(n)
+			explicit iterator(IntType n, IntType numparts) : m_ID(0), m_data(), m_n(n)
 			{
+				first_with_given_number_of_parts(m_data,n,numparts);
 			}
 			
 			//prefix
@@ -175,19 +208,6 @@ namespace dscr
 				++m_ID;
 				
 				next_partition(m_data,m_n);
-				
-				return *this;
-			}
-			
-			inline iterator& operator--()
-			{
-				
-				if (m_ID == 0)
-					return *this;
-				
-				--m_ID;
-				
-				prev_partition(m_data);
 				
 				return *this;
 			}
@@ -219,18 +239,6 @@ namespace dscr
 				return it.ID() != ID();
 			}
 			
-			inline bool is_at_end(IntType n) const
-			{
-				return m_ID == partition_number(n);
-			}
-			
-			void reset(IntType r)
-			{
-				m_ID = 0;
-				m_data.clear();
-				m_data.resize(r,1);
-			}
-			
 		private:
 			size_type m_ID;
 			partition m_data;
@@ -239,79 +247,6 @@ namespace dscr
 			friend class basic_partitions;
 		}; // end class iterator
 
-		////////////////////////////////////////////////////////////
-		/// \brief Forward Iterator class
-		////////////////////////////////////////////////////////////
-		class reverse_iterator : public std::iterator<std::bidirectional_iterator_tag,partition>
-		{
-		public:
-			reverse_iterator() : m_n(0), m_ID(0), m_data() {} //empty initializer
-			explicit reverse_iterator(IntType n) : m_n(n), m_ID(0), m_data(n,1)
-			{
-			}
-			
-			//prefix
-			inline reverse_iterator& operator++()
-			{
-				++m_ID;
-				
-				prev_partition(m_data);
-				
-				return *this;
-			}
-			
-			inline reverse_iterator& operator--()
-			{				
-				assert (m_ID != 0);
-
-				--m_ID;
-				
-				next_partition(m_data);
-
-				return *this;
-			}
-			
-			inline const partition& operator*()
-			{
-				return m_data;
-			}
-			
-			inline const partition& operator*() const
-			{
-				return m_data;
-			}
-			
-			inline const partition* operator->() const
-			{ 
-				return & operator*();
-			}
-			
-			friend difference_type operator-(const reverse_iterator& lhs, const reverse_iterator& rhs)
-			{
-				return static_cast<difference_type>(lhs.ID()) - rhs.ID();
-			}
-			
-			inline size_type ID() const { return m_ID; }
-			
-			inline bool operator==(const reverse_iterator& it)
-			{
-				return it.ID() == ID();
-			}
-			
-			inline bool operator!=(const reverse_iterator& it)
-			{
-				return it.ID() != ID();
-			}
-			
-			
-			
-		private:
-			IntType m_n;
-			size_type m_ID;
-			partition m_data;
-			
-			friend class basic_partitions;
-		}; // end class iterator
 		
 		const iterator& begin() const
 		{
@@ -322,24 +257,13 @@ namespace dscr
 		{
 			return m_end;
 		}
-		
-		const reverse_iterator& rbegin() const
-		{
-			return m_rbegin;
-		}
-		
-		const reverse_iterator& rend() const
-		{
-			return m_rend;
-		}
-		
 
 	private:
 		IntType m_n;
-		iterator m_begin;	
+		IntType m_minnumparts;
+		IntType m_maxnumparts;
+		iterator m_begin;
 		iterator m_end;
-		reverse_iterator m_rbegin;	
-		reverse_iterator m_rend;
 		
 	}; // end class basic_partitions
 	
