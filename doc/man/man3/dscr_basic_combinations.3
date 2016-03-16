@@ -1,4 +1,4 @@
-.TH "dscr::basic_combinations< IntType >" 3 "Sun Feb 28 2016" "Version 1" "discreture" \" -*- nroff -*-
+.TH "dscr::basic_combinations< IntType >" 3 "Wed Mar 16 2016" "Version 1" "discreture" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -208,7 +208,7 @@ This is an efficient way to construct all combination of size k which fully sati
 .PP
 .PP
 .nf
-combinations X(12,6);
+combinations X(10,5);
 auto vall = X.find_all([](const vector<int>& comb) -> bool
 {
     for (int i = 0; i < comb.size()-1; ++i)

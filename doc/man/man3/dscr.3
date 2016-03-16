@@ -1,4 +1,4 @@
-.TH "dscr" 3 "Sun Feb 28 2016" "Version 1" "discreture" \" -*- nroff -*-
+.TH "dscr" 3 "Wed Mar 16 2016" "Version 1" "discreture" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -40,9 +40,9 @@ Namespace under which all the discreture library resides\&.
 .br
 .RI "\fISimilar to python range(n) or range(n,m) or range(n,m,step)\&. \fP"
 .ti -1c
-.RI "class \fBSequence\fP"
+.RI "class \fBbasic_set_partitions\fP"
 .br
-.RI "\fIA class to help store known and constant sequences, such as the factorial sequence\&. \fP"
+.RI "\fIclass of set_partitions of the number n\&. \fP"
 .ti -1c
 .RI "class \fBbasic_subsets\fP"
 .br
@@ -95,6 +95,9 @@ Namespace under which all the discreture library resides\&.
 .br
 .ti -1c
 .RI "typedef \fBbasic_permutations\fP< int > \fBpermutations\fP"
+.br
+.ti -1c
+.RI "using \fBset_partitions\fP = \fBbasic_set_partitions\fP< int >"
 .br
 .ti -1c
 .RI "typedef \fBbasic_subsets\fP< bool > \fBsubsets\fP"
@@ -212,24 +215,37 @@ std::chrono::time_point
 .RI "template<class T > void \fBoverwrite\fP (vector< T > &lhs, \fBrange\fP< T > rhs)"
 .br
 .ti -1c
-.RI "lluint \fBfactorial\fP (suint n)"
-.br
-.RI "\fIn! \fP"
-.ti -1c
 .RI "lluint \fBbinomial\fP (lluint n, lluint r)"
 .br
 .RI "\fIThe number of subsets of size r chosen from a set of size n\&. \fP"
 .ti -1c
-.RI "lluint \fBcatalan\fP (suint n)"
+.RI "lluint \fBcatalan\fP (lluint n)"
 .br
 .RI "\fIThe n-th catalan number\&. \fP"
 .ti -1c
-.RI "lluint \fBmotzkin\fP (suint n)"
+.RI "lluint \fBmotzkin\fP (lluint n)"
 .br
 .RI "\fIThe n-th motzkin number\&. \fP"
 .ti -1c
-.RI "lluint \fBpartition_number\fP (suint n)"
+.RI "lluint \fBpartition_number\fP (lluint n)"
 .br
+.RI "\fIThe n-th partition number\&. \fP"
+.ti -1c
+.RI "lluint \fBpartition_number\fP (lluint n, lluint k)"
+.br
+.RI "\fIThe number of partitions of n with k parts\&. \fP"
+.ti -1c
+.RI "lluint \fBstirling1\fP (lluint n, lluint k)"
+.br
+.RI "\fIThe number of permutations of n which have exactly k cycles\&. \fP"
+.ti -1c
+.RI "llint \fBstirling2\fP (lluint n, lluint k)"
+.br
+.RI "\fIThe number of partitions of a set of n elements with k parts\&. \fP"
+.ti -1c
+.RI "constexpr lluint \fBfactorial\fP (lluint n)"
+.br
+.RI "\fIn! \fP"
 .ti -1c
 .RI "double \fBdiffclock\fP (clock_t a, clock_t b)"
 .br
@@ -241,6 +257,9 @@ std::chrono::time_point
 .br
 .ti -1c
 .RI "double \fBChronometer\fP ()"
+.br
+.ti -1c
+.RI "double \fBChronometerPeek\fP ()"
 .br
 .ti -1c
 .RI "VB \fBoperator&\fP (const VB &A, const VB &B)"
@@ -387,7 +406,7 @@ n!/(r!*(n-r)!)
 .RE
 .PP
 
-.SS "lluint dscr::catalan (suintn)"
+.SS "lluint dscr::catalan (lluintn)"
 
 .PP
 The n-th catalan number\&. 
@@ -414,7 +433,7 @@ f o g
 .RE
 .PP
 
-.SS "lluint dscr::factorial (suintn)"
+.SS "constexpr lluint dscr::factorial (lluintn)"
 
 .PP
 n! 
@@ -452,7 +471,7 @@ an integer in [0,b)
 .RE
 .PP
 
-.SS "lluint dscr::motzkin (suintn)"
+.SS "lluint dscr::motzkin (lluintn)"
 
 .PP
 The n-th motzkin number\&. 
@@ -490,6 +509,40 @@ A <= B in lexicographic order\&.
 .RE
 .PP
 
+.SS "lluint dscr::partition_number (lluintn)"
+
+.PP
+The n-th partition number\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is a (small) nonnegative integer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+P_n 
+.RE
+.PP
+
+.SS "lluint dscr::partition_number (lluintn, lluintk)"
+
+.PP
+The number of partitions of n with k parts\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is a (small) nonnegative integer 
+.br
+\fIk\fP <= n is a (small) nonnegative integer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+P_{n,k} 
+.RE
+.PP
+
 .SS "template<typename T > int dscr::signof (Tval)"
 
 .PP
@@ -498,6 +551,42 @@ Equivalent to x/|x| when x != 0, and 0 when x = 0\&.
 \fBReturns:\fP
 .RS 4
 1 if val is positive, -1 if it's negative, and 0 if it's 0 
+.RE
+.PP
+
+.SS "lluint dscr::stirling1 (lluintn, lluintk)"
+
+.PP
+The number of permutations of n which have exactly k cycles\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is a (small) nonnegative integer 
+.br
+\fIk\fP <= n is a (small) nonnegative integer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The stirling number of the first kind S(n,k) 
+.RE
+.PP
+
+.SS "llint dscr::stirling2 (lluintn, lluintk)"
+
+.PP
+The number of partitions of a set of n elements with k parts\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is a (small) nonnegative integer 
+.br
+\fIk\fP <= n is a (small) nonnegative integer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+P_{n,k} 
 .RE
 .PP
 

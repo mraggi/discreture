@@ -7,7 +7,7 @@ var namespacedscr =
     [ "basic_partitions", "classdscr_1_1basic__partitions.html", "classdscr_1_1basic__partitions" ],
     [ "basic_permutations", "classdscr_1_1basic__permutations.html", "classdscr_1_1basic__permutations" ],
     [ "range", "classdscr_1_1range.html", "classdscr_1_1range" ],
-    [ "Sequence", "classdscr_1_1_sequence.html", "classdscr_1_1_sequence" ],
+    [ "basic_set_partitions", "classdscr_1_1basic__set__partitions.html", "classdscr_1_1basic__set__partitions" ],
     [ "basic_subsets", "classdscr_1_1basic__subsets.html", "classdscr_1_1basic__subsets" ],
     [ "RClock", "classdscr_1_1_r_clock.html", "classdscr_1_1_r_clock" ]
 ];

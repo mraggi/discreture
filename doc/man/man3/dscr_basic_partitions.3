@@ -1,4 +1,4 @@
-.TH "dscr::basic_partitions< IntType >" 3 "Sun Feb 28 2016" "Version 1" "discreture" \" -*- nroff -*-
+.TH "dscr::basic_partitions< IntType >" 3 "Wed Mar 16 2016" "Version 1" "discreture" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -18,10 +18,6 @@ class of partitions of the number n\&.
 .RI "class \fBiterator\fP"
 .br
 .RI "\fIForward iterator class\&. \fP"
-.ti -1c
-.RI "class \fBreverse_iterator\fP"
-.br
-.RI "\fIForward Iterator class\&. \fP"
 .in -1c
 .SS "Public Types"
 
@@ -47,6 +43,14 @@ class of partitions of the number n\&.
 .br
 .RI "\fIConstructor\&. \fP"
 .ti -1c
+.RI "\fBbasic_partitions\fP (IntType n, IntType numparts)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "\fBbasic_partitions\fP (IntType n, IntType minnumparts, IntType maxnumparts)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
 .RI "size_type \fBsize\fP () const "
 .br
 .RI "\fIThe total number of partitions\&. \fP"
@@ -59,12 +63,6 @@ class of partitions of the number n\&.
 .ti -1c
 .RI "const \fBiterator\fP & \fBend\fP () const "
 .br
-.ti -1c
-.RI "const \fBreverse_iterator\fP & \fBrbegin\fP () const "
-.br
-.ti -1c
-.RI "const \fBreverse_iterator\fP & \fBrend\fP () const "
-.br
 .in -1c
 .SS "Static Public Member Functions"
 
@@ -73,7 +71,7 @@ class of partitions of the number n\&.
 .RI "static void \fBnext_partition\fP (partition &data, IntType n)"
 .br
 .ti -1c
-.RI "static void \fBprev_partition\fP (partition &data, IntType n)"
+.RI "static void \fBfirst_with_given_number_of_parts\fP (partition &data, IntType n, IntType k)"
 .br
 .ti -1c
 .RI "static partition \fBconjugate\fP (const partition &P)"
@@ -119,6 +117,34 @@ Constructor\&.
 \fBParameters:\fP
 .RS 4
 \fIn\fP is an integer >= 0 
+.RE
+.PP
+
+.SS "template<class IntType > \fBdscr::basic_partitions\fP< IntType >::\fBbasic_partitions\fP (IntTypen, IntTypenumparts)\fC [inline]\fP"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is an integer >= 0 
+.br
+\fInumparts\fP is an integer >= 1 and <= n 
+.RE
+.PP
+
+.SS "template<class IntType > \fBdscr::basic_partitions\fP< IntType >::\fBbasic_partitions\fP (IntTypen, IntTypeminnumparts, IntTypemaxnumparts)\fC [inline]\fP"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP is an integer >= 0 
+.br
+\fIminnumparts\fP is an integer >= 1 and <= n 
+.br
+\fImaxnumparts\fP is an integer >= minnumparts and <= n 
 .RE
 .PP
 

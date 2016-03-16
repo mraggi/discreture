@@ -88,7 +88,7 @@ $(document).ready(function(){initNavTree('md__r_e_a_d_m_e.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -103,8 +103,8 @@ $(document).ready(function(){initNavTree('md__r_e_a_d_m_e.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>This is a modern C++ 11 (and 14) library designed to facilitate combinatorial research by providing fast and easy iterators to a few combinatorial objects, such as combinations, permutations, partitions, and others. The idea is to have them resemble the STL containers as much as possible, without actually storing the whole set of objects in memory.</p>
-<p>Discreture is designed to follow the STL containers as closely as possible, by providing the standard ways of iterating. In addition, many of the algorithm described in the standard &lt;algorithm&gt; work as-is in these containers, but they should be treated as const containers.</p>
-<h1>Example use:</h1>
+<p>Discreture is designed to follow the STL containers as closely as possible, by providing the standard ways of iterating. In addition, many of the algorithms described in the standard &lt;algorithm&gt; library work as-is in these containers, as if the containers were constant.</p>
+<h1>Quick preview:</h1>
 <p>```c++ #include &lt;iostream&gt; #include "discreture.hpp" using namespace std; using namespace dscr; int main() { combinations X(5,3); for (const auto&amp; x : X) cout &lt;&lt; x &lt;&lt; endl; return 0; } ``` The above code would produce the following output: </p>
 <pre class="fragment">[ 0 1 2 ]
 [ 0 1 3 ]
@@ -119,11 +119,14 @@ $(document).ready(function(){initNavTree('md__r_e_a_d_m_e.html','');});
 </pre><p>Of course, you need to link with the discreture library: g++ -O3 -ldiscreture main.cpp</p>
 <p>Some tests show discreture is usually faster when compiled with clang++ instead of g++.</p>
 <h1>Installation</h1>
-<p>To download and install, run the following commands:</p>
-<p>```sh git clone <a href="https://github.com/mraggi/discreture.git">https://github.com/mraggi/discreture.git</a> cd discreture mkdir build cd build cmake .. make sudo make install #optional ```</p>
-<p>You can run tests like this: <code>./testdiscreture</code></p>
+<p>To download and install on linux, run the following commands:</p>
+<p>```sh git checkout <a href="https://github.com/mraggi/discreture.git">https://github.com/mraggi/discreture.git</a> cd discreture sh install_linux.sh ```</p>
+<p>This will compile the library and copy the necessary files to /usr/lib and /usr/include. It will ask for your root password. If you just wish to compile and then link manually, do the following: ```sh git checkout <a href="https://github.com/mraggi/discreture.git">https://github.com/mraggi/discreture.git</a> cd discreture mkdir build cd build cmake .. make ``<code> Furthermore, it's recommended to compile using the clang compiler instead of gcc. One can do this by running</code>cmake .. -DUSE_CLANG`, or editing the CMakeLists.txt and switch the "OFF" option of USE_CLANG to "ON".</p>
+<p>You can run the tests like by running the executable: <code>./testdiscreture</code></p>
+<h1>How to start using the library</h1>
+<p>To use the library, after compiling, just add <code>#include &lt;<a class="el" href="discreture_8hpp_source.html">discreture/discreture.hpp</a>&gt;</code> (make sure this can be done) and link to <code>libdiscreture.so</code>. With the GCC compiler or CLANG, this can be done by compiling like this: <code>g++ -ldiscreture myfile.cpp</code></p>
 <h1>Combinatorial Objects</h1>
-<p>There are a few combinatorial objects, such as:</p>
+<p>Within this library, one can construct a few combinatorial objects, such as:</p>
 <ul>
 <li>Combinations</li>
 <li>Permutations</li>
@@ -131,16 +134,23 @@ $(document).ready(function(){initNavTree('md__r_e_a_d_m_e.html','');});
 <li>Multisets</li>
 <li>Partitions</li>
 <li>Dyck Paths</li>
-<li>Range</li>
 <li>Motzkin Paths</li>
+<li>Range</li>
+<li>Set Partitions</li>
 </ul>
-<p>These all follow the same design principle: The templated class is calles basic_SOMETHING&lt;class T&gt;, and the most reasonable type for T is instantiated as SOMETHING. For example, <code>combinations</code> is a typedef of <code>basic_combinations&lt;int&gt;</code>, and <code>partitions</code> is a typedef of <code>basic_partitions&lt;int&gt;</code>. </p>
+<p>All follow the same design principle: The templated class is calles basic_SOMETHING&lt;class T&gt;, and the most reasonable type for T is instantiated as SOMETHING. For example, <code>combinations</code> is a typedef of <code>basic_combinations&lt;int&gt;</code>, and <code>partitions</code> is a typedef of <code>basic_partitions&lt;int&gt;</code>, following the standard string design: std::string is actually a typedef of std::basic_string&lt;char&gt;.</p>
+<h1>Advanced use</h1>
+<p>Although the full reference is in the doxygen documentation, here is a quick preview. Remember to always <code>#include "discreture.hpp"</code> (or <code>#include &lt;<a class="el" href="discreture_8hpp_source.html">discreture/discreture.hpp</a>&gt;</code> etc.):</p>
+<p>```c++ combinations X(30,10); for (const auto&amp; x : X) { // x is of type const vector&lt;int&gt;&amp;, so anything that works with vectors works on x } ```</p>
+<p>You can iterate in reverse too, in the same way you would reverse-iterate an STL container. ```c++ combinations X(30,10); for (auto it = X.rbegin(); it != X.rend(); ++it) { const auto&amp; x = *it; // x is of type const vector&lt;int&gt;&amp;, so anything that works with vectors works on x } ```</p>
+<p>Combinations, subsets and permutations are a random-access container (although they are slower as such than forward or reverse iteration), so something like this works too: ```c++ combinations X(30,10); for (size_t i = 0; i &lt; X.size(); ++i) { auto x = X[i]; } ```</p>
+<p>This is much slower if one plans to actually iterate over all of them, but iterator arithmetic is implemented, so one could even do the following: ```c++ #include &lt;algorithm&gt; combinations X(30,10); std::lower_bound(X.begin(), X.end(), predicate, combinations::compare); //TODO: FIX THIS!!!! ``<code> where</code>predicate<code>is a unary predicate that takes a</code>const vector&lt;int&gt;&amp;` as an argument and returns true or false. This would effectively do binary search. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Feb 28 2016 12:56:45 for discreture by
+    <li class="footer">Generated on Wed Mar 16 2016 08:12:10 for discreture by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>
   </ul>

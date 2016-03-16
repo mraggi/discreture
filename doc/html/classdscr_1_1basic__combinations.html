@@ -96,7 +96,7 @@ $(document).ready(function(){initNavTree('classdscr_1_1basic__combinations.html'
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -355,7 +355,7 @@ template&lt;class PartialPredicate &gt; </div>
 <p>This is an efficient way to construct all combination of size k which fully satisfy a predicate. </p>
 <p>This function is similar to find_if, but it returns a vector with all combinations which satisfy pred,</p>
 <h1>Example:</h1>
-<pre class="fragment">combinations X(12,6);
+<pre class="fragment">combinations X(10,5);
 auto vall = X.find_all([](const vector&lt;int&gt;&amp; comb) -&gt; bool
 {
     for (int i = 0; i &lt; comb.size()-1; ++i)
@@ -534,7 +534,7 @@ template&lt;class IntType &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedscr.html">dscr</a></li><li class="navelem"><a class="el" href="classdscr_1_1basic__combinations.html">basic_combinations</a></li>
-    <li class="footer">Generated on Sun Feb 28 2016 12:56:45 for discreture by
+    <li class="footer">Generated on Wed Mar 16 2016 08:12:10 for discreture by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>
   </ul>

@@ -1,4 +1,4 @@
-.TH "dscr::basic_partitions< IntType >::iterator" 3 "Sun Feb 28 2016" "Version 1" "discreture" \" -*- nroff -*-
+.TH "dscr::basic_partitions< IntType >::iterator" 3 "Wed Mar 16 2016" "Version 1" "discreture" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -12,18 +12,15 @@ Forward iterator class\&.
 .PP
 \fC#include <Partitions\&.hpp>\fP
 .PP
-Inherits iterator< std::forward_iterator_tag, partition >\&.
+Inherits iterator< std::bidirectional_iterator_tag, partition >\&.
 .SS "Public Member Functions"
 
 .in +1c
 .ti -1c
-.RI "\fBiterator\fP (IntType n)"
+.RI "\fBiterator\fP (IntType n, IntType numparts)"
 .br
 .ti -1c
 .RI "\fBiterator\fP & \fBoperator++\fP ()"
-.br
-.ti -1c
-.RI "\fBiterator\fP & \fBoperator--\fP ()"
 .br
 .ti -1c
 .RI "const vector< IntType > & \fBoperator*\fP () const "
@@ -39,12 +36,6 @@ Inherits iterator< std::forward_iterator_tag, partition >\&.
 .br
 .ti -1c
 .RI "bool \fBoperator!=\fP (const \fBiterator\fP &it) const "
-.br
-.ti -1c
-.RI "bool \fBis_at_end\fP (IntType n) const "
-.br
-.ti -1c
-.RI "void \fBreset\fP (IntType r)"
 .br
 .in -1c
 .SS "Friends"

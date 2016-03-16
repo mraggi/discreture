@@ -23,8 +23,8 @@ class \hyperlink{classdscr_1_1basic__permutations}{basic\-\_\-permutations}
 \begin{DoxyCompactList}\small\item\em class of all n! permutation of size n of the set \{0,1,...,n-\/1\}. \end{DoxyCompactList}\item 
 class \hyperlink{classdscr_1_1range}{range}
 \begin{DoxyCompactList}\small\item\em Similar to python range(n) or range(n,m) or range(n,m,step). \end{DoxyCompactList}\item 
-class \hyperlink{classdscr_1_1_sequence}{Sequence}
-\begin{DoxyCompactList}\small\item\em A class to help store known and constant sequences, such as the factorial sequence. \end{DoxyCompactList}\item 
+class \hyperlink{classdscr_1_1basic__set__partitions}{basic\-\_\-set\-\_\-partitions}
+\begin{DoxyCompactList}\small\item\em class of set\-\_\-partitions of the number n. \end{DoxyCompactList}\item 
 class \hyperlink{classdscr_1_1basic__subsets}{basic\-\_\-subsets}
 \begin{DoxyCompactList}\small\item\em class of all 2$^\wedge$n subsets of the set \{0,1,...,n-\/1\}, expressed as incidence vectors \end{DoxyCompactList}\item 
 class \hyperlink{classdscr_1_1_r_clock}{R\-Clock}
@@ -72,6 +72,9 @@ class \hyperlink{classdscr_1_1_r_clock}{R\-Clock}
 
 \item 
 \hypertarget{namespacedscr_a9e61754e725e663b0f40bbfff8bafcfc}{typedef \hyperlink{classdscr_1_1basic__permutations}{basic\-\_\-permutations}$<$ int $>$ {\bfseries permutations}}\label{namespacedscr_a9e61754e725e663b0f40bbfff8bafcfc}
+
+\item 
+\hypertarget{namespacedscr_a8c7359f0e3fd2527d8d1a9238ccb2299}{using {\bfseries set\-\_\-partitions} = \hyperlink{classdscr_1_1basic__set__partitions}{basic\-\_\-set\-\_\-partitions}$<$ int $>$}\label{namespacedscr_a8c7359f0e3fd2527d8d1a9238ccb2299}
 
 \item 
 \hypertarget{namespacedscr_aa55af7426ea06b63ae05871bda088651}{typedef \hyperlink{classdscr_1_1basic__subsets}{basic\-\_\-subsets}$<$ bool $>$ {\bfseries subsets}}\label{namespacedscr_aa55af7426ea06b63ae05871bda088651}
@@ -176,17 +179,22 @@ double \hyperlink{namespacedscr_a3e836c2a8d4d5653c8e16d64ad691804}{linear\-\_\-c
 \hypertarget{namespacedscr_add7fdb91f0c50ffff676219b2d94334f}{{\footnotesize template$<$class T $>$ }\\void {\bfseries overwrite} (vector$<$ T $>$ \&lhs, \hyperlink{classdscr_1_1range}{range}$<$ T $>$ rhs)}\label{namespacedscr_add7fdb91f0c50ffff676219b2d94334f}
 
 \item 
-lluint \hyperlink{namespacedscr_a496c3779c8c144b2fe598ab20373dc0b}{factorial} (suint n)
-\begin{DoxyCompactList}\small\item\em n! \end{DoxyCompactList}\item 
 lluint \hyperlink{namespacedscr_ab4cfc6d9fefa7536fc8914cf6f5e8236}{binomial} (lluint n, lluint r)
 \begin{DoxyCompactList}\small\item\em The number of subsets of size r chosen from a set of size n. \end{DoxyCompactList}\item 
-lluint \hyperlink{namespacedscr_a7f5a46c1492a9c8bebc8baccd41dac92}{catalan} (suint n)
+lluint \hyperlink{namespacedscr_a36ff2694e4aa8ced010f5e3046aa940e}{catalan} (lluint n)
 \begin{DoxyCompactList}\small\item\em The n-\/th catalan number. \end{DoxyCompactList}\item 
-lluint \hyperlink{namespacedscr_aad6881d978007dd2cb0a65d5cbc9f132}{motzkin} (suint n)
+lluint \hyperlink{namespacedscr_a212a60e3cca7da1da5a823890541f2b0}{motzkin} (lluint n)
 \begin{DoxyCompactList}\small\item\em The n-\/th motzkin number. \end{DoxyCompactList}\item 
-\hypertarget{namespacedscr_a8f54dc0a97fb10ec22ee3d3531654072}{lluint {\bfseries partition\-\_\-number} (suint n)}\label{namespacedscr_a8f54dc0a97fb10ec22ee3d3531654072}
-
-\item 
+lluint \hyperlink{namespacedscr_a59ddffe5f38d751cdc40c23295a5de0c}{partition\-\_\-number} (lluint n)
+\begin{DoxyCompactList}\small\item\em The n-\/th partition number. \end{DoxyCompactList}\item 
+lluint \hyperlink{namespacedscr_a28ad2a2fe86ed01b0be3111ed52e2741}{partition\-\_\-number} (lluint n, lluint k)
+\begin{DoxyCompactList}\small\item\em The number of partitions of n with k parts. \end{DoxyCompactList}\item 
+lluint \hyperlink{namespacedscr_aadc8642dfb56d21ee917c9cad1e1ec0d}{stirling1} (lluint n, lluint k)
+\begin{DoxyCompactList}\small\item\em The number of permutations of n which have exactly k cycles. \end{DoxyCompactList}\item 
+llint \hyperlink{namespacedscr_a7f50bb9f5d544c3dce41985c3eace98a}{stirling2} (lluint n, lluint k)
+\begin{DoxyCompactList}\small\item\em The number of partitions of a set of n elements with k parts. \end{DoxyCompactList}\item 
+constexpr lluint \hyperlink{namespacedscr_aa52cb363aa164acb87cdd883ce5a94e3}{factorial} (lluint n)
+\begin{DoxyCompactList}\small\item\em n! \end{DoxyCompactList}\item 
 \hypertarget{namespacedscr_a5e8832d5ea31873a72dd44e95a24c17a}{double {\bfseries diffclock} (clock\-\_\-t a, clock\-\_\-t b)}\label{namespacedscr_a5e8832d5ea31873a72dd44e95a24c17a}
 
 \item 
@@ -197,6 +205,9 @@ lluint \hyperlink{namespacedscr_aad6881d978007dd2cb0a65d5cbc9f132}{motzkin} (sui
 
 \item 
 \hypertarget{namespacedscr_abb430c7d91f899467ffada4bbe5ae153}{double {\bfseries Chronometer} ()}\label{namespacedscr_abb430c7d91f899467ffada4bbe5ae153}
+
+\item 
+\hypertarget{namespacedscr_a1a1a22ba33368b0bf821df54c5377afd}{double {\bfseries Chronometer\-Peek} ()}\label{namespacedscr_a1a1a22ba33368b0bf821df54c5377afd}
 
 \item 
 \hypertarget{namespacedscr_a700bc3316a1f4f6e8c16256161b519db}{V\-B \hyperlink{namespacedscr_a700bc3316a1f4f6e8c16256161b519db}{operator\&} (const V\-B \&A, const V\-B \&B)}\label{namespacedscr_a700bc3316a1f4f6e8c16256161b519db}
@@ -320,13 +331,13 @@ The number of subsets of size r chosen from a set of size n.
 \begin{DoxyReturn}{Returns}
 n!/(r!$\ast$(n-\/r)!) 
 \end{DoxyReturn}
-\hypertarget{namespacedscr_a7f5a46c1492a9c8bebc8baccd41dac92}{\index{dscr@{dscr}!catalan@{catalan}}
+\hypertarget{namespacedscr_a36ff2694e4aa8ced010f5e3046aa940e}{\index{dscr@{dscr}!catalan@{catalan}}
 \index{catalan@{catalan}!dscr@{dscr}}
 \subsubsection[{catalan}]{\setlength{\rightskip}{0pt plus 5cm}lluint dscr\-::catalan (
 \begin{DoxyParamCaption}
-\item[{suint}]{n}
+\item[{lluint}]{n}
 \end{DoxyParamCaption}
-)}}\label{namespacedscr_a7f5a46c1492a9c8bebc8baccd41dac92}
+)}}\label{namespacedscr_a36ff2694e4aa8ced010f5e3046aa940e}
 
 
 The n-\/th catalan number. 
@@ -354,13 +365,13 @@ Function composition.
 \begin{DoxyReturn}{Returns}
 f o g 
 \end{DoxyReturn}
-\hypertarget{namespacedscr_a496c3779c8c144b2fe598ab20373dc0b}{\index{dscr@{dscr}!factorial@{factorial}}
+\hypertarget{namespacedscr_aa52cb363aa164acb87cdd883ce5a94e3}{\index{dscr@{dscr}!factorial@{factorial}}
 \index{factorial@{factorial}!dscr@{dscr}}
-\subsubsection[{factorial}]{\setlength{\rightskip}{0pt plus 5cm}lluint dscr\-::factorial (
+\subsubsection[{factorial}]{\setlength{\rightskip}{0pt plus 5cm}constexpr lluint dscr\-::factorial (
 \begin{DoxyParamCaption}
-\item[{suint}]{n}
+\item[{lluint}]{n}
 \end{DoxyParamCaption}
-)}}\label{namespacedscr_a496c3779c8c144b2fe598ab20373dc0b}
+)}}\label{namespacedscr_aa52cb363aa164acb87cdd883ce5a94e3}
 
 
 n! 
@@ -406,13 +417,13 @@ This is what operator \% should be but isn't (!).
 C++ modulo operator \% is dumb for negative integers\-: (-\/7)\%3 returns -\/1, instead of 2. This fixes it. \begin{DoxyReturn}{Returns}
 an integer in \mbox{[}0,b) 
 \end{DoxyReturn}
-\hypertarget{namespacedscr_aad6881d978007dd2cb0a65d5cbc9f132}{\index{dscr@{dscr}!motzkin@{motzkin}}
+\hypertarget{namespacedscr_a212a60e3cca7da1da5a823890541f2b0}{\index{dscr@{dscr}!motzkin@{motzkin}}
 \index{motzkin@{motzkin}!dscr@{dscr}}
 \subsubsection[{motzkin}]{\setlength{\rightskip}{0pt plus 5cm}lluint dscr\-::motzkin (
 \begin{DoxyParamCaption}
-\item[{suint}]{n}
+\item[{lluint}]{n}
 \end{DoxyParamCaption}
-)}}\label{namespacedscr_aad6881d978007dd2cb0a65d5cbc9f132}
+)}}\label{namespacedscr_a212a60e3cca7da1da5a823890541f2b0}
 
 
 The n-\/th motzkin number. 
@@ -455,6 +466,47 @@ Equality comparison of vectors.
 \begin{DoxyReturn}{Returns}
 A $<$= B in lexicographic order. 
 \end{DoxyReturn}
+\hypertarget{namespacedscr_a59ddffe5f38d751cdc40c23295a5de0c}{\index{dscr@{dscr}!partition\-\_\-number@{partition\-\_\-number}}
+\index{partition\-\_\-number@{partition\-\_\-number}!dscr@{dscr}}
+\subsubsection[{partition\-\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}lluint dscr\-::partition\-\_\-number (
+\begin{DoxyParamCaption}
+\item[{lluint}]{n}
+\end{DoxyParamCaption}
+)}}\label{namespacedscr_a59ddffe5f38d751cdc40c23295a5de0c}
+
+
+The n-\/th partition number. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is a (small) nonnegative integer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+P\-\_\-n 
+\end{DoxyReturn}
+\hypertarget{namespacedscr_a28ad2a2fe86ed01b0be3111ed52e2741}{\index{dscr@{dscr}!partition\-\_\-number@{partition\-\_\-number}}
+\index{partition\-\_\-number@{partition\-\_\-number}!dscr@{dscr}}
+\subsubsection[{partition\-\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}lluint dscr\-::partition\-\_\-number (
+\begin{DoxyParamCaption}
+\item[{lluint}]{n, }
+\item[{lluint}]{k}
+\end{DoxyParamCaption}
+)}}\label{namespacedscr_a28ad2a2fe86ed01b0be3111ed52e2741}
+
+
+The number of partitions of n with k parts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is a (small) nonnegative integer \\
+\hline
+{\em k} & $<$= n is a (small) nonnegative integer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+P\-\_\-\{n,k\} 
+\end{DoxyReturn}
 \hypertarget{namespacedscr_a64a805545da240fdb87bee89d0f736de}{\index{dscr@{dscr}!signof@{signof}}
 \index{signof@{signof}!dscr@{dscr}}
 \subsubsection[{signof}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ int dscr\-::signof (
@@ -468,4 +520,48 @@ Equivalent to x/$|$x$|$ when x != 0, and 0 when x = 0.
 
 \begin{DoxyReturn}{Returns}
 1 if val is positive, -\/1 if it's negative, and 0 if it's 0 
+\end{DoxyReturn}
+\hypertarget{namespacedscr_aadc8642dfb56d21ee917c9cad1e1ec0d}{\index{dscr@{dscr}!stirling1@{stirling1}}
+\index{stirling1@{stirling1}!dscr@{dscr}}
+\subsubsection[{stirling1}]{\setlength{\rightskip}{0pt plus 5cm}lluint dscr\-::stirling1 (
+\begin{DoxyParamCaption}
+\item[{lluint}]{n, }
+\item[{lluint}]{k}
+\end{DoxyParamCaption}
+)}}\label{namespacedscr_aadc8642dfb56d21ee917c9cad1e1ec0d}
+
+
+The number of permutations of n which have exactly k cycles. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is a (small) nonnegative integer \\
+\hline
+{\em k} & $<$= n is a (small) nonnegative integer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The stirling number of the first kind S(n,k) 
+\end{DoxyReturn}
+\hypertarget{namespacedscr_a7f50bb9f5d544c3dce41985c3eace98a}{\index{dscr@{dscr}!stirling2@{stirling2}}
+\index{stirling2@{stirling2}!dscr@{dscr}}
+\subsubsection[{stirling2}]{\setlength{\rightskip}{0pt plus 5cm}llint dscr\-::stirling2 (
+\begin{DoxyParamCaption}
+\item[{lluint}]{n, }
+\item[{lluint}]{k}
+\end{DoxyParamCaption}
+)}}\label{namespacedscr_a7f50bb9f5d544c3dce41985c3eace98a}
+
+
+The number of partitions of a set of n elements with k parts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is a (small) nonnegative integer \\
+\hline
+{\em k} & $<$= n is a (small) nonnegative integer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+P\-\_\-\{n,k\} 
 \end{DoxyReturn}

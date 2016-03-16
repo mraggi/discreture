@@ -1,8 +1,8 @@
 This is a modern C++ 11 (and 14) library designed to facilitate combinatorial research by providing fast and easy iterators to a few combinatorial objects, such as combinations, permutations, partitions, and others. The idea is to have them resemble the S\-T\-L containers as much as possible, without actually storing the whole set of objects in memory.
 
-Discreture is designed to follow the S\-T\-L containers as closely as possible, by providing the standard ways of iterating. In addition, many of the algorithm described in the standard $<$algorithm$>$ work as-\/is in these containers, but they should be treated as const containers.
+Discreture is designed to follow the S\-T\-L containers as closely as possible, by providing the standard ways of iterating. In addition, many of the algorithms described in the standard $<$algorithm$>$ library work as-\/is in these containers, as if the containers were constant.
 
-\section*{Example use\-:}
+\section*{Quick preview\-:}
 
 ```c++ \#include $<$iostream$>$ \#include \char`\"{}discreture.\-hpp\char`\"{} using namespace std; using namespace dscr; int main() \{ combinations X(5,3); for (const auto\& x \-: X) cout $<$$<$ x $<$$<$ endl; return 0; \} ``` The above code would produce the following output\-: \begin{DoxyVerb}[ 0 1 2 ]
 [ 0 1 3 ]
@@ -23,15 +23,21 @@ Some tests show discreture is usually faster when compiled with clang++ instead 
 
 \section*{Installation}
 
-To download and install, run the following commands\-:
+To download and install on linux, run the following commands\-:
 
-```sh git clone \href{https://github.com/mraggi/discreture.git}{\tt https\-://github.\-com/mraggi/discreture.\-git} cd discreture mkdir build cd build cmake .. make sudo make install \#optional ```
+```sh git checkout \href{https://github.com/mraggi/discreture.git}{\tt https\-://github.\-com/mraggi/discreture.\-git} cd discreture sh install\-\_\-linux.\-sh ```
 
-You can run tests like this\-: {\ttfamily ./testdiscreture}
+This will compile the library and copy the necessary files to /usr/lib and /usr/include. It will ask for your root password. If you just wish to compile and then link manually, do the following\-: ```sh git checkout \href{https://github.com/mraggi/discreture.git}{\tt https\-://github.\-com/mraggi/discreture.\-git} cd discreture mkdir build cd build cmake .. make ``{\ttfamily  Furthermore, it's recommended to compile using the clang compiler instead of gcc. One can do this by running}cmake .. -\/\-D\-U\-S\-E\-\_\-\-C\-L\-A\-N\-G`, or editing the C\-Make\-Lists.\-txt and switch the \char`\"{}\-O\-F\-F\char`\"{} option of U\-S\-E\-\_\-\-C\-L\-A\-N\-G to \char`\"{}\-O\-N\char`\"{}.
+
+You can run the tests like by running the executable\-: {\ttfamily ./testdiscreture}
+
+\section*{How to start using the library}
+
+To use the library, after compiling, just add {\ttfamily \#include $<$\hyperlink{discreture_8hpp_source}{discreture/discreture.\-hpp}$>$} (make sure this can be done) and link to {\ttfamily libdiscreture.\-so}. With the G\-C\-C compiler or C\-L\-A\-N\-G, this can be done by compiling like this\-: {\ttfamily g++ -\/ldiscreture myfile.\-cpp}
 
 \section*{Combinatorial Objects}
 
-There are a few combinatorial objects, such as\-:
+Within this library, one can construct a few combinatorial objects, such as\-:
 \begin{DoxyItemize}
 \item Combinations
 \item Permutations
@@ -39,8 +45,21 @@ There are a few combinatorial objects, such as\-:
 \item Multisets
 \item Partitions
 \item Dyck Paths
-\item Range
 \item Motzkin Paths
+\item Range
+\item Set Partitions
 \end{DoxyItemize}
 
-These all follow the same design principle\-: The templated class is calles basic\-\_\-\-S\-O\-M\-E\-T\-H\-I\-N\-G$<$class T$>$, and the most reasonable type for T is instantiated as S\-O\-M\-E\-T\-H\-I\-N\-G. For example, {\ttfamily combinations} is a typedef of {\ttfamily basic\-\_\-combinations$<$int$>$}, and {\ttfamily partitions} is a typedef of {\ttfamily basic\-\_\-partitions$<$int$>$}. 
+All follow the same design principle\-: The templated class is calles basic\-\_\-\-S\-O\-M\-E\-T\-H\-I\-N\-G$<$class T$>$, and the most reasonable type for T is instantiated as S\-O\-M\-E\-T\-H\-I\-N\-G. For example, {\ttfamily combinations} is a typedef of {\ttfamily basic\-\_\-combinations$<$int$>$}, and {\ttfamily partitions} is a typedef of {\ttfamily basic\-\_\-partitions$<$int$>$}, following the standard string design\-: std\-::string is actually a typedef of std\-::basic\-\_\-string$<$char$>$.
+
+\section*{Advanced use}
+
+Although the full reference is in the doxygen documentation, here is a quick preview. Remember to always {\ttfamily \#include \char`\"{}discreture.\-hpp\char`\"{}} (or {\ttfamily \#include $<$\hyperlink{discreture_8hpp_source}{discreture/discreture.\-hpp}$>$} etc.)\-:
+
+```c++ combinations X(30,10); for (const auto\& x \-: X) \{ // x is of type const vector$<$int$>$\&, so anything that works with vectors works on x \} ```
+
+You can iterate in reverse too, in the same way you would reverse-\/iterate an S\-T\-L container. ```c++ combinations X(30,10); for (auto it = X.\-rbegin(); it != X.\-rend(); ++it) \{ const auto\& x = $\ast$it; // x is of type const vector$<$int$>$\&, so anything that works with vectors works on x \} ```
+
+Combinations, subsets and permutations are a random-\/access container (although they are slower as such than forward or reverse iteration), so something like this works too\-: ```c++ combinations X(30,10); for (size\-\_\-t i = 0; i $<$ X.\-size(); ++i) \{ auto x = X\mbox{[}i\mbox{]}; \} ```
+
+This is much slower if one plans to actually iterate over all of them, but iterator arithmetic is implemented, so one could even do the following\-: ```c++ \#include $<$algorithm$>$ combinations X(30,10); std\-::lower\-\_\-bound(X.\-begin(), X.\-end(), predicate, combinations\-::compare); //\-T\-O\-D\-O\-: F\-I\-X T\-H\-I\-S!!!! ``{\ttfamily  where}predicate{\ttfamily is a unary predicate that takes a}const vector$<$int$>$\&` as an argument and returns true or false. This would effectively do binary search. 

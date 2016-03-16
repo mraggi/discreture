@@ -96,7 +96,7 @@ $(document).ready(function(){initNavTree('classdscr_1_1basic__partitions_1_1iter
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -130,15 +130,12 @@ Inheritance diagram for dscr::basic_partitions&lt; IntType &gt;::iterator:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a72b04aede652c4327baa48a203b8dbaa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a72b04aede652c4327baa48a203b8dbaa"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>iterator</b> (IntType n)</td></tr>
-<tr class="separator:a72b04aede652c4327baa48a203b8dbaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a889b266d3dcfc9c88e389d4a7b642c2c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a889b266d3dcfc9c88e389d4a7b642c2c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>iterator</b> (IntType n, IntType numparts)</td></tr>
+<tr class="separator:a889b266d3dcfc9c88e389d4a7b642c2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c8308f225ce78db2592767705cefdf2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4c8308f225ce78db2592767705cefdf2"></a>
 <a class="el" href="classdscr_1_1basic__partitions_1_1iterator.html">iterator</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator++</b> ()</td></tr>
 <tr class="separator:a4c8308f225ce78db2592767705cefdf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25808a1436d5170ccf4090999554f225"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a25808a1436d5170ccf4090999554f225"></a>
-<a class="el" href="classdscr_1_1basic__partitions_1_1iterator.html">iterator</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator--</b> ()</td></tr>
-<tr class="separator:a25808a1436d5170ccf4090999554f225"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f184daf98f836bd070b4b08f0284c31"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f184daf98f836bd070b4b08f0284c31"></a>
 const vector&lt; IntType &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator*</b> () const </td></tr>
 <tr class="separator:a8f184daf98f836bd070b4b08f0284c31"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,12 +151,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <tr class="memitem:a5b89d704e3d35a15749fe492cfeb2e52"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5b89d704e3d35a15749fe492cfeb2e52"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classdscr_1_1basic__partitions_1_1iterator.html">iterator</a> &amp;it) const </td></tr>
 <tr class="separator:a5b89d704e3d35a15749fe492cfeb2e52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf3597c6f8c95ec719a22a457699a01f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaf3597c6f8c95ec719a22a457699a01f"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_at_end</b> (IntType n) const </td></tr>
-<tr class="separator:aaf3597c6f8c95ec719a22a457699a01f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0eb141f776dd7f604904d2943f2fe9e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad0eb141f776dd7f604904d2943f2fe9e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>reset</b> (IntType r)</td></tr>
-<tr class="separator:ad0eb141f776dd7f604904d2943f2fe9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -184,7 +175,7 @@ class dscr::basic_partitions&lt; IntType &gt;::iterator</h3>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedscr.html">dscr</a></li><li class="navelem"><a class="el" href="classdscr_1_1basic__partitions.html">basic_partitions</a></li><li class="navelem"><a class="el" href="classdscr_1_1basic__partitions_1_1iterator.html">iterator</a></li>
-    <li class="footer">Generated on Sun Feb 28 2016 12:56:46 for discreture by
+    <li class="footer">Generated on Wed Mar 16 2016 08:12:12 for discreture by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>
   </ul>

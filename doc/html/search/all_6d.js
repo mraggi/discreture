@@ -5,5 +5,5 @@ var searchData=
   ['min',['min',['../namespacedscr.html#ad9d19b6c54c9fbf5ef4ae28216dcdb72',1,'dscr']]],
   ['mincac',['mincac',['../namespacedscr.html#a022da6f55d4e4597f40becc1c158d778',1,'dscr']]],
   ['modulo',['modulo',['../namespacedscr.html#a3f6c67bf7abd8a7bd6a2cf78bd67eb7d',1,'dscr']]],
-  ['motzkin',['motzkin',['../classdscr_1_1_sequence.html#ac733d5b9ab1f17f2e37cbcecffb985c0',1,'dscr::Sequence::motzkin()'],['../namespacedscr.html#aad6881d978007dd2cb0a65d5cbc9f132',1,'dscr::motzkin()']]]
+  ['motzkin',['motzkin',['../namespacedscr.html#a212a60e3cca7da1da5a823890541f2b0',1,'dscr']]]
 ];

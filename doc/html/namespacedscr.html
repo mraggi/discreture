@@ -94,7 +94,7 @@ $(document).ready(function(){initNavTree('namespacedscr.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -139,8 +139,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdscr_1_1range.html">range</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to python range(n) or range(n,m) or range(n,m,step).  <a href="classdscr_1_1range.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdscr_1_1_sequence.html">Sequence</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A class to help store known and constant sequences, such as the factorial sequence.  <a href="classdscr_1_1_sequence.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdscr_1_1basic__set__partitions.html">basic_set_partitions</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">class of set_partitions of the number n.  <a href="classdscr_1_1basic__set__partitions.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdscr_1_1basic__subsets.html">basic_subsets</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">class of all 2^n subsets of the set {0,1,...,n-1}, expressed as incidence vectors  <a href="classdscr_1_1basic__subsets.html#details">More...</a><br/></td></tr>
@@ -192,6 +192,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>partitions</b> = <a 
 <tr class="memitem:a9e61754e725e663b0f40bbfff8bafcfc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9e61754e725e663b0f40bbfff8bafcfc"></a>
 typedef <a class="el" href="classdscr_1_1basic__permutations.html">basic_permutations</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>permutations</b></td></tr>
 <tr class="separator:a9e61754e725e663b0f40bbfff8bafcfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c7359f0e3fd2527d8d1a9238ccb2299"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8c7359f0e3fd2527d8d1a9238ccb2299"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>set_partitions</b> = <a class="el" href="classdscr_1_1basic__set__partitions.html">basic_set_partitions</a>&lt; int &gt;</td></tr>
+<tr class="separator:a8c7359f0e3fd2527d8d1a9238ccb2299"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa55af7426ea06b63ae05871bda088651"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa55af7426ea06b63ae05871bda088651"></a>
 typedef <a class="el" href="classdscr_1_1basic__subsets.html">basic_subsets</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>subsets</b></td></tr>
 <tr class="separator:aa55af7426ea06b63ae05871bda088651"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -308,21 +311,30 @@ template&lt;class IntType &gt; </td></tr>
 template&lt;class T &gt; </td></tr>
 <tr class="memitem:add7fdb91f0c50ffff676219b2d94334f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>overwrite</b> (vector&lt; T &gt; &amp;lhs, <a class="el" href="classdscr_1_1range.html">range</a>&lt; T &gt; rhs)</td></tr>
 <tr class="separator:add7fdb91f0c50ffff676219b2d94334f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a496c3779c8c144b2fe598ab20373dc0b"><td class="memItemLeft" align="right" valign="top">lluint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedscr.html#a496c3779c8c144b2fe598ab20373dc0b">factorial</a> (suint n)</td></tr>
-<tr class="memdesc:a496c3779c8c144b2fe598ab20373dc0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">n!  <a href="#a496c3779c8c144b2fe598ab20373dc0b">More...</a><br/></td></tr>
-<tr class="separator:a496c3779c8c144b2fe598ab20373dc0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4cfc6d9fefa7536fc8914cf6f5e8236"><td class="memItemLeft" align="right" valign="top">lluint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedscr.html#ab4cfc6d9fefa7536fc8914cf6f5e8236">binomial</a> (lluint n, lluint r)</td></tr>
 <tr class="memdesc:ab4cfc6d9fefa7536fc8914cf6f5e8236"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of subsets of size r chosen from a set of size n.  <a href="#ab4cfc6d9fefa7536fc8914cf6f5e8236">More...</a><br/></td></tr>
 <tr class="separator:ab4cfc6d9fefa7536fc8914cf6f5e8236"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f5a46c1492a9c8bebc8baccd41dac92"><td class="memItemLeft" align="right" valign="top">lluint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedscr.html#a7f5a46c1492a9c8bebc8baccd41dac92">catalan</a> (suint n)</td></tr>
-<tr class="memdesc:a7f5a46c1492a9c8bebc8baccd41dac92"><td class="mdescLeft">&#160;</td><td class="mdescRight">The n-th catalan number.  <a href="#a7f5a46c1492a9c8bebc8baccd41dac92">More...</a><br/></td></tr>
-<tr class="separator:a7f5a46c1492a9c8bebc8baccd41dac92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad6881d978007dd2cb0a65d5cbc9f132"><td class="memItemLeft" align="right" valign="top">lluint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedscr.html#aad6881d978007dd2cb0a65d5cbc9f132">motzkin</a> (suint n)</td></tr>
-<tr class="memdesc:aad6881d978007dd2cb0a65d5cbc9f132"><td class="mdescLeft">&#160;</td><td class="mdescRight">The n-th motzkin number.  <a href="#aad6881d978007dd2cb0a65d5cbc9f132">More...</a><br/></td></tr>
-<tr class="separator:aad6881d978007dd2cb0a65d5cbc9f132"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f54dc0a97fb10ec22ee3d3531654072"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f54dc0a97fb10ec22ee3d3531654072"></a>
-lluint&#160;</td><td class="memItemRight" valign="bottom"><b>partition_number</b> (suint n)</td></tr>
-<tr class="separator:a8f54dc0a97fb10ec22ee3d3531654072"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36ff2694e4aa8ced010f5e3046aa940e"><td class="memItemLeft" align="right" valign="top">lluint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedscr.html#a36ff2694e4aa8ced010f5e3046aa940e">catalan</a> (lluint n)</td></tr>
+<tr class="memdesc:a36ff2694e4aa8ced010f5e3046aa940e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The n-th catalan number.  <a href="#a36ff2694e4aa8ced010f5e3046aa940e">More...</a><br/></td></tr>
+<tr class="separator:a36ff2694e4aa8ced010f5e3046aa940e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a212a60e3cca7da1da5a823890541f2b0"><td class="memItemLeft" align="right" valign="top">lluint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedscr.html#a212a60e3cca7da1da5a823890541f2b0">motzkin</a> (lluint n)</td></tr>
+<tr class="memdesc:a212a60e3cca7da1da5a823890541f2b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The n-th motzkin number.  <a href="#a212a60e3cca7da1da5a823890541f2b0">More...</a><br/></td></tr>
+<tr class="separator:a212a60e3cca7da1da5a823890541f2b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59ddffe5f38d751cdc40c23295a5de0c"><td class="memItemLeft" align="right" valign="top">lluint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedscr.html#a59ddffe5f38d751cdc40c23295a5de0c">partition_number</a> (lluint n)</td></tr>
+<tr class="memdesc:a59ddffe5f38d751cdc40c23295a5de0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The n-th partition number.  <a href="#a59ddffe5f38d751cdc40c23295a5de0c">More...</a><br/></td></tr>
+<tr class="separator:a59ddffe5f38d751cdc40c23295a5de0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28ad2a2fe86ed01b0be3111ed52e2741"><td class="memItemLeft" align="right" valign="top">lluint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedscr.html#a28ad2a2fe86ed01b0be3111ed52e2741">partition_number</a> (lluint n, lluint k)</td></tr>
+<tr class="memdesc:a28ad2a2fe86ed01b0be3111ed52e2741"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of partitions of n with k parts.  <a href="#a28ad2a2fe86ed01b0be3111ed52e2741">More...</a><br/></td></tr>
+<tr class="separator:a28ad2a2fe86ed01b0be3111ed52e2741"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadc8642dfb56d21ee917c9cad1e1ec0d"><td class="memItemLeft" align="right" valign="top">lluint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedscr.html#aadc8642dfb56d21ee917c9cad1e1ec0d">stirling1</a> (lluint n, lluint k)</td></tr>
+<tr class="memdesc:aadc8642dfb56d21ee917c9cad1e1ec0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of permutations of n which have exactly k cycles.  <a href="#aadc8642dfb56d21ee917c9cad1e1ec0d">More...</a><br/></td></tr>
+<tr class="separator:aadc8642dfb56d21ee917c9cad1e1ec0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f50bb9f5d544c3dce41985c3eace98a"><td class="memItemLeft" align="right" valign="top">llint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedscr.html#a7f50bb9f5d544c3dce41985c3eace98a">stirling2</a> (lluint n, lluint k)</td></tr>
+<tr class="memdesc:a7f50bb9f5d544c3dce41985c3eace98a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of partitions of a set of n elements with k parts.  <a href="#a7f50bb9f5d544c3dce41985c3eace98a">More...</a><br/></td></tr>
+<tr class="separator:a7f50bb9f5d544c3dce41985c3eace98a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa52cb363aa164acb87cdd883ce5a94e3"><td class="memItemLeft" align="right" valign="top">constexpr lluint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedscr.html#aa52cb363aa164acb87cdd883ce5a94e3">factorial</a> (lluint n)</td></tr>
+<tr class="memdesc:aa52cb363aa164acb87cdd883ce5a94e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">n!  <a href="#aa52cb363aa164acb87cdd883ce5a94e3">More...</a><br/></td></tr>
+<tr class="separator:aa52cb363aa164acb87cdd883ce5a94e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e8832d5ea31873a72dd44e95a24c17a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5e8832d5ea31873a72dd44e95a24c17a"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>diffclock</b> (clock_t a, clock_t b)</td></tr>
 <tr class="separator:a5e8832d5ea31873a72dd44e95a24c17a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -335,6 +347,9 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>TimeFromStart</b> (
 <tr class="memitem:abb430c7d91f899467ffada4bbe5ae153"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abb430c7d91f899467ffada4bbe5ae153"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>Chronometer</b> ()</td></tr>
 <tr class="separator:abb430c7d91f899467ffada4bbe5ae153"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a1a22ba33368b0bf821df54c5377afd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1a1a22ba33368b0bf821df54c5377afd"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>ChronometerPeek</b> ()</td></tr>
+<tr class="separator:a1a1a22ba33368b0bf821df54c5377afd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a700bc3316a1f4f6e8c16256161b519db"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a700bc3316a1f4f6e8c16256161b519db"></a>
 VB&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedscr.html#a700bc3316a1f4f6e8c16256161b519db">operator&amp;</a> (const VB &amp;A, const VB &amp;B)</td></tr>
 <tr class="memdesc:a700bc3316a1f4f6e8c16256161b519db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise and for vector&lt;bool&gt; <br/></td></tr>
@@ -513,14 +528,14 @@ constexpr double&#160;</td><td class="memItemRight" valign="bottom"><b>phi</b> =
 
 </div>
 </div>
-<a class="anchor" id="a7f5a46c1492a9c8bebc8baccd41dac92"></a>
+<a class="anchor" id="a36ff2694e4aa8ced010f5e3046aa940e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">lluint dscr::catalan </td>
           <td>(</td>
-          <td class="paramtype">suint&#160;</td>
+          <td class="paramtype">lluint&#160;</td>
           <td class="paramname"><em>n</em></td><td>)</td>
           <td></td>
         </tr>
@@ -569,14 +584,14 @@ template&lt;class vecT , class UIntType &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a496c3779c8c144b2fe598ab20373dc0b"></a>
+<a class="anchor" id="aa52cb363aa164acb87cdd883ce5a94e3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">lluint dscr::factorial </td>
+          <td class="memname">constexpr lluint dscr::factorial </td>
           <td>(</td>
-          <td class="paramtype">suint&#160;</td>
+          <td class="paramtype">lluint&#160;</td>
           <td class="paramname"><em>n</em></td><td>)</td>
           <td></td>
         </tr>
@@ -689,14 +704,14 @@ template&lt;class IntType &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="aad6881d978007dd2cb0a65d5cbc9f132"></a>
+<a class="anchor" id="a212a60e3cca7da1da5a823890541f2b0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">lluint dscr::motzkin </td>
           <td>(</td>
-          <td class="paramtype">suint&#160;</td>
+          <td class="paramtype">lluint&#160;</td>
           <td class="paramname"><em>n</em></td><td>)</td>
           <td></td>
         </tr>
@@ -776,6 +791,67 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a59ddffe5f38d751cdc40c23295a5de0c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">lluint dscr::partition_number </td>
+          <td>(</td>
+          <td class="paramtype">lluint&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The n-th partition number. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>is a (small) nonnegative integer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>P_n </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a28ad2a2fe86ed01b0be3111ed52e2741"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">lluint dscr::partition_number </td>
+          <td>(</td>
+          <td class="paramtype">lluint&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">lluint&#160;</td>
+          <td class="paramname"><em>k</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The number of partitions of n with k parts. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>is a (small) nonnegative integer </td></tr>
+    <tr><td class="paramname">k</td><td>&lt;= n is a (small) nonnegative integer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>P_{n,k} </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a64a805545da240fdb87bee89d0f736de"></a>
 <div class="memitem">
 <div class="memproto">
@@ -797,13 +873,85 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="aadc8642dfb56d21ee917c9cad1e1ec0d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">lluint dscr::stirling1 </td>
+          <td>(</td>
+          <td class="paramtype">lluint&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">lluint&#160;</td>
+          <td class="paramname"><em>k</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The number of permutations of n which have exactly k cycles. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>is a (small) nonnegative integer </td></tr>
+    <tr><td class="paramname">k</td><td>&lt;= n is a (small) nonnegative integer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The stirling number of the first kind S(n,k) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7f50bb9f5d544c3dce41985c3eace98a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">llint dscr::stirling2 </td>
+          <td>(</td>
+          <td class="paramtype">lluint&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">lluint&#160;</td>
+          <td class="paramname"><em>k</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The number of partitions of a set of n elements with k parts. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>is a (small) nonnegative integer </td></tr>
+    <tr><td class="paramname">k</td><td>&lt;= n is a (small) nonnegative integer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>P_{n,k} </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedscr.html">dscr</a></li>
-    <li class="footer">Generated on Sun Feb 28 2016 12:56:45 for discreture by
+    <li class="footer">Generated on Wed Mar 16 2016 08:12:10 for discreture by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>
   </ul>

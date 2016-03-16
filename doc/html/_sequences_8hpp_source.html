@@ -93,7 +93,7 @@ $(document).ready(function(){initNavTree('_sequences_8hpp_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -113,42 +113,43 @@ $(document).ready(function(){initNavTree('_sequences_8hpp_source.html','');});
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>dscr</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classdscr_1_1_sequence.html">   10</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classdscr_1_1_sequence.html">Sequence</a></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keyword">static</span> vector&lt;lluint&gt; factorial; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">static</span> vector&lt;vector&lt;lluint&gt;&gt; binomial;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keyword">static</span> vector&lt;lluint&gt; catalan;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">static</span> vector&lt;lluint&gt; motzkin;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">static</span> vector&lt;lluint&gt; partitionNumbers;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">friend</span> lluint factorial(suint n);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">friend</span> lluint binomial(lluint n, lluint r);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">friend</span> lluint catalan(suint n);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">friend</span> lluint motzkin(suint n);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">friend</span> lluint partition_number(suint n);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    };</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    lluint factorial(suint n);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    lluint binomial(lluint n, lluint r);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    lluint <a class="code" href="namespacedscr.html#a7f5a46c1492a9c8bebc8baccd41dac92">catalan</a>(suint n);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    lluint <a class="code" href="namespacedscr.html#aad6881d978007dd2cb0a65d5cbc9f132">motzkin</a>(suint n);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    lluint partition_number(suint n);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
-<div class="ttc" id="classdscr_1_1_sequence_html"><div class="ttname"><a href="classdscr_1_1_sequence.html">dscr::Sequence</a></div><div class="ttdoc">A class to help store known and constant sequences, such as the factorial sequence. </div><div class="ttdef"><b>Definition:</b> Sequences.hpp:10</div></div>
-<div class="ttc" id="namespacedscr_html_a7f5a46c1492a9c8bebc8baccd41dac92"><div class="ttname"><a href="namespacedscr.html#a7f5a46c1492a9c8bebc8baccd41dac92">dscr::catalan</a></div><div class="ttdeci">lluint catalan(suint n)</div><div class="ttdoc">The n-th catalan number. </div><div class="ttdef"><b>Definition:</b> Sequences.cpp:157</div></div>
-<div class="ttc" id="namespacedscr_html_aad6881d978007dd2cb0a65d5cbc9f132"><div class="ttname"><a href="namespacedscr.html#aad6881d978007dd2cb0a65d5cbc9f132">dscr::motzkin</a></div><div class="ttdeci">lluint motzkin(suint n)</div><div class="ttdoc">The n-th motzkin number. </div><div class="ttdef"><b>Definition:</b> Sequences.cpp:163</div></div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="namespacedscr.html#aa52cb363aa164acb87cdd883ce5a94e3">   12</a></span>&#160;    constexpr lluint factorial(lluint n)</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        lluint toReturn = 1;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keywordflow">if</span> (n &lt; 2)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            <span class="keywordflow">return</span> toReturn;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordflow">for</span> (lluint i = 2; i &lt; n+1; ++i)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            toReturn *= i;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordflow">return</span> toReturn;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    }</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    lluint binomial(lluint n, lluint r);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    lluint <a class="code" href="namespacedscr.html#a36ff2694e4aa8ced010f5e3046aa940e">catalan</a>(lluint n);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    lluint <a class="code" href="namespacedscr.html#a212a60e3cca7da1da5a823890541f2b0">motzkin</a>(lluint n);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    lluint <a class="code" href="namespacedscr.html#a59ddffe5f38d751cdc40c23295a5de0c">partition_number</a>(lluint n);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    lluint <a class="code" href="namespacedscr.html#a59ddffe5f38d751cdc40c23295a5de0c">partition_number</a>(lluint n,lluint k);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    lluint <a class="code" href="namespacedscr.html#aadc8642dfb56d21ee917c9cad1e1ec0d">stirling1</a>(lluint n,lluint k);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    llint <a class="code" href="namespacedscr.html#a7f50bb9f5d544c3dce41985c3eace98a">stirling2</a>(lluint n,lluint k);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
+<div class="ttc" id="namespacedscr_html_a7f50bb9f5d544c3dce41985c3eace98a"><div class="ttname"><a href="namespacedscr.html#a7f50bb9f5d544c3dce41985c3eace98a">dscr::stirling2</a></div><div class="ttdeci">llint stirling2(lluint n, lluint k)</div><div class="ttdoc">The number of partitions of a set of n elements with k parts. </div><div class="ttdef"><b>Definition:</b> Sequences.cpp:255</div></div>
+<div class="ttc" id="namespacedscr_html_aadc8642dfb56d21ee917c9cad1e1ec0d"><div class="ttname"><a href="namespacedscr.html#aadc8642dfb56d21ee917c9cad1e1ec0d">dscr::stirling1</a></div><div class="ttdeci">lluint stirling1(lluint n, lluint k)</div><div class="ttdoc">The number of permutations of n which have exactly k cycles. </div><div class="ttdef"><b>Definition:</b> Sequences.cpp:249</div></div>
+<div class="ttc" id="namespacedscr_html_a36ff2694e4aa8ced010f5e3046aa940e"><div class="ttname"><a href="namespacedscr.html#a36ff2694e4aa8ced010f5e3046aa940e">dscr::catalan</a></div><div class="ttdeci">lluint catalan(lluint n)</div><div class="ttdoc">The n-th catalan number. </div><div class="ttdef"><b>Definition:</b> Sequences.cpp:62</div></div>
+<div class="ttc" id="namespacedscr_html_a59ddffe5f38d751cdc40c23295a5de0c"><div class="ttname"><a href="namespacedscr.html#a59ddffe5f38d751cdc40c23295a5de0c">dscr::partition_number</a></div><div class="ttdeci">lluint partition_number(lluint n)</div><div class="ttdoc">The n-th partition number. </div><div class="ttdef"><b>Definition:</b> Sequences.cpp:79</div></div>
+<div class="ttc" id="namespacedscr_html_a212a60e3cca7da1da5a823890541f2b0"><div class="ttname"><a href="namespacedscr.html#a212a60e3cca7da1da5a823890541f2b0">dscr::motzkin</a></div><div class="ttdeci">lluint motzkin(lluint n)</div><div class="ttdoc">The n-th motzkin number. </div><div class="ttdef"><b>Definition:</b> Sequences.cpp:71</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>Sequences.hpp</b></li>
-    <li class="footer">Generated on Sun Feb 28 2016 12:56:45 for discreture by
+    <li class="footer">Generated on Wed Mar 16 2016 08:12:10 for discreture by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>
   </ul>

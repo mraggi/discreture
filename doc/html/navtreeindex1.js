@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"classdscr_1_1basic__set__partitions_1_1iterator.html#abd246dff83352e8717413b27f68151ed":[3,0,0,7,0,5],
+"classdscr_1_1basic__set__partitions_1_1iterator.html#adf75f38e104dd5017067f864ea12f7b9":[3,0,0,7,0,6],
+"classdscr_1_1basic__subsets.html":[3,0,0,8],
 "classdscr_1_1basic__subsets.html#a084df4f877fa914fba387855c294038c":[3,0,0,8,13],
 "classdscr_1_1basic__subsets.html#a4307cedb0c0a50bfdc1e0862bfb2fde6":[3,0,0,8,9],
 "classdscr_1_1basic__subsets.html#a56bb0392fedd232d845cd1baff5a77e3":[3,0,0,8,11],
@@ -76,7 +79,6 @@ var NAVTREEINDEX1 =
 "files.html":[4,0],
 "functions.html":[3,3,0],
 "functions_func.html":[3,3,1],
-"functions_rela.html":[3,3,2],
 "hierarchy.html":[3,2],
 "index.html":[],
 "md__r_e_a_d_m_e.html":[0],
@@ -86,5 +88,6 @@ var NAVTREEINDEX1 =
 "namespacemembers_func.html":[2,1,1],
 "namespaces.html":[2,0],
 "pages.html":[],
+"partitionold_8hpp_source.html":[4,0,7],
 "todo.html":[1]
 };

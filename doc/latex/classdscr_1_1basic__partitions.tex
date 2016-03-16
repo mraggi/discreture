@@ -14,9 +14,7 @@ class of partitions of the number n.
 \begin{DoxyCompactItemize}
 \item 
 class \hyperlink{classdscr_1_1basic__partitions_1_1iterator}{iterator}
-\begin{DoxyCompactList}\small\item\em Forward iterator class. \end{DoxyCompactList}\item 
-class \hyperlink{classdscr_1_1basic__partitions_1_1reverse__iterator}{reverse\-\_\-iterator}
-\begin{DoxyCompactList}\small\item\em Forward Iterator class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Forward iterator class. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
@@ -37,6 +35,10 @@ class \hyperlink{classdscr_1_1basic__partitions_1_1reverse__iterator}{reverse\-\
 \item 
 \hyperlink{classdscr_1_1basic__partitions_aa1bdcf6666b8b022a10c802aaeb4e71a}{basic\-\_\-partitions} (Int\-Type n)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classdscr_1_1basic__partitions_a6759372b4d07f46377a9471d64a37117}{basic\-\_\-partitions} (Int\-Type n, Int\-Type numparts)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classdscr_1_1basic__partitions_a9bd23836e73aa13efedf109b1827cdc0}{basic\-\_\-partitions} (Int\-Type n, Int\-Type minnumparts, Int\-Type maxnumparts)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 size\-\_\-type \hyperlink{classdscr_1_1basic__partitions_a3704e667fcafed71d91a75012183f6dc}{size} () const 
 \begin{DoxyCompactList}\small\item\em The total number of partitions. \end{DoxyCompactList}\item 
 \hypertarget{classdscr_1_1basic__partitions_a16ad5a5a3befa80b635a3d3572619cd4}{Int\-Type {\bfseries get\-\_\-n} () const }\label{classdscr_1_1basic__partitions_a16ad5a5a3befa80b635a3d3572619cd4}
@@ -47,12 +49,6 @@ size\-\_\-type \hyperlink{classdscr_1_1basic__partitions_a3704e667fcafed71d91a75
 \item 
 \hypertarget{classdscr_1_1basic__partitions_a8e5a436ba43707b0b269df0d264f8a81}{const \hyperlink{classdscr_1_1basic__partitions_1_1iterator}{iterator} \& {\bfseries end} () const }\label{classdscr_1_1basic__partitions_a8e5a436ba43707b0b269df0d264f8a81}
 
-\item 
-\hypertarget{classdscr_1_1basic__partitions_ac493587418c428f935b9ce33f5894536}{const \hyperlink{classdscr_1_1basic__partitions_1_1reverse__iterator}{reverse\-\_\-iterator} \& {\bfseries rbegin} () const }\label{classdscr_1_1basic__partitions_ac493587418c428f935b9ce33f5894536}
-
-\item 
-\hypertarget{classdscr_1_1basic__partitions_ac6d96b6e04827561635b8ac9c5339843}{const \hyperlink{classdscr_1_1basic__partitions_1_1reverse__iterator}{reverse\-\_\-iterator} \& {\bfseries rend} () const }\label{classdscr_1_1basic__partitions_ac6d96b6e04827561635b8ac9c5339843}
-
 \end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
@@ -60,7 +56,7 @@ size\-\_\-type \hyperlink{classdscr_1_1basic__partitions_a3704e667fcafed71d91a75
 \hypertarget{classdscr_1_1basic__partitions_a44f2fa1a88b532ccb353fb690604e06a}{static void {\bfseries next\-\_\-partition} (partition \&data, Int\-Type n)}\label{classdscr_1_1basic__partitions_a44f2fa1a88b532ccb353fb690604e06a}
 
 \item 
-\hypertarget{classdscr_1_1basic__partitions_aac2c8cd7f779665d3b33000cb223135e}{static void {\bfseries prev\-\_\-partition} (partition \&data, Int\-Type n)}\label{classdscr_1_1basic__partitions_aac2c8cd7f779665d3b33000cb223135e}
+\hypertarget{classdscr_1_1basic__partitions_a60ae6cc5e555f00683976dfd8ee39c88}{static void {\bfseries first\-\_\-with\-\_\-given\-\_\-number\-\_\-of\-\_\-parts} (partition \&data, Int\-Type n, Int\-Type k)}\label{classdscr_1_1basic__partitions_a60ae6cc5e555f00683976dfd8ee39c88}
 
 \item 
 \hypertarget{classdscr_1_1basic__partitions_a6d167454ab3580a5acfee00c024232d3}{static partition {\bfseries conjugate} (const partition \&P)}\label{classdscr_1_1basic__partitions_a6d167454ab3580a5acfee00c024232d3}
@@ -102,6 +98,47 @@ Constructor.
 
 \begin{DoxyParams}{Parameters}
 {\em n} & is an integer $>$= 0 \\
+\hline
+\end{DoxyParams}
+\hypertarget{classdscr_1_1basic__partitions_a6759372b4d07f46377a9471d64a37117}{\index{dscr\-::basic\-\_\-partitions@{dscr\-::basic\-\_\-partitions}!basic\-\_\-partitions@{basic\-\_\-partitions}}
+\index{basic\-\_\-partitions@{basic\-\_\-partitions}!dscr::basic_partitions@{dscr\-::basic\-\_\-partitions}}
+\subsubsection[{basic\-\_\-partitions}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Int\-Type $>$ {\bf dscr\-::basic\-\_\-partitions}$<$ Int\-Type $>$\-::{\bf basic\-\_\-partitions} (
+\begin{DoxyParamCaption}
+\item[{Int\-Type}]{n, }
+\item[{Int\-Type}]{numparts}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdscr_1_1basic__partitions_a6759372b4d07f46377a9471d64a37117}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is an integer $>$= 0 \\
+\hline
+{\em numparts} & is an integer $>$= 1 and $<$= n \\
+\hline
+\end{DoxyParams}
+\hypertarget{classdscr_1_1basic__partitions_a9bd23836e73aa13efedf109b1827cdc0}{\index{dscr\-::basic\-\_\-partitions@{dscr\-::basic\-\_\-partitions}!basic\-\_\-partitions@{basic\-\_\-partitions}}
+\index{basic\-\_\-partitions@{basic\-\_\-partitions}!dscr::basic_partitions@{dscr\-::basic\-\_\-partitions}}
+\subsubsection[{basic\-\_\-partitions}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Int\-Type $>$ {\bf dscr\-::basic\-\_\-partitions}$<$ Int\-Type $>$\-::{\bf basic\-\_\-partitions} (
+\begin{DoxyParamCaption}
+\item[{Int\-Type}]{n, }
+\item[{Int\-Type}]{minnumparts, }
+\item[{Int\-Type}]{maxnumparts}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdscr_1_1basic__partitions_a9bd23836e73aa13efedf109b1827cdc0}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & is an integer $>$= 0 \\
+\hline
+{\em minnumparts} & is an integer $>$= 1 and $<$= n \\
+\hline
+{\em maxnumparts} & is an integer $>$= minnumparts and $<$= n \\
 \hline
 \end{DoxyParams}
 
