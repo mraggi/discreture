@@ -19,13 +19,32 @@ namespace dscr
 	///		for (auto& x : X)
 	///			cout << x << endl;
 	///
-	/// Prints out all 5 set partitions of {0,1,2}:
+	/// Prints out all set partitions of {0,1,2}:
 	///
 	/// 	[ [ 0 ] [ 1 ] [ 2 ] ]
 	///		[ [ 0 1 ] [ 2 ] ]
 	///		[ [ 0 2 ] [ 1 ] ]
 	///		[ [ 1 2 ] [ 0 ] ]
 	///		[ [ 0 1 2 ] ]
+	///
+	///
+	///	# Example 2:
+	///	One can specify the number of parts:
+	///		
+	///		set_partitions X(4,2);
+	///		for (auto& x : X)
+	///			cout << x << endl;
+	/// 
+	/// Prints out all set partitions of {0,1,2,3,4} with exactly 3 parts:
+	///
+	///		[ [ 0 1 2 ] [ 3 ] ]
+	///		[ [ 0 1 3 ] [ 2 ] ]
+	///		[ [ 0 2 3 ] [ 1 ] ]
+	///		[ [ 1 2 3 ] [ 0 ] ]
+	///		[ [ 0 1 ] [ 2 3 ] ]
+	///		[ [ 0 2 ] [ 1 3 ] ]
+	///		[ [ 0 3 ] [ 1 2 ] ]
+	///
 	///
     ////////////////////////////////////////////////////////////
 	template <class IntType>

@@ -116,3 +116,31 @@ combinations X(30,10);
 std::lower_bound(X.begin(), X.end(), predicate, combinations::compare); //TODO: FIX THIS!!!!
 ```
 where `predicate` is a unary predicate that takes a `const vector<int>&` as an argument and returns true or false. This would effectively do binary search.
+
+# Benchmarks.
+
+On a i7-5820K CPU @ 3.30GHz, compiling with clang 3.7 yields the following results:
+Time taken to see all (32 choose 16) = 601080390 combinations: *2.29281s*
+Time taken to see all (32 choose 16) = 601080390 combinations in reverse order: *1.6782s*
+Time taken to see all 12! = 479001600 permutations: *1.70865s*
+Time taken to see all 2^29 = 536870912 subsets : *2.54663s*
+Time taken to see all 2^29 = 536870912 subsets (fast mode) : *2.10764s*
+Time taken to see all 56634173 partitions of size 90: *1.41834s*
+Time taken to see all 559872000 multisets: *1.84566s*
+Time taken to see all 477638700 dyck paths of size 18: *2.16288s*
+Time taken to see all 50852019 motzkin paths of size 20: *1.30359s*
+Time taken to see all 27644437 set partitions of size 13: *0.960195s*
+Time taken to see all 42355950 set partitions a set of 15 elements with 4 parts: *1.20166s*
+
+On the same system, compiling with gcc 5.2.0 yields the following results:
+Time taken to see all (32 choose 16) = 601080390 combinations: *3.36332s*
+Time taken to see all (32 choose 16) = 601080390 combinations in reverse order: *3.98176s*
+Time taken to see all 12! = 479001600 permutations: *1.33693s*
+Time taken to see all 2^29 = 536870912 subsets : *2.14877s*
+Time taken to see all 2^29 = 536870912 subsets (fast mode) : *1.84649s*
+Time taken to see all 56634173 partitions of size 90: *1.48321s*
+Time taken to see all 559872000 multisets: *1.90435s*
+Time taken to see all 477638700 dyck paths of size 18: *2.74891s*
+Time taken to see all 50852019 motzkin paths of size 20: *1.46971s*
+Time taken to see all 27644437 set partitions of size 13: *0.79946s*
+Time taken to see all 42355950 set partitions a set of 15 elements with 4 parts: *1.01687s*
