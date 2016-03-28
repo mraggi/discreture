@@ -138,4 +138,4 @@ On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the followin
 | **Total Time**																	|	 **19.7s**			|	22.1s	   |
 
 # Acknowledgements
-I would like to thank Manuel Alejandro Romo de Vivar (manolo) for his work on dyck and motzkin paths.
+I would like to thank Manuel Alejandro Romo de Vivar (manolo) for his work on dyck paths, motzkin paths, and his contribution to partition numbers.
