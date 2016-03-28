@@ -35,7 +35,7 @@ namespace dscr
 	///		for (auto& x : X)
 	///			cout << x << endl;
 	/// 
-	/// Prints out all set partitions of {0,1,2,3,4} with exactly 3 parts:
+	/// Prints out all set partitions of {0,1,2,3,4} with exactly 2 parts:
 	///
 	///		[ [ 0 1 2 ] [ 3 ] ]
 	///		[ [ 0 1 3 ] [ 2 ] ]
@@ -182,7 +182,7 @@ namespace dscr
 		////////////////////////////////////////////////////////////
 		/// \brief Forward iterator class.
 		////////////////////////////////////////////////////////////
-		class iterator : public std::iterator<std::bidirectional_iterator_tag,set_partition>
+		class iterator : public std::iterator<std::forward_iterator_tag,set_partition>
 		{
 		public:
 			iterator() : m_ID(0), m_data(), m_n(0) {}

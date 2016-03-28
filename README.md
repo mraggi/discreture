@@ -35,7 +35,7 @@ The above code would produce the following output:
 Of course, you need to link with the discreture library:
 g++ -O3 -ldiscreture main.cpp
 
-Some tests show discreture is usually faster when compiled with clang++ instead of g++.
+Some tests show discreture is usually faster when compiled with clang++ instead of g++. Full benchmarks at the end of the readme.
 
 # Installation
 
@@ -56,12 +56,12 @@ cd build
 cmake ..
 make
 ```
-Furthermore, it's recommended to compile using the clang compiler instead of gcc. One can do this by running `cmake .. -DUSE_CLANG`, or editing the CMakeLists.txt and switch the "OFF" option of USE_CLANG to "ON".
+Furthermore, it is recommended to compile using the clang compiler instead of gcc. One can do this by running `cmake .. -DUSE_CLANG`, or editing the CMakeLists.txt and switch the "OFF" option of USE_CLANG to "ON".
 
-You can run the tests like by running the executable: `./testdiscreture`
+You can run the tests by running the executable: `./testdiscreture`
 
 # How to start using the library
-To use the library, after compiling, just add `#include <discreture/discreture.hpp>` (make sure this can be done) and link to `libdiscreture.so`. With the GCC compiler or CLANG, this can be done by compiling like this: `g++ -ldiscreture myfile.cpp`
+To use the library, after compiling, just add `#include <discreture/discreture.hpp>` to your project and link to `libdiscreture.so`. With the GCC compiler or CLANG, this can be done by compiling like this: `g++ -ldiscreture myfile.cpp`
 
 # Combinatorial Objects
 
@@ -76,11 +76,11 @@ Within this library, one can construct a few combinatorial objects, such as:
   - Range
   - Set Partitions
 
-All follow the same design principle: The templated class is calles basic_SOMETHING<class T>, and the most reasonable type for T is instantiated as SOMETHING. For example, `combinations` is a typedef of `basic_combinations<int>`, and `partitions` is a typedef of `basic_partitions<int>`, following the standard string design: std::string is actually a typedef of std::basic_string<char>.
+All follow the same design principle: The templated class is calles basic_SOMETHING<class T>, and the most reasonable type for T is instantiated as SOMETHING. For example, `combinations` is a typedef of `basic_combinations<int>`, and `partitions` is a typedef of `basic_partitions<int>`.
 
 # Advanced use
 
-Although the full reference is in the doxygen documentation, here is a quick preview. Remember to always `#include "discreture.hpp"` (or `#include <discreture/discreture.hpp>` etc.):
+Although the full reference is in the doxygen documentation, here is a quick preview. Remember to always `#include "discreture.hpp"` (or `#include <discreture/discreture.hpp>` and use `using namespace dscr;` or add `dscr::` to everything.):
 
 ```c++
 combinations X(30,10);
@@ -112,10 +112,11 @@ for (size_t i = 0; i < X.size(); ++i)
 This is much slower if one plans to actually iterate over all of them, but iterator arithmetic is implemented, so one could even do the following:
 ```c++
 #include <algorithm>
+// ...
 combinations X(30,10);
-std::lower_bound(X.begin(), X.end(), predicate, combinations::compare); //TODO: FIX THIS!!!!
+std::partition_point(X.begin(), X.end(), predicate);
 ```
-where `predicate` is a unary predicate that takes a `const vector<int>&` as an argument and returns true or false. This would effectively do binary search.
+where `predicate` is a unary predicate that takes a `const vector<int>&` as an argument and returns true or false, in a way that for all the first combinations it returns true and the last ones return false. This would do binary search.
 
 # Benchmarks.
 
@@ -135,3 +136,6 @@ On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the followin
 | Time taken to see all 27644437 set partitions of size 13 							|	   0.960195s  		| **0.79946s** |
 | Time taken to see all 42355950 set partitions a set of 15 elements with 4 parts 	|	   1.20166s  		| **1.01687s** |
 | **Total Time**																	|	 **19.7s**			|	22.1s	   |
+
+# Acknowledgements
+I would like to thank Manuel Alejandro Romo de Vivar (manolo) for his work on dyck and motzkin paths.

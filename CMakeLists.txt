@@ -9,11 +9,14 @@ option(BUILD_TESTS "Build test programs" ON) # Probably should leave it like thi
 #	Partitions, 
 #	Dyck Paths 
 #	Motzkin Paths. 
+#
 # GCC is faster for: 
 #	subsets 
 #	permutations.
+#   Set Partitions
 #
-# If you really want speed, though, you probably want to test on your own.
+# See readme for more details and actual benchmarks. If you really want speed, though, 
+# you probably want to test on your own, since usually the bottleneck will be your own code
  
 option(USE_CLANG "Use CLANG to build" OFF)
 
@@ -34,7 +37,7 @@ set(CMAKE_BUILD_TYPE Release)
 set(BUILD_SHARED_LIBS ON)
 
 add_definitions(-std=c++14)
-add_definitions(-O3 -march=native)
+add_definitions(-O2 -march=native)
 # add_definitions(-Wall -Weffc++ -Wpedantic -Werror)
 
 link_directories (${PROJECT_BINARY_DIR})
