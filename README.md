@@ -56,7 +56,8 @@ cd build
 cmake ..
 make
 ```
-Furthermore, it is recommended to compile using the clang compiler instead of gcc. One can do this by running `cmake .. -DUSE_CLANG`, or editing the CMakeLists.txt and switch the "OFF" option of USE_CLANG to "ON".
+Furthermore, it is recommended to compile using the clang compiler instead of gcc. One can do this by running `cmake .. -D 
+USE_CLANG=1`, or editing the CMakeLists.txt and switch the "OFF" option of USE_CLANG to "ON".
 
 You can run the tests by running the executable: `./testdiscreture`
 
