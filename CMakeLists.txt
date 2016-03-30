@@ -37,7 +37,8 @@ set(CMAKE_BUILD_TYPE Release)
 set(BUILD_SHARED_LIBS ON)
 
 add_definitions(-std=c++14)
-add_definitions(-O2 -march=native)
+add_definitions(-Ofast -march=native)
+add_definitions(-DNDEBUG)
 # add_definitions(-Wall -Weffc++ -Wpedantic -Werror)
 
 link_directories (${PROJECT_BINARY_DIR})
