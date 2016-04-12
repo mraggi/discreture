@@ -5,12 +5,14 @@
 #include <random>
 namespace dscr
 {
+	// Who came up with the dumb C++11 way of getting random stuff? 
+	// It's obviously missing some utility functions. Here they are.
+	
 	bool probability_of_true(double p);
 
 	
 	void randomize();
 	
-// 	inline void SetSeedWithTime() { Randomize(); } // for compatibility purposes!
 	inline void set_seed_with_time() { srand(std::time(NULL)); }
 	std::default_random_engine & random_engine();
 

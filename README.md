@@ -14,7 +14,7 @@ Discreture is designed to follow the STL containers as closely as possible, by p
     int main()
     {
         combinations X(5,3);
-        for (const auto& x : X)
+        for (auto& x : X)
             cout << x << endl;
         return 0;
     }
@@ -85,7 +85,7 @@ Although the full reference is in the doxygen documentation, here is a quick pre
 
 ```c++
 combinations X(30,10);
-for (const auto& x : X) 
+for (auto& x : X) 
 { 
 	// x is of type const vector<int>&, so anything that works with vectors works on x
 }
@@ -96,7 +96,7 @@ You can iterate in reverse too, in the same way you would reverse-iterate an STL
 combinations X(30,10);
 for (auto it = X.rbegin(); it != X.rend(); ++it) 
 { 
-	const auto& x = *it;
+	auto& x = *it;
 	// x is of type const vector<int>&, so anything that works with vectors works on x
 }
 ```

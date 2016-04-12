@@ -48,21 +48,6 @@ namespace dscr
 	}
 
 	////////////////////////////////////
-	/// \brief Finds the sum of all elements of vector. Returns a double because it's easier.
-	////////////////////////////////////
-	template<class numType> 
-	double Sum(const vector<numType>& vi)
-	{
-		double suma = 0;
-		size_t size = vi.size();
-		for (size_t i = 0; i < size; ++i)
-		{
-			suma += double(vi[i]);
-		}
-		return suma;
-	}
-
-	////////////////////////////////////
 	/// \brief prints out a space separated vector.
 	////////////////////////////////////
 	template <class T> 
@@ -168,10 +153,10 @@ namespace dscr
 	inline vector<T> operator+(const vector<T>& U, const vector<T>& V)
 	{
 		assert(U.size() == V.size());
-		vector<T> toReturn(U.size());
+		auto toReturn = U;
 		for (size_t i = 0; i < U.size(); ++i)
 		{
-			toReturn[i] = U[i] + V[i];
+			toReturn[i] += V[i];
 		}
 		return toReturn;
 	}
@@ -341,8 +326,8 @@ namespace dscr
 	template <class vecT, class UIntType>
 	vecT compose(const vecT& f, const vector<UIntType>& g)
 	{
-		typename vecT::value_type u(0);
-		vecT toReturn(g.size(), u);
+// 		typename vecT::value_type u(0);
+		vecT toReturn(g.size());
 		for (size_t i = 0; i < g.size(); ++i)
 		{
 			assert(g[i] < f.size());

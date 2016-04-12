@@ -254,7 +254,7 @@ bool testPartitions()
 	for (const auto& x : X)
 	{
 		cout << x << endl;
-		if (static_cast<int>(Sum(x)) != n)
+		if (std::accumulate(x.begin(), x.end(), 0) != n)
 			return false;
 	}
 	
@@ -320,20 +320,20 @@ bool testMotzkin()
 void testCombinationsSpeed(int n, int k)
 {
 	Chronometer();
-	lluint i = 0;
+// 	lluint i = 0;
 	combinations X(n,k);
-	for (const auto& x : X)
+	for (auto& x : X)
 	{
-		if (x[0] == 1)
-			++i;
+// 		if (x[0] == 1)
+// 			++i;
 	}
 	cout << "Time taken to see all (" << n << " choose " << k << ") = " << X.size() << " combinations: " << Chronometer() << "s" <<  endl;
 
-	i = 0;
+// 	i = 0;
 	for (auto it = X.rbegin(); it != X.rend(); ++it)
 	{
-		if ((*it)[0] == 1)
-			++i;
+// 		if ((*it)[0] == 1)
+// 			++i;
 	}
 	cout << "Time taken to see all (" << n << " choose " << k << ") = " << X.size() << " combinations in reverse order: " << Chronometer() << "s" <<  endl;
 }
@@ -428,7 +428,12 @@ void testSetPartitionSpeed(int n)
 // 	cout << "i = " << i << endl;
 	cout << "Time taken to see all " << Y.size() << " set partitions a set of " << n+2 << " elements with " << 4 << " parts: " << Chronometer() << "s" << endl;
 	
-	
+	set_partitions Z(2*n,2);
+	for (auto& z : Z)
+	{
+		
+	}
+	cout << "Time taken to see all " << Z.size() << " set partitions a set of " << 2*n << " elements with " << 2 << " parts: " << Chronometer() << "s" << endl;
 }
 
 void testDyckPathsSpeed(int n)

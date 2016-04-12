@@ -3,8 +3,11 @@
 #include <ctime>
 #include <chrono>
 
+
 namespace dscr
 {
+	// You probably want something else, but whatever.
+
 	inline double diffclock(clock_t a, clock_t b)
 	{
 		const double c = 1.0/CLOCKS_PER_SEC;

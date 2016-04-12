@@ -16,7 +16,9 @@ option(BUILD_TESTS "Build test programs" ON) # Probably should leave it like thi
 #   Set Partitions
 #
 # See readme for more details and actual benchmarks. If you really want speed, though, 
-# you probably want to test on your own, since usually the bottleneck will be your own code
+# you probably want to test on your own, since usually the bottleneck will be your own code,
+# as iterating through 600 million combinations and doing nothing takes a couple of seconds, 
+# but what you actually do with each of those could take a LOT more.
  
 option(USE_CLANG "Use CLANG to build" OFF)
 
@@ -38,7 +40,7 @@ set(BUILD_SHARED_LIBS ON)
 
 add_definitions(-std=c++14)
 add_definitions(-Ofast -march=native)
-add_definitions(-DNDEBUG)
+# add_definitions(-DNDEBUG)
 # add_definitions(-Wall -Weffc++ -Wpedantic -Werror)
 
 link_directories (${PROJECT_BINARY_DIR})

@@ -67,7 +67,7 @@ namespace dscr
 // 			cout << endl << "------------" << endl;
 // 			cout << endl << "Starting with: " << data << endl;
 // 			cout << "Starting with: " << part << endl;
-			int n = Sum(part);
+			int n = std::accumulate(part.begin(), part.end(), 0);
 			int anteriorpos = pop(data,n-1);
 // 			cout << "Found " << n-1 << " at " << anteriorpos << endl;
 			int curr = n-2;
