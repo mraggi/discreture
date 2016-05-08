@@ -66,6 +66,8 @@ namespace dscr
 			if (data.empty())
 				return 0;
 			IntType k = data.size()-1;
+// 			cout << "bah1 " << k << endl;
+// 			cout << "hint = " << hint << endl;
 			for (IntType i = hint; i < k; ++i)
 			{
 				if (data[i]+1 != data[i+1]) //Does NOT improve with binary search... huh.
@@ -81,7 +83,7 @@ namespace dscr
 					return i-1;
 				}
 			}
-			
+// 			cout << "bah2" << endl;
 			++data[k];
 			for (IntType j = 0; j < k; ++j)
 			{
@@ -211,7 +213,7 @@ namespace dscr
 		private:
 			explicit iterator(IntType id) : m_ID(id), m_data(), m_placetostartsearch(0) {} //ending initializer: for id only. Do not use unless you know what you are doing.
 		public:
-			iterator(IntType n, IntType r) : m_ID(0), m_data(range<IntType>(r)), m_placetostartsearch(r-2)
+			iterator(IntType n, IntType r) : m_ID(0), m_data(range<IntType>(r)), m_placetostartsearch(r-1)
 			{
 			}
 			
@@ -327,9 +329,9 @@ namespace dscr
 			}
 			
 		private:
-			size_type m_ID;
+			size_type m_ID {0};
 			combination m_data;
-			IntType m_placetostartsearch;
+			IntType m_placetostartsearch {0};
 			
 			friend class basic_combinations;
 		}; // end class iterator

@@ -16,6 +16,26 @@ bool testCombinations()
 	cout << "========== Testing Combinations ==========" << endl;
 	
 	cout << " Use test: " << endl;
+	int n = 6;
+	
+	for (int r = 0; r <= n; ++r)
+	{
+		cout << " with r = " << r << endl;
+		combinations X(n,r);
+		size_t i = 0;
+		
+		for (const auto& x : X)
+		{
+			cout << "\t" << i << " == " << X.get_index(x) << " -> " << x << endl;
+			if (i != X.get_index(x))
+				return false;
+			if (x != X[i])
+				return false;
+			++i;
+		}
+	}
+	
+	cout << "Large test" << endl;
 	combinations X(10,4);
 	size_t i = 0;
 	
@@ -48,14 +68,18 @@ bool testCombinations()
 			return false;
 	}
 	
-	cout << " Reverse use test: " << endl;
-	basic_combinations<lluint> Y(6,3);
-	i = 0;
-	for (auto it = Y.rbegin(); it != Y.rend(); ++it,++i)
+	cout << "Reverse use test: " << endl;
+	for (int r = 0; r <= n; ++r)
 	{
-		cout << "\t" << i << " -> " << *it << " == " << Y[Y.size()-i-1] << endl;
-		if (*it != Y[Y.size()-i-1])
-			return false;
+		cout << "Starting with r = " << r << endl; 
+		basic_combinations<lluint> Y(n,r);
+		i = 0;
+		for (auto it = Y.rbegin(); it != Y.rend(); ++it,++i)
+		{
+			cout << "\t" << i << " -> " << *it << " == " << Y[Y.size()-i-1] << endl;
+			if (*it != Y[Y.size()-i-1])
+				return false;
+		}
 	}
 	
 	cout << " Edge case test: " << endl;
@@ -120,7 +144,7 @@ bool testCombinations()
 	}
 // 	return true;
 	
-	cout << "These are the permutations that satisfy the predicate: " << endl;
+	cout << "These are the combinations that satisfy the predicate: " << endl;
 	auto T = W.find_all(predicate2);
 	for (const auto& t : T)
 		cout << t << endl;
