@@ -53,7 +53,7 @@ namespace dscr
 	//////////////////////////////////////////
 	/// \brief Helper function to linearize tables
 	//////////////////////////////////////////
-	inline size_t twoD_to_oneD(nuint x, nuint y, nuint width, nuint height)
+	inline size_t twoD_to_oneD(unsigned x, unsigned y, unsigned width, unsigned height)
 	{
 		x %= width;
 		y %= height;

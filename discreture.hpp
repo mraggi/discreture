@@ -5,6 +5,7 @@
 #include "Misc.hpp"
 #include "Probability.hpp"
 #include "Vectorhelpers.hpp"
+#include "NumberTheory.hpp"
 #include "Combinations.hpp"
 #include "Permutations.hpp"
 #include "Subsets.hpp"

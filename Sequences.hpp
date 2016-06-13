@@ -9,6 +9,9 @@ namespace dscr
 	/// \param n is a (small) nonnegative integer.
 	/// \return n!
 	//////////////////////////////
+	using lluint = long long unsigned int;
+	using llint = long long int;
+	
 	constexpr lluint factorial(lluint n)
 	{
 		lluint toReturn = 1;

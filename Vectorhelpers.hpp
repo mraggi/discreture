@@ -9,28 +9,28 @@
 namespace dscr
 {
 	// Typedefs
-	typedef vector<bool> VB;
-	typedef vector<char> VC;
-	typedef vector<sint> VSI;
-	typedef vector<int> VI;
-	typedef vector<lint> VLI;
-
-	typedef vector<nuint> VUI;
-	typedef vector<suint> VSUI;
-	typedef vector<size_t> VLUI;
-	typedef vector<uchar> VUC;
-
-	typedef vector<double> VR;
+// 	typedef vector<bool> vector<bool>;
+// 	typedef vector<char> VC;
+// 	typedef vector<sint> VSI;
+// 	typedef vector<int> VI;
+// 	typedef vector<lint> VLI;
+// 
+// 	typedef vector<nuint> VUI;
+// 	typedef vector<suint> VSUI;
+// 	typedef vector<size_t> VLUI;
+// 	typedef vector<uchar> vector<unsigned char>;
+// 
+// 	typedef vector<double> VR;
 
 	//////////////////////////////////////
 	/// \brief Bitwise and for vector<bool>
 	//////////////////////////////////////
-	VB operator&(const VB& A, const VB& B);
+	vector<bool> operator&(const vector<bool>& A, const vector<bool>& B);
 	
 	//////////////////////////////////////
 	/// \brief Bitwise or for vector<bool>
 	//////////////////////////////////////
-	VB operator|(const VB& A, const VB& B);
+	vector<bool> operator|(const vector<bool>& A, const vector<bool>& B);
 
 	////////////////////////////////////
 	/// \brief Converts a vector<U> into a vector<T>, provided U can be converted to T
@@ -259,12 +259,12 @@ namespace dscr
 	/////////////////////////////
 	/// \brief Specialization for vector printouts for vector<unsigned char>
 	/////////////////////////////
-	std::ostream& operator<<(std::ostream& os, const VUC& rhs);
+	std::ostream& operator<<(std::ostream& os, const vector<unsigned char>& rhs);
 	
 	/////////////////////////////
 	/// \brief Specialization for vector printouts for vector<bool> so that it doesn't print out spaces
 	/////////////////////////////
-	std::ostream& operator<<(std::ostream& os, const VB& rhs);
+	std::ostream& operator<<(std::ostream& os, const vector<bool>& rhs);
 
 	/////////////////////////////
 	/// \brief Lexicographic compare vector A and B
@@ -307,9 +307,9 @@ namespace dscr
 	/// \brief Given a subset S, written in combination form (1,2,4), returns the same subset written in subset form (01101)
 	///////////////////////////
 	template <class T>
-	VB CombinationToSubset(const vector<T>& C, size_t size)
+	vector<bool> CombinationToSubset(const vector<T>& C, size_t size)
 	{
-		VB toReturn(size,0);
+		vector<bool> toReturn(size,0);
 		for (size_t i = 0; i < C.size(); ++i)
 		{
 			assert (C[i] < size);
@@ -355,7 +355,7 @@ namespace dscr
 // 	template <class T>
 // 	bool AreTheyAllDifferent(const vector<T>& G, size_t maxnumber)
 // 	{
-// 		VB chosen(maxnumber,false);
+// 		vector<bool> chosen(maxnumber,false);
 // 		for (size_t i = 0; i < G.size(); ++i)
 // 		{
 // 			if (chosen[G[i]])

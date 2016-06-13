@@ -19,19 +19,19 @@ namespace dscr
 	using std::string;
 	using std::size_t;
 
-	typedef short int sint;
-	typedef long int lint;
-	typedef long long int llint;
-
-	typedef unsigned char uchar;
-	typedef short unsigned int suint;
-	typedef		  unsigned int nuint;
-	typedef long  unsigned int luint;
-	typedef long long unsigned int lluint;
-
-// 	typedef double real;
-	
-	constexpr double pi = 3.1415926535897932384626433832795;
-	constexpr double e = 2.718281828459045;
-	constexpr double phi = 1.618033988749895;
+// 	typedef short int sint;
+// 	typedef long int lint;
+// 	typedef long long int llint;
+// 
+// 	typedef unsigned char uchar;
+// 	typedef short unsigned int suint;
+// 	typedef		  unsigned int nuint;
+// 	typedef long  unsigned int luint;
+// 	typedef long long unsigned int lluint;
+// 
+// // 	typedef double real;
+// 	
+// 	constexpr double pi = 3.1415926535897932384626433832795;
+// 	constexpr double e = 2.718281828459045;
+// 	constexpr double phi = 1.618033988749895;
 }

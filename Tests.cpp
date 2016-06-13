@@ -83,7 +83,7 @@ bool testCombinations()
 	}
 	
 	cout << " Edge case test: " << endl;
-	basic_combinations<uchar> Z(5,8);
+	basic_combinations<unsigned char> Z(5,8);
 	for (const auto& z : Z)
 	{
 		cout << z << endl;
@@ -202,7 +202,7 @@ bool testPermutations()
 	}
 	
 	cout << "Edge case test: " << endl;
-	basic_permutations<uchar> Z(0);
+	basic_permutations<unsigned char> Z(0);
 	for (const auto& z : Z)
 	{
 		cout << z << endl;
@@ -254,7 +254,7 @@ bool testSubsets()
 	}
 	
 	cout << "Edge case test: " << endl;
-	basic_subsets<uchar> Z(0);
+	basic_subsets<unsigned char> Z(0);
 	for (const auto& z : Z)
 	{
 		cout << z << endl;
@@ -287,6 +287,9 @@ bool testPartitions()
 	for (const auto& y : Y)
 		cout << y << endl;
 	
+    
+    
+    
 	
 	return true;
 }
@@ -343,7 +346,7 @@ bool testMotzkin()
 
 void testCombinationsSpeed(int n, int k)
 {
-	Chronometer();
+	Chronometer C;
 // 	lluint i = 0;
 	combinations X(n,k);
 	for (auto& x : X)
@@ -351,7 +354,7 @@ void testCombinationsSpeed(int n, int k)
 // 		if (x[0] == 1)
 // 			++i;
 	}
-	cout << "Time taken to see all (" << n << " choose " << k << ") = " << X.size() << " combinations: " << Chronometer() << "s" <<  endl;
+	cout << "Time taken to see all (" << n << " choose " << k << ") = " << X.size() << " combinations: " << C.Reset() << "s" <<  endl;
 
 // 	i = 0;
 	for (auto it = X.rbegin(); it != X.rend(); ++it)
@@ -359,12 +362,12 @@ void testCombinationsSpeed(int n, int k)
 // 		if ((*it)[0] == 1)
 // 			++i;
 	}
-	cout << "Time taken to see all (" << n << " choose " << k << ") = " << X.size() << " combinations in reverse order: " << Chronometer() << "s" <<  endl;
+	cout << "Time taken to see all (" << n << " choose " << k << ") = " << X.size() << " combinations in reverse order: " << C.Reset() << "s" <<  endl;
 }
 
 void testPermutationsSpeed(int n)
 {
-	Chronometer();
+	Chronometer C;
 	permutations X(n);
 	
 	lluint i = 0;
@@ -374,31 +377,31 @@ void testPermutationsSpeed(int n)
 			++i;
 	}
 // 	cout << "i = " << i << endl;
-	cout << "Time taken to see all " << n << "! = " << X.size() << " permutations: " << Chronometer() << "s" << endl;
+	cout << "Time taken to see all " << n << "! = " << X.size() << " permutations: " << C.Reset() << "s" << endl;
 }
 
 void testSubsetsSpeed(int n)
 {
-	Chronometer();
+	Chronometer C;
 	subsets X(n);
 	lluint i = 0;
 	for (const auto& x : X)
 		if (x[3])
 			++i;
 // 	cout << "i = " << i << endl;
-	cout << "Time taken to see all 2^" << n << " = " << X.size() << " subsets : " << Chronometer() << "s" << endl;
+	cout << "Time taken to see all 2^" << n << " = " << X.size() << " subsets : " << C.Reset() << "s" << endl;
 	
  	subsets_fast XF(n);
 	for (const auto& x : XF)
 		if (x[3])
 			++i;
-	cout << "Time taken to see all 2^" << n << " = " << X.size() << " subsets (fast mode) : " << Chronometer() << "s" << endl;
+	cout << "Time taken to see all 2^" << n << " = " << X.size() << " subsets (fast mode) : " << C.Reset() << "s" << endl;
 	
 }
 
 void testMultisetSpeed()
 {
-	Chronometer();
+	Chronometer C;
 	multisets X({2,2,1,3,4,2,3,3,2,3,4,4,5,0,0,1,0,2,2});
 	size_t i = 0;
 	for (const auto& x : X)
@@ -406,13 +409,25 @@ void testMultisetSpeed()
 		if (x[1] == 2)
 			++i;
 	}
-	cout << "Time taken to see all " << X.size() << " multisets: " << Chronometer() << "s" << endl;
+	cout << "Time taken to see all " << X.size() << " multisets: " << C.Reset() << "s" << endl;
 
 }
 
 void testPartitionsSpeed(int n)
 {
-	Chronometer();
+	Chronometer C;
+    int total = 0;
+    int N = 120;
+    int k = 10;
+    partitions P(N,k);
+    for (auto& p : P)
+    {
+        if (p[2] == 27)
+            ++total;
+    }
+	cout << "Time taken to see all " << P.size() << " partitions of size " << k  << ": " << C.Reset() << "s" << endl;
+    return;
+    
 	partitions X(n);
 	
 	lluint i = 0;
@@ -422,13 +437,13 @@ void testPartitionsSpeed(int n)
 			++i;
 	}
 // 	cout << "i = " << i << endl;
-	cout << "Time taken to see all " << X.size() << " partitions of size " << n  << ": " << Chronometer() << "s" << endl;
+	cout << "Time taken to see all " << X.size() << " partitions of size " << n  << ": " << C.Reset() << "s" << endl;
 }
 
 
 void testSetPartitionSpeed(int n)
 {
-	Chronometer();
+	Chronometer C;
 	set_partitions X(n);
 	
 	lluint i = 0;
@@ -438,9 +453,8 @@ void testSetPartitionSpeed(int n)
 			++i;
 	}
 // 	cout << "i = " << i << endl;
-	cout << "Time taken to see all " << X.size() << " set partitions of size " << n  << ": " << Chronometer() << "s" << endl;
+	cout << "Time taken to see all " << X.size() << " set partitions of size " << n  << ": " << C.Reset() << "s" << endl;
 	
-	Chronometer();
 	set_partitions Y(n+2,4);
 	
 	i = 0;
@@ -450,19 +464,19 @@ void testSetPartitionSpeed(int n)
 			++i;
 	}
 // 	cout << "i = " << i << endl;
-	cout << "Time taken to see all " << Y.size() << " set partitions a set of " << n+2 << " elements with " << 4 << " parts: " << Chronometer() << "s" << endl;
+	cout << "Time taken to see all " << Y.size() << " set partitions a set of " << n+2 << " elements with " << 4 << " parts: " << C.Reset() << "s" << endl;
 	
 	set_partitions Z(2*n,2);
 	for (auto& z : Z)
 	{
 		
 	}
-	cout << "Time taken to see all " << Z.size() << " set partitions a set of " << 2*n << " elements with " << 2 << " parts: " << Chronometer() << "s" << endl;
+	cout << "Time taken to see all " << Z.size() << " set partitions a set of " << 2*n << " elements with " << 2 << " parts: " << C.Reset() << "s" << endl;
 }
 
 void testDyckPathsSpeed(int n)
 {
-	Chronometer();
+	Chronometer C;
 	dyck_paths X(n);
 	
 	lluint i = 0;
@@ -472,12 +486,12 @@ void testDyckPathsSpeed(int n)
 			++i;
 	}
 // 	cout << "i = " << i << endl;
-	cout << "Time taken to see all " << X.size() << " dyck paths of size " << n  << ": " << Chronometer() << "s" << endl;
+	cout << "Time taken to see all " << X.size() << " dyck paths of size " << n  << ": " << C.Reset() << "s" << endl;
 }
 
 void testMotzkinSpeed(int n)
 {
-	Chronometer();
+	Chronometer C;
 	motzkin_paths X(n);
 	
 	lluint i = 0;
@@ -487,7 +501,7 @@ void testMotzkinSpeed(int n)
 			++i;
 	}
 // 	cout << "i = " << i << endl;
-	cout << "Time taken to see all " << X.size() << " motzkin paths of size " << n  << ": " << Chronometer() << "s" << endl;
+	cout << "Time taken to see all " << X.size() << " motzkin paths of size " << n  << ": " << C.Reset() << "s" << endl;
 }
 
 void testCorrectness()
@@ -496,6 +510,7 @@ void testCorrectness()
 	testCombinations() 	&&
 	testPermutations() 	&&
 	testSubsets() 		&&
+	testNumberTheory()	&&
 	testPartitions()	&&
 	testMultiset()		&&
 	testDyckPaths()		&&
@@ -507,6 +522,32 @@ void testCorrectness()
 	
 }
 
+bool testNumberTheory()
+{
+	if (gcd<int>({{100,155,100,1000,1005}}) != 5)
+		return false;
+		
+	if (lcm<int>({{1,2,3,6,10,15,30}}) != 30)
+		return false;
+	return true;
+}
+
+void testNumTheorySpeed(int n)
+{
+	vector<int> A(n,0);
+	for (int i = 0; i < n; ++i)
+	{
+		A[i] = rand()%20000+5700;
+	}
+	Chronometer C;
+	auto a = gcd(A);
+	if (a < 0)
+		cout << "WHAAAT?" << endl;
+// 	cout << "gcd: " << a << endl;
+	cout << "Time taken for gcd of " << n << " numbers: " << C.Peek() << endl;
+}
+
+
 void testSpeed()
 {
 	testCombinationsSpeed();
@@ -517,6 +558,7 @@ void testSpeed()
 	testDyckPathsSpeed();
 	testMotzkinSpeed();
 	testSetPartitionSpeed();
+	testNumTheorySpeed();
 }
 
 void testManualCombinations()
@@ -550,7 +592,6 @@ void testManualCombinations()
 	cout << "total num: " << i << endl;
 }
 
-
 /*
 void testGSLComb()
 {
@@ -568,6 +609,6 @@ void testGSLComb()
 		while (gsl_combination_next (c) == GSL_SUCCESS);
 		gsl_combination_free (c);
 		
-		std::cout << "time for gsl combinations " << n << " choose " << n/2 <<  " = " << dscr::Chronometer() << std::endl;
+		std::cout << "time for gsl combinations " << n << " choose " << n/2 <<  " = " << dscr::C.Reset() << std::endl;
 	}
 }*/

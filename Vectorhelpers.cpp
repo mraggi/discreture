@@ -4,70 +4,61 @@
 namespace dscr
 {
 
-VB operator&(const VB& A, const VB& B)
+vector<bool> operator&(const vector<bool>& A, const vector<bool>& B)
 {
-    nuint size = std::min(A.size(), B.size());
-    VB G;
-    for (nuint i = 0; i < size; i++)
+    size_t size = std::min(A.size(), B.size());
+    vector<bool> G;
+    for (size_t i = 0; i < size; i++)
         G.push_back(A[i] && B[i]);
     return G;
 }
 
-VB operator|(const VB& A, const VB& B)
+vector<bool> operator|(const vector<bool>& A, const vector<bool>& B)
 {
-    nuint size = std::min(A.size(), B.size());
-    VB G;
-    for (nuint i = 0; i < size; i++)
+    size_t size = std::min(A.size(), B.size());
+    vector<bool> G;
+    for (size_t i = 0; i < size; i++)
         G.push_back(A[i] || B[i]);
     return G;
 }
 
-std::ostream& operator<<(std::ostream& os, const VUI& rhs)
+std::ostream& operator<<(std::ostream& os, const vector<unsigned>& rhs)
 {
     os << "[ ";
-    for (nuint i = 0; i < rhs.size(); ++i)
+    for (size_t i = 0; i < rhs.size(); ++i)
         os << rhs[i] << " ";
     os << "]";
     return os;
 }
 
-std::ostream& operator<<(std::ostream& os, const VUC& rhs)
+std::ostream& operator<<(std::ostream& os, const vector<unsigned char>& rhs)
 {
     os << "[ ";
-    for (nuint i = 0; i < rhs.size(); ++i)
-        os << suint(rhs[i]) << " ";
+    for (size_t i = 0; i < rhs.size(); ++i)
+        os << short(rhs[i]) << " ";
     os << "]";
     return os;
 }
 
-std::ostream& operator<<(std::ostream& os, const VSUI& rhs)
-{
-    os << "[ ";
-    for (nuint i = 0; i < rhs.size(); ++i)
-        os << suint(rhs[i]) << " ";
-    os << "]";
-    return os;
-}
-
-std::ostream& operator<<(std::ostream& os, const VB& rhs)
+std::ostream& operator<<(std::ostream& os, const vector<bool>& rhs)
 {
     os << "[";
-    for (nuint i = 0; i < rhs.size(); ++i)
+    for (size_t i = 0; i < rhs.size(); ++i)
         os << rhs[i];
     os << "]";
     return os;
 }
 
-std::ostream& operator<<(std::ostream& os, const vector<VB>& rhs)
+std::ostream& operator<<(std::ostream& os, const vector<vector<bool>>& rhs)
 {
     if (rhs.size() == 0)
         return os;
-    nuint ncols = rhs.size();
-    nuint nrows = rhs[0].size();
-    for (nuint y = 0; y < nrows; ++y)
+    size_t ncols = rhs.size();
+    size_t nrows = rhs[0].size();
+    for (size_t y = 0; y < nrows; ++y)
     {
         os << "[ ";
-        for (nuint x=0; x< ncols; ++x)
+        for (size_t x=0; x< ncols; ++x)
         {
             os << rhs[x][y] << " ";
         }
@@ -80,10 +71,10 @@ std::ostream& operator<<(std::ostream& os, const vector<VB>& rhs)
 }
 
 /*
-bool operator<=(const SVUC& lhs, const SVUC& rhs)
+bool operator<=(const Svector<unsigned char>& lhs, const Svector<unsigned char>& rhs)
 {
     assert (lhs.size() == rhs.size());
-    for (SVUC::const_iterator i = lhs.begin(); i != lhs.end(); ++i)
+    for (Svector<unsigned char>::const_iterator i = lhs.begin(); i != lhs.end(); ++i)
     {
         if (rhs[i.index()] < *i)
             return false;
@@ -91,11 +82,11 @@ bool operator<=(const SVUC& lhs, const SVUC& rhs)
     return true;
 }
 
-bool operator==(const SVUC& lhs, const SVUC& rhs)
+bool operator==(const Svector<unsigned char>& lhs, const Svector<unsigned char>& rhs)
 {
     assert (lhs.size() == rhs.size());
     nuint sumalhs = 0;
-    for (SVUC::const_iterator i = lhs.begin(); i != lhs.end(); ++i)
+    for (Svector<unsigned char>::const_iterator i = lhs.begin(); i != lhs.end(); ++i)
     {
         if (rhs[i.index()] != *i)
             return false;

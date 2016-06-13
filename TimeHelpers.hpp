@@ -33,30 +33,39 @@ namespace dscr
 		}
 		
 		std::chrono::time_point<std::chrono::high_resolution_clock> start_timer;
-		std::chrono::time_point<std::chrono::high_resolution_clock> running_timer;
 		
 		
 	private:
-		RClock() : start_timer(std::chrono::high_resolution_clock::now()), running_timer(start_timer) {}
+		RClock() : start_timer(std::chrono::high_resolution_clock::now()) {}
 	};
-	
+
+	class Chronometer
+	{
+	public:
+		Chronometer() : m_timer(std::chrono::high_resolution_clock::now()) {}
+		
+		double Reset()
+		{
+			auto tlast = m_timer;
+			m_timer = std::chrono::high_resolution_clock::now();
+		
+			return diffclockt(m_timer, tlast);
+		}
+		
+		double Peek() const
+		{
+			auto tnow = std::chrono::high_resolution_clock::now();
+		
+			return diffclockt(tnow, m_timer);
+		}
+		
+		std::chrono::time_point<std::chrono::high_resolution_clock> m_timer;
+	};
+
 	inline double TimeFromStart()
 	{
 		auto tnow = std::chrono::high_resolution_clock::now();
 		
 		return diffclockt(tnow, RClock::Instance().start_timer);
-	}
-	
-	inline double Chronometer()
-	{
-		auto tlast = RClock::Instance().running_timer;
-		RClock::Instance().running_timer = std::chrono::high_resolution_clock::now();
-		return diffclockt(RClock::Instance().running_timer,tlast);
-	}
-	
-	inline double ChronometerPeek()
-	{
-		auto tlast = RClock::Instance().running_timer;
-		return diffclockt(std::chrono::high_resolution_clock::now(),tlast);
 	}
 }

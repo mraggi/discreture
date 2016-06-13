@@ -46,7 +46,7 @@ add_definitions(-Ofast -march=native)
 link_directories (${PROJECT_BINARY_DIR})
 include_directories(${PROJECT_SOURCE_DIR})
  
-add_library(discreture SHARED Misc.cpp Sequences.cpp Subsets.cpp Vectorhelpers.cpp Probability.cpp)
+add_library(discreture SHARED Sequences.cpp Subsets.cpp Vectorhelpers.cpp Probability.cpp)
 # message ("Installing to " ${CMAKE_INSTALL_PREFIX})
 # install (TARGETS discreture DESTINATION lib)
 # install(DIRECTORY . DESTINATION include

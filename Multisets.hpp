@@ -85,12 +85,12 @@ namespace dscr
 			//prefix
 			inline iterator& operator++()
 			{
-				for (nuint i = 0; i < m_submulti.size(); ++i)
+				for (size_t i = 0; i < m_submulti.size(); ++i)
 				{
 					if (m_submulti[i] + 1 <= m_total[i])
 					{
 						++m_submulti[i];
-						for (nuint j = 0; j < i; ++j)
+						for (size_t j = 0; j < i; ++j)
 						{
 							m_submulti[j] = 0;
 						}
@@ -117,7 +117,7 @@ namespace dscr
 				cout << "should not run!" << endl;
 				if(m_submulti.size() != it.m_submulti.size())
 					return false;
-				for (nuint i = 0; i < m_submulti.size(); ++i)
+				for (size_t i = 0; i < m_submulti.size(); ++i)
 				{
 					if(m_submulti[i]!=(*it)[i])
 						return false;
