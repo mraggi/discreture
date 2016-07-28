@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-
+#include <algorithm>
 namespace dscr
 {
 	using std::vector;
@@ -42,4 +42,31 @@ namespace dscr
 		}
 		return a;
 	} 
+	
+	
+	template <class IntType>
+	long InterpretBaseK(long k, const vector<IntType>& bla)
+	{
+		long suma = 0;
+		long power = 1;
+		for (auto it = bla.rbegin(); it != bla.rend(); ++it)
+		{
+			suma += power*static_cast<IntType>(*it);
+			power *= k;
+		}
+		return suma;
+	}
+
+	inline vector<unsigned char> NumberBaseB(unsigned n, unsigned char b)
+	{
+		vector<unsigned char> toReturn;
+		while (n)
+		{
+			toReturn.push_back(n%b);
+			n /= b;
+		}
+		std::reverse(toReturn.begin(), toReturn.end());
+		return toReturn;
+	}
+
 };
