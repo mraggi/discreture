@@ -68,5 +68,31 @@ namespace dscr
 		std::reverse(toReturn.begin(), toReturn.end());
 		return toReturn;
 	}
+    
+//     vector<bool> primecharfunc;
+
+//     vector<long> FillPrimes(long n)
+//     {
+//         primecharfunc.resize(n,1);
+//         vector<long> primes;
+//         primes.reserve(10000);
+//         primes.push_back(2);
+//         for (long p=3; p*p<n; p += 2)
+//         {
+//             if (primecharfunc[p] == true)
+//             {
+//                 for (long i=p*2; i<=n; i += p)
+//                     primecharfunc[i] = false;
+//             }
+//         }
+//     
+//         // Print all prime numbers
+//         for (long p=3; p<n; p += 2)
+//             if (primecharfunc[p])
+//                 primes.push_back(p);
+//         return primes;
+//     }
+// 
+//     vector<long> primes = FillPrimes(100001);
 
 };

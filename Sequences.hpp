@@ -4,23 +4,16 @@
  
 namespace dscr
 {
-	//////////////////////////////
+	using lluint = long long unsigned int;
+	using llint = long long int;
+    
+    
+    //////////////////////////////
 	/// \brief n!
 	/// \param n is a (small) nonnegative integer.
 	/// \return n!
 	//////////////////////////////
-	using lluint = long long unsigned int;
-	using llint = long long int;
-	
-	constexpr lluint factorial(lluint n)
-	{
-		lluint toReturn = 1;
-		if (n < 2)
-			return toReturn;
-		for (lluint i = 2; i < n+1; ++i)
-			toReturn *= i;
-		return toReturn;
-	}
+	lluint factorial(lluint n);
 
 	//////////////////////////////
 	/// \brief The number of subsets of size r chosen from a set of size n

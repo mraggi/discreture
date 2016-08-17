@@ -3,6 +3,15 @@
 #include "Vectorhelpers.hpp"
 namespace dscr 
 {	
+    lluint factorial(lluint n)
+	{
+		lluint toReturn = 1;
+		if (n < 2)
+			return toReturn;
+		for (lluint i = 2; i < n+1; ++i)
+			toReturn *= i;
+		return toReturn;
+	}
 	
 
 	lluint binomial(lluint n, lluint k)

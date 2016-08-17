@@ -66,7 +66,7 @@ namespace dscr
 	template <class T>
 	inline T Clamped(T x, T a, T b)
 	{
-		if (a > b) { T temp = b; b = a; a = temp; }
+		if (a > b) { std::swap(a,b); }
 		if (x < a) x = a;
 		if (x > b) x = b;
 		return x;
@@ -82,4 +82,19 @@ namespace dscr
 		return (T(0) < val) - (val < T(0));
 	}
 
+	template <class T>
+	T general_power(T a, unsigned long n)
+    {
+        T r = 1;
+        while (n > 0) 
+        {
+            if (n & 1) // if odd
+                r *= a;
+            n /= 2;
+            a *= a;
+        }
+        
+        return r;
+    }
+	
 }
