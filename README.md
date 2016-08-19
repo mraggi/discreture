@@ -119,7 +119,7 @@ where `predicate` is a unary predicate that takes a `const vector<int>&` as an a
 
 ## Vs GSL. 
 
-The GNU Scientific Library is a well known and mature library. For more information, [check their website](https://www.gnu.org/software/gsl/). It implements combinations. The following tests were done on a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast:
+The GNU Scientific Library is a well known and mature library. For more information, [check their website](https://www.gnu.org/software/gsl/). It implements combinations. Iterating over all subsets of size n/2 over a set of size n was took the following time:
 
 ![discreture::combinations vs GSL combinations](https://github.com/mraggi/discreture/blob/master/combvsgsl.png "discreture::combinations vs GSL combinations")
 
