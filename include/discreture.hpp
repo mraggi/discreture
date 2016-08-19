@@ -1,0 +1,16 @@
+#pragma once
+
+#include "Discreture/Basic.hpp"
+#include "Discreture/TimeHelpers.hpp"
+#include "Discreture/Misc.hpp"
+#include "Discreture/Probability.hpp"
+#include "Discreture/Vectorhelpers.hpp"
+#include "Discreture/NumberTheory.hpp"
+#include "Discreture/Combinations.hpp"
+#include "Discreture/Permutations.hpp"
+#include "Discreture/Subsets.hpp"
+#include "Discreture/Multisets.hpp"
+#include "Discreture/Partitions.hpp"
+#include "Discreture/DyckPaths.hpp"
+#include "Discreture/Motzkin.hpp"
+#include "Discreture/SetPartitions.hpp"

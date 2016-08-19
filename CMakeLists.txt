@@ -33,7 +33,8 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 set(CMAKE_BUILD_TYPE Release)
 set(BUILD_SHARED_LIBS ON)
 
-# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Discreture)
 
 # add_subdirectory(src/SFML)
 
@@ -51,15 +52,13 @@ add_definitions(-Ofast -march=native)
 # add_definitions(-Wall -Weffc++ -Wpedantic -Werror)
 
 add_library(discreture SHARED Sequences.cpp Subsets.cpp Vectorhelpers.cpp Probability.cpp)
-message ("Installing to " ${CMAKE_INSTALL_PREFIX})
-install (TARGETS discreture DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
-# install (TARGETS discreture DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
-# install(DIRECTORY . DESTINATION include
-#         FILES_MATCHING PATTERN "*.hpp")
+message("Installing to " ${CMAKE_INSTALL_PREFIX})
+install(TARGETS discreture
+        LIBRARY DESTINATION lib)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION ${CMAKE_INSTALL_PREFIX} FILES_MATCHING PATTERN "*.hpp")
+
 
 if(BUILD_TESTS)
 	add_executable(testdiscreture main.cpp Tests.cpp)
 	target_link_libraries(testdiscreture discreture)
-	install(TARGETS discreture DESTINATION lib)
-	install(DIRECTORY . DESTINATION include/discreture FILES_MATCHING PATTERN "*.h")
 endif (BUILD_TESTS)
