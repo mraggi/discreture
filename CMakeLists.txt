@@ -22,15 +22,10 @@ option(BUILD_TESTS "Build test programs" ON) # Probably should leave it like thi
  
 option(USE_CLANG "Use CLANG to build" OFF)
 
-if (USE_CLANG)
-	SET (CMAKE_CXX_COMPILER "/usr/bin/clang++")
-	SET (CMAKE_AR      		"/usr/bin/llvm-ar")
-	SET (CMAKE_LINKER  		"/usr/bin/llvm-ld")
-	SET (CMAKE_NM      		"/usr/bin/llvm-nm")
-	SET (CMAKE_OBJDUMP 		"/usr/bin/llvm-objdump") 
-	SET (CMAKE_RANLIB  		"/usr/bin/llvm-ranlib")
-endif (USE_CLANG)    
-
+set(CMAKE_LIBRARY_DIR ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_BINARY_DIR ${CMAKE_LIBRARY_DIR})
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
+set(LIBRARY_OUTPUT_PATH ${CMAKE_LIBRARY_DIR})
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
@@ -38,22 +33,33 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 set(CMAKE_BUILD_TYPE Release)
 set(BUILD_SHARED_LIBS ON)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+add_subdirectory(src/SFML)
+
+# if (USE_CLANG)
+# 	SET (CMAKE_CXX_COMPILER "/usr/bin/clang++")
+# 	SET (CMAKE_AR      		"/usr/bin/llvm-ar")
+# 	SET (CMAKE_LINKER  		"/usr/bin/llvm-ld")
+# 	SET (CMAKE_NM      		"/usr/bin/llvm-nm")
+# 	SET (CMAKE_OBJDUMP 		"/usr/bin/llvm-objdump") 
+# 	SET (CMAKE_RANLIB  		"/usr/bin/llvm-ranlib")
+# endif (USE_CLANG)
+
 add_definitions(-std=c++14)
 add_definitions(-Ofast -march=native)
-# add_definitions(-DNDEBUG)
-# add_definitions(-Wall -Weffc++ -Wpedantic -Werror)
+add_definitions(-Wall -Weffc++ -Wpedantic -Werror)
 
-link_directories (${PROJECT_BINARY_DIR})
-include_directories(${PROJECT_SOURCE_DIR})
- 
 add_library(discreture SHARED Sequences.cpp Subsets.cpp Vectorhelpers.cpp Probability.cpp)
-# message ("Installing to " ${CMAKE_INSTALL_PREFIX})
-# install (TARGETS discreture DESTINATION lib)
+message ("Installing to " ${CMAKE_INSTALL_PREFIX})
+install (TARGETS discreture DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+# install (TARGETS discreture DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 # install(DIRECTORY . DESTINATION include
 #         FILES_MATCHING PATTERN "*.hpp")
 
 if(BUILD_TESTS)
 	add_executable(testdiscreture main.cpp Tests.cpp)
 	target_link_libraries(testdiscreture discreture)
-# 	install (TARGETS testdiscreture DESTINATION ${PROJECT_BINARY_DIR})
+	install(TARGETS discreture DESTINATION lib)
+	install(DIRECTORY . DESTINATION include/discreture FILES_MATCHING PATTERN "*.h")
 endif (BUILD_TESTS)
