@@ -2,20 +2,22 @@
 
 This is a modern C++ 11 (and 14) library designed to facilitate combinatorial research by providing fast and easy iterators to a few combinatorial objects, such as combinations, permutations, partitions, and others. The idea is to have them resemble the STL containers as much as possible, without actually storing the whole set of objects in memory.
 
-Discreture is designed to follow the STL containers as closely as possible, by providing the standard ways of iterating. In addition, many of the algorithms described in the standard <algorithm> library work as-is in these containers, as if the containers were constant.
+Discreture is designed to follow the STL containers as closely as possible, by providing the standard ways of iterating. In addition, many of the algorithms described in the standard <algorithm> library work as-is in these containers, as if the containers were marked as const.
 
 # Quick preview:
 
 ```c++
     #include <iostream>
-    #include "discreture.hpp"
-    using namespace std;
-    using namespace dscr;
+    #include <discreture.hpp>
     int main()
     {
+		using namespace std;
+		using namespace dscr;
+		
         combinations X(5,3);
         for (auto& x : X)
             cout << x << endl;
+        
         return 0;
     }
 ```
@@ -32,37 +34,30 @@ The above code would produce the following output:
     [ 1 3 4 ]
     [ 2 3 4 ]
 
-Of course, you need to link with the discreture library:
-g++ -O3 -ldiscreture main.cpp
+Of course, you need to link with the discreture library and compile with the -std=c++14 or -std=c++11 flag:
+g++ -std=c++14 -O2 -ldiscreture main.cpp
 
 Some tests show discreture is usually faster when compiled with clang++ instead of g++. Full benchmarks at the end of the readme.
 
 # Installation
 
-To download and install on linux, run the following commands:
-
+To install on linux, do the standard cmake/make dance:
 ```sh
-git checkout https://github.com/mraggi/discreture.git
-cd discreture
-sh install_linux.sh
-```
-
-This will compile the library and copy the necessary files to /usr/lib and /usr/include. It will ask for your root password. If you just wish to compile and then link manually, do the following:
-```sh
-git checkout https://github.com/mraggi/discreture.git
+git clone https://github.com/mraggi/discreture
 cd discreture
 mkdir build
 cd build
 cmake ..
 make
+sudo make install
 ```
-Furthermore, it is recommended to compile using the clang compiler instead of gcc. One can do this by running `cmake .. -D 
-USE_CLANG=1`, or editing the CMakeLists.txt and switch the "OFF" option of USE_CLANG to "ON".
+
+This will install everything under `/usr/local/` by default. If you wish to install to some other directory, replace the cmake .. above by `cmake .. -DCMAKE_INSTALL_PREFIX=/usr/`.
 
 You can run the tests by running the executable: `./testdiscreture`
 
 # How to start using the library
-To use the library, after compiling, just add `#include <discreture/discreture.hpp>` to your project and link to `libdiscreture.so`. With the GCC compiler or CLANG, this can be done by compiling like this: `g++ -ldiscreture myfile.cpp`
+To use the library, after compiling, just add `#include <discreture.hpp>` to your project and link to `libdiscreture.so`. With the GCC compiler, this can be done by compiling like this: `g++ -ldiscreture -std=c++14 myfile.cpp`. If you wish to include only part of the library, one could do `#include <Discreture/Combinations.hpp>` for example.
 
 # Combinatorial Objects
 
@@ -81,13 +76,14 @@ All follow the same design principle: The templated class is calles basic_SOMETH
 
 # Advanced use
 
-Although the full reference is in the doxygen documentation, here is a quick preview. Remember to always `#include "discreture.hpp"` (or `#include <discreture/discreture.hpp>` and use `using namespace dscr;` or add `dscr::` to everything.):
+Although the full reference is in the doxygen documentation, here is a quick preview. Remember to always `#include <discreture.hpp>` and either add `using namespace dscr;` or add `dscr::` to everything.):
 
 ```c++
-combinations X(30,10);
+combinations X(30,10); //all subsets of size 10 of {0,1,2,...,29}
 for (auto& x : X) 
 { 
-	// x is of type const vector<int>&, so anything that works with vectors works on x
+	// x is of type const vector<int>&, so anything that works with 
+	// const vector references also works on x, such as calling x[3], etc.
 }
 ```
 
@@ -121,6 +117,46 @@ where `predicate` is a unary predicate that takes a `const vector<int>&` as an a
 
 # Benchmarks.
 
+## Vs GSL. 
+
+The GNU Scientific Library is a well known and mature library. For more information, [check their website](https://www.gnu.org/software/gsl/). It implements combinations. The following tests were done on a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast:
+
+![alt text](https://github.com/mraggi/discreture/combvsgsl.png "discreture::combinations vs GSL combinations")
+
+The GSL code used was the following:
+
+```c++
+gsl_combination * c;
+size_t i = 0;
+
+for (int n = 8; n < 34; n += 1)
+{
+	c = gsl_combination_calloc (n, n/2);
+	do
+	{
+		if (gsl_combination_get(c,3) == 1)
+			++i;
+	}
+	while (gsl_combination_next (c) == GSL_SUCCESS);
+	gsl_combination_free (c);	
+}
+```
+
+Compare this to the same code using discreture:
+```c++
+size_t i = 0;
+for (int n = 8; n < 34; n += 1)
+{
+	combinations X(n,n/2);
+	for (auto& x : X)
+	{
+		if (x[3] == 1)
+			++i;
+	}
+}
+```
+
+## CLANG vs GCC
 On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the following results:
 
 | Task | Time taken CLANG 3.7.0 | Time taken GCC 5.2.0 |
@@ -137,6 +173,8 @@ On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the followin
 | Time taken to see all 27644437 set partitions of size 13 							|	   0.960195s  		| **0.79946s** |
 | Time taken to see all 42355950 set partitions a set of 15 elements with 4 parts 	|	   1.20166s  		| **1.01687s** |
 | **Total Time**																	|	 **19.7s**			|	22.1s	   |
+
+
 
 # Acknowledgements
 I would like to thank Manuel Alejandro Romo de Vivar (manolo) for his work on dyck paths, motzkin paths, and his contribution to partition numbers.
