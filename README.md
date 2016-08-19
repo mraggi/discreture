@@ -156,6 +156,10 @@ for (int n = 8; n < 34; n += 1)
 }
 ```
 
+## Discreture vs Sagemath
+
+This comparison isn't even fair (c++ vs python). On the same system, iterating over all (24 choose 12) combinations, sage takes 12.2 seconds. Discreture takes approximately 0.01 seconds. No point in graphing that.
+
 ## CLANG vs GCC
 On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the following results:
 
@@ -174,7 +178,8 @@ On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the followin
 | Time taken to see all 42355950 set partitions a set of 15 elements with 4 parts 	|	   1.20166s  		| **1.01687s** |
 | **Total Time**																	|	 **19.7s**			|	22.1s	   |
 
-
-
 # Acknowledgements
 I would like to thank Manuel Alejandro Romo de Vivar (manolo) for his work on dyck paths, motzkin paths, and his contribution to partition numbers.
+
+# Contributing
+Please help us testing, debugging, benchmarking, packaging for the various distros, etc. Also, if you use discreture for your own purposes, let us know!
