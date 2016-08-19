@@ -121,7 +121,7 @@ where `predicate` is a unary predicate that takes a `const vector<int>&` as an a
 
 The GNU Scientific Library is a well known and mature library. For more information, [check their website](https://www.gnu.org/software/gsl/). It implements combinations. The following tests were done on a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast:
 
-![alt text](https://github.com/mraggi/discreture/combvsgsl.png "discreture::combinations vs GSL combinations")
+![discreture::combinations vs GSL combinations](https://github.com/mraggi/discreture/blob/master/combvsgsl.png "discreture::combinations vs GSL combinations")
 
 The GSL code used was the following:
 
