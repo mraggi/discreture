@@ -33,9 +33,9 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 set(CMAKE_BUILD_TYPE Release)
 set(BUILD_SHARED_LIBS ON)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_subdirectory(src/SFML)
+# add_subdirectory(src/SFML)
 
 # if (USE_CLANG)
 # 	SET (CMAKE_CXX_COMPILER "/usr/bin/clang++")
@@ -48,7 +48,7 @@ add_subdirectory(src/SFML)
 
 add_definitions(-std=c++14)
 add_definitions(-Ofast -march=native)
-add_definitions(-Wall -Weffc++ -Wpedantic -Werror)
+# add_definitions(-Wall -Weffc++ -Wpedantic -Werror)
 
 add_library(discreture SHARED Sequences.cpp Subsets.cpp Vectorhelpers.cpp Probability.cpp)
 message ("Installing to " ${CMAKE_INSTALL_PREFIX})
