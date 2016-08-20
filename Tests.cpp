@@ -365,9 +365,11 @@ void testCombinationsSpeed(int n, int k)
 	cout << "Time taken to see all (" << n << " choose " << k << ") = " << X.size() << " combinations in reverse order: " << C.Reset() << "s" <<  endl;
 	
 	combinations Z(24,12);
+	size_t zi = 0;
 	for (auto& z : Z)
 	{
-		
+		if (z[3] == 1)
+			++zi;
 	}
 	cout << "Time taken to see all (" << 24 << " choose " << 12 << ") = " << Z.size() << " combinations: " << C.Reset() << "s" <<  endl;
 }

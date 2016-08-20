@@ -74,7 +74,7 @@ Within this library, one can construct a few combinatorial objects, such as:
 
 All follow the same design principle: The templated class is calles basic_SOMETHING<class T>, and the most reasonable type for T is instantiated as SOMETHING. For example, `combinations` is a typedef of `basic_combinations<int>`, and `partitions` is a typedef of `basic_partitions<int>`.
 
-# Advanced use
+# Basic usage
 
 Although the full reference is in the doxygen documentation, here is a quick preview. Remember to always `#include <discreture.hpp>` and either add `using namespace dscr;` or add `dscr::` to everything.):
 
@@ -114,6 +114,10 @@ combinations X(30,10);
 std::partition_point(X.begin(), X.end(), predicate);
 ```
 where `predicate` is a unary predicate that takes a `const vector<int>&` as an argument and returns true or false, in a way that for all the first combinations it returns true and the last ones return false. This would do binary search.
+
+## Combinations find_if and find_all
+Combinations is the most mature part of the library, so the following functions have been implemented:
+
 
 # Benchmarks.
 
