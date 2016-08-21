@@ -187,6 +187,11 @@ for (int n = 8; n < 34; n += 1)
 }
 ```
 
+**Note**: The order of iteration for Discreture combinations is different than the order of iteration for GSL combinations. To iterate over them in the same order, use `combinations_tree` instead of `combinations`. Preliminary testing shows `combinations_tree` is even FASTER than `combinations` when doing forward iteration, and slower than `combinations` when doing reverse iteration (but still faster than GSL combinations).
+
+**Note 2**: Compiling with GCC yields similar results for GSL and slightly worse results for discreture.
+
+
 ## Discreture vs Sagemath
 
 This comparison isn't even fair (c++ vs python). On the same system, iterating over all (24 choose 12) combinations, sage takes 12.2 seconds. Discreture takes approximately 0.01 seconds. No point in graphing that.
