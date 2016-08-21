@@ -7,6 +7,7 @@
 #include "Discreture/Vectorhelpers.hpp"
 #include "Discreture/NumberTheory.hpp"
 #include "Discreture/Combinations.hpp"
+#include "Discreture/CombinationsTree.hpp"
 #include "Discreture/Permutations.hpp"
 #include "Discreture/Subsets.hpp"
 #include "Discreture/Multisets.hpp"

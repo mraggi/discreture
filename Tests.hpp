@@ -7,6 +7,7 @@
 void testVectorHelpers();
 void testMisc();
 bool testCombinations();
+bool testCombinationsTree();
 bool testPermutations();
 bool testSubsets();
 bool testMultiset();
@@ -18,6 +19,7 @@ bool testSetPartitions();
 bool testNumberTheory();
 
 void testCombinationsSpeed(int n = 32, int k = 16);
+void testCombinationsTreeSpeed(int n = 32, int k = 16);
 void testPermutationsSpeed(int n = 12);
 void testSubsetsSpeed(int n = 29);
 void testPartitionsSpeed(int n = 90);

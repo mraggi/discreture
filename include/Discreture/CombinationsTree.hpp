@@ -5,50 +5,28 @@
 #include "Misc.hpp"
 #include "Sequences.hpp"
 #include "Range.hpp"
-#include "CombinationsTree.hpp"
 
 namespace dscr
 {	
 	
 	////////////////////////////////////////////////////////////
-    /// \brief class of all n choose k combinations of size k of the set {0,1,...,n-1}.
+    /// \brief class of all n choose k combinations of size k of the set {0,1,...,n-1} in lexicographic order
     /// \param IntType should be an integral type with enough space to store n and k. It can be signed or unsigned.
 	/// \param n the size of the set
-	/// \param k the size of the combination (subset). Should be an integer such that n choose k is not bigger than the largest unsigned long int there is. For example, typically 50 choose 25 is already larger than the largest long unsigned int.
+	/// \param k the size of the combination (subset). Should be an integer such that n choose k is not bigger than the largest unsigned long int there is. For example, 50 choose 25 is already larger than the largest long long unsigned int.
 	/// # Example:
 	///
-	///		combinations X(6,3);
+	///		combinations_tree X(6,3);
 	///		for (const auto& x : X)
 	///			cout << x << " ";
 	///
 	/// Prints out:
 	///
-	/// 	[ 0 1 2 ] [ 0 1 3 ] [ 0 2 3 ] [ 1 2 3 ] [ 0 1 4 ] [ 0 2 4 ] [ 1 2 4 ] [ 0 3 4 ] [ 1 3 4 ] [ 2 3 4 ] [ 0 1 5 ] [ 0 2 5 ] [ 1 2 5 ] [ 0 3 5 ] [ 1 3 5 ] [ 2 3 5 ] [ 0 4 5 ] [ 1 4 5 ] [ 2 4 5 ] [ 3 4 5 ]
-	///
-	/// # Example 2:
-	///
-	///     basic_combinations<short int> X(5,1);
-	///		for (const auto& x : X)
-	///			cout << x << " ";
-	///		Prints out:
-	///			[0] [1] [2] [3] [4]
-	///
-	///	# Example 3:
-	/// 
-	///		string A = "helloworld";
-	///		combinations X(A.size(),2);
-	///		for (const auto& x : X)
-	///		{
-	///			auto b = compose(A,x);
-	///			cout << b << "-";
-	///		}
-	///
-	///		Prints out:
-	///			he-hl-el-hl-el-ll-ho-eo-lo-lo-hw-ew-lw-lw-ow-ho-eo-lo-lo-oo-wo-hr-er-lr-lr-or-wr-or-hl-el-ll-ll-ol-wl-ol-rl-hd-ed-ld-ld-od-wd-od-rd-ld-
+	/// 	[ 0 1 2 ] [ 0 1 3 ] [ 0 1 4 ] [ 0 1 5 ] [ 0 2 3 ] [ 0 2 4 ] [ 0 2 5 ] [ 0 3 4 ] [ 0 3 5 ] [ 0 4 5 ] [ 1 2 3 ] [ 1 2 4 ] [ 1 2 5 ] [ 1 3 4 ] [ 1 3 5 ] [ 1 4 5 ] [ 2 3 4 ] [ 2 3 5 ] [ 2 4 5 ] [ 3 4 5 ]
 	///
     ////////////////////////////////////////////////////////////
 	template <class IntType>
-	class basic_combinations
+	class basic_combinations_tree
 	{
 	public:
 		
@@ -60,68 +38,86 @@ namespace dscr
 		//Declarations.
 		class iterator;
 		
-		// **************** Begin static functions
-		static IntType next_combination(combination& data, IntType hint = 0)
+		// **************** Begin functions
+		static void next_combination(combination& data, IntType n)
 		{
 			assert(std::is_sorted(data.begin(),data.end()));
 			if (data.empty())
-				return 0;
-			IntType k = data.size()-1;
-// 			cout << "bah1 " << k << endl;
-// 			cout << "hint = " << hint << endl;
-			for (IntType i = hint; i < k; ++i)
+				return;
+			IntType k = data.size();
+			
+			if (k == 0)
+				return;
+			
+			
+			for (int i = k-1; i >= 0; --i)
 			{
-				if (data[i]+1 != data[i+1]) //Does NOT improve with binary search... huh.
+				if (data[i] != n - k + i)
 				{
-					//i is the first that can be augmented
 					++data[i];
-					for (IntType j = 0; j < i; ++j)
+					for (int j = 0; j < int(k)-i; ++j)
 					{
-						data[j] = j;
+						data[j+i] = data[i]+j;
 					}
 					
-					i = std::max(i,static_cast<IntType>(1));
-					return i-1;
+					break;
 				}
 			}
-// 			cout << "bah2" << endl;
-			++data[k];
-			for (IntType j = 0; j < k; ++j)
-			{
-				data[j] = j;
-			}
-			k = std::max(k,static_cast<IntType>(1));
-			return k-1;
 		}
 	
-		static void prev_combination(combination& data)
+		static void prev_combination(combination& data, IntType n)
 		{
 			assert(std::is_sorted(data.begin(),data.end()));
 // 			assert(data.back() != data.size()-1);
 
 			IntType k = data.size();
 			IntType i = 0;
-			for ( ; i < k; ++i)
+			if (k == 0)
+				return;
+			if (k == 1)
 			{
-				if (data[i] != i)
+				if (data[0] > 0)
+					--data[0];
+				return;
+			}
+			
+			if (data[k-1] != data[k-2]+1)
+			{
+				--data[k-1];
+				return;
+			}
+			
+			for (int i = 0; i+1 < k; ++i)
+			{
+				if (data[i]+k-i-1 == data.back())
 				{
 					--data[i];
-					break;
+					for (int j = i+1; j < k; ++j)
+					{
+						data[j] = n-(k-j);
+					}
+					return;
 				}
 			}
-			if (i != k)
-			{
-				IntType a = data[i]-i;
-				for (IntType j = 0; j < i; ++j,++a)
-				{
-					data[j] = a;
-				}
-			}
+			--data[0];
 		}
 		
-		static void construct_combination(combination& data, size_type m)
+		size_type get_index(const combination& comb) const
+		{
+			size_type k = comb.size();
+			
+			size_type result = 0;
+			
+			for (difference_type i = 0; i < k; ++i)
+				result += binomial(m_n-comb[k-i-1]-1,i+1);
+			
+			return binomial(m_n,k)-result-1;
+		}
+		
+		static void construct_combination(combination& data, size_type m, IntType m_n)
 		{
 			IntType k = data.size();
+			m = binomial(m_n,k)-m-1;
 			for (IntType i = 0; i < k; ++i)
 			{
 				IntType r = k - i;
@@ -129,9 +125,10 @@ namespace dscr
 				while (binomial(first,r) <= m) { ++first; }
 				--first;
 				
-				data[r-1] = first;
+				data[k-(r-1)-1] = m_n-first-1;
 				m -= binomial(first,r);
 			}
+// 			cout << "data = " << data << endl;
 		}
 		
 		///////////////////////////////////////
@@ -141,9 +138,9 @@ namespace dscr
 		static bool compare(const combination& lhs, const combination& rhs)
 		{
 			assert(lhs.size() == rhs.size());
-			auto itl = lhs.rbegin();
-			auto itr = rhs.rbegin();
-			for ( ; itl != lhs.rend(); ++itl, ++itr)
+			auto itl = lhs.begin();
+			auto itr = rhs.begin();
+			for ( ; itl != lhs.end(); ++itl, ++itr)
 			{
 				if (*itl > *itr)
 					return false;
@@ -163,7 +160,7 @@ namespace dscr
 		/// \param k is an integer with 0 <= k <= n
 		///
 		////////////////////////////////////////////////////////////
-		basic_combinations(IntType n, IntType k) : m_n(n), m_k(k), m_begin(n,k), m_end(), m_rbegin(n,k),  m_rend()
+		basic_combinations_tree(IntType n, IntType k) : m_n(n), m_k(k), m_begin(n,k), m_end(), m_rbegin(n,k),  m_rend()
 		{
 			m_end.m_ID = size();
 			m_rend.m_ID = size();
@@ -178,26 +175,6 @@ namespace dscr
 		size_type size() const { return binomial(m_n,m_k); }
 		
 		
-		/////////////////////////////////////////////////////////////////////////////
-		/// \brief Returns the ID of the iterator whose value is comb. That is, the index of combination comb in the lexicographic order.
-		///
-		/// Inverse of operator[]. If combination x is the m-th combination, then get_index(x) is m.
-		/// If one has a combinations::iterator, then the member function ID() should return the same value.
-		/// \return the index of combination comb, as if basic_combinations was a proper data structure
-		/// \note This constructs the proper index from scratch. If an iterator is already known, calling ID on the iterator is much more efficient.
-		/////////////////////////////////////////////////////////////////////////////
-		size_type get_index(const combination& comb) const
-		{
-			size_type k = comb.size();
-			
-			size_type result = 0;
-			
-			for (difference_type i = 0; i < k; ++i)
-				result += binomial(comb[i],i+1);
-			
-			return result;
-		}
-		
 		IntType get_n() const { return m_n; }
 		IntType get_k() const { return m_k; }
 		
@@ -208,11 +185,11 @@ namespace dscr
 		class iterator : public std::iterator<std::random_access_iterator_tag,vector<IntType>>
 		{
 		public:
-			iterator() : m_ID(0), m_data(), m_placetostartsearch(0) {} //empty initializer
+			iterator() : m_ID(0), m_data() {} //empty initializer
 		private:
-			explicit iterator(IntType id) : m_ID(id), m_data(), m_placetostartsearch(0) {} //ending initializer: for id only. Do not use unless you know what you are doing.
+			explicit iterator(IntType id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
 		public:
-			iterator(IntType n, IntType r) : m_ID(0), m_data(range<IntType>(r)), m_placetostartsearch(r-1)
+			iterator(IntType n, IntType r) : m_ID(0), m_n(n), m_data(range<IntType>(r))
 			{
 			}
 			
@@ -221,7 +198,7 @@ namespace dscr
 			{
 				++m_ID;
 				
-				m_placetostartsearch = next_combination(m_data,m_placetostartsearch);
+				next_combination(m_data,m_n);
 				
 				return *this;
 			}
@@ -234,7 +211,7 @@ namespace dscr
 				
 				--m_ID;
 				
-				prev_combination(m_data);
+				prev_combination(m_data,m_n);
 				
 				return *this;
 			}
@@ -278,7 +255,7 @@ namespace dscr
 				
 				// If n is large, then it's better to just construct it from scratch.
 				m_ID += n;
-				construct_combination(m_data,m_ID);
+				construct_combination(m_data,m_ID,m_n);
 				return *this;
 			}
 			
@@ -324,15 +301,14 @@ namespace dscr
 			{
 				m_ID = 0;
 				overwrite(m_data, range<IntType>(r));
-				m_placetostartsearch = r-1;
 			}
 			
 		private:
 			size_type m_ID {0};
+			IntType m_n;
 			combination m_data;
-			IntType m_placetostartsearch {0};
 			
-			friend class basic_combinations;
+			friend class basic_combinations_tree;
 		}; // end class iterator
 		
 		iterator get_iterator(const combination& comb)
@@ -340,7 +316,6 @@ namespace dscr
 			iterator it;
 			it.m_ID = get_index(comb);
 			it.m_data = comb;
-			it.m_placetostartsearch = 0;
 			return it;
 		}
 
@@ -363,7 +338,7 @@ namespace dscr
 			{
 				++m_ID;
 				
-				prev_combination(m_data);
+				prev_combination(m_data,m_n);
 				
 				return *this;
 			}
@@ -476,7 +451,7 @@ namespace dscr
 			size_type m_ID;
 			combination m_data;
 			
-			friend class basic_combinations;
+			friend class basic_combinations_tree;
 		}; // end class iterator
 		
 		const iterator& begin() const
@@ -514,139 +489,6 @@ namespace dscr
 			return *it;
 		}
 		
-		
-		///////////////////////////////////////////////
-		/// \brief This is an efficient way to construct a combination of size k which fully satisfies a predicate 
-		/// 
-		/// This function is conceptually equivalent to std::find_if(begin(), end(), Pred), 
-		/// but much faster if the predicate can be evaluated on a partial combination (so as to prune the search tree)
-		/// 
-		/// # Example:
-		/// 
-		/// 	combinations X(40,6);
-		/// 	auto it = X.find_if([](const vector<int>& comb) -> bool
-		/// 	{
-		/// 		for (int i = 0; i < comb.size()-1; ++i)
-		/// 		{
-		/// 			if (2*comb[i] + 1 > comb[i+1])
-		/// 				return false;
-		/// 		}
-		/// 		return true;
-		///		});
-		/// 	cout << *it << endl;
-		/// 		
-		/// Prints out:	
-		/// 	[ 0 1 3 7 15 31 ]
-		/// 		
-		/// 		
-		/// \param Pred should be what we call a *partial predicate*: It takes a combination as a parameter and returns either true or false.
-		///
-		///
-		/// \return An interator to a combination which fully satisfies the predicate.
-		///
-		/////////////////////////////////////////////
-		template<class PartialPredicate>
-		iterator find_if(PartialPredicate pred)
-		{
-			combination A;
-			A.reserve(m_k);
-			while (DFSUtil(A,pred))
-			{
-				if (A.size() == static_cast<size_t>(m_k))
-					return get_iterator(A);
-			}
-			return end();
-		}
-		
-		///////////////////////////////////////////////
-		/// \brief This is an efficient way to construct all combination of size k which fully satisfy a predicate 
-		/// 
-		/// This function is similar to find_if, but it returns an object for which you can iterate over all combinations which satisfy Predicate pred,
-		/// 
-		/// # Example:
-		/// 
-		/// 	combinations X(30,4);
-		/// 	auto vall = X.find_all([](const vector<int>& comb) -> bool
-		///		{
-		///			if (comb.size() < 2) return true;
-		///			int k = comb.size();
-		///			if (comb[k-2] == 0) return false;
-		///			return (comb[k-1]%comb[k-2] == 0);
-		///		});
-		/// 	for (auto& v : vall)
-		/// 		cout << v << endl;
-		/// 		
-		/// 		
-		/// Prints out:	
-		/// 	[ 1 2 4 8 ]
-		/// 	[ 1 2 4 12 ]
-		/// 	[ 1 2 4 16 ]
-		/// 	[ 1 2 4 20 ]
-		/// 	[ 1 2 4 24 ]
-		/// 	[ 1 2 4 28 ]
-		/// 	[ 1 2 6 12 ]
-		/// 	[ 1 2 6 18 ]
-		/// 	[ 1 2 6 24 ]
-		/// 	[ 1 2 8 16 ]
-		/// 	[ 1 2 8 24 ]
-		/// 	[ 1 2 10 20 ]
-		/// 	[ 1 2 12 24 ]
-		/// 	[ 1 2 14 28 ]
-		/// 	[ 1 3 6 12 ]
-		/// 	[ 1 3 6 18 ]
-		/// 	[ 1 3 6 24 ]
-		/// 	[ 1 3 9 18 ]
-		/// 	[ 1 3 9 27 ]
-		/// 	[ 1 3 12 24 ]
-		/// 	[ 1 4 8 16 ]
-		/// 	[ 1 4 8 24 ]
-		/// 	[ 1 4 12 24 ]
-		/// 	[ 1 5 10 20 ]
-		/// 	[ 1 6 12 24 ]
-		/// 	[ 1 7 14 28 ]
-		/// 	[ 2 4 8 16 ]
-		/// 	[ 2 4 8 24 ]
-		/// 	[ 2 4 12 24 ]
-		/// 	[ 2 6 12 24 ]
-		/// 	[ 3 6 12 24 ]
-		/// which are all combinations for which every element is a divisor of the next element.
-		/// 		
-		/// \param pred should be a *partial predicate*: It takes a *partial* combination as a parameter and returns either true or false. At the end only combinations for which every subcombination evaluated to true are returned (the combination tree is prunned when Pred returns false)
-		///
-		///
-		/// \return An forward-iterable object which whose elements are all combinations which satisfy predicate pred.
-		///
-		///
-		/////////////////////////////////////////////
-		template<class PartialPredicate>
-		basic_combinations_tree_prunned<IntType,PartialPredicate> find_all(PartialPredicate pred)
-		{
-			basic_combinations_tree_prunned<IntType,PartialPredicate> X(m_n,m_k,pred);
-			return X;
-		}
-		
-		///////////////////////////////////////////////
-		/// \brief This is an efficient way to construct all combination of size k which fully satisfy a predicate, vector version.
-		/// 
-		/// Equivalent to:
-		///     auto T = find_all(pred);
-		/// 	return vector<combination>(T.begin(),T.end());
-		/// 
-		//////////////////////////////////////////////
-		template<class PartialPredicate>
-		vector<combination> get_all(PartialPredicate pred)
-		{
-			vector<combination> toReturn;
-			combination A;
-			A.reserve(m_k);
-			while (DFSUtil(A,pred))
-			{
-				if (A.size() == static_cast<size_t>(m_k))
-					toReturn.push_back(A);
-			}
-			return toReturn;
-		}
-		
 	private:
 		IntType m_n;
 		IntType m_k;
@@ -655,8 +497,142 @@ namespace dscr
 		reverse_iterator m_rbegin;	
 		reverse_iterator m_rend;
 		
-		template <class P>
-		bool augment(combination& comb, P pred, IntType start = 0)
+	}; // end class basic_combinations_tree
+	
+	using combinations_tree = basic_combinations_tree<int>;
+	
+	
+	template <class IntType, class Predicate>
+	class basic_combinations_tree_prunned
+	{
+	public:
+		
+		typedef long long int difference_type;
+		typedef unsigned long long int size_type;
+		typedef vector<IntType> value_type;
+		typedef vector<IntType> combination;
+
+		//Declarations.
+		class iterator;
+		
+	public:
+		
+		////////////////////////////////////////////////////////////
+		/// \brief Constructor
+		///
+		/// \param n is an integer >= 0
+		/// \param k is an integer with 0 <= k <= n
+		/// \param p is a partial predicate (unary function or functor) that takes as input a partial combination and returns either true or false.
+		///
+		////////////////////////////////////////////////////////////
+		basic_combinations_tree_prunned(IntType n, IntType k, Predicate p) : m_n(n), m_k(k),  m_begin(m_n,m_k,p), m_end(p,true), m_pred(p)
+		{
+// 			cout << "In constructor" << endl;
+		}
+		
+		IntType get_n() const { return m_n; }
+		IntType get_k() const { return m_k; }
+		
+		
+		////////////////////////////////////////////////////////////
+		/// \brief Forward iterator for constructing combinations that satisfy a certain predicate one by one
+		////////////////////////////////////////////////////////////
+		class iterator : public std::iterator<std::forward_iterator_tag,vector<IntType>>
+		{
+		public:
+			iterator(Predicate p, bool last) : m_ID(0), m_data(),m_atEnd(last),m_pred(p) {} //empty initializer
+		public:
+			iterator(IntType n, IntType r, Predicate p) : m_ID(0), m_n(n), m_k(r), m_data(), m_atEnd(false), m_pred(p)
+			{
+				m_data.reserve(m_k);
+				while (DFSUtil(m_data,m_pred,m_n,m_k))
+				{
+					if (m_data.size() == static_cast<size_t>(m_k))
+					{
+						return;
+					}
+				}
+				m_atEnd = true;
+			}
+			
+			//prefix
+			inline iterator& operator++()
+			{
+// 				cout << "size of pred: " << sizeof(m_pred) << endl;
+				while (DFSUtil(m_data,m_pred,m_n,m_k))
+				{
+					if (m_data.size() == static_cast<size_t>(m_k))
+						return *this;
+				}
+				m_atEnd = true;
+				return *this;
+			}
+			
+			inline const vector<IntType>& operator*() const
+			{
+				return m_data;
+			}
+			
+			inline const combination* operator->() const
+			{ 
+				return & operator*();
+			}
+			
+			inline size_type ID() const { return m_ID; }
+			
+			inline bool operator==(const iterator& it) const
+			{
+				if (m_atEnd != it.m_atEnd)
+					return false;
+				if (m_atEnd)
+					return true;
+				return m_data == it.m_data;
+			}
+			
+			inline bool operator!=(const iterator& it) const
+			{
+				if (m_atEnd != it.m_atEnd)
+					return true;
+				if (m_atEnd)
+					return false;
+				return m_data != it.m_data;
+			}
+			
+			inline bool is_at_end(IntType n) const
+			{
+				return m_atEnd;
+			}
+			
+		private:
+			size_type m_ID {0};
+			IntType m_n;
+			IntType m_k;
+			combination m_data;
+			bool m_atEnd;
+			Predicate m_pred;
+			
+			friend class basic_combinations_tree_prunned;
+		}; // end class iterator
+		
+		const iterator& begin() const
+		{
+			return m_begin;
+		}
+		
+		const iterator& end() const
+		{
+			return m_end;
+		}
+		
+				
+	private:
+		IntType m_n;
+		IntType m_k;
+		iterator m_begin;
+		iterator m_end;
+		Predicate m_pred;
+		
+		static bool augment(combination& comb, Predicate pred, IntType m_n, IntType m_k, IntType start = 0)
 		{
 			if (comb.empty())
 			{
@@ -683,14 +659,12 @@ namespace dscr
 			return false;
 		}
 		
-		template <class P>
-		bool DFSUtil(combination& comb, P pred)
+		static bool DFSUtil(combination& comb, Predicate pred, IntType m_n, IntType m_k)
 		{
-// 			auto currsize = comb.size();
-			
+// 			cout << "n,k = " << m_n << " " << m_k << endl;
 			if (comb.size() < static_cast<size_t>(m_k))
 			{
-				if (augment(comb,pred))
+				if (augment(comb,pred,m_n,m_k))
 					return true;
 			}
 			auto last = comb.back();
@@ -699,15 +673,15 @@ namespace dscr
 			{
 				last = comb.back();
 				comb.pop_back();
-				if (augment(comb,pred,last+1))
+				if (augment(comb,pred,m_n,m_k,last+1))
 					return true;
 			}
 			return false;
 		}
 		
-	}; // end class basic_combinations
+	}; // end class basic_combinations_tree_prunned
 	
-	using combinations = basic_combinations<int>;
+// 	using combinations_tree_prunned = basic_combinations_tree_prunned<int>;
 
 } // end namespace dscr;
 

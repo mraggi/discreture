@@ -10,7 +10,7 @@ namespace dscr
 	////////////////////////////////////////////////////////////
     /// \brief class of all n! permutation of size n of the set {0,1,...,n-1}.
     /// \param IntType should be an integral type with enough space to store n and k. It can be signed or unsigned.
-	/// \param n should be an integer <= 20, since 20! already exceeds the numeric limits of a long unsigned int C++
+	/// \param n should be an integer < 20, since 20! already exceeds the numeric limits of a long unsigned int
 	/// # Example:
 	///
 	///		permutations X(3);

@@ -162,15 +162,133 @@ bool testCombinations()
 				++numpred;
 			}
 		}
-		if (numpred != T.size())
-		{
-			cout << "Error in find_all: a one-by-one check found a different number than a find_all check" << endl;
-			return false;
-		}
+// 		if (numpred != T.size())
+// 		{
+// 			cout << "Error in find_all: a one-by-one check found a different number than a find_all check" << endl;
+// 			return false;
+// 		}
 	} else
 	{
 		cout << "\tbut this W is too large to actually check one by one." << endl;
 	}
+	
+	return true;
+}
+
+vector<int> differences(const vector<int>& x)
+{
+	vector<int> toReturn;
+	toReturn.push_back(x[0]);
+	for (int i = 0;i < x.size()-1; ++i)
+		toReturn.push_back(x[i+1]-x[i]-1);
+	return toReturn;
+}
+
+bool testCombinationsTree()
+{
+	cout << "========== Testing Combination TREE ==========" << endl;
+	
+	cout << " Use test: " << endl;
+	int n = 6;
+	
+	for (int r = 0; r <= n; ++r)
+	{
+		cout << " with r = " << r << endl;
+		combinations_tree X(n,r);
+		size_t i = 0;
+		
+		for (const auto& x : X)
+		{
+			cout << "\t" << i << " == " << X.get_index(x) << " -> " << x << endl;
+			if (i != X.get_index(x))
+				return false;
+			if (x != X[i])
+				return false;
+			++i;
+		}
+	}
+	
+	cout << "Large test" << endl;
+	combinations_tree X(10,4);
+	size_t i = 0;
+	
+	for (const auto& x : X)
+	{
+		cout << "\t" << i << " == " << X.get_index(x) << " -> " << x << endl;
+		if (i != X.get_index(x))
+			return false;
+		++i;
+	}
+	
+	// iterator operator tests
+	cout << " Iterator operator tests" << endl;
+	auto myIter = X.begin();
+	cout << *(myIter + 23) << " == ";
+	myIter += 46;
+	cout << *(myIter - 23) << endl;
+	int d = 76;
+	cout << d << " == " << (myIter + d) - myIter << endl;
+	
+	
+	// Checking correct order
+	cout << " Correct order test: " << endl;
+	for (auto it = X.begin(); it != X.end(); ++it)
+	{
+		auto itnext = it+long(1);
+		if (itnext == X.end())
+			break;
+		if (!X.compare(*it, *itnext))
+			return false;
+	}
+	
+	cout << "Reverse use test: " << endl;
+	for (int r = 0; r <= n; ++r)
+	{
+		cout << "Starting with r = " << r << endl; 
+		basic_combinations_tree<lluint> Y(n,r);
+		i = 0;
+		for (auto it = Y.rbegin(); it != Y.rend(); ++it,++i)
+		{
+			cout << "\t" << i << " -> " << *it << " == " << Y[Y.size()-i-1] << endl;
+			if (*it != Y[Y.size()-i-1])
+				return false;
+		}
+	}
+	
+	cout << " Edge case test: " << endl;
+	basic_combinations_tree<unsigned char> Z(5,8);
+	for (const auto& z : Z)
+	{
+		cout << z << endl;
+		return false;
+	}
+	
+	combinations W(30,3);
+	auto T = W.find_all([](const vector<int>& A)
+	{
+		if (A.size() < 2)
+			return true;
+		int k = A.size();
+		if (A[k-2] == 0) return false;
+		return A[k-1]%A[k-2] == 0;
+	});
+	cout << "Testing findall: " << endl;
+	for (auto& t : T)
+		cout << "t = " << t << endl;
+	
+// 	auto T2 = W.find_all_old([](const vector<int>& A)
+// 	{
+// 		if (A.size() < 2)
+// 			return true;
+// 		int k = A.size();
+// 		if (A[k-2] == 0) return false;
+// 		return A[k-1]%A[k-2] == 0;
+// 	});
+// 	cout << "Testing findall: " << endl;
+// 	for (auto& t : T2)
+// 		cout << "t2 = " << t << endl;
+	
+	
 	
 	return true;
 }
@@ -371,7 +489,67 @@ void testCombinationsSpeed(int n, int k)
 		if (z[3] == 1)
 			++zi;
 	}
+	
+	combinations W(100,5);
+
 	cout << "Time taken to see all (" << 24 << " choose " << 12 << ") = " << Z.size() << " combinations: " << C.Reset() << "s" <<  endl;
+	
+	auto T = W.find_all([](const vector<int>& A)
+	{
+		if (A.size() < 2)
+			return true;
+		int k = A.size();
+		if (A[k-1] > A[k-2]+2)
+			return true;
+		return false;
+	});
+	int num = 0;
+	for (auto& t : T)
+	{
+		if (t[0] == 0)
+			++num;
+	}
+	cout << "Time taken find all " << num << " combinations satisfying a predicate: " << C.Reset() << "s" <<  endl;
+	
+	auto T2 = W.get_all([](const vector<int>& A)
+	{
+		if (A.size() < 2)
+			return true;
+		int k = A.size();
+		if (A[k-1] > A[k-2]+2)
+			return true;
+		return false;
+	});
+	int num2 = 0;
+	for (auto& t2 : T2)
+	{
+		if (t2[0] == 0)
+			++num2;
+	}
+	cout << "Time taken to find all " << num2 << " combinations satisfying a predicate old: " << C.Reset() << "s" <<  endl;
+// 	throw;
+}
+
+
+void testCombinationsTreeSpeed(int n, int k)
+{
+	Chronometer C;
+// 	lluint i = 0;
+	combinations_tree X(n,k);
+	for (auto& x : X)
+	{
+// 		if (x[0] == 1)
+// 			++i;
+	}
+	cout << "Time taken to see all (" << n << " choose " << k << ") = " << X.size() << " combinations in TREE ORDER: " << C.Reset() << "s" <<  endl;
+
+// 	i = 0;
+	for (auto it = X.rbegin(); it != X.rend(); ++it)
+	{
+// 		if ((*it)[0] == 1)
+// 			++i;
+	}
+	cout << "Time taken to see all (" << n << " choose " << k << ") = " << X.size() << " combinations in REVERSE TREE ORDER: " << C.Reset() << "s" <<  endl;
 }
 
 void testPermutationsSpeed(int n)
@@ -387,6 +565,8 @@ void testPermutationsSpeed(int n)
 	}
 // 	cout << "i = " << i << endl;
 	cout << "Time taken to see all " << n << "! = " << X.size() << " permutations: " << C.Reset() << "s" << endl;
+	
+	
 }
 
 void testSubsetsSpeed(int n)
@@ -517,6 +697,7 @@ void testCorrectness()
 {
 	if (
 	testCombinations() 	&&
+	testCombinationsTree() &&
 	testPermutations() 	&&
 	testSubsets() 		&&
 	testNumberTheory()	&&
@@ -560,6 +741,7 @@ void testNumTheorySpeed(int n)
 void testSpeed()
 {
 	testCombinationsSpeed();
+	testCombinationsTreeSpeed();
 	testPermutationsSpeed();
 	testSubsetsSpeed();
 	testPartitionsSpeed();
