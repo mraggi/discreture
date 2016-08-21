@@ -119,7 +119,7 @@ where `predicate` is a unary predicate that takes a `const vector<int>&` as an a
 Combinations is the most mature part of the library, so the following functions have been implemented:
 
 ```c++
-	combinations X(30,4);
+	combinations X(10,3);
 	
 	// T will be an iterable object whose elements are the combinations that satisfy the predicate specified by the lambda function.
 	// In this case, the lambda checks that the next to last element divides the last element.
@@ -135,38 +135,15 @@ Combinations is the most mature part of the library, so the following functions 
 	for (auto& t : T)
 		cout << t << endl;
 ```
-Prints out:	
-	[ 1 2 4 8 ]
-	[ 1 2 4 12 ]
-	[ 1 2 4 16 ]
-	[ 1 2 4 20 ]
-	[ 1 2 4 24 ]
-	[ 1 2 4 28 ]
-	[ 1 2 6 12 ]
-	[ 1 2 6 18 ]
-	[ 1 2 6 24 ]
-	[ 1 2 8 16 ]
-	[ 1 2 8 24 ]
-	[ 1 2 10 20 ]
-	[ 1 2 12 24 ]
-	[ 1 2 14 28 ]
-	[ 1 3 6 12 ]
-	[ 1 3 6 18 ]
-	[ 1 3 6 24 ]
-	[ 1 3 9 18 ]
-	[ 1 3 9 27 ]
-	[ 1 3 12 24 ]
-	[ 1 4 8 16 ]
-	[ 1 4 8 24 ]
-	[ 1 4 12 24 ]
-	[ 1 5 10 20 ]
-	[ 1 6 12 24 ]
-	[ 1 7 14 28 ]
-	[ 2 4 8 16 ]
-	[ 2 4 8 24 ]
-	[ 2 4 12 24 ]
-	[ 2 6 12 24 ]
-	[ 3 6 12 24 ]
+Prints out:
+```
+	[ 1 2 4 ]
+	[ 1 2 6 ]
+	[ 1 2 8 ]
+	[ 1 3 6 ]
+	[ 1 3 9 ]
+	[ 2 4 8 ]
+```
 which are all combinations for which every element is a divisor of the next element. This is done lazily.
 
 # Benchmarks.
