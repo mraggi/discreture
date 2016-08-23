@@ -186,7 +186,7 @@ namespace dscr
 		/// \return the index of combination comb, as if basic_combinations was a proper data structure
 		/// \note This constructs the proper index from scratch. If an iterator is already known, calling ID on the iterator is much more efficient.
 		/////////////////////////////////////////////////////////////////////////////
-		size_type get_index(const combination& comb) const
+		static size_type get_index(const combination& comb)
 		{
 			size_type k = comb.size();
 			
