@@ -1,6 +1,6 @@
 #include <cstdlib>
 #include <sstream>
-#include "SetPartitions.hpp"
+#include "Partitions.hpp"
 #include <string>
 
 using namespace std;
@@ -109,15 +109,11 @@ int main(int argc, char* argv[])
 	}
 		
 	
-	set_partitions X(n,min_parts,max_parts);
+	partitions X(n,min_parts,max_parts);
 
 	for (auto& x : X)
 	{
-		for (auto& part : x)
-		{
-			cout << "[" << part << "]";
-		}
-		cout << endl;
+		cout << x << endl;
 	}
 	
 	return 0;

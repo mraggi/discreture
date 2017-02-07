@@ -4,6 +4,7 @@
 #include <cassert>
 #include <algorithm>
 #include <iostream>
+#include <iterator>
 
 #include "Misc.hpp"
 
@@ -56,8 +57,12 @@ std::vector<T> Convert(const std::vector<U>& G)
 template <class T>
 std::ostream& operator<<(std::ostream& os, const std::vector<T>& V)
 {
-	for (const auto& x : V)
-		os << x << " ";
+	for (auto it = V.begin(); it != V.end(); ++it)
+	{
+		os << *it;
+		if (it+1 != V.end())
+			os << " ";
+	}
 
 	return os;
 }

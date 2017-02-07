@@ -4,6 +4,8 @@ This is a modern C++ 11 (and 14) library designed to facilitate combinatorial re
 
 Discreture is designed to follow the STL containers as closely as possible, by providing the standard ways of iterating. In addition, many of the algorithms described in the standard <algorithm> library work as-is in these containers, as if the containers were marked as const.
 
+This library is provided as a header-only library.
+
 # Quick preview:
 
 ```c++
@@ -23,48 +25,50 @@ Discreture is designed to follow the STL containers as closely as possible, by p
 ```
 The above code would produce the following output:
 
-    [ 0 1 2 ]
-    [ 0 1 3 ]
-    [ 0 2 3 ]
-    [ 1 2 3 ]
-    [ 0 1 4 ]
-    [ 0 2 4 ]
-    [ 1 2 4 ]
-    [ 0 3 4 ]
-    [ 1 3 4 ]
-    [ 2 3 4 ]
+    0 1 2
+    0 1 3
+    0 2 3
+    1 2 3
+    0 1 4
+    0 2 4
+    1 2 4
+    0 3 4
+    1 3 4
+    2 3 4
 
-Of course, you need to link with the discreture library and compile with the -std=c++14 or -std=c++11 flag:
-g++ -std=c++14 -O2 -ldiscreture main.cpp
+Of course, you need to compile with the -std=c++14 flag:
+g++ -std=c++14 -O2 main.cpp
 
 Some tests show discreture is usually faster when compiled with clang++ instead of g++. Full benchmarks at the end of the readme.
 
 # Installation
 
-To install on linux, do the standard cmake/make dance:
+Discreture is a header-only library, so making sure your programs have access to the .hpp files (all files inside "include" dir) is enough.
+
+To install, do the standard cmake/make dance:
 ```sh
-git clone https://github.com/mraggi/discreture
-cd discreture
-mkdir build
-cd build
-cmake ..
-make
-sudo make install
+	git clone https://github.com/mraggi/discreture
+	cd discreture
+	mkdir build
+	cd build
+	cmake ..
+	make
+	sudo make install
 ```
 
 This will install everything under `/usr/local/` by default. If you wish to install to some other directory, replace the cmake .. above by `cmake .. -DCMAKE_INSTALL_PREFIX=/usr/`.
 
-You can run the tests by running the executable: `./testdiscreture`
+
+There are two options: BUILD_EXAMPLES and BUILD_TESTS. To use discreture, you don't need to compile anything, but the examples are compiled by default.
 
 # How to start using the library
-To use the library, after compiling, just add `#include <discreture.hpp>` to your project and link to `libdiscreture.so`. With the GCC compiler, this can be done by compiling like this: `g++ -ldiscreture -std=c++14 myfile.cpp`. If you wish to include only part of the library, one could do `#include <Discreture/Combinations.hpp>` for example.
+To use the library, after compiling, just add `#include <discreture.hpp>` to your project and make sure you are using -std=c++14. With the GCC compiler this can be done by compiling like this: `g++ -std=c++14 myfile.cpp`. If you wish to include only part of the library, one could do `#include <Discreture/Combinations.hpp>` for example.
 
 # Combinatorial Objects
 
 Within this library, one can construct a few combinatorial objects, such as:
   - Combinations
   - Permutations
-  - Subsets
   - Multisets
   - Partitions
   - Dyck Paths
@@ -97,7 +101,7 @@ for (auto it = X.rbegin(); it != X.rend(); ++it)
 }
 ```
 
-Combinations, subsets and permutations are a random-access container (although they are slower as such than forward or reverse iteration), so something like this works too:
+Combinations and permutations are a random-access container (although they are MUCH slower as such than forward or reverse iteration), so something like this works too:
 ```c++
 combinations X(30,10);
 for (size_t i = 0; i < X.size(); ++i)
@@ -108,12 +112,48 @@ for (size_t i = 0; i < X.size(); ++i)
 
 This is much slower if one plans to actually iterate over all of them, but iterator arithmetic is implemented, so one could even do the following:
 ```c++
-#include <algorithm>
-// ...
-combinations X(30,10);
-std::partition_point(X.begin(), X.end(), predicate);
+	#include <algorithm>
+	// ...
+	combinations X(30,10);
+	std::partition_point(X.begin(), X.end(), predicate);
 ```
 where `predicate` is a unary predicate that takes a `const vector<int>&` as an argument and returns true or false, in a way that for all the first combinations it returns true and the last ones return false. This would do binary search.
+
+## Examples
+
+Check the files under `examples` for a tutorial on how to use.
+
+For example, suppose you wanted to see all ways to add up to 20 with at most 6 numbers so that all numbers are squares. You can do:
+
+```c++
+	#include <iostream>
+	#include <Discreture/Partitions.hpp>
+	#include <Discreture/VectorHelpers.hpp>
+
+	using namespace dscr; //this is so we can use the overloaded operator << for vectors. You can roll your own and not use the "evil" using namespace instruction.
+
+	int main()
+	{
+		
+		dscr::partitions X(20,1,6);
+		for (auto& x : X)
+		{
+			if (std::all_of(x.begin(), x.end(), [](int s) -> bool
+			{
+				double d = s;
+				double k = sqrt(d);
+				int sq = static_cast<int>(k + 0.0000001);
+				return sq*sq == s;
+			}))
+			
+			std::cout << x << std::endl;
+		}
+		
+		return 0;
+	}
+```
+
+Then compile with the command `g++ -O2 -std=C++14 main.cpp -o out` and run `./out`. 
 
 ## Combinations find_if and find_all
 Combinations is the most mature part of the library, so the following functions have been implemented:
@@ -137,12 +177,12 @@ Combinations is the most mature part of the library, so the following functions 
 ```
 Prints out:
 ```
-	[ 1 2 4 ]
-	[ 1 2 6 ]
-	[ 1 2 8 ]
-	[ 1 3 6 ]
-	[ 1 3 9 ]
-	[ 2 4 8 ]
+	1 2 4
+	1 2 6
+	1 2 8
+	1 3 6
+	1 3 9
+	2 4 8
 ```
 which are all combinations for which every element is a divisor of the next element. This is done lazily.
 
@@ -150,41 +190,41 @@ which are all combinations for which every element is a divisor of the next elem
 
 ## Vs GSL. 
 
-The GNU Scientific Library is a well known and mature library. For more information, [check their website](https://www.gnu.org/software/gsl/). It implements combinations. Iterating over all subsets of size n/2 over a set of size n was took the following time:
+The GNU Scientific Library is a well known and mature library. For more information, [check their website](https://www.gnu.org/software/gsl/). It implements combinations. Iterating over all combinations of size n/2 over a set of size n was took the following time:
 
 ![discreture::combinations vs GSL combinations](https://github.com/mraggi/discreture/blob/master/combvsgsl2.png "discreture::combinations vs GSL combinations")
 
 The GSL code used was the following:
 
 ```c++
-gsl_combination * c;
-size_t i = 0;
+	gsl_combination * c;
+	size_t i = 0;
 
-for (int n = 8; n < 34; n += 1)
-{
-	c = gsl_combination_calloc (n, n/2);
-	do
+	for (int n = 8; n < 34; n += 1)
 	{
-		if (gsl_combination_get(c,3) == 1)
-			++i;
+		c = gsl_combination_calloc (n, n/2);
+		do
+		{
+			if (gsl_combination_get(c,3) == 1)
+				++i;
+		}
+		while (gsl_combination_next (c) == GSL_SUCCESS);
+		gsl_combination_free (c);	
 	}
-	while (gsl_combination_next (c) == GSL_SUCCESS);
-	gsl_combination_free (c);	
-}
 ```
 
 Compare this to the same code using discreture:
 ```c++
-size_t i = 0;
-for (int n = 8; n < 34; n += 1)
-{
-	combinations X(n,n/2);
-	for (auto& x : X)
+	size_t i = 0;
+	for (int n = 8; n < 34; n += 1)
 	{
-		if (x[3] == 1)
-			++i;
+		combinations X(n,n/2);
+		for (auto& x : X)
+		{
+			if (x[3] == 1)
+				++i;
+		}
 	}
-}
 ```
 
 **Note**: The order of iteration for Discreture combinations is different than the order of iteration for GSL combinations. To iterate over them in the same order, use `combinations_tree` instead of `combinations`. Preliminary testing shows `combinations_tree` is even FASTER than `combinations` when doing forward iteration, and slower than `combinations` when doing reverse iteration (but still faster than GSL combinations).
@@ -194,7 +234,7 @@ for (int n = 8; n < 34; n += 1)
 
 ## Discreture vs Sagemath
 
-This comparison isn't even fair (c++ vs python). On the same system, iterating over all (24 choose 12) combinations, sage takes 12.2 seconds. Discreture takes approximately 0.01 seconds. No point in graphing that.
+This comparison isn't very fair (c++ vs python). On the same system, iterating over all (24 choose 12) combinations, sage takes 12.2 seconds. Discreture takes approximately 0.01 seconds. No point in graphing that.
 
 ## CLANG vs GCC
 On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the following results:
@@ -204,8 +244,6 @@ On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the followin
 | Time taken to see all (32 choose 16) = 601080390 combinations 					|	 **2.29281s**		|   3.36332s   |
 | Time taken to see all (32 choose 16) = 601080390 combinations in reverse order 	|	 **1.67853s**		|   3.98176s   |
 | Time taken to see all 12! = 479001600 permutations								|	   1.70865s  		| **1.33693s** |
-| Time taken to see all 2^29 = 536870912 subsets 									|	   2.54663s  		| **2.14877s** |
-| Time taken to see all 2^29 = 536870912 subsets (fast mode) 						|	   2.10764s  		| **1.84649s** |
 | Time taken to see all 56634173 partitions of size 90 								|	 **1.41834s**		|   1.48321s   |
 | Time taken to see all 559872000 multisets 										|	 **1.84566s**		|   1.90435s   |
 | Time taken to see all 477638700 dyck paths of size 18 							|	 **2.16288s**		|   2.74891s   |
