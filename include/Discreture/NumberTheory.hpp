@@ -3,72 +3,79 @@
 #include <algorithm>
 namespace dscr
 {
-	using std::vector;
-	using std::size_t;
+using std::vector;
+using std::size_t;
 
-	template <class T>
-	T gcd(T a,T b)
+template <class T>
+T gcd(T a, T b)
+{
+	if (b == 0) return a;
+
+	return gcd(b, a % b);
+}
+
+template <class T>
+T lcm(T a, T b)
+{
+	return a * b / gcd(a, b);
+}
+
+template <class T>
+T gcd(const vector<T>& A)
+{
+	auto a = A.front();
+
+	for (size_t i = 1; i < A.size(); ++i)
 	{
-		if (b == 0) return a;
-		return gcd(b,a%b);
+		a = gcd(a, A[i]);
 	}
 
-	template <class T>
-	T lcm(T a, T b)
+	return a;
+}
+
+template <class T>
+T lcm(const vector<T>& A)
+{
+	auto a = A.front();
+
+	for (size_t i = 1; i < A.size(); ++i)
 	{
-		return a*b/gcd(a,b);
+		a = lcm(a, A[i]);
 	}
 
-	template <class T>
-	T gcd(const vector<T>& A)
+	return a;
+}
+
+
+template <class IntType>
+long InterpretBaseK(long k, const vector<IntType>& bla)
+{
+	long suma = 0;
+	long power = 1;
+
+	for (auto it = bla.rbegin(); it != bla.rend(); ++it)
 	{
-		auto a = A.front();
-		
-		for (size_t i = 1; i < A.size(); ++i)
-		{
-			a = gcd(a, A[i]);
-		}
-		return a;
+		suma += power * static_cast<IntType>(*it);
+		power *= k;
 	}
 
-	template <class T>
-	T lcm(const vector<T>& A)
+	return suma;
+}
+
+inline vector<unsigned char> NumberBaseB(unsigned n, unsigned char b)
+{
+	vector<unsigned char> toReturn;
+
+	while (n)
 	{
-		auto a = A.front();
-		
-		for (size_t i = 1; i < A.size(); ++i)
-		{
-			a = lcm(a, A[i]);
-		}
-		return a;
-	} 
-	
-	
-	template <class IntType>
-	long InterpretBaseK(long k, const vector<IntType>& bla)
-	{
-		long suma = 0;
-		long power = 1;
-		for (auto it = bla.rbegin(); it != bla.rend(); ++it)
-		{
-			suma += power*static_cast<IntType>(*it);
-			power *= k;
-		}
-		return suma;
+		toReturn.push_back(n % b);
+		n /= b;
 	}
 
-	inline vector<unsigned char> NumberBaseB(unsigned n, unsigned char b)
-	{
-		vector<unsigned char> toReturn;
-		while (n)
-		{
-			toReturn.push_back(n%b);
-			n /= b;
-		}
-		std::reverse(toReturn.begin(), toReturn.end());
-		return toReturn;
-	}
-    
+	std::reverse(toReturn.begin(), toReturn.end());
+	return toReturn;
+}
+
 //     vector<bool> primecharfunc;
 
 //     vector<long> FillPrimes(long n)
@@ -85,14 +92,14 @@ namespace dscr
 //                     primecharfunc[i] = false;
 //             }
 //         }
-//     
+//
 //         // Print all prime numbers
 //         for (long p=3; p<n; p += 2)
 //             if (primecharfunc[p])
 //                 primes.push_back(p);
 //         return primes;
 //     }
-// 
+//
 //     vector<long> primes = FillPrimes(100001);
 
 };

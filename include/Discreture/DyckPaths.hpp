@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Basic.hpp"
-#include "Vectorhelpers.hpp"
+#include "VectorHelpers.hpp"
 #include "Misc.hpp"
 #include "Sequences.hpp"
 #include "Range.hpp"
@@ -49,8 +48,8 @@ namespace dscr
 		
 		typedef long long int difference_type;
 		typedef unsigned long long int size_type;
-		typedef vector<IntType> value_type;
-		typedef vector<IntType> dyck_path;
+		typedef std::vector<IntType> value_type;
+		typedef std::vector<IntType> dyck_path;
 
 		//Declarations.
 		class iterator;
@@ -123,7 +122,7 @@ namespace dscr
 			
 		}
 		
-		static std::string to_string(const dyck_path& data, const string& delim = "()")
+		static std::string to_string(const dyck_path& data, const std::string& delim = "()")
 		{
 			std::string toReturn;
 			for (auto i : data)
@@ -164,7 +163,7 @@ namespace dscr
 		////////////////////////////////////////////////////////////
 		/// \brief Forward iterator class.
 		////////////////////////////////////////////////////////////
-		class iterator : public std::iterator<std::forward_iterator_tag,vector<IntType>>
+		class iterator : public std::iterator<std::forward_iterator_tag,std::vector<IntType>>
 		{
 		public:
 			iterator() : m_ID(0), m_data() {} //empty initializer
@@ -198,7 +197,7 @@ namespace dscr
 				return *this;
 			}
 			
-			inline const vector<IntType>& operator*() const
+			inline const std::vector<IntType>& operator*() const
 			{
 				return m_data;
 			}

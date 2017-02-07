@@ -1,43 +1,50 @@
 cmake_minimum_required(VERSION 2.8)
 project(discreture)
 
-option(BUILD_TESTS "Build test programs" ON) # Probably should leave it like this
-option(USE_CLANG "Use CLANG to build" OFF)
+option(BUILD_TESTS "Build unit tests" ON)
+option(BUILD_EXAMPLES "Build example programs" ON)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
-set(CMAKE_LIBRARY_DIR ${CMAKE_SOURCE_DIR}/lib)
-set(CMAKE_BINARY_DIR ${CMAKE_LIBRARY_DIR})
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-set(LIBRARY_OUTPUT_PATH ${CMAKE_LIBRARY_DIR})
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
-set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR})
+set(CMAKE_CXX_COMPILER clang++)
+
+add_definitions(-Wall)
 
 # set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_BUILD_TYPE Release)
-set(BUILD_SHARED_LIBS ON)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Discreture)
 
-if (USE_CLANG)
-	SET (CMAKE_CXX_COMPILER "/usr/bin/clang++")
-	SET (CMAKE_AR      		"/usr/bin/llvm-ar")
-	SET (CMAKE_LINKER  		"/usr/bin/llvm-ld")
-	SET (CMAKE_NM      		"/usr/bin/llvm-nm")
-	SET (CMAKE_OBJDUMP 		"/usr/bin/llvm-objdump") 
-	SET (CMAKE_RANLIB  		"/usr/bin/llvm-ranlib")
-endif (USE_CLANG)
-
-add_definitions(-std=c++14)
 add_definitions(-Ofast -march=native)
-# add_definitions(-Wall -Weffc++ -Wpedantic -Werror)
 
-add_library(discreture SHARED Sequences.cpp Subsets.cpp Vectorhelpers.cpp Probability.cpp)
 message("Installing to " ${CMAKE_INSTALL_PREFIX})
-install(TARGETS discreture LIBRARY DESTINATION lib)
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION ${CMAKE_INSTALL_PREFIX} FILES_MATCHING PATTERN "*.hpp")
 
+
+
 if(BUILD_TESTS)
-	add_executable(testdiscreture main.cpp Tests.cpp)
-	target_link_libraries(testdiscreture discreture)
+	add_executable(testdiscreture 	UTests/test_all.cpp 
+									UTests/combinations_test.cpp 
+									UTests/dyck_test.cpp 
+									UTests/misc_test.cpp 
+									UTests/motzkin_test.cpp 
+									UTests/multisets_test.cpp
+									UTests/permutations_test.cpp
+									UTests/range_test.cpp 
+									UTests/sequence_test.cpp 
+									UTests/partitions_test.cpp 
+									UTests/set_partitions_test.cpp)
 endif (BUILD_TESTS)
+
+if(BUILD_EXAMPLES)
+	add_executable(combinations examples/combinations.cpp)
+	add_executable(combinations_reverse examples/combinations_reverse.cpp)
+	add_executable(combinations_tree examples/combinations_tree.cpp)
+	add_executable(combinations_tree_reverse examples/combinations_tree_reverse.cpp)
+	add_executable(dyck examples/dyck.cpp)
+# 	add_executable(motzkin examples/motzkin.cpp)
+# 	add_executable(range examples/range.cpp)
+# 	add_executable(setpartitions examples/setpartitions.cpp)
+# 	add_executable(multisets examples/multisets.cpp)
+endif (BUILD_EXAMPLES)
