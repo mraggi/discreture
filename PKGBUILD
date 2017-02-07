@@ -1,8 +1,8 @@
-# Maintainer: oi_wtf <brainpower at mailbox dot org>
+# Maintainer: Miguel Raggi <mraggi@gmail.com>
 
 pkgname=discreture
 pkgver=1.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A modern C++14 library providing iterable objects such as combinations, permutations, partitions, etc."
 arch=('x86_64')
 url="http://github.com/mraggi/discreture"
@@ -37,3 +37,4 @@ package() {
     install -Dm644 README.md "$pkgdir/usr/share/doc/$_gitname/README.md" || return 1
 #     install 
 }
+
