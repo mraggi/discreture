@@ -6,7 +6,7 @@ option(BUILD_EXAMPLES "Build example programs" ON)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
-set(CMAKE_CXX_COMPILER clang++)
+# set(CMAKE_CXX_COMPILER clang++)
 
 add_definitions(-Wall)
 
@@ -19,7 +19,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Discreture)
 add_definitions(-Ofast -march=native)
 
 message("Installing to " ${CMAKE_INSTALL_PREFIX})
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION ${CMAKE_INSTALL_PREFIX} FILES_MATCHING PATTERN "*.hpp")
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION ${CMAKE_INSTALL_PREFIX})
+# install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION ${CMAKE_INSTALL_PREFIX} FILES_MATCHING PATTERN "*.hpp")
 
 
 
