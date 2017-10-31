@@ -9,32 +9,32 @@ This library is provided as a header-only library.
 # Quick preview:
 
 ```c++
-    #include <iostream>
-    #include <discreture.hpp>
-    int main()
-    {
+	#include <iostream>
+	#include <discreture.hpp>
+	int main()
+	{
 		using namespace std;
 		using namespace dscr;
 		
-        combinations X(5,3);
-        for (auto& x : X)
-            cout << x << endl;
-        
-        return 0;
-    }
+		combinations X(5,3);
+		for (auto& x : X)
+			cout << x << endl;
+		
+		return 0;
+	}
 ```
 The above code would produce the following output:
 
-    0 1 2
-    0 1 3
-    0 2 3
-    1 2 3
-    0 1 4
-    0 2 4
-    1 2 4
-    0 3 4
-    1 3 4
-    2 3 4
+	0 1 2
+	0 1 3
+	0 2 3
+	1 2 3
+	0 1 4
+	0 2 4
+	1 2 4
+	0 3 4
+	1 3 4
+	2 3 4
 
 Of course, you need to compile with the -std=c++14 flag:
 g++ -std=c++14 -O2 main.cpp
