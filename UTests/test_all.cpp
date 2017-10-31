@@ -7,15 +7,15 @@ using namespace dscr;
 bool testCorrectness()
 {
 	if (
-// 		testCombinations() 	&&
-// 		testCombinationsTree() &&
-// 		testPermutations() 	&&
-		testNumberTheory()	//&&
-// 		testPartitions()	&&
-// 		testMultiset()		&&
-// 		testDyckPaths()		&&
-// 		testSetPartitions()		&&
-// 		testMotzkin()
+		testCombinations() 	&&
+		testCombinationsTree() &&
+		testPermutations() 	&&
+		testNumberTheory()	&&
+		testPartitions()	&&
+		testMultiset()		&&
+		testDyckPaths()		&&
+		testSetPartitions()		&&
+		testMotzkin()
 	)
 	{
 		std::cout << "\n\n All tests PASSED!" << '\n';
@@ -31,22 +31,22 @@ bool testCorrectness()
 
 void testSpeed()
 {
-// 	testCombinationsSpeed(32, 16);
-// 	cout << flush;
-// 	testCombinationsTreeSpeed(32, 16);
-// 	cout << flush;
-// 	testPermutationsSpeed(11);
-// 	cout << flush;
-// 	testPartitionsSpeed(45);
-// 	cout << flush;
-// 	testMultisetSpeed();
-// 	cout << flush;
-// 	testDyckPathsSpeed(18);
-// 	cout << flush;
-// 	testMotzkinSpeed(20);
-// 	cout << flush;
-// 	testSetPartitionSpeed(13);
-// 	cout << flush;
+	testCombinationsSpeed(32, 16);
+	cout << flush;
+	testCombinationsTreeSpeed(32, 16);
+	cout << flush;
+	testPermutationsSpeed(11);
+	cout << flush;
+	testPartitionsSpeed(45);
+	cout << flush;
+	testMultisetSpeed();
+	cout << flush;
+	testDyckPathsSpeed(18);
+	cout << flush;
+	testMotzkinSpeed(20);
+	cout << flush;
+	testSetPartitionSpeed(13);
+	cout << flush;
 	testNumberTheorySpeed(1000);
 	cout << flush;
 	testPrimeSpeed();

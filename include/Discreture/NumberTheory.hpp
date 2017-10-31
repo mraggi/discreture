@@ -251,8 +251,10 @@ public:
         return a == 1;
 	}
     
+    /// Make sure sqrt(n) < primes.back()*primes.back(), otherwise this could spit out a wrong factorization.
     Factorization prime_factorization(long n)
     {
+// 		assert(n <= primes.back()*primes.back());
         Factorization F;
         if (n <= 1)
 			return F;
@@ -267,21 +269,22 @@ public:
             if (a != 0)
                 F.emplace_back(p,a);
             
-            if (p > n)
+            if (p*p > n)
 				break;
 		}
 		
-		long lastprime = primes.back();
+// 		assert(n < primes.back()*primes.back());
 		
-		if (n < lastprime*lastprime)
-		{
-			if (n > 1) // this means n is a prime that is bigger than primes.back() but smaller than primes.back() squared.
-				F.emplace_back(n,1);
-			return F;
-		}
+// 		if (n > primes.back()*primes.back())
+// 		{
+// 			fermat_factorization(n,F);
+// 			cout << "Error: need more primes" << endl;
+// 			return F;
+// 		}
 		
-		// time to use pollard's factorization method.
-		pollard_factorization(n,F);
+		if (n > 1)
+			++F[n];
+		
 		return F;
     }
 
@@ -290,7 +293,7 @@ private:
     {
         std::vector<bool> primecharfunc;
         primecharfunc.resize(n+1,true);
-        primes.reserve((1.1*n)/log(n)+2);
+        primes.reserve((1.1*n)/log(n)+50);
         for (long p=3; p*p<=n; p += 2)
         {
             if (primecharfunc[p] == true)
@@ -308,7 +311,10 @@ private:
     // private because n has to be odd, and maybe is already a factor in something, so yeah.
     void fermat_factorization(long n, Factorization& F)
 	{
+		assert(n%2 == 1);
+		assert(n > 5);
 		long a = FermatFactor(n);
+		
 		long b = n/a;
 		
 		assert(a*b == n);
