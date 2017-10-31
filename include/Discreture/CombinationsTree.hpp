@@ -213,6 +213,7 @@ public:
 	{
 	public:
 		iterator() : m_ID(0), m_data() {} //empty initializer
+		iterator(const combination& comb) : m_ID(get_index(comb)), m_data(comb) {} //empty initializer
 	private:
 		explicit iterator(IntType id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
 	public:
@@ -344,10 +345,7 @@ public:
 
 	iterator get_iterator(const combination& comb)
 	{
-		iterator it;
-		it.m_ID = get_index(comb);
-		it.m_data = comb;
-		return it;
+		return iterator(comb);
 	}
 
 	////////////////////////////////////////////////////////////
@@ -403,7 +401,7 @@ public:
 		////////////////////////////////////////
 		///
 		/// \brief Random access capabilities to the iterators
-		/// \param n -> This assumes 0 <= n+ID <= size(n,k)
+		/// \param m -> This assumes 0 <= m+ID <= size(m,k)
 		///
 		////////////////////////////////////////
 		inline reverse_iterator& operator+=(difference_type m)

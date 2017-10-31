@@ -238,6 +238,7 @@ public:
 	{
 	public:
 		iterator() : m_ID(0), m_data(), m_placetostartsearch(0) {} //empty initializer
+		explicit iterator(const combination& data) : m_ID(get_index(data)), m_data(data), m_placetostartsearch(0) {} //ending initializer: for id and combination only. Do not use unless you know what you are doing.
 	private:
 		explicit iterator(IntType id) : m_ID(id), m_data(), m_placetostartsearch(0) {} //ending initializer: for id only. Do not use unless you know what you are doing.
 	public:
@@ -370,11 +371,7 @@ public:
 
 	iterator get_iterator(const combination& comb)
 	{
-		iterator it;
-		it.m_ID = get_index(comb);
-		it.m_data = comb;
-		it.m_placetostartsearch = 0;
-		return it;
+		return iterator(comb);
 	}
 
 	////////////////////////////////////////////////////////////

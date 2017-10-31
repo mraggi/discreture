@@ -3,5 +3,3 @@
 #include "VectorHelpers.hpp"
 
 void testVectorHelpers();
-bool testNumberTheory();
-void testNumberTheorySpeed(int n);

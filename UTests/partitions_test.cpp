@@ -1,3 +1,5 @@
+#include <numeric>
+
 #include "partitions_test.hpp"
 #include "TimeHelpers.hpp"
 

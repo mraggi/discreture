@@ -48,7 +48,10 @@ inline NumType abs(NumType a)
 template <class IntType>
 inline IntType modulo(IntType a, IntType b)
 {
-	return (a + abs(a * b)) % b;
+	IntType r = a%b;
+	if (r < 0)
+		r += b;
+	return r;
 }
 
 //////////////////////////////////////////
@@ -88,6 +91,8 @@ inline int signof(T val)
 {
 	return (T(0) < val) - (val < T(0));
 }
+
+
 
 template <class T>
 inline T pow(T a, unsigned long n)

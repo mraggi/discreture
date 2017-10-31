@@ -24,17 +24,18 @@ sha256sums=('SKIP')
 
 build() {
     cd "$srcdir/discreture"
-    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release .
+    rm -rf build
+    mkdir build && cd build
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..
     make
 }
 
 package() {
     cd "$srcdir/discreture"
+	
 
-    make DESTDIR="$pkgdir/" install
-
-#     install -Dm644 ./license.txt ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
     install -Dm644 README.md "$pkgdir/usr/share/doc/$_gitname/README.md" || return 1
-#     install 
+    cd build
+    make DESTDIR="$pkgdir/" install
 }
 

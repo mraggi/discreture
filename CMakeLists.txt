@@ -35,7 +35,8 @@ if(BUILD_TESTS)
 									UTests/range_test.cpp 
 									UTests/sequence_test.cpp 
 									UTests/partitions_test.cpp 
-									UTests/set_partitions_test.cpp)
+									UTests/set_partitions_test.cpp
+									UTests/numbertheory_tests.cpp)
 endif (BUILD_TESTS)
 
 if(BUILD_EXAMPLES)
@@ -49,5 +50,6 @@ if(BUILD_EXAMPLES)
 # 	add_executable(range examples/range.cpp)
 	add_executable(setpartitions examples/setpartitions.cpp)
 	add_executable(partitions examples/partitions.cpp)
+	add_executable(numbertheory examples/numbertheory.cpp)
 # 	add_executable(multisets examples/multisets.cpp)
 endif (BUILD_EXAMPLES)

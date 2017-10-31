@@ -1,5 +1,7 @@
 #pragma once
 
+#include <numeric>
+
 #include "VectorHelpers.hpp"
 #include "Misc.hpp"
 #include "Sequences.hpp"
