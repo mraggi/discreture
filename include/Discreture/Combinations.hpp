@@ -28,7 +28,7 @@ namespace dscr
 ///
 /// # Example 2:
 ///
-///     basic_combinations<short int> X(5,1);
+///	 basic_combinations<short int> X(5,1);
 ///		for (const auto& x : X)
 ///			cout << x << " ";
 ///		Prints out:
@@ -667,7 +667,7 @@ public:
 	/// \brief This is an efficient way to construct all combination of size k which fully satisfy a predicate, std::vector version.
 	///
 	/// Equivalent to:
-	///     auto T = find_all(pred);
+	///	 auto T = find_all(pred);
 	/// 	return std::vector<combination>(T.begin(),T.end());
 	///
 	//////////////////////////////////////////////

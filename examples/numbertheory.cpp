@@ -11,11 +11,11 @@ using namespace dscr;
 
 int main()
 {
-    Chronometer C;
-    PrimeFactorizer P(5000);
-    
-    
-//     cout << "Primes (found in " << C.Reset() << "s): " << endl;
+	Chronometer C;
+	PrimeFactorizer P(5000);
+	
+	
+//	 cout << "Primes (found in " << C.Reset() << "s): " << endl;
 // 	cout << P.primes << endl;
 	for (int i = 1; i < 1000; ++i)
 	{
@@ -26,7 +26,7 @@ int main()
 	
 // 	PrimeFactorizer P2;
 // 	P2.old_fill_primes_up_to(50000000);
-//     cout << "old Primes (found in " << C.Reset() << "s): "  << endl;
+//	 cout << "old Primes (found in " << C.Reset() << "s): "  << endl;
 // 	cout << P2.primes << endl;
 
 	return 0;

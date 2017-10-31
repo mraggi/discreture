@@ -16,7 +16,7 @@ namespace dscr
 /// \param IntType should be an integral type with enough space to store n and k. It can be signed or unsigned.
 /// # Example:
 ///
-///     set_partitions X(3);
+///	 set_partitions X(3);
 ///		for (auto& x : X)
 ///			cout << x << endl;
 ///

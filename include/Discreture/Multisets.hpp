@@ -21,7 +21,7 @@ public:
 	/// \param IntType can be an int, uint, etc. It can be signed or unsigned (the negatives are not used)
 	/// # Example:
 	///
-	///     multisets X({1,0,3,1});
+	///	 multisets X({1,0,3,1});
 	///		for (const auto& x : X)
 	///			std::cout << x << " ";
 	///

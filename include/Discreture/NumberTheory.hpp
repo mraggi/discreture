@@ -117,7 +117,7 @@ struct Factorization
 		
 		if (it->p != p)
 		{
-            ++it;
+			++it;
 			it = m_prime_factors.insert(it,prime_to_power(p,0));
 			return it->a;
 		}
@@ -233,7 +233,7 @@ public:
 		euler_sieve(n);
 	}
 	
-    bool is_prime(long p) const
+	bool is_prime(long p) const
 	{
 		if (p <= primes.back())
 		{
@@ -243,33 +243,33 @@ public:
 		
 		// Maybe comment this out? should test this!!
 		if (p <= primes.back()*primes.back())
-        {
-            return bf_is_prime(p);
-        }
+		{
+			return bf_is_prime(p);
+		}
 		
 		long a = FermatFactor(p);
-        return a == 1;
+		return a == 1;
 	}
-    
-    /// Make sure sqrt(n) < primes.back()*primes.back(), otherwise this could spit out a wrong factorization.
-    Factorization prime_factorization(long n)
-    {
+	
+	/// Make sure sqrt(n) < primes.back()*primes.back(), otherwise this could spit out a wrong factorization.
+	Factorization prime_factorization(long n)
+	{
 // 		assert(n <= primes.back()*primes.back());
-        Factorization F;
-        if (n <= 1)
+		Factorization F;
+		if (n <= 1)
 			return F;
 		for (auto p : primes)
 		{
-            long a = 0;
+			long a = 0;
 			while (n%p == 0)
-            {
-                n /= p;
-                ++a;
-            }
-            if (a != 0)
-                F.emplace_back(p,a);
-            
-            if (p*p > n)
+			{
+				n /= p;
+				++a;
+			}
+			if (a != 0)
+				F.emplace_back(p,a);
+			
+			if (p*p > n)
 				break;
 		}
 		
@@ -286,30 +286,30 @@ public:
 			++F[n];
 		
 		return F;
-    }
+	}
 
 private:
-    void euler_sieve(long n)
-    {
-        std::vector<bool> primecharfunc;
-        primecharfunc.resize(n+1,true);
-        primes.reserve((1.1*n)/log(n)+50);
-        for (long p=3; p*p<=n; p += 2)
-        {
-            if (primecharfunc[p] == true)
-            {
-                for (long i=p*2; i<=n; i += p)
-                    primecharfunc[i] = false;
-            }
-        }
+	void euler_sieve(long n)
+	{
+		std::vector<bool> primecharfunc;
+		primecharfunc.resize(n+1,true);
+		primes.reserve((1.1*n)/log(n)+50);
+		for (long p=3; p*p<=n; p += 2)
+		{
+			if (primecharfunc[p] == true)
+			{
+				for (long i=p*2; i<=n; i += p)
+					primecharfunc[i] = false;
+			}
+		}
 
-        for (long p=11; p<n; p += 2)
-            if (primecharfunc[p])
-                primes.emplace_back(p);
-    }
-    
-    // private because n has to be odd, and maybe is already a factor in something, so yeah.
-    void fermat_factorization(long n, Factorization& F)
+		for (long p=11; p<n; p += 2)
+			if (primecharfunc[p])
+				primes.emplace_back(p);
+	}
+	
+	// private because n has to be odd, and maybe is already a factor in something, so yeah.
+	void fermat_factorization(long n, Factorization& F)
 	{
 		assert(n%2 == 1);
 		assert(n > 5);
@@ -322,10 +322,10 @@ private:
 		{
 			++F[b];
 		} else
-        {
-            fermat_factorization(a,F);
-            fermat_factorization(b,F);
-        }
+		{
+			fermat_factorization(a,F);
+			fermat_factorization(b,F);
+		}
 	}
 	
 	void pollard_factorization(long n, Factorization& F)
@@ -342,14 +342,14 @@ private:
 		{
 			++F[b];
 		} else
-        {
-            pollard_factorization(a,F);
-            pollard_factorization(b,F);
-        }
+		{
+			pollard_factorization(a,F);
+			pollard_factorization(b,F);
+		}
 	}
-    
+	
 public:
-    std::vector<long> primes = {2,3,5,7};
+	std::vector<long> primes = {2,3,5,7};
 	
 	bool bf_is_prime(long n) const
 	{
