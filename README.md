@@ -194,13 +194,15 @@ The GNU Scientific Library is a well known and mature library. For more informat
 
 ![discreture::combinations vs GSL combinations](https://github.com/mraggi/discreture/blob/master/combvsgsl.png "discreture::combinations vs GSL combinations")
 
+Euler314's library can be found [here](https://github.com/euler314/combinatorics).
+
 The GSL code used was the following:
 
 ```c++
 	gsl_combination * c;
 	size_t i = 0;
 
-	for (int n = 8; n < 34; n += 1)
+	for (int n = 27; n < 34; n += 1)
 	{
 		c = gsl_combination_calloc (n, n/2);
 		do
