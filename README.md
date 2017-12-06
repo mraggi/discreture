@@ -202,13 +202,12 @@ The GSL code used was the following:
 	gsl_combination * c;
 	size_t i = 0;
 
-	for (int n = 27; n < 34; n += 1)
+	for (int n = 27; n < 34; ++n)
 	{
 		c = gsl_combination_calloc (n, n/2);
 		do
 		{
-			if (gsl_combination_get(c,3) == 1)
-				++i;
+			DoNotOptimize(*c);
 		}
 		while (gsl_combination_next (c) == GSL_SUCCESS);
 		gsl_combination_free (c);	
@@ -218,13 +217,11 @@ The GSL code used was the following:
 Compare this to the same code using discreture:
 ```c++
 	size_t i = 0;
-	for (int n = 8; n < 34; n += 1)
+	for (int n = 8; n < 34; ++n)
 	{
-		combinations X(n,n/2);
-		for (auto& x : X)
+		for (auto& x : combinations(n,n/2))
 		{
-			if (x[3] == 1)
-				++i;
+			DoNotOptimize(x);
 		}
 	}
 ```
@@ -253,6 +250,8 @@ On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the followin
 | Time taken to see all 27644437 set partitions of size 13 							|	   0.960195s  		| **0.79946s** |
 | Time taken to see all 42355950 set partitions a set of 15 elements with 4 parts 	|	   1.20166s  		| **1.01687s** |
 | **Total Time**																	|	 **19.7s**			|	22.1s	   |
+
+More benchmarks, with updated compilers, coming soon.
 
 # Acknowledgements
 I would like to thank Manuel Alejandro Romo de Vivar (manolo) for his work on dyck paths, motzkin paths, and his contribution to partition numbers.
