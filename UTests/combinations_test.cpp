@@ -1,6 +1,6 @@
+#include "combinations_test.hpp"
 #include <algorithm>
 #include <numeric>
-#include "combinations_test.hpp"
 //#include <gsl/gsl_combination.h> // uncomment to test GSL combinations
 #include "TimeHelpers.hpp"
 

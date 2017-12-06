@@ -39,7 +39,7 @@ int main()
 
 	cout << "\n================ Starting Correctness Tests ================" << endl;
 
-	if (!testCorrectness()) //TODO: switch to google test, probably.
+	if (!testCorrectness()) //TODO(mraggi): switch to google test, probably.
 	{
 		return 1; //error!!
 	}

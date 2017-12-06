@@ -1,9 +1,9 @@
+#include "NumberTheory.hpp"
+#include "TimeHelpers.hpp"
+#include "VectorHelpers.hpp"
+#include <algorithm>
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include "NumberTheory.hpp"
-#include "VectorHelpers.hpp"
-#include "TimeHelpers.hpp"
 
 using namespace std;
 using namespace dscr;
@@ -130,13 +130,7 @@ bool testNumberTheory()
 		return false;
 	}
 	
-	if (!testGCDandLCM())
-	{
-		
-		return false;
-	}
-	
-	return true;
+	return testGCDandLCM();
 }
 
 

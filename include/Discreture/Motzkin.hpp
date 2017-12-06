@@ -258,6 +258,6 @@ private:
 
 }; // end class basic_motzkin_paths
 
-using motzkin_paths = basic_motzkin_paths<int>;
+using motzkin_paths = basic_motzkin_paths<long>;
 
 } // end namespace dscr;

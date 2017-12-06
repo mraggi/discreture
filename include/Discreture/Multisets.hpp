@@ -162,7 +162,7 @@ private:
 	iterator m_end;
 
 };
-typedef basic_multisets<int> multisets;
+using multisets = basic_multisets<int>;
 
 // 	template <class IntType>
 // 	class MultisetIterator

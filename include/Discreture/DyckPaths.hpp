@@ -46,10 +46,10 @@ namespace dscr
 	{
 	public:
 		
-		typedef long long int difference_type;
-		typedef unsigned long long int size_type;
-		typedef std::vector<IntType> value_type;
-		typedef std::vector<IntType> dyck_path;
+		using difference_type = long long int;
+		using size_type = unsigned long long int;
+		using value_type = std::vector<IntType>;
+		using dyck_path = std::vector<IntType>;
 
 		//Declarations.
 		class iterator;
@@ -352,6 +352,6 @@ namespace dscr
 		
 	}; // end class basic_dyck_paths
 	
-	using dyck_paths = basic_dyck_paths<int>;
+	using dyck_paths = basic_dyck_paths<long>;
 
 } // end namespace dscr;

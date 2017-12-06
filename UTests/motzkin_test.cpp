@@ -1,6 +1,6 @@
 #include "motzkin_test.hpp"
-#include "dyck_test.hpp"
 #include "TimeHelpers.hpp"
+#include "dyck_test.hpp"
 using namespace dscr;
 
 bool testMotzkin()

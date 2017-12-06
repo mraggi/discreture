@@ -29,10 +29,10 @@ class basic_combinations_tree
 {
 public:
 
-	typedef long long int difference_type;
-	typedef unsigned long long int size_type;
-	typedef std::vector<IntType> value_type;
-	typedef std::vector<IntType> combination;
+	using difference_type = long long int;
+	using size_type = unsigned long long int;
+	using value_type = std::vector<IntType>;
+	using combination = std::vector<IntType>;
 
 	//Declarations.
 	class iterator;
@@ -506,7 +506,7 @@ private:
 
 }; // end class basic_combinations_tree
 
-using combinations_tree = basic_combinations_tree<int>;
+using combinations_tree = basic_combinations_tree<long>;
 
 
 } // end namespace dscr;

@@ -4,7 +4,7 @@
 
 bool testDyckPaths();
 
-inline bool dyckpathiscorrect(const std::vector<int>& x)
+inline bool dyckpathiscorrect(const dscr::dyck_paths::dyck_path& x)
 {
 
 	int suma = 0;
