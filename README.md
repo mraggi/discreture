@@ -192,7 +192,7 @@ which are all combinations for which every element is a divisor of the next elem
 
 The GNU Scientific Library is a well known and mature library. For more information, [check their website](https://www.gnu.org/software/gsl/). It implements combinations. Iterating over all combinations of size n/2 over a set of size n was took the following time:
 
-![discreture::combinations vs GSL combinations](https://github.com/mraggi/discreture/blob/master/combvsgsl2.png "discreture::combinations vs GSL combinations")
+![discreture::combinations vs GSL combinations](https://github.com/mraggi/discreture/blob/master/combvsgsl.png "discreture::combinations vs GSL combinations")
 
 The GSL code used was the following:
 
