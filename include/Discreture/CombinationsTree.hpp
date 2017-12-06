@@ -67,41 +67,18 @@ public:
 
 	static inline void prev_combination(combination& data, IntType n)
 	{
-		IntType k = data.size();
-
-// 			IntType i = 0;
-		if (k == 0)
+		if (data.empty())
 			return;
-
-		if (k == 1)
+		IntType a = n-1;
+		for (long i = data.size()-1; i > 0; --i,--a)
 		{
-			if (data[0] > 0)
-				--data[0];
-
-			return;
-		}
-
-		if (data[k - 1] != data[k - 2] + 1)
-		{
-			--data[k - 1];
-			return;
-		}
-
-		for (int i = 0; i + 1 < k; ++i)
-		{
-			if (data[i] + k - i - 1 == data.back())
+			if (data[i]-1 != data[i-1])
 			{
 				--data[i];
-
-				for (int j = i + 1; j < k; ++j)
-				{
-					data[j] = n - (k - j);
-				}
-
 				return;
-			}
+			} 
+			data[i] = a;
 		}
-
 		--data[0];
 	}
 
