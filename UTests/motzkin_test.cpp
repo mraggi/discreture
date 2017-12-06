@@ -5,6 +5,7 @@ using namespace dscr;
 
 bool testMotzkin()
 {
+	std::cout << "============= Testing Motzkin Paths ============" << '\n';
 	motzkin_paths X(4);
 
 	for (const auto& x : X)
@@ -20,30 +21,7 @@ bool testMotzkin()
 	for (const auto& x : X)
 	{
 		std::cout << motzkin_paths::to_string(x) << '\n';
-
-
 	}
 
 	return true;
-}
-
-
-
-void testMotzkinSpeed(int n)
-{
-	Chronometer C;
-	motzkin_paths X(n);
-
-	llint i = 0;
-
-	for (const auto& x : X)
-	{
-		if (x[0] == 1)
-		{
-			++i;
-		}
-	}
-
-// 	std::cout << "i = " << i << '\n';
-	std::cout << "Time taken to see all " << X.size() << " motzkin paths of size " << n  << ": " << C.Reset() << "s" << '\n';
 }

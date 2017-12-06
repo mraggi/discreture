@@ -71,8 +71,6 @@ public:
 
 		IntType k = data.size() - 1;
 
-// 			cout << "bah1 " << k << endl;
-// 			cout << "hint = " << hint << endl;
 		for (IntType i = hint; i < k; ++i)
 		{
 			if (data[i] + 1 != data[i + 1]) //Does NOT improve with binary search... huh.
@@ -84,28 +82,30 @@ public:
 				{
 					data[j] = j;
 				}
-
-				i = std::max(i, static_cast<IntType>(1));
-				return i - 1;
+				
+				if (i > 0)
+					return i-1;
+				return 0;
 			}
 		}
 
-// 			cout << "bah2" << endl;
 		++data[k];
 
 		for (IntType j = 0; j < k; ++j)
 		{
 			data[j] = j;
 		}
+		
+		if (k > 0)
+			return k-1;
+		return 0;
 
-		k = std::max(k, static_cast<IntType>(1));
-		return k - 1;
-	}
+	} //next_combination
 
 	static void prev_combination(combination& data)
 	{
 		assert(std::is_sorted(data.begin(), data.end()));
-// 			assert(data.back() != data.size()-1);
+		
 
 		IntType k = data.size();
 		IntType i = 0;

@@ -3,10 +3,10 @@
 #include <vector>
 
 bool testDyckPaths();
-void testDyckPathsSpeed(int n);
 
 inline bool dyckpathiscorrect(const std::vector<int>& x)
 {
+
 	int suma = 0;
 
 	for (auto u : x)

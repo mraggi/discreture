@@ -31,7 +31,7 @@ bool testPrimeFactorization()
 			cout << T << endl;
 			return false;
 		}
-		if (n < 200)
+		if (n < 50)
 			cout << n << " = " << T << endl;
 	}
 	
@@ -94,26 +94,6 @@ bool testIsPrime()
 	return true;
 }
 
-bool testPrimeSpeed()
-{
-	cout << "Starting prime factorization speed" << endl;
-	PrimeFactorizer P(500000);
-	
-	Chronometer C;
-	int numtimes = 1;
-	
-	for (int i = 0; i < numtimes; ++i)
-	{
-		long numtofactor = (long(rand())+1)*(long(rand())+1)+1;
-		auto T = P.prime_factorization(numtofactor);
-// 		cout << numtofactor << " = " << T << '\n';
-	}
-	
-	
-	cout << "Time taken to factorize " << numtimes << " numbers: " << C.Peek() << 's' << endl;
-	
-	return true;
-}
 
 bool testGCDandLCM()
 {

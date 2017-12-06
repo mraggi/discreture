@@ -12,7 +12,8 @@ using llint = long long int;
 /// \param n is a (small) nonnegative integer.
 /// \return n!
 //////////////////////////////
-inline llint factorial(llint n);
+template <class BigIntType = llint>
+inline BigIntType factorial(llint n);
 
 //////////////////////////////
 /// \brief The number of subsets of size r chosen from a set of size n
@@ -20,21 +21,24 @@ inline llint factorial(llint n);
 /// \param r is a small integer between 0 and n (inclusive)
 /// \return n!/(r!*(n-r)!)
 //////////////////////////////
-inline llint binomial(llint n, llint r);
+template <class BigIntType = llint>
+inline BigIntType binomial(llint n, llint r);
 
 //////////////////////////////
 /// \brief The n-th catalan number
 /// \param n is a (small) nonnegative integer
 /// \return binomial(2n,n)/(n+1)
 //////////////////////////////
-inline llint catalan(llint n);
+template <class BigIntType = llint>
+inline BigIntType catalan(llint n);
 
 //////////////////////////////
 /// \brief The n-th motzkin number
 /// \param n is a (small) nonnegative integer
 /// \return M_n
 //////////////////////////////
-inline llint motzkin(llint n);
+template <class BigIntType = llint>
+inline BigIntType motzkin(llint n);
 
 
 //////////////////////////////
@@ -42,7 +46,8 @@ inline llint motzkin(llint n);
 /// \param n is a (small) nonnegative integer
 /// \return P_n
 //////////////////////////////
-inline llint partition_number(llint n);
+template <class BigIntType = llint>
+inline BigIntType partition_number(llint n);
 
 //////////////////////////////
 /// \brief The number of partitions of n with k parts
@@ -50,7 +55,8 @@ inline llint partition_number(llint n);
 /// \param k <= n is a (small) nonnegative integer
 /// \return P_{n,k}
 //////////////////////////////
-inline llint partition_number(llint n, llint k);
+template <class BigIntType = llint>
+inline BigIntType partition_number(llint n, llint k);
 
 //////////////////////////////
 /// \brief The number of permutations of n which have exactly k cycles.
@@ -58,7 +64,8 @@ inline llint partition_number(llint n, llint k);
 /// \param k <= n is a (small) nonnegative integer
 /// \return The stirling number of the first kind S(n,k)
 //////////////////////////////
-inline llint stirling_cycle_number(llint n, llint k);
+template <class BigIntType = llint>
+inline BigIntType stirling_cycle_number(llint n, llint k);
 
 //////////////////////////////
 /// \brief The number of partitions of a set of n elements with k parts
@@ -66,18 +73,21 @@ inline llint stirling_cycle_number(llint n, llint k);
 /// \param k <= n is a (small) nonnegative integer
 /// \return P_{n,k}
 //////////////////////////////
-inline llint stirling_partition_number(llint n, llint k);
+template <class BigIntType = llint>
+inline BigIntType stirling_partition_number(llint n, llint k);
 
 //////////////////////////////
 /// \brief The generalized pentagonal numbers (see oeis sequence A001318)
 /// \param n is a (small) nonnegative integer
 /// \return p_n
 //////////////////////////////
-inline llint generalized_pentagonal(llint n);
+template <class BigIntType = llint>
+inline BigIntType generalized_pentagonal(llint n);
 
-inline llint factorial(llint n)
+template <class BigIntType>
+inline BigIntType factorial(llint n)
 {
-	llint toReturn = 1;
+	BigIntType toReturn = 1;
 
 	if (n < 2)
 		return toReturn;
@@ -89,7 +99,8 @@ inline llint factorial(llint n)
 }
 
 
-inline llint binomial(llint n, llint k)
+template <class BigIntType>
+inline BigIntType binomial(llint n, llint k)
 {
 	if (k > n)
 		return 0;
@@ -97,7 +108,7 @@ inline llint binomial(llint n, llint k)
 	if (k > n - k)
 		k = n - k;
 
-	static std::vector<std::vector<llint>> B = { { 1 },
+	static std::vector<std::vector<BigIntType>> B = { { 1 },
 		{ 1 },
 		{ 1,  2 },
 		{ 1,  3 },
@@ -134,27 +145,38 @@ inline llint binomial(llint n, llint k)
 
 }
 
-llint catalan(llint n)
+template <class BigIntType>
+BigIntType catalan(llint n)
 {
 	static const std::vector<llint> C = {1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, 208012, 742900, 2674440, 9694845, 35357670, 129644790, 477638700, 1767263190, 6564120420, 24466267020, 91482563640, 343059613650, 1289904147324, 4861946401452};
 
 	if (n < C.size())
 		return C[n];
 
-	return binomial(2 * n, n) / (n + 1); // May be useful someday, if decide to use gmp or something. It would be much slower.
+	return binomial(2 * n, n) / (n + 1);
 }
 
-inline llint motzkin(llint n)
+template <class BigIntType>
+inline BigIntType motzkin(llint n)
 {
-	static const std::vector<llint> M = {1, 1, 2, 4, 9, 21, 51, 127, 323, 835, 2188, 5798, 15511, 41835, 113634, 310572, 853467, 2356779, 6536382, 18199284, 50852019, 142547559, 400763223, 1129760415, 3192727797, 9043402501, 25669818476, 73007772802, 208023278209, 593742784829};
+	static std::vector<BigIntType> M = {1, 1, 2, 4, 9, 21, 51, 127, 323};
+// 	static std::vector<BigIntType> M = {1, 1, 2, 4, 9, 21, 51, 127, 323, 835, 2188, 5798, 15511, 41835, 113634, 310572, 853467, 2356779, 6536382, 18199284, 50852019, 142547559, 400763223, 1129760415, 3192727797, 9043402501, 25669818476, 73007772802, 208023278209, 593742784829};
 
 	if (n < M.size())
 		return M[n];
+	
+	llint oldsize = M.size();
+	M.resize(n+1);
+	for (long m = oldsize; m <= n; ++m)
+	{
+		M[m] = ( (2*m+1)*M[m-1] + (3*m - 3)*M[m-2] )/(m+2); //quite likely overflow if using llint
+	}
 
-	return ((2 * n + 1) * motzkin(n - 1) + (3 * n - 3) * motzkin(n - 2)) / (n + 2); // May be useful someday
+	return M[n];
 }
 
-inline llint generalized_pentagonal(llint n)
+template <class BigIntType>
+inline BigIntType generalized_pentagonal(llint n)
 {
 	llint sign = (n%2)*2 - 1;
 	n = sign*(n+1)/2;
@@ -162,7 +184,8 @@ inline llint generalized_pentagonal(llint n)
 }
 
 
-inline llint partition_number(llint n)
+template <class BigIntType>
+inline BigIntType partition_number(llint n)
 {
 	static std::vector<llint> P = {1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77, 101 };
 	
@@ -191,7 +214,8 @@ inline llint partition_number(llint n)
 	return P[n];
 }
 
-inline llint partition_number(llint n, llint k)
+template <class BigIntType>
+inline BigIntType partition_number(llint n, llint k)
 {
 	static std::vector<std::vector<llint>> PNK =
 	{
@@ -231,7 +255,8 @@ inline llint partition_number(llint n, llint k)
 	return PNK[n][k];
 }
 
-inline llint stirling_cycle_number(llint n, llint k)
+template <class BigIntType>
+inline BigIntType stirling_cycle_number(llint n, llint k)
 {
 	static std::vector<std::vector<llint>> S1 =
 	{
@@ -261,7 +286,8 @@ inline llint stirling_cycle_number(llint n, llint k)
 	return S1[n][k];
 }
 
-inline llint stirling_partition_number(llint n, llint k)
+template <class BigIntType>
+inline BigIntType stirling_partition_number(llint n, llint k)
 {
 	static std::vector<std::vector<llint>> S2 =
 	{
@@ -290,4 +316,5 @@ inline llint stirling_partition_number(llint n, llint k)
 	
 	return S2[n][k];
 }
-}
+
+} //namespace dscr

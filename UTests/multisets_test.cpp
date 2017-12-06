@@ -4,31 +4,23 @@ using namespace dscr;
 
 bool testMultiset()
 {
-	multisets X({1, 0, 3, 1});
+	std::cout << "========== Testing Multisets ==========" << std::endl;
+	
+	std::vector<int> h = {1, 0, 3, 1};
+	multisets X(h);
 
+	
+	std::cout << "Here are all sub multisets of [" << h << "]\n";
 	for (const auto& x : X)
 	{
 		std::cout << x << '\n';
+		for (int i = 0; i < x.size(); ++i)
+		{
+			if (x[i] < 0 || x[i] > h[i])
+				return false;
+		}
 
 	}
 
 	return true;
-}
-
-void testMultisetSpeed()
-{
-	Chronometer C;
-	multisets X({2, 2, 1, 3, 4, 2, 3, 3, 2, 3, 4, 4, 5, 0, 0, 1, 0, 2, 2});
-	size_t i = 0;
-
-	for (const auto& x : X)
-	{
-		if (x[1] == 2)
-		{
-			++i;
-		}
-	}
-
-	std::cout << "Time taken to see all " << X.size() << " multisets: " << C.Reset() << "s" << '\n';
-
 }
