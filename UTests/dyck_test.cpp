@@ -44,7 +44,7 @@ void testDyckPathsSpeed(int n)
 	Chronometer C;
 	dyck_paths X(n);
 
-	lluint i = 0;
+	llint i = 0;
 
 	for (const auto& x : X)
 	{

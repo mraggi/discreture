@@ -59,7 +59,7 @@ void testPartitionsSpeed(int n)
 
 	partitions X(n);
 
-	lluint i = 0;
+	llint i = 0;
 
 	for (const auto& x : X)
 	{

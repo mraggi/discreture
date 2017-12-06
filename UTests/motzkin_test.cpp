@@ -34,7 +34,7 @@ void testMotzkinSpeed(int n)
 	Chronometer C;
 	motzkin_paths X(n);
 
-	lluint i = 0;
+	llint i = 0;
 
 	for (const auto& x : X)
 	{

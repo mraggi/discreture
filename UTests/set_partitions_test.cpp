@@ -31,7 +31,7 @@ void testSetPartitionSpeed(int n)
 	Chronometer C;
 	set_partitions X(n);
 
-	lluint i = 0;
+	llint i = 0;
 
 	for (const auto& x : X)
 	{

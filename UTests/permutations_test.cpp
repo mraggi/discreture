@@ -24,7 +24,7 @@ bool testPermutations()
 	}
 
 	std::cout << " Reverse use test: " << '\n';
-	basic_permutations<lluint> Y(5);
+	basic_permutations<llint> Y(5);
 	i = 0;
 
 	for (auto it = Y.rbegin(); it != Y.rend(); ++it, ++i)
@@ -55,7 +55,7 @@ void testPermutationsSpeed(int n)
 	Chronometer C;
 	permutations X(n);
 
-	lluint i = 0;
+	llint i = 0;
 
 	for (const auto& x : X)
 	{

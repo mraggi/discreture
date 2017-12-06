@@ -6,7 +6,7 @@
 #include "Range.hpp"
 #include "CombinationsTree.hpp"
 #include "CombinationsTreePrunned.hpp"
-
+#include "combinations_bf.hpp" //Horrible. Do NOT read. Please. But I can't find another way. Sorry about that. If you think you can do better (unlikely), please, tell me about it.
 
 namespace dscr
 {
@@ -687,6 +687,90 @@ public:
 		return toReturn;
 	}
 
+	template <class Func>
+	void for_each(Func f) const
+	{
+		//I'm really sorry about this. I don't know how to improve it. If you do, by all means, tell me about it.
+		switch (m_k)
+		{
+		case 0:
+			detail::combination_helper0(f,m_n);
+			break;
+
+		case 1:
+			detail::combination_helper1(f,m_n);
+			break;
+
+		case 2:
+			detail::combination_helper2(f,m_n);
+			break;
+
+		case 3:
+			detail::combination_helper3(f,m_n);
+			break;
+
+		case 4:
+			detail::combination_helper4(f,m_n);
+			break;
+
+		case 5:
+			detail::combination_helper5(f,m_n);
+			break;
+
+		case 6:
+			detail::combination_helper6(f,m_n);
+			break;
+
+		case 7:
+			detail::combination_helper7(f,m_n);
+			break;
+
+		case 8:
+			detail::combination_helper8(f,m_n);
+			break;
+
+		case 9:
+			detail::combination_helper9(f,m_n);
+			break;
+
+		case 10:
+			detail::combination_helper10(f,m_n);
+			break;
+
+		case 11:
+			detail::combination_helper11(f,m_n);
+			break;
+
+		case 12:
+			detail::combination_helper12(f,m_n);
+			break;
+
+		case 13:
+			detail::combination_helper13(f,m_n);
+			break;
+
+		case 14:
+			detail::combination_helper14(f,m_n);
+			break;
+
+		case 15:
+			detail::combination_helper15(f,m_n);
+			break;
+
+		case 16:
+			detail::combination_helper16(f,m_n);
+			break;
+
+		default:
+			for (auto& comb : (*this))
+			{
+				f(comb);
+			}
+
+			break;
+		}
+	}
+
 private:
 	IntType m_n;
 	IntType m_k;
@@ -756,6 +840,7 @@ private:
 	}
 
 }; // end class basic_combinations
+
 
 using combinations = basic_combinations<int>;
 

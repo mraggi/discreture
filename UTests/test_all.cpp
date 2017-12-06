@@ -58,6 +58,22 @@ void testSpeed()
  **/
 int main()
 {
+	
+// 	for (int n = 0; n < 20; ++n)
+// 	{
+// 		for (int k = 0; k <= n; ++k)
+// 		{
+// 			std::cout << stirling_partition_number(n,k) << ' ';
+// 		}
+// 		std::cout << std::endl;
+// 	}
+// 	std::cout << endl;
+// 	
+// 	
+// 	
+// 	
+// 	return 0;
+	
 	Chronometer C;
 
 	cout << "\n================ Starting Correctness Tests ================" << endl;
@@ -67,8 +83,8 @@ int main()
 		return 1; //error!!
 	}
 
-	cout << "\n================ Starting Speed Tests ================" << endl;
-	testSpeed();
+// 	cout << "\n================ Starting Speed Tests ================" << endl;
+// 	testSpeed();
 
 	cout << "Total Time taken = " << C.Reset() << "s" << endl;
 	return 0;

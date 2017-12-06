@@ -51,6 +51,41 @@ bool testCombinations()
 		++i;
 	}
 
+	// for_each tests
+	std::cout << "Testing combinations::for_each" << std::endl;
+	
+	combinations FEH(6,3);
+	auto it = FEH.begin();
+	bool all_okay = true;
+	FEH.for_each([&it, &all_okay](const combinations::combination& x)
+	{
+		std::cout << x << std::endl;
+		if (*it != x)
+			all_okay = false;
+		++it;
+	});
+	
+	if (!all_okay)
+		return false;
+	
+	for (int k = 0; k <= 16; ++k)
+	{
+		int n = k+2;
+		long num = 0;
+		
+		combinations X(n,k);
+		
+		auto f = [&num](const std::vector<int>& x)
+		{
+			++num;
+		};
+		
+		X.for_each(f);
+		std::cout << "binomial(" << n << "," << k << ") == " << num << std::endl;
+		if (num != binomial(n,k))
+			return false;
+	}
+	
 	// iterator operator tests
 	std::cout << " Iterator operator tests" << std::endl;
 	auto myIter = X.begin();
@@ -80,7 +115,7 @@ bool testCombinations()
 	for (int r = 0; r <= n; ++r)
 	{
 		std::cout << "Starting with r = " << r << std::endl;
-		basic_combinations<lluint> Y(n, r);
+		basic_combinations<llint> Y(n, r);
 		i = 0;
 
 		for (auto it = Y.rbegin(); it != Y.rend(); ++it, ++i)
@@ -282,7 +317,7 @@ bool testCombinationsTree()
 	for (int r = 0; r <= n; ++r)
 	{
 		std::cout << "Starting with r = " << r << std::endl;
-		basic_combinations_tree<lluint> Y(n, r);
+		basic_combinations_tree<llint> Y(n, r);
 		i = 0;
 
 		for (auto it = Y.rbegin(); it != Y.rend(); ++it, ++i)
@@ -341,7 +376,7 @@ bool testCombinationsTree()
 void testCombinationsSpeed(int n, int k)
 {
 	Chronometer C;
-	lluint i = 0;
+	llint i = 0;
 	combinations X(n, k);
 
 	for (auto& x : X)
@@ -417,7 +452,7 @@ void testCombinationsSpeed(int n, int k)
 void testCombinationsTreeSpeed(int n, int k)
 {
 	Chronometer C;
-	lluint i = 0;
+	llint i = 0;
 	combinations_tree X(n, k);
 
 	for (auto& x : X)

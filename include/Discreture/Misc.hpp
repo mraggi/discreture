@@ -1,6 +1,8 @@
 #pragma once
 #include <cmath>
 #include <iostream>
+#include <stdlib.h>
+
 namespace dscr
 {
 

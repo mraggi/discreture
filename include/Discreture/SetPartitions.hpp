@@ -183,7 +183,7 @@ public:
 		size_type toReturn = 0;
 
 		for (size_t k = m_minnumparts; k <= m_maxnumparts; ++k)
-			toReturn += stirling2(m_n, k);
+			toReturn += stirling_partition_number(m_n, k);
 
 // 			cout << "size will be " << toReturn << endl;
 		return toReturn;

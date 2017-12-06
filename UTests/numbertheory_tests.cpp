@@ -39,7 +39,7 @@ bool testPrimeFactorization()
     srand(time(nullptr));
     
     long num = 0;
-    while (C.Peek() < 2)
+    while (C.Peek() < 0.01)
     {
         long n = rand()%100000000;
         auto T = P.prime_factorization(n);

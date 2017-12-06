@@ -37,7 +37,7 @@ std::vector<bool> operator|(const std::vector<bool>& A, const std::vector<bool>&
 ////////////////////////////////////
 /// \brief Converts a std::vector<U> into a std::vector<T>, provided U can be converted to T
 ////////////////////////////////////
-template<class T, class U>
+template<typename T, typename U>
 std::vector<T> Convert(const std::vector<U>& G)
 {
 	auto n = G.size();
