@@ -77,7 +77,7 @@ bool testCombinations()
 		
 		combinations X(n,k);
 		
-		auto f = [&num](const std::vector<int>& x)
+		auto f = [&num](const combinations::combination& x)
 		{
 			++num;
 		};
@@ -141,7 +141,7 @@ bool testCombinations()
 	std::cout << " find_if test: " << std::endl;
 	combinations W(20, 6);
 
-	auto predicate1 = [](const std::vector<int>& comb) -> bool
+	auto predicate1 = [](const combinations::combination& comb) -> bool
 	{
 		for (size_t i = 0; i < comb.size() - 1; ++i)
 		{
@@ -151,7 +151,7 @@ bool testCombinations()
 
 		return true;
 	};
-	auto predicate2 = [](const std::vector<int>& comb) -> bool
+	auto predicate2 = [](const combinations::combination& comb) -> bool
 	{
 		for (size_t i = 0; i < comb.size() - 1; ++i)
 		{
@@ -334,7 +334,7 @@ bool testCombinationsTree()
 	}
 
 	combinations W(30, 3);
-	auto T = W.find_all([](const std::vector<int>& A)
+	auto T = W.find_all([](const combinations::combination& A)
 	{
 		if (A.size() < 2)
 			return true;

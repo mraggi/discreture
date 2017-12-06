@@ -51,7 +51,7 @@ void testCombinationsSpeed(int n, int k)
 	std::cout << "Time taken to see all (" << Z.get_n() << " choose " << Z.get_k() << ") = " << Z.size() << " combinations: " << C.Reset() << "s" <<  std::endl;
 
 	combinations W(100, 5);
-	auto T = W.find_all([](const std::vector<int>& A)
+	auto T = W.find_all([](const combinations::combination& A)
 	{
 		if (A.size() < 2)
 			return true;
@@ -69,7 +69,7 @@ void testCombinationsSpeed(int n, int k)
 
 	std::cout << "Time taken find all " << num << " combinations satisfying a predicate: " << C.Reset() << "s" <<  std::endl;
 
-	auto T2 = W.get_all([](const std::vector<int>& A)
+	auto T2 = W.get_all([](const combinations::combination& A)
 	{
 		if (A.size() < 2)
 			return true;

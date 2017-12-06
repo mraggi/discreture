@@ -38,40 +38,35 @@ public:
 	class iterator;
 
 	// **************** Begin functions
-	static void next_combination(combination& data, IntType n)
+	static inline void next_combination(combination& data, IntType n)
 	{
-		assert(std::is_sorted(data.begin(), data.end()));
-
 		if (data.empty())
 			return;
 
-		IntType k = data.size();
+		long k = data.size();
 
 		if (k == 0)
 			return;
 
 
-		for (int i = k - 1; i >= 0; --i)
+		for (long i = k - 1; i >= 0; --i)
 		{
 			if (data[i] != n - k + i)
 			{
 				++data[i];
-
-				for (int j = 0; j < int(k) - i; ++j)
+				IntType t = data[i];
+				for (long j = 1; i+j < k; ++j)
 				{
-					data[j + i] = data[i] + j;
+					data[i+j] = t + j;
 				}
 
-				break;
+				return;
 			}
 		}
 	}
 
-	static void prev_combination(combination& data, IntType n)
+	static inline void prev_combination(combination& data, IntType n)
 	{
-		assert(std::is_sorted(data.begin(), data.end()));
-// 			assert(data.back() != data.size()-1);
-
 		IntType k = data.size();
 
 // 			IntType i = 0;
@@ -148,7 +143,7 @@ public:
 
 	///////////////////////////////////////
 	/// \brief Combination comparison "less than" operator. Assumes lhs and rhs have the same size.
-	/// \return true if lhs would appear before rhs in the normal iteration order, false otherwise
+	/// \return true if lhs would appear before rhs in the iteration order, false otherwise
 	///////////////////////////////////////
 	static bool compare(const combination& lhs, const combination& rhs)
 	{

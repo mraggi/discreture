@@ -1,4 +1,6 @@
 #pragma once
+#include <algorithm>
+#include <numeric>
 
 #include "VectorHelpers.hpp"
 #include "Misc.hpp"
@@ -53,60 +55,34 @@ class basic_combinations
 {
 public:
 
-	typedef long long int difference_type;
-	typedef unsigned long long int size_type;
-	typedef std::vector<IntType> value_type;
-	typedef std::vector<IntType> combination;
+	using difference_type = long long int;
+	using size_type = unsigned long long int;
+	using value_type = std::vector<IntType>;
+	using combination = std::vector<IntType>;
 
 	//Declarations.
 	class iterator;
 
 	// **************** Begin static functions
-	static IntType next_combination(combination& data, IntType hint = 0)
+	static inline void next_combination(combination& data)
 	{
-		assert(std::is_sorted(data.begin(), data.end()));
-
 		if (data.empty())
-			return 0;
-
-		IntType k = data.size() - 1;
-
-		for (IntType i = hint; i < k; ++i)
+			return;
+		IntType last = data.size()-1;
+		for (IntType i = 0; i < last; ++i)
 		{
-			if (data[i] + 1 != data[i + 1]) //Does NOT improve with binary search... huh.
+			if (data[i]+1 != data[i+1])
 			{
-				//i is the first that can be augmented
 				++data[i];
-
-				for (IntType j = 0; j < i; ++j)
-				{
-					data[j] = j;
-				}
-				
-				if (i > 0)
-					return i-1;
-				return 0;
-			}
+				return;
+			} 
+			data[i] = i;
 		}
-
-		++data[k];
-
-		for (IntType j = 0; j < k; ++j)
-		{
-			data[j] = j;
-		}
-		
-		if (k > 0)
-			return k-1;
-		return 0;
-
+		++data[last];
 	} //next_combination
 
-	static void prev_combination(combination& data)
+	static inline void prev_combination(combination& data)
 	{
-		assert(std::is_sorted(data.begin(), data.end()));
-		
-
 		IntType k = data.size();
 		IntType i = 0;
 
@@ -130,7 +106,7 @@ public:
 		}
 	}
 
-	static void construct_combination(combination& data, size_type m)
+	static inline void construct_combination(combination& data, size_type m)
 	{
 		IntType k = data.size();
 
@@ -237,13 +213,14 @@ public:
 	class iterator : public std::iterator<std::random_access_iterator_tag, std::vector<IntType>>
 	{
 	public:
-		iterator() : m_ID(0), m_data(), m_placetostartsearch(0) {} //empty initializer
-		explicit iterator(const combination& data) : m_ID(get_index(data)), m_data(data), m_placetostartsearch(0) {} //ending initializer: for id and combination only. Do not use unless you know what you are doing.
+		iterator() : m_ID(0), m_data() {} //empty initializer
+		explicit iterator(const combination& data) : m_ID(get_index(data)), m_data(data) {} //ending initializer: for id and combination only. Do not use unless you know what you are doing.
 	private:
-		explicit iterator(IntType id) : m_ID(id), m_data(), m_placetostartsearch(0) {} //ending initializer: for id only. Do not use unless you know what you are doing.
+		explicit iterator(IntType id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
 	public:
-		iterator(IntType n, IntType r) : m_ID(0), m_data(range<IntType>(r)), m_placetostartsearch(r - 1)
+		iterator(IntType n, IntType k) : m_ID(0), m_data(k)
 		{
+			std::iota(m_data.begin(), m_data.end(), 0);
 		}
 
 		//prefix
@@ -251,7 +228,7 @@ public:
 		{
 			++m_ID;
 
-			m_placetostartsearch = next_combination(m_data, m_placetostartsearch);
+			next_combination(m_data);
 
 			return *this;
 		}
@@ -289,7 +266,7 @@ public:
 		{
 			assert(0 <= n + m_ID);
 
-			// If n is small, it's actually more efficient to just iterate to it
+			// If n is small, it's actually more efficient to just advance to it one by one. 20 was found empirically
 			if (abs(n) < 20)
 			{
 				while (n > 0)
@@ -358,13 +335,11 @@ public:
 		{
 			m_ID = 0;
 			overwrite(m_data, range<IntType>(r));
-			m_placetostartsearch = r - 1;
 		}
 
 	private:
 		size_type m_ID {0};
 		combination m_data;
-		IntType m_placetostartsearch {0};
 
 		friend class basic_combinations;
 	}; // end class iterator
@@ -842,7 +817,7 @@ private:
 }; // end class basic_combinations
 
 
-using combinations = basic_combinations<int>;
+using combinations = basic_combinations<long>;
 
 } // end namespace dscr;
 

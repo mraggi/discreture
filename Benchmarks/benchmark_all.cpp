@@ -6,6 +6,8 @@ using namespace dscr;
 
 void testSpeed()
 {
+// 	binomial(33,2);
+	
 	testCombinationsSpeed(32, 16);
 	cout << flush;
 	testCombinationsTreeSpeed(32, 16);

@@ -296,4 +296,30 @@ namespace detail
 			f(x);
 		}
 	}
+	
+	template<class Func, class IntType>
+	void combination_helper17(Func f, IntType n)
+	{
+		vector<IntType> x(17);
+		for (x[16] = 16; x[16] < n; ++x[16])
+		for (x[15] = 15; x[15] < x[16]; ++x[15])
+		for (x[14] = 14; x[14] < x[15]; ++x[14])
+		for (x[13] = 13; x[13] < x[14]; ++x[13])
+		for (x[12] = 12; x[12] < x[13]; ++x[12])
+		for (x[11] = 11; x[11] < x[12]; ++x[11])
+		for (x[10] = 10; x[10] < x[11]; ++x[10])
+		for (x[9] = 9; x[9] < x[10]; ++x[9])
+		for (x[8] = 8; x[8] < x[9]; ++x[8])
+		for (x[7] = 7; x[7] < x[8]; ++x[7])
+		for (x[6] = 6; x[6] < x[7]; ++x[6])
+		for (x[5] = 5; x[5] < x[6]; ++x[5])
+		for (x[4] = 4; x[4] < x[5]; ++x[4])
+		for (x[3] = 3; x[3] < x[4]; ++x[3])
+		for (x[2] = 2; x[2] < x[3]; ++x[2])
+		for (x[1] = 1; x[1] < x[2]; ++x[1])
+		for (x[0] = 0; x[0] < x[1]; ++x[0])
+		{
+			f(x);
+		}
+	}
 }} //namespace dscr::detail close
