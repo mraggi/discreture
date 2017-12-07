@@ -238,7 +238,7 @@ Compare this to the same code using discreture:
 This comparison isn't very fair (c++ vs python). On the same system, iterating over all (24 choose 12) combinations, sage takes 12.2 seconds. Discreture takes approximately 0.01 seconds. No point in graphing that.
 
 ## CLANG vs GCC
-On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the following results:
+<!--On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the following results:
 
 | Task | Time taken CLANG 3.7.0 | Time taken GCC 5.2.0 |
 | ------------- |:-------------:| :-------------:|
@@ -251,9 +251,9 @@ On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the followin
 | Time taken to see all 50852019 motzkin paths of size 20 							|	 **1.30359s**		|   1.46971s   |
 | Time taken to see all 27644437 set partitions of size 13 							|	   0.960195s  		| **0.79946s** |
 | Time taken to see all 42355950 set partitions a set of 15 elements with 4 parts 	|	   1.20166s  		| **1.01687s** |
-| **Total Time**																	|	 **19.7s**			|	22.1s	   |
+| **Total Time**	-->																|	 **19.7s**			|	22.1s	   |
 
-More benchmarks, with updated compilers, coming soon.
+Full benchmarks, with updated compilers, coming soon.
 
 # Acknowledgements
 I would like to thank Manuel Alejandro Romo de Vivar (manolo) for his work on dyck paths, motzkin paths, and his contribution to partition numbers.
