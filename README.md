@@ -202,29 +202,22 @@ The GSL code used was the following:
 
 ```c++
 	gsl_combination * c;
-	size_t i = 0;
 
-	for (int n = 27; n < 34; ++n)
+	c = gsl_combination_calloc (n, n/2);
+	do
 	{
-		c = gsl_combination_calloc (n, n/2);
-		do
-		{
-			DoNotOptimize(*c);
-		}
-		while (gsl_combination_next (c) == GSL_SUCCESS);
-		gsl_combination_free (c);	
+		DoNotOptimize(*c);
 	}
+	while (gsl_combination_next (c) == GSL_SUCCESS);
+	gsl_combination_free (c);	
+
 ```
 
 Compare this to the same code using discreture:
 ```c++
-	size_t i = 0;
-	for (int n = 8; n < 34; ++n)
+	for (auto& x : combinations(n,n/2))
 	{
-		for (auto& x : combinations(n,n/2))
-		{
-			DoNotOptimize(x);
-		}
+		DoNotOptimize(x);
 	}
 ```
 
