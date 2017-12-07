@@ -43,7 +43,9 @@ Some tests show discreture is usually faster when compiled with clang++ instead 
 
 # Installation
 
-Discreture is a header-only library, so making sure your programs have access to the .hpp files (all files inside "include" dir) is enough.
+Discreture is a header-only library, so making sure your programs have access to the .hpp files (all files inside "include" dir) is enough. 
+
+If you want a make file or something
 
 To install, do the standard cmake/make dance:
 ```sh
@@ -59,7 +61,7 @@ To install, do the standard cmake/make dance:
 This will install everything under `/usr/local/` by default. If you wish to install to some other directory, replace the cmake .. above by `cmake .. -DCMAKE_INSTALL_PREFIX=/usr/`.
 
 
-There are two options: BUILD_EXAMPLES and BUILD_TESTS. To use discreture, you don't need to compile anything, but the examples are compiled by default.
+There are three options: BUILD_EXAMPLES, BUILD_TESTS and BUILD_BENCHMARKS. To use discreture, you don't need to compile anything, but the examples are compiled by default.
 
 # How to start using the library
 To use the library, after compiling, just add `#include <discreture.hpp>` to your project and make sure you are using -std=c++14. With the GCC compiler this can be done by compiling like this: `g++ -std=c++14 myfile.cpp`. If you wish to include only part of the library, one could do `#include <Discreture/Combinations.hpp>` for example.

@@ -56,7 +56,7 @@ class basic_combinations
 public:
 
 	using difference_type = long long int;
-	using size_type = unsigned long long int;
+	using size_type = long long int; //yeah, signed. Fuck you, STL!
 	using value_type = std::vector<IntType>;
 	using combination = std::vector<IntType>;
 
@@ -64,21 +64,30 @@ public:
 	class iterator;
 
 	// **************** Begin static functions
-	static inline void next_combination(combination& data)
+	static inline IntType next_combination(combination& data, IntType hint)
 	{
 		if (data.empty())
-			return;
+			return 0;
+		
+		if (hint > 0)
+		{
+			--hint;
+			++data[hint];
+			return hint;
+		}
+		
 		IntType last = data.size()-1;
 		for (IntType i = 0; i < last; ++i)
 		{
 			if (data[i]+1 != data[i+1])
 			{
 				++data[i];
-				return;
-			} 
+				return i;
+			}
 			data[i] = i;
 		}
 		++data[last];
+		return last;
 	} //next_combination
 
 	static inline void prev_combination(combination& data)
@@ -159,10 +168,9 @@ public:
 	/// \param k is an integer with 0 <= k <= n
 	///
 	////////////////////////////////////////////////////////////
-	basic_combinations(IntType n, IntType k) : m_n(n), m_k(k), m_begin(n, k), m_end(), m_rbegin(n, k),  m_rend()
+	basic_combinations(IntType n, IntType k) : m_n(n), m_k(k)
 	{
-		m_end.m_ID = size();
-		m_rend.m_ID = size();
+		m_size = binomial(n,k);
 	}
 
 	////////////////////////////////////////////////////////////
@@ -173,7 +181,7 @@ public:
 	////////////////////////////////////////////////////////////
 	size_type size() const
 	{
-		return binomial(m_n, m_k);
+		return m_size;
 	}
 
 
@@ -210,15 +218,15 @@ public:
 	////////////////////////////////////////////////////////////
 	/// \brief Random access iterator class. It's much more efficient as a bidirectional iterator than purely random access.
 	////////////////////////////////////////////////////////////
-	class iterator : public std::iterator<std::random_access_iterator_tag, std::vector<IntType>>
+	class iterator : public std::iterator<std::random_access_iterator_tag, combination>
 	{
 	public:
 		iterator() : m_ID(0), m_data() {} //empty initializer
-		explicit iterator(const combination& data) : m_ID(get_index(data)), m_data(data) {} //ending initializer: for id and combination only. Do not use unless you know what you are doing.
+		explicit iterator(const combination& data) : m_ID(get_index(data)), m_data(data) {}
 	private:
-		explicit iterator(IntType id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
+		explicit iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
 	public:
-		iterator(IntType n, IntType k) : m_ID(0), m_data(k)
+		iterator(IntType n, IntType k) : m_ID(0),  m_hint(k), m_data(k)
 		{
 			std::iota(m_data.begin(), m_data.end(), 0);
 		}
@@ -228,7 +236,7 @@ public:
 		{
 			++m_ID;
 
-			next_combination(m_data);
+			m_hint = next_combination(m_data, m_hint);
 
 			return *this;
 		}
@@ -246,12 +254,12 @@ public:
 			return *this;
 		}
 
-		inline const std::vector<IntType>& operator*() const
+		inline const combination& operator*() const
 		{
 			return m_data;
 		}
 
-		inline const combination* operator->() const
+		inline const combination* const operator->() const
 		{
 			return & operator*();
 		}
@@ -295,13 +303,13 @@ public:
 			return operator+=(-n);
 		}
 
-		friend iterator operator+(iterator lhs, difference_type  n)
+		friend iterator operator+(iterator lhs, difference_type n)
 		{
 			lhs += n;
 			return lhs;
 		}
 
-		friend iterator operator-(iterator lhs, difference_type  n)
+		friend iterator operator-(iterator lhs, difference_type n)
 		{
 			lhs -= n;
 			return lhs;
@@ -331,14 +339,16 @@ public:
 			return m_ID == binomial(n, m_data.size());
 		}
 
-		void reset(IntType n, IntType r)
+		void reset(IntType n, IntType k)
 		{
 			m_ID = 0;
-			overwrite(m_data, range<IntType>(r));
+			m_data.resize(k);
+			std::iota(m_data.begin(),m_data.end(),0);
 		}
 
 	private:
 		size_type m_ID {0};
+		IntType m_hint {0};
 		combination m_data;
 
 		friend class basic_combinations;
@@ -352,15 +362,16 @@ public:
 	////////////////////////////////////////////////////////////
 	/// \brief Reverse random access iterator class. It's much more efficient as a bidirectional iterator than purely random access.
 	////////////////////////////////////////////////////////////
-	class reverse_iterator : public std::iterator<std::random_access_iterator_tag, std::vector<IntType>> //bidirectional iterator
+	class reverse_iterator : public std::iterator<std::random_access_iterator_tag, combination> //bidirectional iterator
 	{
 	public:
 		reverse_iterator() : m_n(0), m_ID(0), m_data() {} //empty initializer
 	private:
-		explicit reverse_iterator(IntType id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
+		explicit reverse_iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
 	public:
-		reverse_iterator(IntType n, IntType r) : m_n(n), m_ID(0), m_data(range<IntType>(n - r, n))
+		reverse_iterator(IntType n, IntType k) : m_n(n), m_ID(0), m_data(k)
 		{
+			std::iota(m_data.begin(), m_data.end(), n-k);
 		}
 
 		//prefix
@@ -490,24 +501,24 @@ public:
 		friend class basic_combinations;
 	}; // end class iterator
 
-	const iterator& begin() const
+	iterator begin() const
 	{
-		return m_begin;
+		return iterator(m_n,m_k);
 	}
 
-	const iterator& end() const
+	iterator end() const
 	{
-		return m_end;
+		return iterator(size());
 	}
 
-	const reverse_iterator& rbegin() const
+	reverse_iterator rbegin() const
 	{
-		return m_rbegin;
+		return reverse_iterator(m_n,m_k);
 	}
 
-	const reverse_iterator& rend() const
+	reverse_iterator rend() const
 	{
-		return m_rend;
+		return reverse_iterator(size());
 	}
 
 
@@ -735,6 +746,10 @@ public:
 		case 16:
 			detail::combination_helper16(f,m_n);
 			break;
+			
+		case 17:
+			detail::combination_helper17(f,m_n);
+			break;
 
 		default:
 			for (auto& comb : (*this))
@@ -749,10 +764,11 @@ public:
 private:
 	IntType m_n;
 	IntType m_k;
-	iterator m_begin;
-	iterator m_end;
-	reverse_iterator m_rbegin;
-	reverse_iterator m_rend;
+	size_type m_size;
+// 	iterator m_begin;
+// 	iterator m_end;
+// 	reverse_iterator m_rbegin;
+// 	reverse_iterator m_rend;
 
 	template <class P>
 	bool augment(combination& comb, P pred, IntType start = 0)
@@ -773,7 +789,7 @@ private:
 		auto last = comb.back();
 		auto guysleft = m_k - comb.size();
 
-		start = std::max(last + 1, start);
+		start = std::max(static_cast<IntType>(last + 1), start);
 
 		for (size_t i = start; i < m_n - guysleft + 1; ++i)
 		{
@@ -816,9 +832,8 @@ private:
 
 }; // end class basic_combinations
 
-
 using combinations = basic_combinations<long>;
-
+ 
 } // end namespace dscr;
 
 

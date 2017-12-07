@@ -8,50 +8,37 @@ using namespace dscr;
 
 void testCombinationsSpeed(int n, int k)
 {
+	binomial(100,0); //so that it doesn't do it later.
+	combinations X(n,k);
+	
 	Chronometer C;
-	llint i = 0;
-	combinations X(n, k);
+
 
 	for (auto& x : X)
 	{
-		if (x[0] == 1)
-			++i;
+		DoNotOptimize(x);
 	}
 
-	std::cout << "Time taken to see all (" << n << " choose " << k << ") = " << X.size() << " combinations: " << C.Reset() << "s" <<  std::endl;
+	std::cout << "Time taken to see all (" << n << " choose " << k << ") = " << binomial(n,k) << " combinations: " << C.Reset() << "s" <<  std::endl;
 
-	i = 0;
-
-	for (auto it = X.rbegin(); it != X.rend(); ++it)
+	auto last = X.rend();
+	for (auto it = X.rbegin(); it != last; ++it)
 	{
-		if ((*it)[0] == 1)
-			++i;
+		DoNotOptimize(*it);
 	}
 
 	std::cout << "Time taken to see all (" << n << " choose " << k << ") = " << X.size() << " combinations in reverse order: " << C.Reset() << "s" <<  std::endl;
 
-	i = 0;
-	X.for_each([&i](const combinations::combination& x)
+	X.for_each([](const combinations::combination& x)
 	{
 		DoNotOptimize(x);
 	});
-	
+
 	std::cout << "Time taken to apply a function to all (" << n << " choose " << k << ") = " << X.size() << " combinations: " << C.Reset() << "s" <<  std::endl;
-	
-	combinations Z(24, 12);
-	size_t zi = 0;
 
-	for (auto& z : Z)
-	{
-		if (z[0] == 1)
-			++i;
-	}
-
-
-	std::cout << "Time taken to see all (" << Z.get_n() << " choose " << Z.get_k() << ") = " << Z.size() << " combinations: " << C.Reset() << "s" <<  std::endl;
 
 	combinations W(100, 5);
-	auto T = W.find_all([](const combinations::combination& A)
+	auto T = W.find_all([](const combinations::combination & A)
 	{
 		if (A.size() < 2)
 			return true;
@@ -59,56 +46,36 @@ void testCombinationsSpeed(int n, int k)
 		int k = A.size();
 		return A[k - 1] > A[k - 2] + 2;
 	});
-	int num = 0;
 
 	for (auto& t : T)
 	{
-		if (t[0] == 0)
-			++num;
+		DoNotOptimize(t);
 	}
 
-	std::cout << "Time taken find all " << num << " combinations satisfying a predicate: " << C.Reset() << "s" <<  std::endl;
+	std::cout << "Time taken find all combinations satisfying a predicate: " << C.Reset() << "s" <<  std::endl;
 
-	auto T2 = W.get_all([](const combinations::combination& A)
-	{
-		if (A.size() < 2)
-			return true;
-
-		int k = A.size();
-		return A[k - 1] > A[k - 2] + 2;
-	});
-	int num2 = 0;
-
-	for (auto& t2 : T2)
-	{
-		if (t2[0] == 0)
-			++num2;
-	}
-
-	std::cout << "Time taken to find all " << num2 << " combinations satisfying a predicate old: " << C.Reset() << "s" <<  std::endl;
-// 	throw;
 }
 
 #ifdef TEST_GSL_COMBINATIONS
 #include <gsl/gsl_combination.h>
 void testGSLComb(int n, int k)
 {
-	gsl_combination * c;
-	size_t i = 0;
+	gsl_combination* c;
 
 	Chronometer C;
 // 	for (int n = 8; n < 34; n += 1)
 // 	{
-		c = gsl_combination_calloc (n, k);
-		do
-		{
-			if (gsl_combination_get(c,0) == 1)
-				++i;
-		}
-		while (gsl_combination_next (c) == GSL_SUCCESS);
-		gsl_combination_free (c);
+	c = gsl_combination_calloc(n, k);
 
-		std::cout << "Time taken to see all (" << n << " choose " << k << ") = " << binomial(n,k) << " combinations with GNU Scientific Library (GSL): " << C.Reset() << "s" <<  std::endl;
+	do
+	{
+		DoNotOptimize(*c);
+	}
+	while (gsl_combination_next(c) == GSL_SUCCESS);
+
+	gsl_combination_free(c);
+
+	std::cout << "Time taken to see all (" << n << " choose " << k << ") = " << binomial(n, k) << " combinations with GNU Scientific Library (GSL): " << C.Reset() << "s" <<  std::endl;
 // 	}
 }
 #endif
@@ -117,30 +84,198 @@ void testGSLComb(int n, int k)
 void testCombinationsTreeSpeed(int n, int k)
 {
 	Chronometer C;
-	llint i = 0;
 	combinations_tree X(n, k);
 
 	for (auto& x : X)
 	{
-		if (x[0] == 1)
-			++i;
+		DoNotOptimize(x);
 	}
 
 	std::cout << "Time taken to see all (" << n << " choose " << k << ") = " << X.size() << " combinations in TREE ORDER: " << C.Reset() << "s" <<  std::endl;
 
-	i = 0;
-
-	for (auto it = X.rbegin(); it != X.rend(); ++it)
+	auto end = X.rend();
+	for (auto it = X.rbegin(); it != end; ++it)
 	{
-		if ((*it)[0] == 1)
-			++i;
+		DoNotOptimize(*it);
 	}
 
 	std::cout << "Time taken to see all (" << n << " choose " << k << ") = " << X.size() << " combinations in REVERSE TREE ORDER: " << C.Reset() << "s" <<  std::endl;
-	
-	
+
+
 #ifdef TEST_GSL_COMBINATIONS
-	testGSLComb(n,k);
+	testGSLComb(n, k);
 #endif
 }
+
+#ifdef TEST_GSL_COMBINATIONS
+void produceAllGSLData(int from, int to)
+{
+	std::cout << "GSL combination data from " << from << " to " << to << ": [";
+	Chronometer C;
+	gsl_combination* c;
+
+	for (int n = from; n < to; ++n)
+	{
+		c = gsl_combination_calloc(n, n / 2);
+
+		do
+		{
+			DoNotOptimize(*c);
+		}
+		while (gsl_combination_next(c) == GSL_SUCCESS);
+
+		gsl_combination_free(c);
+
+		std::cout << C.Reset() << ", ";
+	}
+
+	std::cout << ']' << std::endl;
+}
+#endif
+
+void produceAllCombinationData(int from, int to)
+{
+	std::cout << "combination data from " << from << " to " << to << ": [";
+	Chronometer C;
+
+	for (int n = from; n < to; ++n)
+	{
+		for (const auto& x : combinations(n, n / 2))
+		{
+			DoNotOptimize(x);
+		}
+
+		std::cout << C.Reset() << ", ";
+	}
+
+	std::cout << ']' << std::endl;
+}
+
+void produceAllCombinationReverseData(int from, int to)
+{
+	std::cout << "combination data (reverse) from " << from << " to " << to << ": [";
+	Chronometer C;
+
+	for (int n = from; n < to; ++n)
+	{
+		combinations X(n, n / 2);
+
+		for (auto it = X.rbegin(); it != X.rend(); ++it)
+		{
+			DoNotOptimize(*it);
+		}
+
+		std::cout << C.Reset() << ", ";
+	}
+
+	std::cout << ']' << std::endl;
+}
+
+void produceAllCombinationTreeData(int from, int to)
+{
+	std::cout << "combination (tree) data from " << from << " to " << to << ": [";
+	Chronometer C;
+
+	for (int n = from; n < to; ++n)
+	{
+		for (const auto& x : combinations_tree(n, n / 2))
+		{
+			DoNotOptimize(x);
+		}
+
+		std::cout << C.Reset() << ", ";
+	}
+
+	std::cout << ']' << std::endl;
+}
+
+void produceAllCombinationTreeReverseData(int from, int to)
+{
+	std::cout << "combination (tree, reversed) data from " << from << " to " << to << ": [";
+	Chronometer C;
+
+	for (int n = from; n < to; ++n)
+	{
+		combinations_tree X(n, n / 2);
+
+		for (auto it = X.rbegin(); it != X.rend(); ++it)
+		{
+			DoNotOptimize(*it);
+		}
+
+		std::cout << C.Reset() << ", ";
+	}
+
+	std::cout << ']' << std::endl;
+}
+
+#include "euler314_combination_iterator.hpp"
+void produceAllEulerGuyData(int from, int to)
+{
+	std::cout << "Euler314 (tree) data from " << from << " to " << to << ": [";
+	Chronometer C;
+
+	for (int n = from; n < to; ++n)
+	{
+		auto end = combination_iterator<long>();
+
+		for (combination_iterator<long> it(n, n / 2); it != end; ++it)
+		{
+			DoNotOptimize(*it);
+		}
+
+		std::cout << C.Reset() << ", ";
+	}
+
+	std::cout << ']' << std::endl;
+	
+	
+	std::cout << "Euler314 (normal) data from " << from << " to " << to << ": [";
+
+	for (int n = from; n < to; ++n)
+	{
+		auto end = combination_iterator_minimax_order<long>();
+
+		for (combination_iterator_minimax_order<long> it(n, n / 2); it != end; ++it)
+		{
+			DoNotOptimize(*it);
+		}
+
+		std::cout << C.Reset() << ", ";
+	}
+
+	std::cout << ']' << std::endl;
+}
+
+void produceAllBFCombinations(int from, int to)
+{
+	std::cout << "combination (BF) data from " << from << " to " << to << ": [";
+	Chronometer C;
+
+	for (int n = from; n < to; ++n)
+	{
+		combinations X(n, n / 2);
+
+		X.for_each([](const combinations::combination& x)
+		{
+			DoNotOptimize(x);
+		});
+
+		std::cout << C.Reset() << ", ";
+	}
+
+	std::cout << ']' << std::endl;
+}
+
+void produceAllCombinationBenchmarkData(int from, int to)
+{
+	produceAllCombinationData(from, to);
+	produceAllCombinationReverseData(from, to);
+	produceAllCombinationTreeData(from, to);
+	produceAllCombinationTreeReverseData(from, to);
+	produceAllGSLData(from, to);
+	produceAllEulerGuyData(from, to);
+	produceAllBFCombinations(from,to);
+}
+
 

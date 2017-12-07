@@ -506,7 +506,7 @@ private:
 
 }; // end class basic_combinations_tree
 
-using combinations_tree = basic_combinations_tree<long>;
+using combinations_tree = basic_combinations_tree<int>;
 
 
 } // end namespace dscr;

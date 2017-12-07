@@ -46,7 +46,7 @@ if(BUILD_BENCHMARKS)
 		add_definitions(-DTEST_GSL_COMBINATIONS)
 		include_directories(${GSL_INCLUDE_DIRS})
 	endif()
-
+	add_definitions(-g)
 	add_executable(benchmarkdiscreture 	Benchmarks/benchmark_all.cpp 
 										Benchmarks/combinations_benchmark.cpp 
 										Benchmarks/dyck_benchmark.cpp 

@@ -168,7 +168,7 @@ private:
 		auto last = comb.back();
 		auto guysleft = m_k - comb.size();
 
-		start = std::max(last + 1, start);
+		start = std::max(static_cast<IntType>(last + 1), start);
 
 		for (size_t i = start; i < m_n - guysleft + 1; ++i)
 		{
