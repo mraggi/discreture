@@ -251,7 +251,7 @@ This comparison isn't very fair (c++ vs python). On the same system, iterating o
 | Time taken to see all 50852019 motzkin paths of size 20 							|	 **1.30359s**		|   1.46971s   |
 | Time taken to see all 27644437 set partitions of size 13 							|	   0.960195s  		| **0.79946s** |
 | Time taken to see all 42355950 set partitions a set of 15 elements with 4 parts 	|	   1.20166s  		| **1.01687s** |
-| **Total Time**	-->																|	 **19.7s**			|	22.1s	   |
+| **Total Time**																	|	 **19.7s**			|	22.1s	   |-->
 
 Full benchmarks, with updated compilers, coming soon.
 
