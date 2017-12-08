@@ -130,9 +130,10 @@ public:
 				return *this;
 
 			++m_comb;
+			std::cout << "hola" << std::endl;
 			if (m_comb.is_at_end(n))
 			{
-// 				cout << "Combination "<< *m_comb << " at end!" << endl;
+				cout << "Combination "<< *m_comb << " at end!" << endl;
 				//Reset combinations and make a new dyck path.
 				++m_dyck;
 
@@ -152,7 +153,7 @@ public:
 			}
 
 // 				cout << "Done! Converting!" << endl;
-// 			cout << "comb = " << *m_comb << " and dyck = " << *m_dyck << endl;
+			cout << "comb = " << *m_comb << " and dyck = " << *m_dyck << endl;
 			ConvertToMotzkin(); //TODO(mraggi): do this laziliy
 			return *this;
 		}
@@ -200,20 +201,20 @@ public:
 			return it.ID() != ID();
 		}
 
-		void reset(IntType n)
-		{
-			m_ID = 0;
-			m_data.resize(2 * n);
-
-			for (size_t i = 0; i < n; ++i)
-				m_data[i] = 1;
-
-			for (size_t i = n; i < 2 * n; ++i)
-				m_data[i] = -1;
-
-			m_comb.reset(0);
-			m_dyck.reset(n);
-		}
+// 		void reset(IntType n)
+// 		{
+// 			m_ID = 0;
+// 			m_data.resize(2 * n);
+// 
+// 			for (size_t i = 0; i < n; ++i)
+// 				m_data[i] = 1;
+// 
+// 			for (size_t i = n; i < 2 * n; ++i)
+// 				m_data[i] = -1;
+// 
+// 			m_comb.reset(0);
+// 			m_dyck.reset(n);
+// 		}
 
 	private:
 		size_type m_ID;

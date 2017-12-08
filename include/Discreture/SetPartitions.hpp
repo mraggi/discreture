@@ -53,11 +53,11 @@ class basic_set_partitions
 {
 public:
 
-	typedef long long int difference_type;
-	typedef unsigned long long int size_type;
-	typedef std::vector<std::vector<IntType>> value_type;
-	typedef std::vector<std::vector<IntType>> set_partition;
-	typedef std::vector<IntType> number_partition;
+	using difference_type = long long int;
+	using size_type = long long;
+	using value_type = std::vector<std::vector<IntType>>;
+	using set_partition = value_type;
+	using number_partition = std::vector<IntType> ;
 	//Declarations.
 	class iterator;
 

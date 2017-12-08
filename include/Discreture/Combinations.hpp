@@ -248,6 +248,7 @@ public:
 				return *this;
 
 			--m_ID;
+			m_hint = 0;
 
 			prev_combination(m_data);
 
@@ -295,6 +296,7 @@ public:
 			// If n is large, then it's better to just construct it from scratch.
 			m_ID += n;
 			construct_combination(m_data, m_ID);
+			m_hint = 0;
 			return *this;
 		}
 
@@ -336,15 +338,16 @@ public:
 
 		inline bool is_at_end(IntType n) const
 		{
-			return m_ID == binomial(n, m_data.size());
+			
+			return m_data.empty() || m_data.back() == n;
 		}
 
 		void reset(IntType n, IntType k)
 		{
 			m_ID = 0;
+			m_hint = k;
 			m_data.resize(k);
 			std::iota(m_data.begin(),m_data.end(),0);
-			m_hint = k;
 		}
 
 	private:
@@ -488,11 +491,11 @@ public:
 			return m_ID == binomial(m_n, m_data.size());;
 		}
 
-		void reset(IntType n, IntType r)
+		void reset(IntType n, IntType k)
 		{
 			m_n = n;
 			m_ID = 0;
-			m_data = range<IntType>(n - r, n);
+			m_data = range<IntType>(n - k, n);
 		}
 	private:
 		IntType m_n;

@@ -10,7 +10,7 @@ bool testCombinations()
 {
 	std::cout << "============= Testing Combinations ============" << std::endl;
 
-	std::cout << " Use test: " << std::endl;
+	std::cout << "Basic test: " << std::endl;
 	int n = 6;
 
 	for (int r = 0; r <= n; ++r)
@@ -21,21 +21,43 @@ bool testCombinations()
 
 		for (const auto& x : X)
 		{
-			std::cout << "\t" << i << " == " << X.get_index(x) << " -> " << x << std::endl;
+			std::cout << "\t" << i << " == " << X.get_index(x) << " -> [" << x << "]" <<std::endl;
 
 			if (i != X.get_index(x))
 			{
+				std::cerr << "i != X.get_index(x) for x = " << x << " and i = " << i << std::endl;
 				return false;
 			}
 
 			if (x != X[i])
 			{
+				std::cerr << "x != X[i] for " << x << " and i = " << i << std::endl;
 				return false;
 			}
 
 			++i;
 		}
+		
+		//combined test
+		if (X.size() > 5)
+		{
+			int w = 5;
+			auto it = X.begin()+5;
+			
+			do
+			{
+				if (X.get_index(*it) != w)
+				{
+					std::cerr << "*it = " << *it << " and w = " << w << std::endl;
+					return false;
+				}
+				++it;
+				++w;
+			} while (it != X.end());
+		}
 	}
+	
+	
 
 	std::cout << "Large test" << std::endl;
 	combinations X(10, 4);

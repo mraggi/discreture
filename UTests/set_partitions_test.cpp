@@ -15,7 +15,7 @@ bool testSetPartitions()
 	{
 		for (auto& t : x)
 			std::cout << '|' << t;
-		std::cout << "|\n";
+		std::cout << '|' << std::endl;
 		++i;
 	}
 	std::cout << "\nHere are all set partitions of 6 with either 3 or 4 parts" << std::endl;
@@ -26,7 +26,7 @@ bool testSetPartitions()
 	{
 		for (auto& t : y)
 			std::cout << '|' << t;
-		std::cout << "|\n";
+		std::cout << '|' << std::endl;
 
 	}
 
