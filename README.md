@@ -269,7 +269,9 @@ Or the for_each variant of discreture:
 
 **Note**: GSL and euler314 iterates in the same order as `combinations_tree`. euler314_maximin (in gray) was a commit that adapted some of discreture's code and iterates in the same order as `combinations`. It's essentially the same code, which is why it takes exactly the same amount of time.
 
-If you'd like to see other benchmarks, let me know. I have a lot of fun benchmarking stuff.
+Note 2: DoNotOptimize(x) is just a way to tell the compiler to not optimize away the empty loop. From [google benchmarking tools](https://github.com/google/benchmark). 
+
+If you'd like to see other benchmarks, let me know.
 
 ## Discreture vs Sagemath
 
