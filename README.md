@@ -267,7 +267,10 @@ Or the for_each variant of discreture:
 ```
 
 
-**Note**: GSL and euler314 iterates in the same order as `combinations_tree`. euler314_maximin (in gray) was a commit that adapted some of discreture's code and iterates in the same order as `combinations`. It's essentially the same code, which is why it takes exactly the same amount of time.
+**Note**: GSL and euler314 iterates in the same order as `combinations_tree`. Not really sure why euler314's (yellow) is a tiny bit faster than `combinations_tree`. The code does essentially the same thing (although it was written independently).
+
+On the other hand, euler314_maximin (in gray) was a commit that adapted some of discreture's code and iterates in the same order as `combinations`. It's essentially the same code, which is why it takes almost exactly the same amount of time. A minor improvement has been since made by discreture, which is why it's now faster.
+
 
 Note 2: DoNotOptimize(x) is just a way to tell the compiler to not optimize away the empty loop. From [google benchmarking tools](https://github.com/google/benchmark). 
 
