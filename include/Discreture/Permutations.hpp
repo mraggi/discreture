@@ -38,10 +38,10 @@ template <class IntType>
 class basic_permutations
 {
 public:
-	typedef long long int difference_type;
-	typedef unsigned long long int size_type;
-	typedef std::vector<IntType> value_type;
-	typedef std::vector<IntType> permutation;
+	using difference_type = long long;
+	using size_type = long long;
+	using value_type = std::vector<IntType>;
+	using permutation = value_type;
 public:
 
 	// Static functions
@@ -493,6 +493,6 @@ private:
 	}
 
 }; // end class basic_permutations
-typedef basic_permutations<int> permutations;
+using permutations = basic_permutations<int>;
 
 }

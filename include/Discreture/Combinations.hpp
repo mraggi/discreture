@@ -344,6 +344,7 @@ public:
 			m_ID = 0;
 			m_data.resize(k);
 			std::iota(m_data.begin(),m_data.end(),0);
+			m_hint = k;
 		}
 
 	private:
@@ -832,7 +833,7 @@ private:
 
 }; // end class basic_combinations
 
-using combinations = basic_combinations<long>;
+using combinations = basic_combinations<int>;
  
 } // end namespace dscr;
 

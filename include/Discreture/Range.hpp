@@ -14,9 +14,9 @@ template <class IntType>
 class range
 {
 public:
-	typedef long int difference_type;
-	typedef IntType size_type;
-	typedef IntType value_type;
+	using difference_type = long long;
+	using size_type = long long;
+	using value_type = IntType;
 public:
 
 	////////////////////////////////////////////////////////////
@@ -123,7 +123,7 @@ public:
 		}
 	private:
 		size_type m_step {1};
-		size_type m_ID {0} ;
+		IntType m_ID {0} ;
 
 
 		friend class range;

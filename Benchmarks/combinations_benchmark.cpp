@@ -110,7 +110,7 @@ void testCombinationsTreeSpeed(int n, int k)
 #ifdef TEST_GSL_COMBINATIONS
 void produceAllGSLData(int from, int to)
 {
-	std::cout << "GSL combination data from " << from << " to " << to << ": [";
+	std::cout << "gsl = [";
 	Chronometer C;
 	gsl_combination* c;
 
@@ -135,7 +135,7 @@ void produceAllGSLData(int from, int to)
 
 void produceAllCombinationData(int from, int to)
 {
-	std::cout << "combination data from " << from << " to " << to << ": [";
+	std::cout << "combinations = [";
 	Chronometer C;
 
 	for (int n = from; n < to; ++n)
@@ -153,7 +153,7 @@ void produceAllCombinationData(int from, int to)
 
 void produceAllCombinationReverseData(int from, int to)
 {
-	std::cout << "combination data (reverse) from " << from << " to " << to << ": [";
+	std::cout << "combinations_reversed = [";
 	Chronometer C;
 
 	for (int n = from; n < to; ++n)
@@ -173,7 +173,7 @@ void produceAllCombinationReverseData(int from, int to)
 
 void produceAllCombinationTreeData(int from, int to)
 {
-	std::cout << "combination (tree) data from " << from << " to " << to << ": [";
+	std::cout << "combinations_tree = [";
 	Chronometer C;
 
 	for (int n = from; n < to; ++n)
@@ -191,7 +191,7 @@ void produceAllCombinationTreeData(int from, int to)
 
 void produceAllCombinationTreeReverseData(int from, int to)
 {
-	std::cout << "combination (tree, reversed) data from " << from << " to " << to << ": [";
+	std::cout << "combinations_tree_reversed = [";
 	Chronometer C;
 
 	for (int n = from; n < to; ++n)
@@ -212,7 +212,7 @@ void produceAllCombinationTreeReverseData(int from, int to)
 #include "euler314_combination_iterator.hpp"
 void produceAllEulerGuyData(int from, int to)
 {
-	std::cout << "Euler314 (tree) data from " << from << " to " << to << ": [";
+	std::cout << "euler314 = [";
 	Chronometer C;
 
 	for (int n = from; n < to; ++n)
@@ -230,7 +230,7 @@ void produceAllEulerGuyData(int from, int to)
 	std::cout << ']' << std::endl;
 	
 	
-	std::cout << "Euler314 (normal) data from " << from << " to " << to << ": [";
+	std::cout << "euler314maximin = [";
 
 	for (int n = from; n < to; ++n)
 	{
@@ -249,7 +249,7 @@ void produceAllEulerGuyData(int from, int to)
 
 void produceAllBFCombinations(int from, int to)
 {
-	std::cout << "combination (BF) data from " << from << " to " << to << ": [";
+	std::cout << "combinationBF = [";
 	Chronometer C;
 
 	for (int n = from; n < to; ++n)
@@ -269,12 +269,12 @@ void produceAllBFCombinations(int from, int to)
 
 void produceAllCombinationBenchmarkData(int from, int to)
 {
-	produceAllCombinationData(from, to);
+	produceAllEulerGuyData(from, to);
+	produceAllGSLData(from, to);
 	produceAllCombinationReverseData(from, to);
+	produceAllCombinationData(from, to);
 	produceAllCombinationTreeData(from, to);
 	produceAllCombinationTreeReverseData(from, to);
-	produceAllGSLData(from, to);
-	produceAllEulerGuyData(from, to);
 	produceAllBFCombinations(from,to);
 }
 

@@ -49,7 +49,7 @@ namespace dscr
 		using difference_type = long long int;
 		using size_type = unsigned long long int;
 		using value_type = std::vector<IntType>;
-		using dyck_path = std::vector<IntType>;
+		using dyck_path = value_type;
 
 		//Declarations.
 		class iterator;
@@ -119,7 +119,7 @@ namespace dscr
 	
 		static void prev_dyck_path(dyck_path& data, IntType n)
 		{
-			
+			//TODO(mraggi): Think about how to do this
 		}
 		
 		static std::string to_string(const dyck_path& data, const std::string& delim = "()")
@@ -352,6 +352,6 @@ namespace dscr
 		
 	}; // end class basic_dyck_paths
 	
-	using dyck_paths = basic_dyck_paths<long>;
+	using dyck_paths = basic_dyck_paths<int>;
 
 } // end namespace dscr;

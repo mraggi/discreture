@@ -9,10 +9,10 @@ class basic_combinations_tree_prunned
 {
 public:
 
-	typedef long long int difference_type;
-	typedef unsigned long long int size_type;
-	typedef std::vector<IntType> value_type;
-	typedef std::vector<IntType> combination;
+	using difference_type = long long;
+	using size_type = long long;
+	using value_type = std::vector<IntType>;
+	using combination = value_type;
 
 	//Declarations.
 	class iterator;
@@ -50,7 +50,7 @@ public:
 	public:
 		iterator(Predicate p, bool last) : m_ID(0), m_data(), m_atEnd(last), m_pred(p) {} //empty initializer
 	public:
-		iterator(IntType n, IntType r, Predicate p) : m_ID(0), m_n(n), m_k(r), m_data(), m_atEnd(false), m_pred(p)
+		iterator(IntType n, IntType k, Predicate p) : m_ID(0), m_n(n), m_k(k), m_data(), m_atEnd(false), m_pred(p)
 		{
 			m_data.reserve(m_k);
 

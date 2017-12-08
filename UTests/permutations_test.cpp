@@ -42,7 +42,7 @@ bool testPermutations()
 
 	for (const auto& z : Z)
 	{
-		std::cout << z << '\n';
+		std::cout << z << std::endl;
 	}
 
 	return true;

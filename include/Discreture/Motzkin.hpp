@@ -54,12 +54,12 @@ class basic_motzkin_paths
 {
 public:
 
-	typedef long long int difference_type;
-	typedef unsigned long long int size_type;
-	typedef std::vector<IntType> value_type;
-	typedef std::vector<IntType> motzkin_path;
-	typedef typename basic_combinations<IntType>::iterator comb_i;
-	typedef typename basic_dyck_paths<IntType>::iterator dyck_i;
+	using difference_type = long long;
+	using size_type = long long;
+	using value_type = std::vector<IntType>;
+	using motzkin_path = value_type;
+	using comb_i = typename basic_combinations<IntType>::iterator;
+	using dyck_i = typename basic_dyck_paths<IntType>::iterator;
 
 	static std::string to_string(const motzkin_path& data, const std::string& delim = "(-)")
 	{
@@ -122,6 +122,7 @@ public:
 		//prefix
 		inline iterator& operator++()
 		{
+			using namespace std;
 			++m_ID;
 			auto n = m_data.size();
 
@@ -129,17 +130,16 @@ public:
 				return *this;
 
 			++m_comb;
-
 			if (m_comb.is_at_end(n))
 			{
-// 					cout << "Combination at end!" << endl;
+// 				cout << "Combination "<< *m_comb << " at end!" << endl;
 				//Reset combinations and make a new dyck path.
 				++m_dyck;
 
 // 					cout << "added 1 to dyck" << endl;
 				if (m_dyck.is_at_end(m_numnonzerohalved))
 				{
-					// 					cout << "dyck at end!" << endl;
+// 										cout << "dyck at end!" << endl;
 					m_numnonzerohalved += 1;
 
 // 						cout << "Resetting dyck..." << endl;
@@ -152,7 +152,8 @@ public:
 			}
 
 // 				cout << "Done! Converting!" << endl;
-			ConvertToMotzkin();
+// 			cout << "comb = " << *m_comb << " and dyck = " << *m_dyck << endl;
+			ConvertToMotzkin(); //TODO(mraggi): do this laziliy
 			return *this;
 		}
 
@@ -258,6 +259,6 @@ private:
 
 }; // end class basic_motzkin_paths
 
-using motzkin_paths = basic_motzkin_paths<long>;
+using motzkin_paths = basic_motzkin_paths<int>;
 
 } // end namespace dscr;

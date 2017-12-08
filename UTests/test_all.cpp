@@ -14,7 +14,7 @@ bool testCorrectness()
 		testPartitions()	&&
 		testMultiset()		&&
 		testDyckPaths()		&&
-		testSetPartitions()		&&
+		testSetPartitions()	&&
 		testMotzkin()
 	)
 	{

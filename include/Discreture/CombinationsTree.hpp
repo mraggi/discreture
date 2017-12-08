@@ -301,10 +301,11 @@ public:
 			return m_ID == binomial(n, m_data.size());
 		}
 
-		void reset(IntType n, IntType r)
+		void reset(IntType n, IntType k)
 		{
 			m_ID = 0;
-			overwrite(m_data, range<IntType>(r));
+			m_data.resize(k);
+			std::iota(m_data.begin(),m_data.end(),0);
 		}
 
 	private:
