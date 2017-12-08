@@ -192,7 +192,7 @@ which are all combinations for which every element is a divisor of the next elem
 
 ## Combinations benchmarks
 
-The GNU Scientific Library is a well known and mature library. For more information, [check their website](https://www.gnu.org/software/gsl/). It implements combinations. Iterating over all combinations of size n/2 over a set of size n was took the following time:
+The GNU Scientific Library is a well known and mature library. For more information, [check their website](https://www.gnu.org/software/gsl/). It implements combinations. Iterating over all combinations of size n/2 over a set of size n took the following time:
 
 ![discreture::combinations vs GSL combinations](https://github.com/mraggi/discreture/blob/master/combvsgsl.png "discreture::combinations vs GSL combinations")
 
@@ -213,7 +213,18 @@ The GSL code used was the following:
 
 ```
 
-Compare this to the same code using discreture:
+The same code using euler314's library:
+
+```c++
+	auto end = combination_iterator<long>();
+
+	for (auto it = combination_iterator<long>(n, n/2); it != end; ++it)
+	{
+		DoNotOptimize(*it);
+	}
+```
+
+Compare this to the beautiful code, using discreture:
 ```c++
 	for (auto& x : combinations(n,n/2))
 	{
@@ -221,12 +232,22 @@ Compare this to the same code using discreture:
 	}
 ```
 
+Or the for_each variant (which is significantly faster):
+```c++
+	auto X = combinations(n,n/2);
+	X.for_each([](const combinations::combination& x)
+	{
+		DoNotOptimize(x);
+	});
+```
+
+
 **Note**: GSL iterates in the same order as `combinations_tree`.
 
 
 ## Discreture vs Sagemath
 
-This comparison isn't very fair (c++ vs python). On the same system, iterating over all (24 choose 12) combinations, sage takes 12.2 seconds. Discreture takes approximately 0.01 seconds. No point in graphing that.
+This comparison isn't very fair (C++ vs python). On the same system, iterating over all (24 choose 12) combinations, sage takes 12.2 seconds. Discreture takes approximately 0.005 seconds. No point in graphing that.
 
 ## CLANG vs GCC
 <!--On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the following results:
