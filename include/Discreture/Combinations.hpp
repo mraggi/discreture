@@ -76,7 +76,7 @@ public:
 			return;
 		}
 		
-		IntType last = data.size()-1;
+		const IntType last = data.size()-1;
 		for (IntType i = 0; i < last; ++i)
 		{
 			if (data[i]+1 != data[i+1])
@@ -87,9 +87,8 @@ public:
 			}
 			data[i] = i;
 		}
-		++data[last];
 		hint = last;
-		return;
+		++data[hint]; //in this case, hint == last
 	} //next_combination
 
 	static inline void prev_combination(combination& data)
