@@ -64,16 +64,16 @@ public:
 	class iterator;
 
 	// **************** Begin static functions
-	static inline IntType next_combination(combination& data, IntType hint)
+	static inline void next_combination(combination& data, IntType& hint)
 	{
 		if (data.empty())
-			return 0;
+			return;
 		
 		if (hint > 0)
 		{
 			--hint;
 			++data[hint];
-			return hint;
+			return;
 		}
 		
 		IntType last = data.size()-1;
@@ -82,12 +82,14 @@ public:
 			if (data[i]+1 != data[i+1])
 			{
 				++data[i];
-				return i;
+				hint = i;
+				return;
 			}
 			data[i] = i;
 		}
 		++data[last];
-		return last;
+		hint = last;
+		return;
 	} //next_combination
 
 	static inline void prev_combination(combination& data)
@@ -236,7 +238,7 @@ public:
 		{
 			++m_ID;
 
-			m_hint = next_combination(m_data, m_hint);
+			next_combination(m_data, m_hint);
 
 			return *this;
 		}
@@ -394,7 +396,8 @@ public:
 
 			--m_ID;
 
-			next_combination(m_data);
+			IntType hint = 0;
+			next_combination(m_data,0);
 
 			return *this;
 		}
