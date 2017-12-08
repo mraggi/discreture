@@ -1,1 +1,1 @@
-<img src="https://github.com/mraggi/discreture/blob/master/combvsgsl.png" width="200">
+<img src="https://github.com/mraggi/discreture/blob/master/combvsgsl.png" width="600">
