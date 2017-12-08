@@ -123,7 +123,7 @@ where `predicate` is a unary predicate that takes a `const vector<int>&` as an a
 
 ## Examples
 
-Check the files under `examples` for a tutorial on how to use.
+Check the files under `examples` for a tutorial on how to use the library. Here is a taste:
 
 For example, suppose you wanted to see all ways to add up to 20 with at most 6 numbers so that all numbers are squares. You can do:
 
@@ -132,7 +132,15 @@ For example, suppose you wanted to see all ways to add up to 20 with at most 6 n
 	#include <Discreture/Partitions.hpp>
 	#include <Discreture/VectorHelpers.hpp>
 
-	using namespace dscr; //this is so we can use the overloaded operator << for vectors. You can roll your own and not use the "evil" using namespace instruction.
+	using namespace dscr;
+	
+	bool is_perfect_square(int n) 
+	{
+		if (n < 0)
+			return false;
+		int r = round(sqrt(n));
+		return n == r*r;
+	}
 
 	int main()
 	{
@@ -140,22 +148,22 @@ For example, suppose you wanted to see all ways to add up to 20 with at most 6 n
 		dscr::partitions X(20,1,6);
 		for (auto& x : X)
 		{
-			if (std::all_of(x.begin(), x.end(), [](int s) -> bool
-			{
-				double d = s;
-				double k = sqrt(d);
-				int sq = static_cast<int>(k + 0.0000001);
-				return sq*sq == s;
-			}))
-			
-			std::cout << x << std::endl;
+			if (std::all_of(x.begin(), x.end(), is_perfect_square))
+				std::cout << x << std::endl;
 		}
 		
 		return 0;
 	}
 ```
 
-Then compile with the command `g++ -O2 -std=C++14 main.cpp -o out` and run `./out`. 
+Then compile with the command `g++ -O2 -std=C++14 main.cpp -o out` and run `./out`. It should produce the following output:
+```sh
+	9 4 4 1 1 1
+	16 1 1 1 1
+	4 4 4 4 4
+	9 9 1 1
+	16 4
+```
 
 ## Combinations find_if and find_all
 Combinations is the most mature part of the library, so the following functions have been implemented:
