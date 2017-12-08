@@ -130,10 +130,10 @@ public:
 				return *this;
 
 			++m_comb;
-			std::cout << "hola" << std::endl;
+// 			std::cout << "hola" << std::endl;
 			if (m_comb.is_at_end(n))
 			{
-				cout << "Combination "<< *m_comb << " at end!" << endl;
+// 				cout << "Combination "<< *m_comb << " at end!" << endl;
 				//Reset combinations and make a new dyck path.
 				++m_dyck;
 
@@ -153,7 +153,7 @@ public:
 			}
 
 // 				cout << "Done! Converting!" << endl;
-			cout << "comb = " << *m_comb << " and dyck = " << *m_dyck << endl;
+// 			cout << "comb = " << *m_comb << " and dyck = " << *m_dyck << endl;
 			ConvertToMotzkin(); //TODO(mraggi): do this laziliy
 			return *this;
 		}

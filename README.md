@@ -190,7 +190,7 @@ which are all combinations for which every element is a divisor of the next elem
 
 # Benchmarks.
 
-## Vs GSL. 
+## Combinations benchmarks
 
 The GNU Scientific Library is a well known and mature library. For more information, [check their website](https://www.gnu.org/software/gsl/). It implements combinations. Iterating over all combinations of size n/2 over a set of size n was took the following time:
 
@@ -221,9 +221,7 @@ Compare this to the same code using discreture:
 	}
 ```
 
-**Note**: The order of iteration for Discreture combinations is different than the order of iteration for GSL combinations. To iterate over them in the same order, use `combinations_tree` instead of `combinations`. Preliminary testing shows `combinations_tree` is even FASTER than `combinations` when doing forward iteration, and slower than `combinations` when doing reverse iteration (but still faster than GSL combinations).
-
-**Note 2**: Compiling with GCC yields similar results for GSL and slightly worse results for discreture.
+**Note**: GSL iterates in the same order as `combinations_tree`.
 
 
 ## Discreture vs Sagemath
