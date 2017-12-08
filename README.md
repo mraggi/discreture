@@ -220,7 +220,7 @@ Euler314's library (unnamed as far as I know) can be found [here](https://github
 
 Iterating over all combinations of size n/2 over a set of size n took the following time:
 
-![discreture::combinations vs GSL combinations](https://github.com/mraggi/discreture/blob/master/combvsgsl.png "discreture::combinations vs GSL combinations")
+<img src="https://github.com/mraggi/discreture/blob/master/combvsgsl.png" width="600" alt="discreture::combinations vs GSL combinations" title="discreture::combinations vs GSL combinations">
 
 
 The GSL code used was the following:

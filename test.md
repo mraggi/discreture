@@ -1,1 +1,1 @@
-<img src="https://github.com/mraggi/discreture/blob/master/combvsgsl.png" width="600" alt="discreture::combinations vs GSL combinations">
+<img src="https://github.com/mraggi/discreture/blob/master/combvsgsl.png" width="600" alt="discreture::combinations vs GSL combinations" title="discreture::combinations vs GSL combinations">
