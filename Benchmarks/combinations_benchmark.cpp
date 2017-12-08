@@ -219,7 +219,7 @@ void produceAllEulerGuyData(int from, int to)
 	{
 		auto end = combination_iterator<long>();
 
-		for (combination_iterator<long> it(n, n / 2); it != end; ++it)
+		for (auto it = combination_iterator<long>(n, n / 2); it != end; ++it)
 		{
 			DoNotOptimize(*it);
 		}
@@ -236,7 +236,7 @@ void produceAllEulerGuyData(int from, int to)
 	{
 		auto end = combination_iterator_minimax_order<long>();
 
-		for (combination_iterator_minimax_order<long> it(n, n / 2); it != end; ++it)
+		for (auto it = combination_iterator_minimax_order<long>(n, n / 2); it != end; ++it)
 		{
 			DoNotOptimize(*it);
 		}
@@ -269,13 +269,13 @@ void produceAllBFCombinations(int from, int to)
 
 void produceAllCombinationBenchmarkData(int from, int to)
 {
-	produceAllEulerGuyData(from, to);
-	produceAllGSLData(from, to);
-	produceAllCombinationReverseData(from, to);
+	produceAllBFCombinations(from,to);
 	produceAllCombinationData(from, to);
+	produceAllEulerGuyData(from, to);
+	produceAllCombinationReverseData(from, to);
 	produceAllCombinationTreeData(from, to);
 	produceAllCombinationTreeReverseData(from, to);
-	produceAllBFCombinations(from,to);
+	produceAllGSLData(from, to);
 }
 
 

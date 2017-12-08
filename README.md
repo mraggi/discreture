@@ -106,7 +106,7 @@ Combinations and permutations are a random-access container (although they are M
 	combinations X(30,10);
 	for (size_t i = 0; i < X.size(); ++i)
 	{
-		auto x = X[i]; //don't do this
+		auto x = X[i]; // VERY SLOW: don't do this
 	}
 ```
 

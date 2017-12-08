@@ -65,12 +65,12 @@ public:
 		}
 	}
 
-	static inline void prev_combination(combination& data, IntType n)
+	static inline void prev_combination(combination& data, IntType n)  //TODO: why is this so slow? It should be super-fast!
 	{
 		if (data.empty())
 			return;
 		IntType a = n-1;
-		for (long i = data.size()-1; i > 0; --i,--a)
+		for (long i = data.size()-1; i > 0L; --i,--a)
 		{
 			if (data[i]-1 != data[i-1])
 			{

@@ -37,7 +37,7 @@ int main()
 	cout << "================ Starting Speed Tests ================" << endl;
 	testSpeed(); //TODO(mraggi): switch to google benchmark!
 
-// 	produceAllCombinationBenchmarkData(27,34);
+// 	produceAllCombinationBenchmarkData(25,34);
 	
 	cout << "Total Time taken = " << C.Reset() << "s" << endl;
 	return 0;
