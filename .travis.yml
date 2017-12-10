@@ -30,13 +30,12 @@ before_install:
     
 before_script:
   - PARENTDIR=$(pwd)
-  - export CXX=$COMPILER
   - mkdir $PARENTDIR/build && cd $PARENTDIR/build
   
 
 script:
   - cd $PARENTDIR/build
-  - cmake -DBUILD_TESTS=ON -DBUILD_EXAMPLES=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$COMPILER $PARENTDIR
+  - cmake -DBUILD_TESTS=ON -DBUILD_EXAMPLES=ON -DCMAKE_BUILD_TYPE=Release $PARENTDIR
   - make
 
 after_script:
