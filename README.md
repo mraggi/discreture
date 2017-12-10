@@ -1,5 +1,5 @@
 # Discreture
-
+![travis-ci](https://travis-ci.org/mraggi/discreture.svg?branch=master)
 This is a modern C++14 library designed to facilitate combinatorial research by providing fast and easy iterators to a few combinatorial objects, such as combinations, permutations, partitions, and others. The idea is to have discreture's lazy containers interface resemble the STL containers as much as possible, by providing the standard ways of iterating over them.
 
 In addition, many of the algorithms described in the standard <algorithm> library work as-is in these containers, as if the containers were marked as const.
