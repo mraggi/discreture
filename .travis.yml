@@ -41,5 +41,3 @@ script:
 after_script:
   - cd $PARENTDIR/build/
   - ./discreture_test
-  - cd $PARENTDIR
-  - ./discreture_test
