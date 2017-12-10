@@ -31,9 +31,9 @@ if(BUILD_TESTS)
 		enable_testing()
 		include_directories(${GTEST_INCLUDE_DIRS})
 		set(PROJECT_TEST_NAME ${PROJECT_NAME_STR}_test)
-		file(GLOB TEST_SRC_FILES ${PROJECT_SOURCE_DIR}/UTests/*.cpp)
+		file(GLOB TEST_SRC_FILES ${PROJECT_SOURCE_DIR}/tests/*.cpp)
 		add_executable(${PROJECT_TEST_NAME} ${TEST_SRC_FILES})
-# 		add_executable(${PROJECT_TEST_NAME} ${PROJECT_SOURCE_DIR}/UTests/combination_tests.cpp ${PROJECT_SOURCE_DIR}/UTests/google_test.cpp)
+# 		add_executable(${PROJECT_TEST_NAME} ${PROJECT_SOURCE_DIR}/tests/combination_tests.cpp ${PROJECT_SOURCE_DIR}/tests/google_test.cpp)
 		target_link_libraries(${PROJECT_TEST_NAME} ${GTEST_BOTH_LIBRARIES} Threads::Threads)
 		add_test(AllTests ${PROJECT_TEST_NAME})
 	else()
@@ -43,18 +43,18 @@ endif (BUILD_TESTS)
 
 if (BUILD_OLD_TESTS)
 		message("Google testing framework not found. Falling back to old tests")
-		add_executable(testdiscreture 	UTests/OldTests/test_all.cpp 
-									UTests/OldTests/combinations_test.cpp 
-									UTests/OldTests/dyck_test.cpp 
-									UTests/OldTests/misc_test.cpp 
-									UTests/OldTests/motzkin_test.cpp 
-									UTests/OldTests/multisets_test.cpp
-									UTests/OldTests/permutations_test.cpp
-									UTests/OldTests/range_test.cpp 
-									UTests/OldTests/sequence_test.cpp 
-									UTests/OldTests/partitions_test.cpp 
-									UTests/OldTests/set_partitions_test.cpp
-									UTests/OldTests/numbertheory_tests.cpp)
+		add_executable(testdiscreture 	tests/OldTests/test_all.cpp 
+									tests/OldTests/combinations_test.cpp 
+									tests/OldTests/dyck_test.cpp 
+									tests/OldTests/misc_test.cpp 
+									tests/OldTests/motzkin_test.cpp 
+									tests/OldTests/multisets_test.cpp
+									tests/OldTests/permutations_test.cpp
+									tests/OldTests/range_test.cpp 
+									tests/OldTests/sequence_test.cpp 
+									tests/OldTests/partitions_test.cpp 
+									tests/OldTests/set_partitions_test.cpp
+									tests/OldTests/numbertheory_tests.cpp)
 	endif()
 
 if(BUILD_BENCHMARKS)
