@@ -40,4 +40,6 @@ script:
 
 after_script:
   - cd $PARENTDIR/build/
-  - ./discreture_tests
+  - ./discreture_test
+  - cd $PARENTDIR
+  - ./discreture_test
