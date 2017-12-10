@@ -16,6 +16,7 @@ matrix:
 
 before_install:
     - eval "${MATRIX_EVAL}"
+    - sudo apt-get -qq update
     - sudo apt-get install -y libgtest-dev valgrind
     - sudo wget https://github.com/google/googletest/archive/release-1.8.0.tar.gz
     - sudo tar xf release-1.8.0.tar.gz
@@ -39,4 +40,5 @@ script:
   - make
 
 after_script:
-  - ./build/discreture_tests
+  - cd $PARENTDIR/build/
+  - ./discreture_tests
