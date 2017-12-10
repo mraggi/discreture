@@ -16,14 +16,26 @@ matrix:
 
 before_install:
     - eval "${MATRIX_EVAL}"
+    - sudo apt-get install -y libgtest-dev valgrind
+    - sudo wget https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+    - sudo tar xf release-1.8.0.tar.gz
+    - cd googletest-release-1.8.0
+    - sudo cmake -DBUILD_SHARED_LIBS=ON .
+    - sudo make
+    - sudo cp -a include/gtest /usr/include
+    - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
+    - which valgrind
+    - cd "${TRAVIS_BUILD_DIR}"
     
 before_script:
+  - PARENTDIR=$(pwd)
   - export CXX=$COMPILER
-  - mkdir build
-  - cd build
-  - cmake -DBUILD_TESTS=ON -DBUILD_EXAMPLES=ON -DCMAKE_BUILD_TYPE=Release ..
+  - mkdir $PARENTDIR/build && cd $PARENTDIR/build
+  
 
 script:
+  - cd $PARENTDIR/build
+  - cmake -DBUILD_TESTS=ON -DBUILD_EXAMPLES=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$COMPILER $PARENTDIR
   - make
 
 after_script:
