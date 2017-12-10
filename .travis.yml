@@ -1,5 +1,4 @@
 language: cpp
-script: cmake
 dist: trusty
 compiler:
 - clang
@@ -31,3 +30,15 @@ matrix:
 
 before_install:
     - eval "${MATRIX_EVAL}"
+    
+before_script:
+  - export CXX=$COMPILER
+  - mkdir build
+  - cd build
+  - cmake -DBUILD_TESTS=ON -DBUILD_EXAMPLES=ON -DCMAKE_BUILD_TYPE=Release ..
+
+script:
+  - make
+
+after_script:
+  - ./discreture_tests
