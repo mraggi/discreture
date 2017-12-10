@@ -7,7 +7,8 @@ option(BUILD_OLD_TESTS "Build old unit tests" OFF)
 option(BUILD_BENCHMARKS "Build benchmarks" OFF)
 option(BUILD_EXAMPLES "Build example programs" OFF)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_BUILD_TYPE Release)
