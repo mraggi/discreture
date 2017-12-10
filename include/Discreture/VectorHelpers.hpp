@@ -275,46 +275,9 @@ inline std::ostream& operator<<(std::ostream& os, const std::vector<unsigned cha
 /////////////////////////////
 inline std::ostream& operator<<(std::ostream& os, const std::vector<bool>& V);
 
-/////////////////////////////
-/// \brief Lexicographic compare std::vector A and B
-/// \return A <= B in lexicographic order.
-/////////////////////////////
-template <class T>
-bool operator<=(const std::vector<T>& A, const std::vector<T>& B)
-{
-	size_t a = A.size();
-	assert(a == B.size());
 
-	for (size_t i = 0; i < a; ++i)
-	{
-		if (A[i] > B[i])
-			return false;
-	}
 
-	return true;
-}
 
-/////////////////////////////
-/// \brief Equality comparison of std::vectors
-/// \return A <= B in lexicographic order.
-/////////////////////////////
-template <class T>
-bool operator==(const std::vector<T>& A, const std::vector<T>& B)
-{
-	size_t a = A.size();
-
-	if (B.size() != a) return false;
-
-	for (size_t i = 0; i < a; ++i)
-	{
-		if (A[i] != B[i])
-			return false;
-	}
-
-	return true;
-}
-
-// TODO: Move this to an appropiate place and give it a proper name
 ///////////////////////////
 /// \brief Given a subset S, written in combination form (1,2,4), returns the same subset written in subset form (01101)
 ///////////////////////////

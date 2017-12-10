@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 project(discreture)
+set(PROJECT_NAME_STR discreture)
 
-option(BUILD_TESTS "Build unit tests" OFF)
+option(BUILD_TESTS "Build gtest unit tests" OFF)
+option(BUILD_OLD_TESTS "Build old unit tests" OFF)
 option(BUILD_BENCHMARKS "Build benchmarks" OFF)
 option(BUILD_EXAMPLES "Build example programs" OFF)
 
@@ -22,19 +24,37 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION ${CMAKE_INSTALL_PREF
 
 
 if(BUILD_TESTS)
-	add_executable(testdiscreture 	UTests/test_all.cpp 
-									UTests/combinations_test.cpp 
-									UTests/dyck_test.cpp 
-									UTests/misc_test.cpp 
-									UTests/motzkin_test.cpp 
-									UTests/multisets_test.cpp
-									UTests/permutations_test.cpp
-									UTests/range_test.cpp 
-									UTests/sequence_test.cpp 
-									UTests/partitions_test.cpp 
-									UTests/set_partitions_test.cpp
-									UTests/numbertheory_tests.cpp)
+	find_package(GTest)
+	if (GTEST_FOUND)
+		find_package(Threads REQUIRED)
+		enable_testing()
+		include_directories(${GTEST_INCLUDE_DIRS})
+		set(PROJECT_TEST_NAME ${PROJECT_NAME_STR}_test)
+		file(GLOB TEST_SRC_FILES ${PROJECT_SOURCE_DIR}/UTests/*.cpp)
+		add_executable(${PROJECT_TEST_NAME} ${TEST_SRC_FILES})
+# 		add_executable(${PROJECT_TEST_NAME} ${PROJECT_SOURCE_DIR}/UTests/combination_tests.cpp ${PROJECT_SOURCE_DIR}/UTests/google_test.cpp)
+		target_link_libraries(${PROJECT_TEST_NAME} ${GTEST_BOTH_LIBRARIES} Threads::Threads)
+		add_test(AllTests ${PROJECT_TEST_NAME})
+	else()
+		set(BUILD_OLD_TESTS ON)
+	endif()
 endif (BUILD_TESTS)
+
+if (BUILD_OLD_TESTS)
+		message("Google testing framework not found. Falling back to old tests")
+		add_executable(testdiscreture 	UTests/OldTests/test_all.cpp 
+									UTests/OldTests/combinations_test.cpp 
+									UTests/OldTests/dyck_test.cpp 
+									UTests/OldTests/misc_test.cpp 
+									UTests/OldTests/motzkin_test.cpp 
+									UTests/OldTests/multisets_test.cpp
+									UTests/OldTests/permutations_test.cpp
+									UTests/OldTests/range_test.cpp 
+									UTests/OldTests/sequence_test.cpp 
+									UTests/OldTests/partitions_test.cpp 
+									UTests/OldTests/set_partitions_test.cpp
+									UTests/OldTests/numbertheory_tests.cpp)
+	endif()
 
 if(BUILD_BENCHMARKS)
 	find_package(GSL)

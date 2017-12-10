@@ -55,9 +55,9 @@ public:
 
 	using difference_type = long long int;
 	using size_type = long long;
-	using value_type = std::vector<std::vector<IntType>>;
-	using set_partition = value_type;
 	using number_partition = std::vector<IntType> ;
+	using value_type = std::vector<number_partition>;
+	using set_partition = value_type;
 	//Declarations.
 	class iterator;
 
@@ -185,7 +185,6 @@ public:
 		for (size_t k = m_minnumparts; k <= m_maxnumparts; ++k)
 			toReturn += stirling_partition_number(m_n, k);
 
-// 			cout << "size will be " << toReturn << endl;
 		return toReturn;
 	}
 
@@ -205,9 +204,7 @@ public:
 		explicit iterator(IntType n, IntType numparts) : m_ID(0), m_data(n), m_n(n), m_npartition()
 		{
 			basic_partitions<IntType>::first_with_given_number_of_parts(m_npartition, n, numparts);
-// 				cout << "partition:" << m_npartition << endl;
 			fill_first_set_partition(m_data, m_npartition);
-// 				cout << "m_data:" << m_data << endl;
 		}
 
 		//prefix

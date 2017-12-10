@@ -102,11 +102,16 @@ inline BigIntType factorial(llint n)
 template <class BigIntType>
 inline BigIntType binomial(llint n, llint k)
 {
-	if (k > n)
+	if (k > n || k < 0)
 		return 0;
 
 	if (k > n - k)
 		k = n - k;
+	
+	if (k == 0)
+		return 1;
+	if (k == 1)
+		return n;
 
 	static std::vector<std::vector<BigIntType>> B = { { 1 },
 		{ 1 },
@@ -121,6 +126,8 @@ inline BigIntType binomial(llint n, llint k)
 	if (n < m)
 		return B[n][k];
 
+	//TODO: Don't resize if n is really large
+	
 	B.resize(n + 1, {1});
 
 	for (; m < n + 1; ++m)
@@ -266,6 +273,9 @@ inline BigIntType stirling_cycle_number(llint n, llint k)
 		{0, 2, 3, 1},
 		{0, 6, 11, 6, 1}
 	};
+	
+	if (k > n || k < 0)
+		return 0;
 	
 	llint oldsize = S1.size();
 	if (n < oldsize)

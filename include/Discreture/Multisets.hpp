@@ -8,10 +8,10 @@ template<class IntType>
 class basic_multisets
 {
 public:
-	typedef long long int difference_type;
-	typedef unsigned long long int size_type;
-	typedef std::vector<IntType> value_type;
-	typedef std::vector<IntType> multiset;
+	using difference_type = long long;
+	using size_type = long long;
+	using value_type = std::vector<IntType>;
+	using multiset = value_type;
 private:
 	std::vector<IntType> m_total;
 public:

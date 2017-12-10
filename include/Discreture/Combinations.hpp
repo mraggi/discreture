@@ -223,7 +223,7 @@ public:
 	{
 	public:
 		iterator() : m_ID(0), m_data() {} //empty initializer
-		explicit iterator(const combination& data) : m_ID(get_index(data)), m_data(data) {}
+		explicit iterator(const combination& data) : m_ID(basic_combinations<IntType>::get_index(data)), m_data(data) {}
 	private:
 		explicit iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
 	public:

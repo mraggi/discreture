@@ -4,6 +4,10 @@
 #include "Misc.hpp"
 #include "Sequences.hpp"
 #include "Range.hpp"
+#include "combinations_tree_bf.hpp"
+#include "CombinationsTreePrunned.hpp"
+#include <numeric>
+#include <algorithm>
 
 namespace dscr
 {
@@ -65,7 +69,7 @@ public:
 		}
 	}
 
-	static inline void prev_combination(combination& data, IntType n)  //TODO: why is this so slow? It should be super-fast!
+	static inline void prev_combination(combination& data, IntType n)
 	{
 		if (data.empty())
 			return;
@@ -82,16 +86,21 @@ public:
 		--data[0];
 	}
 
-	size_type get_index(const combination& comb) const
+	static size_type get_index(const combination& comb, IntType n) //needs n
 	{
 		size_type k = comb.size();
 
 		size_type result = 0;
 
 		for (difference_type i = 0; i < k; ++i)
-			result += binomial(m_n - comb[k - i - 1] - 1, i + 1);
+			result += binomial(n - comb[k - i - 1] - 1, i + 1);
 
-		return binomial(m_n, k) - result - 1;
+		return binomial(n, k) - result - 1;
+	}
+	
+	size_type get_index(const combination& comb) const
+	{
+		return get_index(comb,m_n);
 	}
 
 	static void construct_combination(combination& data, size_type m, IntType m_n)
@@ -150,10 +159,8 @@ public:
 	/// \param k is an integer with 0 <= k <= n
 	///
 	////////////////////////////////////////////////////////////
-	basic_combinations_tree(IntType n, IntType k) : m_n(n), m_k(k), m_begin(n, k), m_end(), m_rbegin(n, k),  m_rend()
+	basic_combinations_tree(IntType n, IntType k) : m_n(n), m_k(k), m_size(binomial(n,k))
 	{
-		m_end.m_ID = size();
-		m_rend.m_ID = size();
 	}
 
 	////////////////////////////////////////////////////////////
@@ -164,7 +171,7 @@ public:
 	////////////////////////////////////////////////////////////
 	size_type size() const
 	{
-		return binomial(m_n, m_k);
+		return m_size;
 	}
 
 
@@ -185,12 +192,13 @@ public:
 	{
 	public:
 		iterator() : m_ID(0), m_data() {} //empty initializer
-		iterator(const combination& comb) : m_ID(get_index(comb)), m_data(comb) {} //empty initializer
+		iterator(const combination& comb, IntType n) : m_ID(basic_combinations_tree<IntType>::get_index(comb,n)), m_data(comb) {} //empty initializer
 	private:
 		explicit iterator(IntType id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
 	public:
-		iterator(IntType n, IntType r) : m_ID(0), m_n(n), m_data(range<IntType>(r))
+		iterator(IntType n, IntType k) : m_ID(0), m_n(n), m_data(k)
 		{
+			std::iota(m_data.begin(), m_data.end(), 0);
 		}
 
 		//prefix
@@ -205,7 +213,6 @@ public:
 
 		inline iterator& operator--()
 		{
-
 			if (m_ID == 0)
 				return *this;
 
@@ -237,7 +244,7 @@ public:
 			assert(0 <= n + m_ID);
 
 			// If n is small, it's actually more efficient to just iterate to it
-			if (abs(n) < 20)
+			if (abs(n) < 15)
 			{
 				while (n > 0)
 				{
@@ -318,7 +325,7 @@ public:
 
 	iterator get_iterator(const combination& comb)
 	{
-		return iterator(comb);
+		return iterator(comb,m_n);
 	}
 
 	////////////////////////////////////////////////////////////
@@ -462,24 +469,24 @@ public:
 		friend class basic_combinations_tree;
 	}; // end class iterator
 
-	const iterator& begin() const
+	iterator begin() const
 	{
-		return m_begin;
+		return iterator(m_n,m_k);
 	}
 
-	const iterator& end() const
+	iterator end() const
 	{
-		return m_end;
+		return iterator(size());
 	}
 
-	const reverse_iterator& rbegin() const
+	reverse_iterator rbegin() const
 	{
-		return m_rbegin;
+		return reverse_iterator(m_n,m_k);
 	}
 
-	const reverse_iterator& rend() const
+	reverse_iterator rend() const
 	{
-		return m_rend;
+		return reverse_iterator(size());
 	}
 
 
@@ -496,15 +503,273 @@ public:
 		it += m;
 		return *it;
 	}
+	
+	///////////////////////////////////////////////
+	/// \brief This is an efficient way to construct a combination of size k which fully satisfies a predicate
+	///
+	/// This function is conceptually equivalent to std::find_if(begin(), end(), Pred),
+	/// but much faster if the predicate can be evaluated on a partial combination (so as to prune the search tree)
+	///
+	/// # Example:
+	///
+	/// 	combinations X(40,6);
+	/// 	auto it = X.find_if([](const std::vector<int>& comb) -> bool
+	/// 	{
+	/// 		for (int i = 0; i < comb.size()-1; ++i)
+	/// 		{
+	/// 			if (2*comb[i] + 1 > comb[i+1])
+	/// 				return false;
+	/// 		}
+	/// 		return true;
+	///		});
+	/// 	cout << *it << endl;
+	///
+	/// Prints out:
+	/// 	[ 0 1 3 7 15 31 ]
+	///
+	///
+	/// \param Pred should be what we call a *partial predicate*: It takes a combination as a parameter and returns either true or false.
+	///
+	///
+	/// \return An interator to a combination which fully satisfies the predicate.
+	///
+	/////////////////////////////////////////////
+	template<class PartialPredicate>
+	iterator find_if(PartialPredicate pred)
+	{
+		combination A;
+		A.reserve(m_k);
+
+		while (DFSUtil(A, pred))
+		{
+			if (A.size() == static_cast<size_t>(m_k))
+				return get_iterator(A);
+		}
+
+		return end();
+	}
+	
+	///////////////////////////////////////////////
+	/// \brief This is an efficient way to construct all combination of size k which fully satisfy a predicate
+	///
+	/// This function is similar to find_if, but it returns an object for which you can iterate over all combinations which satisfy Predicate pred,
+	///
+	/// # Example:
+	///
+	/// 	combinations X(30,4);
+	/// 	auto vall = X.find_all([](const std::vector<int>& comb) -> bool
+	///		{
+	///			if (comb.size() < 2) return true;
+	///			int k = comb.size();
+	///			if (comb[k-2] == 0) return false;
+	///			return (comb[k-1]%comb[k-2] == 0);
+	///		});
+	/// 	for (auto& v : vall)
+	/// 		cout << v << endl;
+	///
+	///
+	/// Prints out:
+	/// 	[ 1 2 4 8 ]
+	/// 	[ 1 2 4 12 ]
+	/// 	[ 1 2 4 16 ]
+	/// 	[ 1 2 4 20 ]
+	/// 	[ 1 2 4 24 ]
+	/// 	[ 1 2 4 28 ]
+	/// 	[ 1 2 6 12 ]
+	/// 	[ 1 2 6 18 ]
+	/// 	[ 1 2 6 24 ]
+	/// 	[ 1 2 8 16 ]
+	/// 	[ 1 2 8 24 ]
+	/// 	[ 1 2 10 20 ]
+	/// 	[ 1 2 12 24 ]
+	/// 	[ 1 2 14 28 ]
+	/// 	[ 1 3 6 12 ]
+	/// 	[ 1 3 6 18 ]
+	/// 	[ 1 3 6 24 ]
+	/// 	[ 1 3 9 18 ]
+	/// 	[ 1 3 9 27 ]
+	/// 	[ 1 3 12 24 ]
+	/// 	[ 1 4 8 16 ]
+	/// 	[ 1 4 8 24 ]
+	/// 	[ 1 4 12 24 ]
+	/// 	[ 1 5 10 20 ]
+	/// 	[ 1 6 12 24 ]
+	/// 	[ 1 7 14 28 ]
+	/// 	[ 2 4 8 16 ]
+	/// 	[ 2 4 8 24 ]
+	/// 	[ 2 4 12 24 ]
+	/// 	[ 2 6 12 24 ]
+	/// 	[ 3 6 12 24 ]
+	/// which are all combinations for which every element is a divisor of the next element.
+	///
+	/// \param pred should be a *partial predicate*: It takes a *partial* combination as a parameter and returns either true or false. At the end only combinations for which every subcombination evaluated to true are returned (the combination tree is prunned when Pred returns false)
+	///
+	///
+	/// \return An forward-iterable object which whose elements are all combinations which satisfy predicate pred.
+	///
+	///
+	/////////////////////////////////////////////
+	template<class PartialPredicate>
+	basic_combinations_tree_prunned<IntType, PartialPredicate> find_all(PartialPredicate pred)
+	{
+		basic_combinations_tree_prunned<IntType, PartialPredicate> X(m_n, m_k, pred);
+		return X;
+	}
+	
+	template <class Func>
+	void for_each(Func f) const
+	{
+		//I'm really sorry about this. I don't know how to improve the readability without sacrificing speed. If you do, by all means, tell me about it.
+		switch (m_k)
+		{
+		case 0:
+			detail::combination_tree_helper0(f,m_n);
+			break;
+
+		case 1:
+			detail::combination_tree_helper1(f,m_n);
+			break;
+
+		case 2:
+			detail::combination_tree_helper2(f,m_n);
+			break;
+
+		case 3:
+			detail::combination_tree_helper3(f,m_n);
+			break;
+
+		case 4:
+			detail::combination_tree_helper4(f,m_n);
+			break;
+
+		case 5:
+			detail::combination_tree_helper5(f,m_n);
+			break;
+
+		case 6:
+			detail::combination_tree_helper6(f,m_n);
+			break;
+
+		case 7:
+			detail::combination_tree_helper7(f,m_n);
+			break;
+
+		case 8:
+			detail::combination_tree_helper8(f,m_n);
+			break;
+
+		case 9:
+			detail::combination_tree_helper9(f,m_n);
+			break;
+
+		case 10:
+			detail::combination_tree_helper10(f,m_n);
+			break;
+
+		case 11:
+			detail::combination_tree_helper11(f,m_n);
+			break;
+
+		case 12:
+			detail::combination_tree_helper12(f,m_n);
+			break;
+
+		case 13:
+			detail::combination_tree_helper13(f,m_n);
+			break;
+
+		case 14:
+			detail::combination_tree_helper14(f,m_n);
+			break;
+
+		case 15:
+			detail::combination_tree_helper15(f,m_n);
+			break;
+
+		case 16:
+			detail::combination_tree_helper16(f,m_n);
+			break;
+			
+		case 17:
+			detail::combination_tree_helper17(f,m_n);
+			break;
+
+		default:
+			for (auto& comb : (*this))
+			{
+				f(comb);
+			}
+
+			break;
+		}
+	}
 
 private:
 	IntType m_n;
 	IntType m_k;
-	iterator m_begin;
-	iterator m_end;
-	reverse_iterator m_rbegin;
-	reverse_iterator m_rend;
+	size_type m_size;
 
+	
+	template <class P>
+	bool augment(combination& comb, P pred, IntType start = 0)
+	{
+		if (comb.empty())
+		{
+			if (start < m_n - m_k + 1)
+			{
+				comb.push_back(start);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		auto last = comb.back();
+		auto guysleft = m_k - comb.size();
+
+		start = std::max(static_cast<IntType>(last + 1), start);
+
+		for (size_t i = start; i < m_n - guysleft + 1; ++i)
+		{
+			comb.push_back(i);
+
+			if (pred(comb))
+				return true;
+
+			comb.pop_back();
+		}
+
+		return false;
+	}
+
+	template <class P>
+	bool DFSUtil(combination& comb, P pred)
+	{
+// 			auto currsize = comb.size();
+
+		if (comb.size() < static_cast<size_t>(m_k))
+		{
+			if (augment(comb, pred))
+				return true;
+		}
+
+		auto last = comb.back();
+
+		// If it can't be augmented, be it because size is already k or else, we have to start backtracking
+		while (!comb.empty())
+		{
+			last = comb.back();
+			comb.pop_back();
+
+			if (augment(comb, pred, last + 1))
+				return true;
+		}
+
+		return false;
+	}
+	
 }; // end class basic_combinations_tree
 
 using combinations_tree = basic_combinations_tree<int>;

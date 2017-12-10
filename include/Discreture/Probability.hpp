@@ -13,7 +13,7 @@ namespace dscr
  */
 inline std::default_random_engine& random_engine()
 {
-	static std::default_random_engine e {};
+	static std::default_random_engine e {static_cast<long unsigned int>(time(nullptr))};
 	return e;
 }
 
@@ -25,16 +25,6 @@ inline bool probability_of_true(double p)
 {
 	static std::bernoulli_distribution d(p);
 	return d(random_engine());
-}
-
-/**
- * @brief The modern way of setting a random seed.
- */
-inline void randomize()
-{
-	srand(time(nullptr));
-	static std::random_device rd {};
-	random_engine().seed(rd());
 }
 
 

@@ -4,6 +4,7 @@
 #include "Sequences.hpp"
 #include "Range.hpp"
 #include <algorithm>
+#include <numeric>
 
 namespace dscr
 {
@@ -48,7 +49,7 @@ public:
 	static void construct_permutation(permutation& data, size_type m)
 	{
 		size_t n = data.size();
-		overwrite(data, range<IntType>(n));
+		std::iota(data.begin(), data.end(), 0);
 		size_t start = 0;
 
 		for (; m > 0 && start < n; ++start)
@@ -90,10 +91,8 @@ public:
 	/// \param n is an integer >= 0
 	///
 	////////////////////////////////////////////////////////////
-	basic_permutations(IntType n) : m_n(n), m_begin(n), m_end(), m_rbegin(n),  m_rend()
+	basic_permutations(IntType n) : m_n(n)
 	{
-		m_end.m_ID = size();
-		m_rend.m_ID = size();
 	}
 
 	////////////////////////////////////////////////////////////
@@ -140,7 +139,7 @@ public:
 	/// \return the index of permutation comb, as if basic_permutations was a proper data structure
 	/// \note This constructs the proper index from scratch. If an iterator is already known, calling ID() on the iterator is much more efficient.
 	/////////////////////////////////////////////////////////////////////////////
-	size_type get_index(const permutation& perm, size_t start = 0)
+	size_type get_index(const permutation& perm, size_t start = 0) const
 	{
 		auto n = perm.size();
 
@@ -168,15 +167,6 @@ public:
 		int b = n - start - 1;
 		auto w = std::lower_bound(sortedperm.begin(), sortedperm.end(), perm[start]) - sortedperm.begin() - i;
 
-// 			cout << "----" << endl;
-// 			cout << "\t perm = " << perm << endl;
-// 			cout << "\tsperm = " << sortedperm << endl;
-// 			cout << "\t n = " << n << endl;
-// 			cout << "\t start = " << start << endl;
-// 			cout << "\t b = " << b << endl;
-// 			cout << "\t w = " << w << endl;
-// 			cout << "\t i = " << i << endl;
-// 			cout << "In this iteration, adding: " << factorial(b)*(w) << endl;
 		return factorial(b) * (w) + get_index(perm, start + 1);
 	}
 
@@ -188,11 +178,9 @@ public:
 	{
 	public:
 		iterator() : m_ID(0), m_data() {} //empty initializer
-	public:
 		iterator(IntType n) : m_ID(0), m_data(range<IntType>(n))
 		{
 		}
-
 		//prefix
 		inline iterator& operator++()
 		{
@@ -429,24 +417,28 @@ public:
 		friend class basic_permutations;
 	}; // end class iterator
 
-	const iterator& begin() const
+	iterator begin() const
 	{
-		return m_begin;
+		return iterator(m_n);
 	}
 
-	const iterator& end() const
+	iterator end() const
 	{
-		return m_end;
+		iterator last;
+		last.m_ID = size();
+		return last;
 	}
 
-	const reverse_iterator& rbegin() const
+	reverse_iterator rbegin() const
 	{
-		return m_rbegin;
+		return reverse_iterator(m_n);
 	}
 
-	const reverse_iterator& rend() const
+	reverse_iterator rend() const
 	{
-		return m_rend;
+		reverse_iterator last;
+		last.m_ID = size();
+		return last;
 	}
 
 
@@ -466,10 +458,6 @@ public:
 
 private:
 	IntType m_n;
-	iterator m_begin;
-	iterator m_end;
-	reverse_iterator m_rbegin;
-	reverse_iterator m_rend;
 
 	size_type get_index(const permutation& perm, int first, int last)
 	{
