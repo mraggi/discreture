@@ -27,4 +27,4 @@ script:
   - make
 
 after_script:
-  - ./discreture_tests
+  - ./build/discreture_tests
