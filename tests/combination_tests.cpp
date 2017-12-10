@@ -8,7 +8,7 @@ using namespace dscr;
 void check_combination(const combinations::combination& x, int n, int k)
 {
 	ASSERT_TRUE(std::is_sorted(x.begin(),x.end()));
-	ASSERT_EQ(x.size(), k);
+	ASSERT_EQ(x.size(), k+1);
 	if (k > 0)
 	{
 		ASSERT_TRUE(x.front() >= 0);
