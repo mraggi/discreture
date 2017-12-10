@@ -1,6 +1,4 @@
-[![Build Status Linux][travis-badge]][Travis]
-[![License: Apache][license-badge]](./LICENSE)
-[![Latest release][releases-badge]][Github Releases]
+[![Build Status](https://travis-ci.org/mraggi/discreture.svg?branch=master)](https://travis-ci.org/mraggi/discreture)
 
 # Discreture
 
