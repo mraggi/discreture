@@ -33,8 +33,8 @@ class basic_combinations_tree
 {
 public:
 
-	using difference_type = long long int;
-	using size_type = unsigned long long int;
+	using difference_type = long long;
+	using size_type = long long;
 	using value_type = std::vector<IntType>;
 	using combination = std::vector<IntType>;
 
@@ -58,7 +58,7 @@ public:
 			if (data[i] != n - k + i)
 			{
 				++data[i];
-				IntType t = data[i];
+				long t = data[i];
 				for (long j = 1; i+j < k; ++j)
 				{
 					data[i+j] = t + j;
@@ -191,10 +191,10 @@ public:
 	class iterator : public std::iterator<std::random_access_iterator_tag, std::vector<IntType>>
 	{
 	public:
-		iterator() : m_ID(0), m_data() {} //empty initializer
+		iterator() : m_ID(0LL), m_data() {} //empty initializer
 		iterator(const combination& comb, IntType n) : m_ID(basic_combinations_tree<IntType>::get_index(comb,n)), m_data(comb) {} //empty initializer
 	private:
-		explicit iterator(IntType id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
+		explicit iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
 	public:
 		iterator(IntType n, IntType k) : m_ID(0), m_n(n), m_data(k)
 		{
@@ -336,7 +336,7 @@ public:
 	public:
 		reverse_iterator() : m_n(0), m_ID(0), m_data() {} //empty initializer
 	private:
-		explicit reverse_iterator(IntType id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
+		explicit reverse_iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
 	public:
 		reverse_iterator(IntType n, IntType r) : m_n(n), m_ID(0), m_data(range<IntType>(n - r, n))
 		{
