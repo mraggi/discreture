@@ -130,7 +130,7 @@ TEST(CombinationsTree,Bidirectional)
 
 TEST(CombinationsTree,ForEach)
 {
-	for (int n = 0; n < 10; ++n)
+	for (int n = 0; n < 20; ++n)
 	{
 		for (int k = 0; k <= n; ++k)
 		{

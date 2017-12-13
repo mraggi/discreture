@@ -13,7 +13,7 @@ void check_partition(const partitions::partition& x, int n)
 		
 	ASSERT_EQ(suma,n);
 	
-	ASSERT_TRUE(std::is_sorted(x.begin(), x.end(), std::greater<int>()));
+	ASSERT_TRUE(std::is_sorted(x.begin(), x.end(), std::greater<partitions::partition::value_type>()));
 
 }
 

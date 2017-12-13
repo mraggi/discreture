@@ -1,7 +1,7 @@
 #include "motzkin_benchmark.hpp"
 #include "dyck_benchmark.hpp"
 #include "TimeHelpers.hpp"
-#include "do_not_optimize.hpp"
+#include "../do_not_optimize.hpp"
 
 using namespace dscr;
 

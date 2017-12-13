@@ -3,8 +3,11 @@ project(discreture)
 set(PROJECT_NAME_STR discreture)
 
 option(BUILD_TESTS "Build gtest unit tests" OFF)
-option(BUILD_OLD_TESTS "Build old unit tests" OFF)
+option(BUILD_OLD_TESTS "Build old unit tests (deprecated)" OFF)
+
 option(BUILD_BENCHMARKS "Build benchmarks" OFF)
+option(BUILD_OLD_BENCHMARKS "Build old benchmarks (deprecated)" OFF)
+
 option(BUILD_EXAMPLES "Build example programs" OFF)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -37,25 +40,15 @@ if(BUILD_TESTS)
 		target_link_libraries(${PROJECT_TEST_NAME} ${GTEST_BOTH_LIBRARIES} Threads::Threads)
 		add_test(AllTests ${PROJECT_TEST_NAME})
 	else()
+		message("Google testing framework not found. Falling back to old tests")
 		set(BUILD_OLD_TESTS ON)
 	endif()
 endif (BUILD_TESTS)
 
 if (BUILD_OLD_TESTS)
-		message("Google testing framework not found. Falling back to old tests")
-		add_executable(testdiscreture 	tests/OldTests/test_all.cpp 
-									tests/OldTests/combinations_test.cpp 
-									tests/OldTests/dyck_test.cpp 
-									tests/OldTests/misc_test.cpp 
-									tests/OldTests/motzkin_test.cpp 
-									tests/OldTests/multisets_test.cpp
-									tests/OldTests/permutations_test.cpp
-									tests/OldTests/range_test.cpp 
-									tests/OldTests/sequence_test.cpp 
-									tests/OldTests/partitions_test.cpp 
-									tests/OldTests/set_partitions_test.cpp
-									tests/OldTests/numbertheory_tests.cpp)
-	endif()
+	file(GLOB TEST_SRC_FILES ${PROJECT_SOURCE_DIR}/tests/OldTests/*.cpp)
+	add_executable(discreture_test_old ${TEST_SRC_FILES})
+endif(BUILD_OLD_TESTS)
 
 if(BUILD_BENCHMARKS)
 	find_package(GSL)
@@ -64,24 +57,26 @@ if(BUILD_BENCHMARKS)
 		include_directories(${GSL_INCLUDE_DIRS})
 	endif()
 	add_definitions(-g)
-	add_executable(benchmarkdiscreture 	Benchmarks/benchmark_all.cpp 
-										Benchmarks/combinations_benchmark.cpp 
-										Benchmarks/dyck_benchmark.cpp 
-										Benchmarks/misc_benchmark.cpp 
-										Benchmarks/motzkin_benchmark.cpp 
-										Benchmarks/multisets_benchmark.cpp
-										Benchmarks/permutations_benchmark.cpp
-										Benchmarks/range_benchmark.cpp 
-										Benchmarks/sequence_benchmark.cpp 
-										Benchmarks/partitions_benchmark.cpp 
-										Benchmarks/set_partitions_benchmark.cpp
-										Benchmarks/numbertheory_benchmarks.cpp)
+	file(GLOB TEST_SRC_FILES ${PROJECT_SOURCE_DIR}/Benchmarks/*.cpp)
+	add_executable(discreture_benchmark ${TEST_SRC_FILES})
 	if (GSL_FOUND)
-		target_link_libraries(benchmarkdiscreture ${GSL_LIBRARIES})
+		target_link_libraries(discreture_benchmark ${GSL_LIBRARIES})
 	endif()
 endif (BUILD_BENCHMARKS)
 
-
+if(BUILD_OLD_BENCHMARKS)
+	find_package(GSL)
+	if (${GSL_FOUND})
+		add_definitions(-DTEST_GSL_COMBINATIONS)
+		include_directories(${GSL_INCLUDE_DIRS})
+	endif(${GSL_FOUND})
+	add_definitions(-g)
+	file(GLOB TEST_SRC_FILES ${PROJECT_SOURCE_DIR}/Benchmarks/old/*.cpp)
+	add_executable(discreture_benchmark_old ${TEST_SRC_FILES})
+	if (GSL_FOUND)
+		target_link_libraries(discreture_benchmark_old ${GSL_LIBRARIES})
+	endif(GSL_FOUND)
+endif (BUILD_OLD_BENCHMARKS)
 
 if(BUILD_EXAMPLES)
 	add_executable(combinations examples/combinations.cpp)

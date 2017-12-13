@@ -3,6 +3,8 @@
 #include "Misc.hpp"
 #include "Sequences.hpp"
 #include "Range.hpp"
+#include "Probability.hpp"
+
 #include <algorithm>
 #include <numeric>
 
@@ -124,7 +126,7 @@ public:
 	{
 		permutation a = identity();
 
-		std::shuffle(a.begin(), a.end());
+		std::shuffle(a.begin(), a.end(),std::default_random_engine());
 
 		return a;
 	}

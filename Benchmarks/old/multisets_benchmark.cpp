@@ -1,6 +1,6 @@
 #include "multisets_benchmark.hpp"
 #include "TimeHelpers.hpp"
-#include "do_not_optimize.hpp"
+#include "../do_not_optimize.hpp"
 
 void testMultisetSpeed()
 {

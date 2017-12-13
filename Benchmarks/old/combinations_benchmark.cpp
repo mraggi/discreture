@@ -2,7 +2,7 @@
 #include <numeric>
 #include "combinations_benchmark.hpp"
 #include "TimeHelpers.hpp"
-#include "do_not_optimize.hpp"
+#include "../do_not_optimize.hpp"
 
 using namespace dscr;
 
@@ -209,7 +209,7 @@ void produceAllCombinationTreeReverseData(int from, int to)
 	std::cout << ']' << std::endl;
 }
 
-#include "euler314_combination_iterator.hpp"
+#include "../external/euler314_combination_iterator.hpp"
 void produceAllEulerGuyData(int from, int to)
 {
 	std::cout << "euler314 = [";

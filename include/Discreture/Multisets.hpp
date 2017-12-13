@@ -93,13 +93,9 @@ public:
 				{
 					++m_submulti[i];
 
-					for (size_t j = 0; j < i; ++j)
-					{
-						m_submulti[j] = 0;
-					}
-
 					return *this;
 				}
+				m_submulti[i] = 0;
 			}
 
 			m_atend = true;

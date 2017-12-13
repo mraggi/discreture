@@ -32,7 +32,7 @@ std::vector<int> get_random_multiset(int n)
 
 TEST(Multisets,ForwardIteration)
 {
-	for (int n = 0; n < 10; ++n)
+	for (int n = 0; n < 12; ++n)
 	{
 		std::vector<int> total = get_random_multiset(n);
 		multisets X(total);
