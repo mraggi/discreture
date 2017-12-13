@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 		}
 
 		combinations_tree X(n, k);
-
+		cout << "Size = " << X.size() << endl;
 		for (const auto& x : X)
 		{
 			cout << x << '\n';

@@ -839,6 +839,59 @@ private:
 }; // end class basic_combinations
 
 using combinations = basic_combinations<int>;
+
+/**
+ * \brief This function is an attempt to recreate next_permutation's 
+ * 		  behaviour but for combinations. [out_first, out_last) should be
+ * 		  a range of iterators in [in_first, in_last).
+ **/
+template <class ForwardIt, class BiDirectionalItOut>
+bool next_combination(ForwardIt in_first,
+					  ForwardIt in_last,
+					  BiDirectionalItOut out_first,
+					  BiDirectionalItOut out_last,
+					  BiDirectionalItOut& hint
+ 					)
+{
+	if (out_first == out_last)
+		return false;
+	
+	if (hint != out_first)
+	{
+		--hint;
+		++(*hint);
+		return true;
+	}
+	
+	
+	auto out_second = out_first; ++out_second ;
+	for (  ; out_second != out_last; 
+			 ++out_second, ++in_first, ++hint)
+	{
+		auto next = *hint;
+		++next;
+		if (*next != **out_second)
+		{
+			++(*hint);
+			return true;
+		}
+		*hint = in_first;
+	}
+	++(*hint);
+	
+	return (*hint != in_last);
+}
+
+template <class ForwardIt, class BiDirectionalItOut>
+bool next_combination(ForwardIt in_first,
+					  ForwardIt in_last,
+					  BiDirectionalItOut out_first,
+					  BiDirectionalItOut out_last
+ 					)
+{
+	auto hint = out_first;
+	return next_combination(in_first, in_last, out_first, out_last, hint);
+}
  
 } // end namespace dscr;
 
