@@ -282,7 +282,37 @@ If you'd like to see other benchmarks, let me know.
 
 This comparison isn't very fair (C++ vs python). On the same system, iterating over all (24 choose 12) combinations, sage takes 12.2 seconds. Discreture takes approximately 0.005 seconds. No point in graphing that.
 
-## CLANG vs GCC
+## Benchmarks
+
+The following benchmarks where done on a i7-5820K CPU @ 3.30GHz, using Manjaro Linux with clang 5.0.0.
+
+|Test name                     |  Time         |  # processed     |     Speed          |
+|------------------------------|:-------------:|-----------------:|-------------------:|
+|Combinations Forward          |  5.4309s      |   2333606220     |     4.297e+08 #/sec|
+|Combinations Reverse          |  8.0012s      |   2333606220     |     2.917e+08 #/sec|
+|Combinations for_each         |  3.7972s      |   2333606220     |     6.146e+08 #/sec|
+|Combinations Euler314         |  5.7366s      |   2333606220     |     4.068e+08 #/sec|
+|Combinations Construct        |  0.0010s      |   1000           |     9.704e+05 #/sec|
+|------------------------------|---------------|------------------|--------------------|
+|Combinations Tree Forward     |  9.9079s      |   2333606220     |     2.355e+08 #/sec|
+|Combinations Tree Reverse     |  6.8077s      |   2333606220     |     3.428e+08 #/sec|
+|Combinations Tree for_each    |  4.0138s      |   2333606220     |     5.814e+08 #/sec|
+|Combinations Tree Euler314    |  8.8788s      |   2333606220     |     2.628e+08 #/sec|
+|Combinations Tree GSL         |  11.3641s     |   2333606220     |     2.053e+08 #/sec|
+|Combinations Tree Construct   |  0.0010s      |   1000           |     9.614e+05 #/sec|
+|------------------------------|---------------|------------------|--------------------|
+|Permutations Forward          |  1.6265s      |   479001600      |     2.945e+08 #/sec|
+|Permutations Reverse          |  4.1861s      |   479001600      |     1.144e+08 #/sec|
+|Permutations Construct        |  0.0003s      |   1000           |     2.994e+06 #/sec|
+|------------------------------|---------------|------------------|--------------------|
+|Dyck Paths Forward            |  2.0600s      |   477638700      |     2.319e+08 #/sec|
+|------------------------------|---------------|------------------|--------------------|
+|Motzkin Paths Forward         |  1.0144s      |   50852019       |     5.013e+07 #/sec|
+|------------------------------|---------------|------------------|--------------------|
+|Partitions Forward            |  0.0048s      |   204226         |     4.297e+07 #/sec|
+|------------------------------|---------------|------------------|--------------------|
+|Set Partitions Forward        |  0.1456s      |   4213597        |     2.894e+07 #/sec|
+
 <!--On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the following results:
 
 | Task | Time taken CLANG 3.7.0 | Time taken GCC 5.2.0 |
@@ -297,8 +327,6 @@ This comparison isn't very fair (C++ vs python). On the same system, iterating o
 | Time taken to see all 27644437 set partitions of size 13 							|	   0.960195s  		| **0.79946s** |
 | Time taken to see all 42355950 set partitions a set of 15 elements with 4 parts 	|	   1.20166s  		| **1.01687s** |
 | **Total Time**																	|	 **19.7s**			|	22.1s	   |-->
-
-Full benchmarks, with updated compilers, coming soon!
 
 # Acknowledgements
 Manuel Alejandro Romo de Vivar (manolo) for his work on dyck paths, motzkin paths, and his contribution to partition numbers.
