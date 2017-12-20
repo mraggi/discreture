@@ -333,7 +333,7 @@ The following benchmarks where done on a i7-5820K CPU @ 3.30GHz, using Manjaro L
 
  - César Benjamín García for suggesting the name "discreture".
  
- - Juho Lauri for allowing me to use his faster lexicographical combination iterator and some interesting discussions on combinations. 
+ - Juho Lauri for suggestions on improving "tree" combination iterator and many interesting discussions on combinations. 
 
 # Contributing
 Please help us testing, debugging, benchmarking, packaging for the various distros, etc. Also, if you use discreture for your own purposes, let us know!
