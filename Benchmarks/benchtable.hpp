@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include <string>
@@ -14,10 +15,10 @@ const int columntime = 32;
 const int columnsize = 46;
 const int columnspeed = 66;
 
-struct TableRow
+struct BenchRow
 {
-	TableRow() {} // empty initializer
-	TableRow(const std::string& Name, double t, size_t cs) : name(Name), avg_time(t), container_size(cs)  {} 
+	BenchRow() {} // empty initializer
+	BenchRow(const std::string& Name, double t, size_t cs) : name(Name), avg_time(t), container_size(cs)  {} 
 	
 	static void print_header(std::ostream& os)
 	{
@@ -28,13 +29,13 @@ struct TableRow
 		
 		os << head1;
 		
-		for (int i = head1.size(); i < columntime; ++i) os << ' ';
+		for (int i = head1.size(); i < columntime+2; ++i) os << ' ';
 		os << head2;
 		
-		for (int i = columntime+head2.size(); i <= columnsize; ++i) os << ' ';
+		for (int i = columntime+head2.size()+2; i < columnsize; ++i) os << ' ';
 		os << head3;
 		
-		for (int i = columnsize+head3.size(); i <= columnspeed; ++i) os << ' ';
+		for (int i = columnsize+head3.size(); i <= columnspeed+6; ++i) os << ' ';
 		os << head4;
 		
 		os << std::endl;
@@ -56,7 +57,7 @@ struct TableRow
 	bool variable_time_units {false};
 };
 
-std::ostream& operator<<(std::ostream& os, const TableRow& T)
+std::ostream& operator<<(std::ostream& os, const BenchRow& T)
 {
 	os << T.name;
 	for (int i = T.name.size(); i < columntime; ++i) 
@@ -83,19 +84,23 @@ std::ostream& operator<<(std::ostream& os, const TableRow& T)
 		}
 	}
 	
-	const int precision = 4;
+	const int precision = 3;
+	const int timewidth = 6;
 	os << std::setprecision(precision) << std::fixed << color;
-	os << T.avg_time << units << rang::fg::reset;
+	os << std::setw(timewidth) << T.avg_time << units << rang::fg::reset;
 	
-	for (int i = columntime+units.size()+precision; i < columnsize; ++i) 
+	for (int i = columntime+units.size()+timewidth; i <= columnsize; ++i) 
 		os << ' ';
 	
-	os << rang::fg::cyan << T.container_size << rang::fg::reset;
+	const int sizewidth = 10;
+	os << rang::fg::blue << std::setw(sizewidth) << T.container_size << rang::fg::reset;
 	
-	for (int i = columnsize + std::to_string(T.container_size).size(); i < columnspeed; ++i) 
+	for (int i = columnsize + sizewidth; i <= columnspeed; ++i) 
 		os << ' ';
 	
 	auto speed_color = rang::fg::green;
+	if (T.speed() < 5e8)
+		speed_color = rang::fg::cyan;
 	if (T.speed() < 1e8)
 		speed_color = rang::fg::yellow;
 	if (T.speed() < 1e7)
@@ -107,34 +112,34 @@ std::ostream& operator<<(std::ostream& os, const TableRow& T)
 	return os;
 }
 
-using Table = std::vector<TableRow>;
+using Table = std::vector<BenchRow>;
 
 template <class Container>
-TableRow ProduceRowForward(std::string name, const Container& A)
+BenchRow ProduceRowForward(std::string name, const Container& A)
 {
 	double t = FWIterationBenchmark(A);
 
 	name += " Forward";
 	
-	return TableRow(name, t, A.size());
+	return BenchRow(name, t, A.size());
 }
 
 template <class Container>
-TableRow ProduceRowReverse(std::string name, const Container& A)
+BenchRow ProduceRowReverse(std::string name, const Container& A)
 {
 	double t = ReverseIterationBenchmark(A);
 
 	name += " Reverse";
 	
-	return TableRow(name, t, A.size());
+	return BenchRow(name, t, A.size());
 }
 
 template <class Container>
-TableRow ProduceRowForEach(std::string name, const Container& A)
+BenchRow ProduceRowForEach(std::string name, const Container& A)
 {
 	double t = ForEachBenchmark(A);
 
 	name += " for_each";
 	
-	return TableRow(name, t, A.size());
+	return BenchRow(name, t, A.size());
 }

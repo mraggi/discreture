@@ -17,53 +17,66 @@ int main()
 
 	cout << "|============================== Starting Speed Tests =============================|" << endl;
 	
-	const int n = 33;
-	const int k = 16;
-	const int combconstruct = 10000;
+	//slow, real tests
+	const int n = 34;
+	const int k = 17;
+// 	const int combconstruct = 10000;
+// 	
+// 	const int nperm = 12;
+// 	
+// 	const int npart = 50;
+// 	const int nsetpart = 12;
+// 	const int ndyck = 18;
+// 	const int nmotzkin = 20;
 	
-	const int nperm = 12;
+	//fast tests
+// 	const int n = 25;
+// 	const int k = 12;
+	const int combconstruct = 1000;
 	
-	const int npart = 50;
-	const int nsetpart = 12;
-	const int ndyck = 18;
-	const int nmotzkin = 20;
+	const int nperm = 9;
+	
+	const int npart = 20;
+	const int nsetpart = 7;
+	const int ndyck = 10;
+	const int nmotzkin = 10;
 
-	TableRow::print_header(cout);
-	TableRow::print_line(cout);
-	cout << ProduceRowForward("Combinations", combinations(n,k));
-	cout << TableRow("Combinations (No abstraction)", Benchmark([](){BM_CombinationsNAP(n,k);}), binomial(n,k));
+	BenchRow::print_header(cout);
+	BenchRow::print_line(cout);
 	cout << ProduceRowForEach("Combinations", combinations(n,k));
+	cout << BenchRow("Combinations (No iterator)", Benchmark([](){BM_CombinationsNAP(n,k);}), binomial(n,k));
+	cout << ProduceRowForward("Combinations", combinations(n,k));
 	cout << ProduceRowReverse("Combinations", combinations(n,k));
-	cout << TableRow("Combinations Construct", Benchmark([](){BM_CombinationsConstruct(n,k,combconstruct);}), combconstruct);
+	cout << BenchRow("Combinations Construct", Benchmark([](){BM_CombinationsConstruct(n,k,combconstruct);}), combconstruct);
 	
-	TableRow::print_line(cout);
-	cout << TableRow("Combinations Tree (No abstraction)", Benchmark([](){BM_CombinationsTreeNAP(n,k);}), binomial(n,k));
+	BenchRow::print_line(cout);
+	cout << ProduceRowForEach("Combinations Tree", combinations_tree(n,k));
+	cout << BenchRow("Combinations Tree (No iterator)", Benchmark([](){BM_CombinationsTreeNAP(n,k);}), binomial(n,k));
 	cout << ProduceRowForward("Combinations Tree", combinations_tree(n,k));
 	cout << ProduceRowReverse("Combinations Tree", combinations_tree(n,k));
-	cout << ProduceRowForEach("Combinations Tree", combinations_tree(n,k));
 #ifdef TEST_GSL_COMBINATIONS
-	cout << TableRow("Combinations Tree GSL", Benchmark([](){BM_CombinationsTreeGSL(n,k);}), binomial(n,k));
+	cout << BenchRow("Combinations Tree GSL", Benchmark([](){BM_CombinationsTreeGSL(n,k);}), binomial(n,k));
 #endif
-	cout << TableRow("Combinations Tree Construct", Benchmark([](){BM_CombinationsTreeConstruct(n,k,combconstruct);}), combconstruct);
+	cout << BenchRow("Combinations Tree Construct", Benchmark([](){BM_CombinationsTreeConstruct(n,k,combconstruct);}), combconstruct);
 	
-	TableRow::print_line(cout);
+	BenchRow::print_line(cout);
 	cout << ProduceRowForward("Permutations", permutations(nperm));
 	cout << ProduceRowReverse("Permutations", permutations(nperm));
-	cout << TableRow("Permutations Construct", Benchmark([](){BM_PermutationsConstruct(nperm,combconstruct);}), combconstruct);
+	cout << BenchRow("Permutations Construct", Benchmark([](){BM_PermutationsConstruct(nperm,combconstruct);}), combconstruct);
 	
-	TableRow::print_line(cout);
+	BenchRow::print_line(cout);
 	cout << ProduceRowForward("Dyck Paths", dyck_paths(ndyck));
 	
-	TableRow::print_line(cout);
+	BenchRow::print_line(cout);
 	cout << ProduceRowForward("Motzkin Paths", motzkin_paths(nmotzkin));
 	
-	TableRow::print_line(cout);
+	BenchRow::print_line(cout);
 	cout << ProduceRowForward("Partitions", partitions(npart));
 	
-	TableRow::print_line(cout);
+	BenchRow::print_line(cout);
 	cout << ProduceRowForward("Set Partitions", set_partitions(nsetpart));
 
-	TableRow::print_line(cout);
+	BenchRow::print_line(cout);
 	
 	return 0;
 	
