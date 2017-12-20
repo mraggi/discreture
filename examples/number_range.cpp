@@ -1,13 +1,17 @@
-#include <cstdlib>
-#include <string>
-#include <sstream>
 #include "discreture.hpp"
+#include <cstdlib>
+#include <sstream>
+#include <string>
 
-using namespace std;
-using namespace dscr;
+
 
 int main(int argc, char* argv[])
 {
+	using std::cout;
+	using std::endl;
+	using std::stringstream;
+	using dscr::number_range;
+	using dscr::operator<<;
 	std::ios_base::sync_with_stdio(false);
 	stringstream usage;
 	usage	<< "Usage: number_range a b step\n"

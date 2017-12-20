@@ -1,45 +1,53 @@
 #include "combinations_benchmark.hpp"
-#include "combinations_tree_benchmark.hpp"
-#include "permutations_benchmark.hpp"
-#include "multiset_benchmark.hpp"
 #include "benchmarker.hpp"
 #include "benchtable.hpp"
+#include "combinations_tree_benchmark.hpp"
 #include "discreture.hpp"
+#include "multiset_benchmark.hpp"
+#include "permutations_benchmark.hpp"
 
 
 
 int main()
 {
-	using namespace std;
-	using namespace dscr;
+	using std::cout;
+	using std::endl;
+	using dscr::combinations;
+	using dscr::combinations_tree;
+	using dscr::partitions;
+	using dscr::set_partitions;
+	using dscr::permutations;
+	using dscr::motzkin_paths;
+	using dscr::dyck_paths;
+	using dscr::binomial;
 	std::ios_base::sync_with_stdio(false);
-	Chronometer C;
+	dscr::Chronometer C;
 
 	cout << "|============================== Starting Speed Tests =============================|" << endl;
 	
 	//slow, real tests
 	const int n = 34;
 	const int k = 17;
-// 	const int combconstruct = 10000;
-// 	
-// 	const int nperm = 12;
-// 	
-// 	const int npart = 50;
-// 	const int nsetpart = 12;
-// 	const int ndyck = 18;
-// 	const int nmotzkin = 20;
+	const int combconstruct = 10000;
+	
+	const int nperm = 12;
+	
+	const int npart = 50;
+	const int nsetpart = 12;
+	const int ndyck = 18;
+	const int nmotzkin = 20;
 	
 	//fast tests
 // 	const int n = 25;
 // 	const int k = 12;
-	const int combconstruct = 1000;
-	
-	const int nperm = 9;
-	
-	const int npart = 20;
-	const int nsetpart = 7;
-	const int ndyck = 10;
-	const int nmotzkin = 10;
+// 	const int combconstruct = 1000;
+// 	
+// 	const int nperm = 9;
+// 	
+// 	const int npart = 20;
+// 	const int nsetpart = 7;
+// 	const int ndyck = 10;
+// 	const int nmotzkin = 10;
 
 	BenchRow::print_header(cout);
 	BenchRow::print_line(cout);
@@ -77,100 +85,6 @@ int main()
 	cout << ProduceRowForward("Set Partitions", set_partitions(nsetpart));
 
 	BenchRow::print_line(cout);
-	
-	return 0;
-	
-	
-	
-// 	Benchmark("Combinations For Each", []()
-// 	{
-// 		BM_CombinationsForEach(n,k);
-// 	});
-// 	
-// 	Benchmark("Combinations Find All", []()
-// 	{
-// 		BM_CombinationsFindAll(n,k);
-// 	});
-// 	
-// 	Benchmark("Combinations Euler314", []()
-// 	{
-// 		BM_CombinationsEuler314(n,k);
-// 	});
-// 	
-// 	
-// 	cout << rang::fg::cyan << "\n    ****Combinations Tree****" << rang::fg::reset << endl;
-// 	Benchmark("Combinations Tree Forward", []()
-// 	{
-// 		BM_CombinationsTreeFWD(n,k);
-// 	});
-// 	
-// 	Benchmark("Combinations Tree Reverse", []()
-// 	{
-// 		BM_CombinationsTreeReverse(n,k);
-// 	});
-// 	
-// 	Benchmark("Combinations Tree For Each", []()
-// 	{
-// 		BM_CombinationsTreeForEach(n,k);
-// 	});
-// 	
-// 	Benchmark("Combinations Tree Find All", []()
-// 	{
-// 		BM_CombinationsTreeFindAll(n,k);
-// 	});
-// 	
-// 	Benchmark("Combinations Tree Euler314", []()
-// 	{
-// 		BM_CombinationsTreeEuler314(n,k);
-// 	});
-// 	
-// 	Benchmark("Combinations Tree GSL", []()
-// 	{
-// 		BM_CombinationsTreeEuler314(n,k);
-// 	});
-// 	
-// 	
-// 	cout << rang::fg::cyan << "\n    ****Permutations****" << rang::fg::reset << endl;
-// 	Benchmark("Permutations Forward", []()
-// 	{
-// 		BM_PermutationsFWD(nperm);
-// 	});
-// 	
-// 	Benchmark("Permutations Reverse", []()
-// 	{
-// 		BM_PermutationsReverse(nperm);
-// 	});
-// 	
-// 	cout << rang::fg::cyan << "\n    ****Partitions****" << rang::fg::reset << endl;
-// 	Benchmark("Partitions Forward", []()
-// 	{
-// 		BM_PartitionsFWD(50);
-// 	});
-// 	
-// 	cout << rang::fg::cyan << "\n    ****Set Partitions****" << rang::fg::reset << endl;
-// 	Benchmark("Set Partitions Forward", []()
-// 	{
-// 		BM_SetPartitionsFWD(nsetpart);
-// 	});
-// 	
-// 	cout << rang::fg::cyan << "\n    ****Dyck Paths****" << rang::fg::reset << endl;
-// 	Benchmark("Dyck Paths Forward", []()
-// 	{
-// 		BM_DyckPathsFWD(ndyck);
-// 	});
-// 	
-// 	cout << rang::fg::cyan << "\n    ****Motzkin Paths****" << rang::fg::reset << endl;
-// 	Benchmark("Motzkin Paths Forward", []()
-// 	{
-// 		BM_MotzkinFWD(nmotzkin);
-// 	});
-// 	
-// 	
-// 	cout << rang::fg::cyan << "\n    ****Multisets****" << rang::fg::reset << endl;
-// 	Benchmark("Multisets Forward", []()
-// 	{
-// 		BM_MultisetFWD();
-// 	},2);
 	
 	cout << "\nTotal Time taken = " << C.Reset() << "s" << endl;
 	return 0;

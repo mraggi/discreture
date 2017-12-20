@@ -15,7 +15,7 @@ inline double diffclock(clock_t a, clock_t b)
 	return double(a - b) * c;
 }
 
-typedef std::chrono::time_point<std::chrono::high_resolution_clock> clockt;
+typedef std::chrono::time_point<std::chrono::steady_clock> clockt;
 
 inline double diffclockt(clockt a, clockt b)
 {
@@ -33,39 +33,39 @@ public:
 		return A;
 	}
 
-	std::chrono::time_point<std::chrono::high_resolution_clock> start_timer;
+	std::chrono::time_point<std::chrono::steady_clock> start_timer;
 
 
 private:
-	RClock() : start_timer(std::chrono::high_resolution_clock::now()) {}
+	RClock() : start_timer(std::chrono::steady_clock::now()) {}
 };
 
 class Chronometer
 {
 public:
-	Chronometer() : m_timer(std::chrono::high_resolution_clock::now()) {}
+	Chronometer() : m_timer(std::chrono::steady_clock::now()) {}
 
 	double Reset()
 	{
 		auto tlast = m_timer;
-		m_timer = std::chrono::high_resolution_clock::now();
+		m_timer = std::chrono::steady_clock::now();
 
-		return diffclockt(m_timer, tlast);
+		return std::chrono::duration_cast<std::chrono::duration<double>> (m_timer - tlast).count();		
 	}
 
 	double Peek() const
 	{
-		auto tnow = std::chrono::high_resolution_clock::now();
+		auto tnow = std::chrono::steady_clock::now();
 
-		return diffclockt(tnow, m_timer);
+		return std::chrono::duration_cast<std::chrono::duration<double>> (tnow - m_timer).count();		
 	}
 
-	std::chrono::time_point<std::chrono::high_resolution_clock> m_timer;
+	std::chrono::time_point<std::chrono::steady_clock> m_timer;
 };
 
 inline double TimeFromStart()
 {
-	auto tnow = std::chrono::high_resolution_clock::now();
+	auto tnow = std::chrono::steady_clock::now();
 
 	return diffclockt(tnow, RClock::Instance().start_timer);
 }

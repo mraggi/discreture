@@ -1,13 +1,17 @@
+#include "SetPartitions.hpp"
 #include <cstdlib>
 #include <sstream>
-#include "SetPartitions.hpp"
 #include <string>
 
-using namespace std;
-using namespace dscr;
+
 
 int main(int argc, char* argv[])
 {
+	using std::cout;
+	using std::endl;
+	using std::stringstream;
+	using dscr::set_partitions;
+	using dscr::operator<<;
 	std::ios_base::sync_with_stdio(false);
 	stringstream usage;
 	usage	<< "Usage: setpartitions n [min_parts] [max_parts]\n"

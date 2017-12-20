@@ -8,8 +8,6 @@ namespace  dscr
 
 //////////////////////////////////////////
 /// \brief Similar to python range(n) or range(n,m) or range(n,m,step).
-/// \param n is an integer
-/// \return an abstract random-access container whose elements are {n,n+1,n+2,...,m-1} (or {n,n+step,n+2*step,...} in case step != 1)
 //////////////////////////////////////////
 template <class IntType>
 class basic_number_range
@@ -21,19 +19,27 @@ public:
 public:
 
 	////////////////////////////////////////////////////////////
-	/// \brief Constructor
+	/// \brief Constructor. It's usually better to use natural_number(n) instead.
 	///
 	/// \param n is an integer >= 0
+	///
+	/// \return An abstract random-access container whose elements are {0,1,2,...,n-1}
 	///
 	////////////////////////////////////////////////////////////
 	explicit basic_number_range(IntType n) : m_from(0), m_to(n), m_step(1)
 	{
-		assert(n > 0);
+		assert(n >= 0);
 	}
 
-	basic_number_range(IntType t_from, IntType t_to, IntType t_step = 1) : 	m_from(t_from),
-		m_to(t_to),
-		m_step(t_step)
+	
+	//////////////////////////////////////////
+	/// \brief Constructor. Automatically detects wheter step size is positive or negative and adjusts accordingly
+	/// \param n is an integer
+	/// \return an abstract random-access container whose elements are {n,n+step,n+2*step,...} up to (and not including) t_to.
+	//////////////////////////////////////////
+	basic_number_range(IntType from, IntType to, IntType step = 1) : 	m_from(from),
+		m_to(to),
+		m_step(step)
 	{
 		assert(m_step != 0);
 		if (m_step > 0 && m_to < m_from) m_to = m_from;

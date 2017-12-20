@@ -100,7 +100,7 @@ std::ostream& operator<<(std::ostream& os, const std::vector<bool>& V)
 ///////////////////////////
 /// \brief Function composition
 ///
-/// \return f o g
+/// \return f∘g
 ///////////////////////////
 template <class vecT, class UIntType>
 vecT compose(const vecT& f, const std::vector<UIntType>& g)
