@@ -2,6 +2,7 @@
 
 #include "Combinations.hpp"
 #include "DyckPaths.hpp"
+#include <boost/iterator/iterator_facade.hpp>
 
 namespace dscr
 {
@@ -110,24 +111,33 @@ public:
 	////////////////////////////////////////////////////////////
 	/// \brief Forward iterator class.
 	////////////////////////////////////////////////////////////
-	class iterator : public std::iterator<std::forward_iterator_tag, motzkin_path>
+	class iterator : public boost::iterator_facade<
+													iterator,
+													const motzkin_path&,
+													boost::forward_traversal_tag
+													>
 	{
 	public:
 		iterator() : m_ID(0), m_data(), m_comb(), m_dyck(), m_numnonzerohalved(0) {} //empty initializer
-	public:
 		explicit iterator(IntType n) : m_ID(0), m_data(n, 0), m_comb(n, 0), m_dyck(0), m_numnonzerohalved(0)
 		{
 		}
 
+		
+		inline size_type ID() const
+		{
+			return m_ID;
+		}
+	private:
 		//prefix
-		inline iterator& operator++()
+		void increment()
 		{
 			using namespace std;
 			++m_ID;
 			auto n = m_data.size();
 
 			if (m_ID == motzkin(n))
-				return *this;
+				return;
 
 			++m_comb;
 // 			std::cout << "hola" << std::endl;
@@ -155,66 +165,19 @@ public:
 // 				cout << "Done! Converting!" << endl;
 // 			cout << "comb = " << *m_comb << " and dyck = " << *m_dyck << endl;
 			ConvertToMotzkin(); //TODO(mraggi): do this laziliy
-			return *this;
 		}
 
-		inline iterator& operator--()
-		{
-
-			if (m_ID == 0)
-				return *this;
-
-			--m_ID;
-
-			//TODO: Not implemented yet!
-
-			return *this;
-		}
-
-		inline const std::vector<IntType>& operator*() const
+		
+		
+		const motzkin_path& dereference() const
 		{
 			return m_data;
 		}
 
-		inline const motzkin_path* operator->() const
-		{
-			return & operator*();
-		}
-
-		friend difference_type operator-(const iterator& lhs, const iterator& rhs)
-		{
-			return static_cast<difference_type>(lhs.ID()) - rhs.ID();
-		}
-
-		inline size_type ID() const
-		{
-			return m_ID;
-		}
-
-		inline bool operator==(const iterator& it) const
+		bool equal(const iterator& it) const
 		{
 			return it.ID() == ID();
 		}
-
-		inline bool operator!=(const iterator& it) const
-		{
-			return it.ID() != ID();
-		}
-
-// 		void reset(IntType n)
-// 		{
-// 			m_ID = 0;
-// 			m_data.resize(2 * n);
-// 
-// 			for (size_t i = 0; i < n; ++i)
-// 				m_data[i] = 1;
-// 
-// 			for (size_t i = n; i < 2 * n; ++i)
-// 				m_data[i] = -1;
-// 
-// 			m_comb.reset(0);
-// 			m_dyck.reset(n);
-// 		}
 
 	private:
 		size_type m_ID;
@@ -241,6 +204,7 @@ public:
 		}
 
 		friend class basic_motzkin_paths;
+		friend class boost::iterator_core_access;
 	}; // end class iterator
 
 	const iterator& begin() const

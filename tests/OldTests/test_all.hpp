@@ -11,5 +11,4 @@
 #include "range_test.hpp"
 #include "sequence_test.hpp"
 #include "set_partitions_test.hpp"
-#include "numbertheory_tests.hpp"
 

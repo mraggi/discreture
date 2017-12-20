@@ -92,7 +92,7 @@ class combination_iterator_minimax_order
 public:
 	combination_iterator_minimax_order() : end_(true), n_(0), k_(0), comb_() { }
 
-	explicit combination_iterator_minimax_order(T n, T k) : end_(false), n_(n), k_(k), comb_(k)
+	explicit combination_iterator_minimax_order(T n, T k) : end_(false), n_(n), k_(k), hint_(k), comb_(k)
 	{
 		assert(k != 0 && n_ > k);
 		std::iota(comb_.begin(), comb_.end(), 0);
@@ -105,21 +105,31 @@ private:
 	void increment()
 	{
 		//The following code was copied from the discreture library: http://github.com/mraggi/discreture
-		if (comb_.empty())
+		if (k_ == 0)
 			return;
-		T last = comb_.size()-1;
-		for (T i = 0; i < last; ++i)
+		
+		
+
+		if (hint_ > 0)
 		{
-			if (comb_[i]+1 != comb_[i+1])
-			{
-				++comb_[i];
-				return;
-			} 
+			--hint_;
+			++comb_[hint_];
+			return;
+		}
+		
+		
+		T i = 0;
+		for (const T last = comb_.size()-1; (i < last) && (comb_[i]+1 == comb_[i+1]); ++i)
+		{
 			comb_[i] = i;
 		}
-		if (comb_[last]+1 == n_)
+		
+		++comb_[i];
+		
+		if (comb_[i] == n_)
 			end_ = true;
-		++comb_[last];
+		else
+			hint_ = i;
 	}
 
 	bool equal(const combination_iterator_minimax_order& other) const
@@ -135,6 +145,7 @@ private:
 	bool end_;
 	const int n_;
 	const int k_;
+	int hint_;
 	std::vector<T> comb_;
 };
 

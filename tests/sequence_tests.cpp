@@ -21,8 +21,8 @@ TEST(Sequences,Binomial)
 	
 	for (int i = 0; i < 100; ++i)
 	{
-		int n = random_int(0,50);
-		int k = random_int(0,n+1);
+		int n = random::random_int(0,50);
+		int k = random::random_int(0,n+1);
 		if (n == 0 && k == 0)
 			continue;
 		ASSERT_EQ(binomial(n,k),binomial(n-1,k)+binomial(n-1,k-1));

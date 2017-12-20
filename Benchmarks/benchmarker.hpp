@@ -8,7 +8,7 @@
 #include "external/rang.hpp"
 
 template <class Func>
-double Benchmark(Func f, int numtimes = 8)
+double Benchmark(Func f, int numtimes = 1)
 {
 	f(); //warm up
 	dscr::Chronometer C;

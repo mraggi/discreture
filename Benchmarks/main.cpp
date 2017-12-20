@@ -17,30 +17,30 @@ int main()
 
 	cout << "|============================== Starting Speed Tests =============================|" << endl;
 	
-	const int n = 25;
-	const int k = 15;
-	const int combconstruct = 1000;
+	const int n = 33;
+	const int k = 16;
+	const int combconstruct = 10000;
 	
-	const int nperm = 10;
+	const int nperm = 12;
 	
 	const int npart = 50;
-	const int nsetpart = 10;
-	const int ndyck = 14;
-	const int nmotzkin = 14;
+	const int nsetpart = 12;
+	const int ndyck = 18;
+	const int nmotzkin = 20;
 
 	TableRow::print_header(cout);
 	TableRow::print_line(cout);
 	cout << ProduceRowForward("Combinations", combinations(n,k));
-	cout << ProduceRowReverse("Combinations", combinations(n,k));
+	cout << TableRow("Combinations (No abstraction)", Benchmark([](){BM_CombinationsNAP(n,k);}), binomial(n,k));
 	cout << ProduceRowForEach("Combinations", combinations(n,k));
-	cout << TableRow("Combinations Euler314", Benchmark([](){BM_CombinationsEuler314(n,k);}), binomial(n,k));
+	cout << ProduceRowReverse("Combinations", combinations(n,k));
 	cout << TableRow("Combinations Construct", Benchmark([](){BM_CombinationsConstruct(n,k,combconstruct);}), combconstruct);
 	
 	TableRow::print_line(cout);
+	cout << TableRow("Combinations Tree (No abstraction)", Benchmark([](){BM_CombinationsTreeNAP(n,k);}), binomial(n,k));
 	cout << ProduceRowForward("Combinations Tree", combinations_tree(n,k));
 	cout << ProduceRowReverse("Combinations Tree", combinations_tree(n,k));
 	cout << ProduceRowForEach("Combinations Tree", combinations_tree(n,k));
-	cout << TableRow("Combinations Tree Euler314", Benchmark([](){BM_CombinationsTreeEuler314(n,k);}), binomial(n,k));
 #ifdef TEST_GSL_COMBINATIONS
 	cout << TableRow("Combinations Tree GSL", Benchmark([](){BM_CombinationsTreeGSL(n,k);}), binomial(n,k));
 #endif

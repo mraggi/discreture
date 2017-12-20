@@ -7,6 +7,7 @@
 namespace dscr
 {
 // You probably want something else, but whatever.
+//TODO(mraggi): Use a better method of casting to double rather than measure in microseconds and the multiply by 1/1M, which is stupid.
 
 inline double diffclock(clock_t a, clock_t b)
 {

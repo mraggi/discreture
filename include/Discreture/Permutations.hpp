@@ -2,7 +2,7 @@
 #include "VectorHelpers.hpp"
 #include "Misc.hpp"
 #include "Sequences.hpp"
-#include "Range.hpp"
+#include "NumberRange.hpp"
 #include "Probability.hpp"
 
 #include <algorithm>
@@ -116,7 +116,9 @@ public:
 	////////////////////////////////////////////////////////////
 	permutation identity() const
 	{
-		return range<IntType>(m_n);
+		permutation I(m_n);
+		std::iota(I.begin(), I.end(), 0);
+		return I;
 	}
 
 	////////////////////////////////////////////////////////////
@@ -126,7 +128,7 @@ public:
 	{
 		permutation a = identity();
 
-		std::shuffle(a.begin(), a.end(),std::default_random_engine());
+		std::shuffle(a.begin(), a.end(),random::random_engine());
 
 		return a;
 	}
@@ -176,33 +178,56 @@ public:
 	////////////////////////////////////////////////////////////
 	/// \brief Random access iterator class. It's much more efficient as a bidirectional iterator than purely random access.
 	////////////////////////////////////////////////////////////
-	class iterator : public std::iterator<std::random_access_iterator_tag, std::vector<IntType>> //bidirectional iterator
+	class iterator : public boost::iterator_facade<
+													iterator,
+													const permutation&,
+													boost::random_access_traversal_tag
+													>
 	{
 	public:
 		iterator() : m_ID(0), m_data() {} //empty initializer
-		iterator(IntType n) : m_ID(0), m_data(range<IntType>(n))
+		
+		iterator(IntType n) : m_ID(0), m_data(n)
 		{
+			std::iota(m_data.begin(), m_data.end(), 0);
 		}
+		
+		inline bool is_at_end(IntType n) const
+		{
+			return m_ID == factorial(n);
+		}
+
+		void reset(IntType r)
+		{
+			m_ID = 0;
+			m_data = basic_number_range<IntType>(r);
+		}
+		
+		inline size_type ID() const
+		{
+			return m_ID;
+		}
+		
+	private:
 		//prefix
-		inline iterator& operator++()
+		void increment()
 		{
 			++m_ID;
 			std::next_permutation(m_data.begin(), m_data.end());
-			return *this;
 		}
 
-		inline iterator& operator--()
+		void decrement()
 		{
-
 			if (m_ID == 0)
-				return *this;
+				return;
 
 			--m_ID;
 			std::prev_permutation(m_data.begin(), m_data.end());
-			return *this;
 		}
+		
+		
 
-		inline const std::vector<IntType>& operator*() const
+		const std::vector<IntType>& dereference() const
 		{
 			return m_data;
 		}
@@ -213,7 +238,7 @@ public:
 		/// \param n -> This assumes 0 <= n+ID <= size(n,k)
 		///
 		////////////////////////////////////////
-		inline iterator& operator+=(long int n)
+		void advance(difference_type n)
 		{
 			assert(0 <= n + m_ID);
 
@@ -221,76 +246,43 @@ public:
 			{
 				while (n > 0)
 				{
-					operator++();
+					increment();
 					--n;
 				}
 
 				while (n < 0)
 				{
-					operator--();
+					decrement();
 					++n;
 				}
 
-				return *this;
+				return;
 			}
 
 			// If n is large, then it's better to just construct it from scratch.
 			m_ID += n;
 			construct_permutation(m_data, m_ID);
-			return *this;
+			return;
 
 		}
 
-		inline iterator& operator-=(long int n)
+		difference_type distance_to(const iterator& other)
 		{
-			return operator+=(-n);
+			return static_cast<difference_type>(other.ID()) - ID();
 		}
 
-		friend iterator operator+(iterator lhs, difference_type  n)
+		bool equal(const iterator& other) const
 		{
-			lhs += n;
-			return lhs;
+			return m_ID == other.m_ID;
 		}
 
-		friend iterator operator-(iterator lhs, difference_type  n)
-		{
-			lhs -= n;
-			return lhs;
-		}
-		friend difference_type operator-(const iterator& lhs, const iterator& rhs)
-		{
-			return static_cast<difference_type>(lhs.ID()) - rhs.ID();
-		}
 
-		inline size_type ID() const
-		{
-			return m_ID;
-		}
-
-		inline bool operator==(const iterator& it) const
-		{
-			return it.ID() == ID();
-		}
-
-		inline bool operator!=(const iterator& it) const
-		{
-			return it.ID() != ID();
-		}
-
-		inline bool is_at_end(IntType n) const
-		{
-			return m_ID == factorial(n);
-		}
-
-		void reset(IntType r)
-		{
-			m_ID = 0;
-			m_data = range<IntType>(r);
-		}
+		
 	private:
 		size_type m_ID;
 		permutation m_data;
 
+		friend class boost::iterator_core_access;
 		friend class basic_permutations;
 	}; // end class iterator
 
@@ -303,8 +295,9 @@ public:
 	public:
 		reverse_iterator() : m_ID(0), m_data() {} //empty initializer
 	public:
-		reverse_iterator(IntType n) : m_ID(0), m_data(range<IntType>(n))
+		reverse_iterator(IntType n) : m_ID(0), m_data(n)
 		{
+			std::iota(m_data.begin(), m_data.end(), 0);
 			std::reverse(m_data.begin(), m_data.end());
 		}
 
@@ -409,7 +402,7 @@ public:
 		void reset(IntType n)
 		{
 			m_ID = 0;
-			m_data = range<IntType>(n);
+			m_data = basic_number_range<IntType>(n);
 			std::reverse(m_data.begin(), m_data.end());
 		}
 	private:

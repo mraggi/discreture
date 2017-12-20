@@ -3,11 +3,12 @@
 #include "VectorHelpers.hpp"
 #include "Misc.hpp"
 #include "Sequences.hpp"
-#include "Range.hpp"
+#include "NumberRange.hpp"
 #include "combinations_tree_bf.hpp"
 #include "CombinationsTreePrunned.hpp"
 #include <numeric>
 #include <algorithm>
+#include <boost/iterator/iterator_facade.hpp>
 
 namespace dscr
 {
@@ -36,39 +37,34 @@ public:
 	using difference_type = long long;
 	using size_type = long long;
 	using value_type = std::vector<IntType>;
-	using combination = std::vector<IntType>;
+	using combination = value_type;
 
 	//Declarations.
 	class iterator;
 
 	// **************** Begin functions
-	static inline void next_combination(combination& data, IntType n)
+	static inline bool next_combination(combination& data, IntType n)
 	{
-		if (data.empty())
-			return;
+		const long k = data.size();
 
-		long k = data.size();
-
-		if (k == 0)
-			return;
-
-
+		const long s = n-k;
 		for (long i = k - 1; i >= 0; --i)
 		{
-			if (data[i] != n - k + i)
+			if (data[i] != s + i)
 			{
 				++data[i];
-				long t = data[i];
-				for (long j = 1; i+j < k; ++j)
+				++i;
+				for (; i < k; ++i)
 				{
-					data[i+j] = t + j;
+					data[i] = data[i-1]+1;
 				}
 
-				return;
+				return true;
 			}
 		}
+		return false;
 	}
-
+	
 	static inline void prev_combination(combination& data, IntType n)
 	{
 		if (data.empty())
@@ -93,9 +89,9 @@ public:
 		size_type result = 0;
 
 		for (difference_type i = 0; i < k; ++i)
-			result += binomial(n - comb[k - i - 1] - 1, i + 1);
+			result += binomial<size_type>(n - comb[k - i - 1] - 1, i + 1);
 
-		return binomial(n, k) - result - 1;
+		return binomial<size_type>(n, k) - result - 1;
 	}
 	
 	size_type get_index(const combination& comb) const
@@ -106,14 +102,14 @@ public:
 	static void construct_combination(combination& data, size_type m, IntType m_n)
 	{
 		IntType k = data.size();
-		m = binomial(m_n, k) - m - 1;
+		m = binomial<size_type>(m_n, k) - m - 1;
 
 		for (IntType i = 0; i < k; ++i)
 		{
 			IntType r = k - i;
 			IntType first = r;
 
-			while (binomial(first, r) <= m)
+			while (binomial<size_type>(first, r) <= m)
 			{
 				++first;
 			}
@@ -121,7 +117,7 @@ public:
 			--first;
 
 			data[k - (r - 1) - 1] = m_n - first - 1;
-			m -= binomial(first, r);
+			m -= binomial<size_type>(first, r);
 		}
 
 // 			cout << "data = " << data << endl;
@@ -159,7 +155,7 @@ public:
 	/// \param k is an integer with 0 <= k <= n
 	///
 	////////////////////////////////////////////////////////////
-	basic_combinations_tree(IntType n, IntType k) : m_n(n), m_k(k), m_size(binomial(n,k))
+	basic_combinations_tree(IntType n, IntType k) : m_n(n), m_k(k), m_size(binomial<size_type>(n,k))
 	{
 	}
 
@@ -188,124 +184,31 @@ public:
 	////////////////////////////////////////////////////////////
 	/// \brief Random access iterator class. It's much more efficient as a bidirectional iterator than purely random access.
 	////////////////////////////////////////////////////////////
-	class iterator : public std::iterator<std::random_access_iterator_tag, std::vector<IntType>>
+	class iterator : public boost::iterator_facade<
+													iterator,
+													const combination&,
+													boost::random_access_traversal_tag
+													>
 	{
 	public:
 		iterator() : m_ID(0LL), m_data() {} //empty initializer
+		
 		iterator(const combination& comb, IntType n) : m_ID(basic_combinations_tree<IntType>::get_index(comb,n)), m_data(comb) {} //empty initializer
-	private:
-		explicit iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
-	public:
+	
 		iterator(IntType n, IntType k) : m_ID(0), m_n(n), m_data(k)
 		{
 			std::iota(m_data.begin(), m_data.end(), 0);
-		}
-
-		//prefix
-		inline iterator& operator++()
-		{
-			++m_ID;
-
-			next_combination(m_data, m_n);
-
-			return *this;
-		}
-
-		inline iterator& operator--()
-		{
-			if (m_ID == 0)
-				return *this;
-
-			--m_ID;
-
-			prev_combination(m_data, m_n);
-
-			return *this;
-		}
-
-		inline const std::vector<IntType>& operator*() const
-		{
-			return m_data;
-		}
-
-		inline const combination* operator->() const
-		{
-			return & operator*();
-		}
-
-		////////////////////////////////////////
-		///
-		/// \brief Random access capabilities to the iterators
-		/// \param n -> This assumes 0 <= n+ID <= size(n,k)
-		///
-		////////////////////////////////////////
-		inline iterator& operator+=(difference_type n)
-		{
-			assert(0 <= n + m_ID);
-
-			// If n is small, it's actually more efficient to just iterate to it
-			if (abs(n) < 15)
-			{
-				while (n > 0)
-				{
-					operator++();
-					--n;
-				}
-
-				while (n < 0)
-				{
-					operator--();
-					++n;
-				}
-
-				return *this;
-			}
-
-			// If n is large, then it's better to just construct it from scratch.
-			m_ID += n;
-			construct_combination(m_data, m_ID, m_n);
-			return *this;
-		}
-
-		inline iterator& operator-=(difference_type n)
-		{
-			return operator+=(-n);
-		}
-
-		friend iterator operator+(iterator lhs, difference_type  n)
-		{
-			lhs += n;
-			return lhs;
-		}
-
-		friend iterator operator-(iterator lhs, difference_type  n)
-		{
-			lhs -= n;
-			return lhs;
-		}
-		friend difference_type operator-(const iterator& lhs, const iterator& rhs)
-		{
-			return static_cast<difference_type>(lhs.ID()) - rhs.ID();
 		}
 
 		inline size_type ID() const
 		{
 			return m_ID;
 		}
-
-		inline bool operator==(const iterator& it) const
+		
+		inline bool is_at_end(IntType n = -1) const //not using n, just for compatibility with the combinations
 		{
-			return it.ID() == ID();
-		}
-
-		inline bool operator!=(const iterator& it) const
-		{
-			return it.ID() != ID();
-		}
-
-		inline bool is_at_end(IntType n) const
-		{
-			return m_ID == binomial(n, m_data.size());
+			IntType k = m_data.size();
+			return m_data.front() == m_n - k;
 		}
 
 		void reset(IntType n, IntType k)
@@ -314,6 +217,77 @@ public:
 			m_data.resize(k);
 			std::iota(m_data.begin(),m_data.end(),0);
 		}
+		
+	private:
+		explicit iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
+
+		//prefix
+		void increment()
+		{
+			++m_ID;
+			next_combination(m_data, m_n);
+		}
+
+		void decrement()
+		{
+			if (m_ID == 0)
+				return;
+
+			--m_ID;
+
+			prev_combination(m_data, m_n);
+
+		}
+		
+		const combination& dereference() const
+		{
+			return m_data;
+		}
+		
+		////////////////////////////////////////
+		///
+		/// \brief Random access capabilities to the iterators
+		/// \param n -> This assumes 0 <= n+ID <= size(n,k)
+		///
+		////////////////////////////////////////
+		void advance(difference_type n)
+		{
+			assert(0 <= n + m_ID);
+
+			// If n is small, it's actually more efficient to just iterate to it
+			if (abs(n) < 15)
+			{
+				while (n > 0)
+				{
+					increment();
+					--n;
+				}
+
+				while (n < 0)
+				{
+					decrement();
+					++n;
+				}
+
+				return;
+			}
+
+			// If n is large, then it's better to just construct it from scratch.
+			m_ID += n;
+			construct_combination(m_data, m_ID, m_n);
+		}
+
+		difference_type distance_to(const iterator& other) const
+		{
+			return other.ID() - ID();
+		}
+
+		
+		
+		bool equal(const iterator& it) const
+		{
+			return m_ID == it.m_ID;
+		}
 
 	private:
 		size_type m_ID {0};
@@ -321,6 +295,7 @@ public:
 		combination m_data;
 
 		friend class basic_combinations_tree;
+		friend class boost::iterator_core_access;
 	}; // end class iterator
 
 	iterator get_iterator(const combination& comb)
@@ -338,8 +313,9 @@ public:
 	private:
 		explicit reverse_iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
 	public:
-		reverse_iterator(IntType n, IntType r) : m_n(n), m_ID(0), m_data(range<IntType>(n - r, n))
+		reverse_iterator(IntType n, IntType r) : m_n(n), m_ID(0), m_data(r)
 		{
+			std::iota(m_data.begin(), m_data.end(), n-r);
 		}
 
 		//prefix
@@ -406,7 +382,7 @@ public:
 			}
 
 			m_ID += m;
-			auto num = binomial(m_n, m_data.size()) - m_ID - 1;
+			auto num = binomial<size_type>(m_n, m_data.size()) - m_ID - 1;
 			// If n is large, then it's better to just construct it from scratch.
 			construct_combination(m_data, num);
 			return *this;
@@ -452,14 +428,14 @@ public:
 
 		inline bool is_at_end() const
 		{
-			return m_ID == binomial(m_n, m_data.size());;
+			return m_ID == binomial<size_type>(m_n, m_data.size());;
 		}
 
 		void reset(IntType n, IntType r)
 		{
 			m_n = n;
 			m_ID = 0;
-			m_data = range<IntType>(n - r, n);
+			m_data = basic_number_range<IntType>(n - r, n);
 		}
 	private:
 		IntType m_n;
@@ -474,7 +450,7 @@ public:
 		return iterator(m_n,m_k);
 	}
 
-	iterator end() const
+	const iterator end() const
 	{
 		return iterator(size());
 	}
@@ -484,7 +460,7 @@ public:
 		return reverse_iterator(m_n,m_k);
 	}
 
-	reverse_iterator rend() const
+	const reverse_iterator rend() const
 	{
 		return reverse_iterator(size());
 	}

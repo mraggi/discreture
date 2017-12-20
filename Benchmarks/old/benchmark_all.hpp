@@ -11,5 +11,4 @@
 #include "range_benchmark.hpp"
 #include "sequence_benchmark.hpp"
 #include "set_partitions_benchmark.hpp"
-#include "numbertheory_benchmarks.hpp"
 

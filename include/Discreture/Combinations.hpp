@@ -5,10 +5,12 @@
 #include "VectorHelpers.hpp"
 #include "Misc.hpp"
 #include "Sequences.hpp"
-#include "Range.hpp"
+#include "NumberRange.hpp"
 #include "CombinationsTree.hpp"
 #include "CombinationsTreePrunned.hpp"
-#include "combinations_bf.hpp" //Horrible. Do NOT read. Please. But I can't find another way. Sorry about that. If you think you can do better (unlikely), please, tell me about it.
+#include "combinations_bf.hpp" //Horrible. Do NOT read. Please. But I can't find another way. Sorry about that. If you think you can do better, please, tell me about it.
+
+#include <boost/iterator/iterator_facade.hpp>
 
 namespace dscr
 {
@@ -55,20 +57,19 @@ class basic_combinations
 {
 public:
 
-	using difference_type = long long int;
-	using size_type = long long int; //yeah, signed. Fuck you, STL!
+	using difference_type = long long;
+	using size_type = long long; //yeah, signed. Fuck you, STL!
 	using value_type = std::vector<IntType>;
-	using combination = std::vector<IntType>;
+	using combination = value_type;
 
 	//Declarations.
 	class iterator;
 
 	// **************** Begin static functions
-	static inline void next_combination(combination& data, IntType& hint)
+	static void next_combination(combination& data, IntType& hint)
 	{
-		if (data.empty())
+		if (hint < 0)
 			return;
-		
 		if (hint > 0)
 		{
 			--hint;
@@ -88,7 +89,16 @@ public:
 			data[i] = i;
 		}
 		hint = last;
-		++data[hint]; //in this case, hint == last
+		++data[last];
+		
+	} //next_combination
+	
+	static bool next_combination(combination& data, IntType& hint, IntType n)
+	{
+		if (hint < 0)
+			return false;
+		next_combination(data,hint);
+		return data.back() != n;
 	} //next_combination
 
 	static inline void prev_combination(combination& data)
@@ -125,7 +135,7 @@ public:
 			IntType r = k - i;
 			IntType first = r;
 
-			while (binomial(first, r) <= m)
+			while (binomial<size_type>(first, r) <= m)
 			{
 				++first;
 			}
@@ -133,7 +143,7 @@ public:
 			--first;
 
 			data[r - 1] = first;
-			m -= binomial(first, r);
+			m -= binomial<size_type>(first, r);
 		}
 	}
 
@@ -169,9 +179,8 @@ public:
 	/// \param k is an integer with 0 <= k <= n
 	///
 	////////////////////////////////////////////////////////////
-	basic_combinations(IntType n, IntType k) : m_n(n), m_k(k)
+	basic_combinations(IntType n, IntType k) : m_n(n), m_k(k), m_size(binomial<size_type>(n,k))
 	{
-		m_size = binomial(n,k);
 	}
 
 	////////////////////////////////////////////////////////////
@@ -196,12 +205,12 @@ public:
 	/////////////////////////////////////////////////////////////////////////////
 	static size_type get_index(const combination& comb)
 	{
-		size_type k = comb.size();
+		const size_type k = comb.size();
 
 		size_type result = 0;
 
 		for (difference_type i = 0; i < k; ++i)
-			result += binomial(comb[i], i + 1);
+			result += binomial<size_type>(comb[i], i + 1);
 
 		return result;
 	}
@@ -219,124 +228,28 @@ public:
 	////////////////////////////////////////////////////////////
 	/// \brief Random access iterator class. It's much more efficient as a bidirectional iterator than purely random access.
 	////////////////////////////////////////////////////////////
-	class iterator : public std::iterator<std::random_access_iterator_tag, combination>
+	class iterator : public boost::iterator_facade<
+													iterator,
+													const combination&,
+													boost::random_access_traversal_tag
+													>
 	{
 	public:
+		
 		iterator() : m_ID(0), m_data() {} //empty initializer
-		explicit iterator(const combination& data) : m_ID(basic_combinations<IntType>::get_index(data)), m_data(data) {}
-	private:
-		explicit iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
-	public:
+		
 		iterator(IntType n, IntType k) : m_ID(0),  m_hint(k), m_data(k)
 		{
 			std::iota(m_data.begin(), m_data.end(), 0);
-		}
-
-		//prefix
-		inline iterator& operator++()
-		{
-			++m_ID;
-
-			next_combination(m_data, m_hint);
-
-			return *this;
-		}
-
-		inline iterator& operator--()
-		{
-
-			if (m_ID == 0)
-				return *this;
-
-			--m_ID;
-			m_hint = 0;
-
-			prev_combination(m_data);
-
-			return *this;
-		}
-
-		inline const combination& operator*() const
-		{
-			return m_data;
-		}
-
-		inline const combination* const operator->() const
-		{
-			return & operator*();
-		}
-
-		////////////////////////////////////////
-		///
-		/// \brief Random access capabilities to the iterators
-		/// \param n -> This assumes 0 <= n+ID <= size(n,k)
-		///
-		////////////////////////////////////////
-		inline iterator& operator+=(difference_type n)
-		{
-			assert(0 <= n + m_ID);
-
-			// If n is small, it's actually more efficient to just advance to it one by one. 20 was found empirically
-			if (abs(n) < 20)
+			if (k == 0)
 			{
-				while (n > 0)
-				{
-					operator++();
-					--n;
-				}
-
-				while (n < 0)
-				{
-					operator--();
-					++n;
-				}
-
-				return *this;
+				m_hint = -1;
+// 				m_data.reserve(1); //just to stop it from crashing
 			}
-
-			// If n is large, then it's better to just construct it from scratch.
-			m_ID += n;
-			construct_combination(m_data, m_ID);
-			m_hint = 0;
-			return *this;
 		}
-
-		inline iterator& operator-=(difference_type n)
-		{
-			return operator+=(-n);
-		}
-
-		friend iterator operator+(iterator lhs, difference_type n)
-		{
-			lhs += n;
-			return lhs;
-		}
-
-		friend iterator operator-(iterator lhs, difference_type n)
-		{
-			lhs -= n;
-			return lhs;
-		}
-		friend difference_type operator-(const iterator& lhs, const iterator& rhs)
-		{
-			return static_cast<difference_type>(lhs.ID()) - rhs.ID();
-		}
-
-		inline size_type ID() const
-		{
-			return m_ID;
-		}
-
-		inline bool operator==(const iterator& it) const
-		{
-			return it.ID() == ID();
-		}
-
-		inline bool operator!=(const iterator& it) const
-		{
-			return it.ID() != ID();
-		}
-
+		
+		explicit iterator(const combination& data) : m_ID(basic_combinations<IntType>::get_index(data)), m_data(data) {}
+		
 		inline bool is_at_end(IntType n) const
 		{
 			
@@ -350,13 +263,90 @@ public:
 			m_data.resize(k);
 			std::iota(m_data.begin(),m_data.end(),0);
 		}
+		
+		//boost::iterator_facade provides all the public interface you need, like ++, etc.
 
 	private:
+		explicit iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
+
+		
+		//prefix
+		void increment()
+		{
+			next_combination(m_data, m_hint);
+			++m_ID;
+
+		}
+		
+		bool equal(const iterator& other) const
+		{
+			return m_ID == other.m_ID;
+		}
+		
+		const combination& dereference() const
+		{
+			return m_data;
+		}
+		
+		////////////////////////////////////////
+		///
+		/// \brief Random access capabilities to the iterators
+		/// \param n -> This assumes 0 <= n+ID <= size(n,k)
+		///
+		////////////////////////////////////////
+		void advance(difference_type n)
+		{
+			assert(0 <= n + m_ID);
+
+			// If n is small, it's actually more efficient to just advance to it one by one. 20 was found empirically
+			if (abs(n) < 20)
+			{
+				while (n > 0)
+				{
+					increment();
+					--n;
+				}
+
+				while (n < 0)
+				{
+					decrement();
+					++n;
+				}
+
+			}
+
+			// If n is large, then it's better to just construct it from scratch.
+			m_ID += n;
+			construct_combination(m_data, m_ID);
+			m_hint = 0;
+		}
+		
+		difference_type distance_to(const iterator& other) const
+		{
+			return other.m_ID - m_ID;
+		}
+
+		void decrement()
+		{
+
+			if (m_ID == 0)
+				return;
+
+			--m_ID;
+			m_hint = 0;
+
+			prev_combination(m_data);
+
+		}
+
+		friend class boost::iterator_core_access;
+		friend class basic_combinations;
+		
+		
 		size_type m_ID {0};
 		IntType m_hint {0};
 		combination m_data;
 
-		friend class basic_combinations;
 	}; // end class iterator
 
 	iterator get_iterator(const combination& comb)
@@ -367,53 +357,68 @@ public:
 	////////////////////////////////////////////////////////////
 	/// \brief Reverse random access iterator class. It's much more efficient as a bidirectional iterator than purely random access.
 	////////////////////////////////////////////////////////////
-	class reverse_iterator : public std::iterator<std::random_access_iterator_tag, combination> //bidirectional iterator
+	class reverse_iterator : public boost::iterator_facade<
+															reverse_iterator,
+															const combination&,
+															boost::random_access_traversal_tag
+															>
 	{
 	public:
 		reverse_iterator() : m_n(0), m_ID(0), m_data() {} //empty initializer
-	private:
-		explicit reverse_iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
-	public:
+
 		reverse_iterator(IntType n, IntType k) : m_n(n), m_ID(0), m_data(k)
 		{
 			std::iota(m_data.begin(), m_data.end(), n-k);
 		}
 
-		//prefix
-		inline reverse_iterator& operator++()
+		inline size_type ID() const
+		{
+			return m_ID;
+		}
+
+		inline bool is_at_end() const
+		{
+			return m_data.back() == m_data.size();
+		}
+
+		void reset(IntType n, IntType k)
+		{
+			m_n = n;
+			m_ID = 0;
+			m_data.resize(k);
+			std::iota(m_data.begin(), m_data.end(), n-k);
+		}
+		
+	private:
+		
+		explicit reverse_iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
+
+		
+		void increment()
 		{
 			++m_ID;
 
 			prev_combination(m_data);
-
-			return *this;
 		}
 
-		inline reverse_iterator& operator--()
+		void decrement()
 		{
 			assert(m_ID != 0);
 
 			--m_ID;
 
 			IntType hint = 0;
-			next_combination(m_data,0);
-
-			return *this;
+			next_combination(m_data,hint);
+		}
+		
+		difference_type distance_to(const reverse_iterator& other) const
+		{
+			return other.m_ID - m_ID;
 		}
 
-		inline const combination& operator*()
+		const combination& dereference() const
 		{
 			return m_data;
-		}
-
-		inline const combination& operator*() const
-		{
-			return m_data;
-		}
-
-		inline const combination* operator->() const
-		{
-			return & operator*();
 		}
 
 		////////////////////////////////////////
@@ -422,7 +427,7 @@ public:
 		/// \param n -> This assumes 0 <= n+ID <= size(n,k)
 		///
 		////////////////////////////////////////
-		inline reverse_iterator& operator+=(difference_type m)
+		void advance(difference_type m)
 		{
 			assert(0 <= m + m_ID);
 
@@ -430,81 +435,38 @@ public:
 			{
 				while (m > 0)
 				{
-					operator++();
+					increment();
 					--m;
 				}
 
 				while (m < 0)
 				{
-					operator--();
+					decrement();
 					++m;
 				}
 
-				return *this;
+				return;
 			}
 
 			m_ID += m;
-			auto num = binomial(m_n, m_data.size()) - m_ID - 1;
+			auto num = binomial<size_type>(m_n, m_data.size()) - m_ID - 1;
 			// If n is large, then it's better to just construct it from scratch.
 			construct_combination(m_data, num);
-			return *this;
-
 		}
 
-		inline reverse_iterator& operator-=(difference_type n)
+		bool equal(const reverse_iterator& it) const
 		{
-			return operator+=(-n);
+			return it.m_ID == m_ID;
 		}
-
-
-		friend reverse_iterator operator+(reverse_iterator lhs, difference_type  n)
-		{
-			lhs += n;
-			return lhs;
-		}
-
-		friend reverse_iterator operator-(reverse_iterator lhs, difference_type  n)
-		{
-			lhs -= n;
-			return lhs;
-		}
-		friend difference_type operator-(const reverse_iterator& lhs, const reverse_iterator& rhs)
-		{
-			return static_cast<difference_type>(lhs.ID()) - rhs.ID();
-		}
-
-		inline size_type ID() const
-		{
-			return m_ID;
-		}
-
-		inline bool operator==(const reverse_iterator& it)
-		{
-			return it.ID() == ID();
-		}
-
-		inline bool operator!=(const reverse_iterator& it)
-		{
-			return it.ID() != ID();
-		}
-
-		inline bool is_at_end() const
-		{
-			return m_ID == binomial(m_n, m_data.size());;
-		}
-
-		void reset(IntType n, IntType k)
-		{
-			m_n = n;
-			m_ID = 0;
-			m_data = range<IntType>(n - k, n);
-		}
+		
+		
 	private:
 		IntType m_n;
 		size_type m_ID;
 		combination m_data;
 
 		friend class basic_combinations;
+		friend class boost::iterator_core_access;
 	}; // end class iterator
 
 	iterator begin() const
@@ -512,7 +474,7 @@ public:
 		return iterator(m_n,m_k);
 	}
 
-	iterator end() const
+	const iterator end() const
 	{
 		return iterator(size());
 	}
@@ -522,7 +484,7 @@ public:
 		return reverse_iterator(m_n,m_k);
 	}
 
-	reverse_iterator rend() const
+	const reverse_iterator rend() const
 	{
 		return reverse_iterator(size());
 	}
@@ -838,7 +800,7 @@ private:
 
 }; // end class basic_combinations
 
-using combinations = basic_combinations<int>;
+using combinations = basic_combinations<short>;
 
 /**
  * \brief This function is an attempt to recreate next_permutation's 

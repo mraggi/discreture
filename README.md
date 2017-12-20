@@ -329,9 +329,11 @@ The following benchmarks where done on a i7-5820K CPU @ 3.30GHz, using Manjaro L
 | **Total Time**																	|	 **19.7s**			|	22.1s	   |-->
 
 # Acknowledgements
-Manuel Alejandro Romo de Vivar (manolo) for his work on dyck paths, motzkin paths, and his contribution to partition numbers.
+ - Manuel Alejandro Romo de Vivar (manolo) for his work on dyck paths, motzkin paths, and his contribution to partition numbers.
 
-César Benjamín García for suggesting the name "discreture".
+ - César Benjamín García for suggesting the name "discreture".
+ 
+ - Juho Lauri for allowing me to use his faster lexicographical combination iterator and some interesting discussions on combinations. 
 
 # Contributing
 Please help us testing, debugging, benchmarking, packaging for the various distros, etc. Also, if you use discreture for your own purposes, let us know!

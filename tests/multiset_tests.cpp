@@ -23,7 +23,7 @@ std::vector<int> get_random_multiset(int n)
 	
 	std::generate(result.begin(), result.end(), []()
 	{
-		return random_int(0,3);
+		return random::random_int(0,3);
 	});
 	
 	

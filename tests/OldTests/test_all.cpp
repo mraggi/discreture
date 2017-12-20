@@ -10,7 +10,6 @@ bool testCorrectness()
 		testCombinations() 	&&
 		testCombinationsTree() &&
 		testPermutations() 	&&
-		testNumberTheory()	&&
 		testPartitions()	&&
 		testMultiset()		&&
 		testDyckPaths()		&&

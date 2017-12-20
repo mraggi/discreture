@@ -24,10 +24,6 @@ void testSpeed()
 	cout << flush;
 	testSetPartitionSpeed(13);
 	cout << flush;
-	testNumberTheorySpeed(1000);
-	cout << flush;
-	testPrimeSpeed();
-	cout << flush;
 }
 
 int main()

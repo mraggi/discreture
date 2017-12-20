@@ -1,6 +1,7 @@
 #pragma once
 #include "VectorHelpers.hpp"
 #include "Misc.hpp"
+#include <boost/iterator/iterator_facade.hpp>
 
 namespace dscr
 {
@@ -69,12 +70,13 @@ public:
 		return toReturn;
 	}
 
-	class iterator : public std::iterator<std::forward_iterator_tag, std::vector<IntType>>
+	class iterator :  public boost::iterator_facade<
+													iterator,
+													const multiset&,
+													boost::forward_traversal_tag
+													>
 	{
-	private:
-		std::vector<IntType> m_submulti;
-		bool m_atend;
-		const std::vector<IntType>& m_total;
+	
 	public:
 		//iterator() : m_submulti(), m_atend(false), m_total(nullptr) {} //empty initializer
 
@@ -83,9 +85,10 @@ public:
 			//how it starts
 		}
 
+	private:
 
 		//prefix
-		inline iterator& operator++()
+		void increment()
 		{
 			for (size_t i = 0; i < m_submulti.size(); ++i)
 			{
@@ -93,27 +96,26 @@ public:
 				{
 					++m_submulti[i];
 
-					return *this;
+					return;
 				}
 				m_submulti[i] = 0;
 			}
 
 			m_atend = true;
-			return *this;
 		}
 
-		const std::vector<IntType>& operator*() const
+		
+		const std::vector<IntType>& dereference() const
 		{
 			return m_submulti;
 		}
 
-		std::vector<IntType>& operator*()
+		bool equal(const iterator& it) const
 		{
-			return m_submulti;
-		}
-
-		bool operator==(const iterator& it) const
-		{
+			if (it.m_atend)
+			{
+				return m_atend;
+			}
 // 				std::cout << "should not run!" << endl;
 			if (m_submulti.size() != it.m_submulti.size())
 				return false;
@@ -127,20 +129,14 @@ public:
 			return true;
 		}
 
-		bool operator!=(const iterator& it) const
-		{
-			if (it.m_atend)
-			{
-				if (m_atend == true)
-					return false;
-
-				return true;
-			}
-
-			return !((*this) == it);
-		}
-
+		
+	private:
+		std::vector<IntType> m_submulti;
+		bool m_atend;
+		const std::vector<IntType>& m_total;
+		
 		friend class basic_multisets;
+		friend class boost::iterator_core_access;
 	};
 
 	const iterator& begin() const
@@ -156,6 +152,8 @@ public:
 private:
 	iterator m_begin;
 	iterator m_end;
+	
+	
 
 };
 using multisets = basic_multisets<int>;

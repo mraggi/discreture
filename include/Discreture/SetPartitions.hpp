@@ -5,8 +5,9 @@
 #include "VectorHelpers.hpp"
 #include "Misc.hpp"
 #include "Sequences.hpp"
-#include "Range.hpp"
+#include "NumberRange.hpp"
 #include "Partitions.hpp"
+#include <boost/iterator/iterator_facade.hpp>
 
 namespace dscr
 {
@@ -53,7 +54,7 @@ class basic_set_partitions
 {
 public:
 
-	using difference_type = long long int;
+	using difference_type = long long;
 	using size_type = long long;
 	using number_partition = std::vector<IntType> ;
 	using value_type = std::vector<number_partition>;
@@ -65,12 +66,8 @@ public:
 
 	static bool next_set_partition(set_partition& data, const number_partition& part)
 	{
-// 			cout << endl << "------------" << endl;
-// 			cout << endl << "Starting with: " << data << endl;
-// 			cout << "Starting with: " << part << endl;
 		int n = std::accumulate(part.begin(), part.end(), 0);
 		int anteriorpos = pop(data, n - 1);
-// 			cout << "Found " << n-1 << " at " << anteriorpos << endl;
 		int curr = n - 2;
 		int currpos = 0;
 
@@ -78,12 +75,9 @@ public:
 		{
 			currpos = pop(data, curr);
 
-// 				cout << " Found " << curr << " at " << currpos << endl;
-// 				cout << " And so data = " << data << endl;
 			if (shouldBreak(data, part, currpos, anteriorpos))
 				break;
 
-// 				cout << "Not acceptable! next!!" << endl;
 			anteriorpos = currpos;
 			--curr;
 
@@ -91,15 +85,10 @@ public:
 				break;
 		}
 
-// 			cout << "Broke with curr = " << curr << endl;
-// 			cout << "Broke with currpos = " << currpos << endl;
-// 			cout << "Broke with anteriorpos = " << anteriorpos << endl;
-// 			cout << "Broke with data = " << data << endl;
 		if (curr == -1)
 			return false;
 
 		auto newpos = NextAcceptablePlaceToAdd(data, part, currpos);
-// 			cout << "I'll try to add " << curr << " to " << newpos << endl;
 
 		data[newpos].push_back(curr);
 
@@ -196,19 +185,28 @@ public:
 	////////////////////////////////////////////////////////////
 	/// \brief Forward iterator class.
 	////////////////////////////////////////////////////////////
-	class iterator : public std::iterator<std::forward_iterator_tag, set_partition>
+	class iterator : public boost::iterator_facade<
+													iterator,
+													const set_partition&,
+													boost::forward_traversal_tag
+													>
 	{
 	public:
 		iterator() : m_ID(0), m_data(), m_n(0) {}
-	public:
+
 		explicit iterator(IntType n, IntType numparts) : m_ID(0), m_data(n), m_n(n), m_npartition()
 		{
 			basic_partitions<IntType>::first_with_given_number_of_parts(m_npartition, n, numparts);
 			fill_first_set_partition(m_data, m_npartition);
 		}
-
+		
+		inline size_type ID() const
+		{
+			return m_ID;
+		}
+	private:
 		//prefix
-		inline iterator& operator++()
+		void increment()
 		{
 			++m_ID;
 
@@ -218,37 +216,16 @@ public:
 				fill_first_set_partition(m_data, m_npartition);
 			}
 
-			return *this;
 		}
-
-		inline const set_partition& operator*() const
+		
+		const set_partition& dereference() const
 		{
 			return m_data;
 		}
 
-		inline const set_partition* operator->() const
-		{
-			return & operator*();
-		}
-
-		friend difference_type operator-(const iterator& lhs, const iterator& rhs)
-		{
-			return static_cast<difference_type>(lhs.ID()) - rhs.ID();
-		}
-
-		inline size_type ID() const
-		{
-			return m_ID;
-		}
-
-		inline bool operator==(const iterator& it) const
+		bool equal(const iterator& it) const
 		{
 			return it.ID() == ID();
-		}
-
-		inline bool operator!=(const iterator& it) const
-		{
-			return it.ID() != ID();
 		}
 
 	private:
@@ -258,6 +235,7 @@ public:
 		number_partition m_npartition;
 
 		friend class basic_set_partitions;
+		friend class boost::iterator_core_access;
 	}; // end class iterator
 
 

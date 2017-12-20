@@ -3,6 +3,19 @@
 #include "Combinations.hpp"
 #include "do_not_optimize.hpp"
 
+inline void BM_CombinationsTreeNAP(int n, int k)
+{
+	dscr::combinations_tree::combination comb(k);
+	std::iota(comb.begin(), comb.end(), 0);
+	int count = 0;
+	auto size = dscr::binomial<long>(n,k);
+	for ( ; count < size; ++count)
+	{
+		DoNotOptimize(comb);
+		dscr::combinations_tree::next_combination(comb,n);
+	}
+}
+
 inline long BM_CombinationsTreeFindAll(int n, int k)
 {
 	dscr::combinations_tree W(n, k);
@@ -30,7 +43,7 @@ inline void BM_CombinationsTreeConstruct(int n, int k, int numtimes)
 
 	for (int i = 0; i < numtimes; ++i)
 	{
-		auto t = dscr::random_int<long>(0,X.size());
+		auto t = dscr::random::random_int<long>(0,X.size());
 		DoNotOptimize(X[t]);
 	}
 }

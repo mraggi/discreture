@@ -10,7 +10,7 @@ inline void BM_PermutationsConstruct(int n, int numtimes)
 
 	for (int i = 0; i < numtimes; ++i)
 	{
-		auto t = dscr::random_int<long>(0,X.size());
+		auto t = dscr::random::random_int<long>(0,X.size());
 		DoNotOptimize(X[t]);
 	}
 }

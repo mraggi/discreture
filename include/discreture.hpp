@@ -2,9 +2,9 @@
 
 #include "Discreture/TimeHelpers.hpp"
 #include "Discreture/Misc.hpp"
+#include "Discreture/NumberRange.hpp"
 #include "Discreture/Probability.hpp"
 #include "Discreture/VectorHelpers.hpp"
-#include "Discreture/NumberTheory.hpp"
 #include "Discreture/CombinationsTree.hpp"
 #include "Discreture/CombinationsTreePrunned.hpp"
 #include "Discreture/Combinations.hpp"

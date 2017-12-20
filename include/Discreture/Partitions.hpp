@@ -3,7 +3,8 @@
 #include "VectorHelpers.hpp"
 #include "Misc.hpp"
 #include "Sequences.hpp"
-#include "Range.hpp"
+#include "NumberRange.hpp"
+#include <boost/iterator/iterator_facade.hpp>
 
 namespace dscr
 {
@@ -15,7 +16,7 @@ namespace dscr
 ///
 ///	 partitions X(6);
 ///		for (auto& x : X)
-///			cout << x << " ";
+///			cout << x << ' ';
 ///
 /// Prints out:
 ///
@@ -26,10 +27,10 @@ class basic_partitions
 {
 public:
 
-	typedef long long int difference_type;
-	typedef unsigned long long int size_type;
-	typedef std::vector<IntType> value_type;
-	typedef std::vector<IntType> partition;
+	using difference_type = long long;
+	using size_type = long long;
+	using value_type = std::vector<IntType>;
+	using partition = value_type;
 
 	//Declarations.
 	class iterator;
@@ -205,54 +206,48 @@ public:
 	////////////////////////////////////////////////////////////
 	/// \brief Forward iterator class.
 	////////////////////////////////////////////////////////////
-	class iterator : public std::iterator<std::bidirectional_iterator_tag, partition>
+	class iterator :  public boost::iterator_facade<
+													iterator,
+													const partition&,
+													boost::forward_traversal_tag
+													>
 	{
 	public:
 		iterator() : m_ID(0), m_data(), m_n(0) {}
-	public:
+
 		explicit iterator(IntType n, IntType numparts) : m_ID(0), m_data(), m_n(n)
 		{
 			first_with_given_number_of_parts(m_data, n, numparts);
 		}
-
-		//prefix
-		inline iterator& operator++()
-		{
-			++m_ID;
-
-			next_partition(m_data, m_n);
-
-			return *this;
-		}
-
-		inline const std::vector<IntType>& operator*() const
-		{
-			return m_data;
-		}
-
-		inline const partition* operator->() const
-		{
-			return & operator*();
-		}
-
-		friend difference_type operator-(const iterator& lhs, const iterator& rhs)
-		{
-			return static_cast<difference_type>(lhs.ID()) - rhs.ID();
-		}
-
+		
 		inline size_type ID() const
 		{
 			return m_ID;
 		}
+		
+		//boost::iterator_facade provides all the public interface you need, like ++, etc.
+		
+	private:
+		void increment()
+		{
+			++m_ID;
 
-		inline bool operator==(const iterator& it) const
+			next_partition(m_data, m_n);
+		}
+		
+		const partition& dereference() const
+		{
+			return m_data;
+		}
+		
+		bool equal(const iterator& it) const
 		{
 			return it.ID() == ID();
 		}
-
-		inline bool operator!=(const iterator& it) const
+		
+		difference_type distance_to(const iterator& lhs) const
 		{
-			return it.ID() != ID();
+			return static_cast<difference_type>(lhs.ID()) - ID();
 		}
 
 	private:
@@ -260,6 +255,7 @@ public:
 		partition m_data;
 		IntType m_n;
 
+		friend class boost::iterator_core_access;
 		friend class basic_partitions;
 	}; // end class iterator
 

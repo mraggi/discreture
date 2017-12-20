@@ -3,7 +3,8 @@
 #include "VectorHelpers.hpp"
 #include "Misc.hpp"
 #include "Sequences.hpp"
-#include "Range.hpp"
+#include "NumberRange.hpp"
+#include <boost/iterator/iterator_facade.hpp>
 
 namespace dscr
 {	
@@ -46,8 +47,8 @@ namespace dscr
 	{
 	public:
 		
-		using difference_type = long long int;
-		using size_type = unsigned long long int;
+		using difference_type = long long;
+		using size_type = unsigned long long;
 		using value_type = std::vector<IntType>;
 		using dyck_path = value_type;
 
@@ -163,67 +164,22 @@ namespace dscr
 		////////////////////////////////////////////////////////////
 		/// \brief Forward iterator class.
 		////////////////////////////////////////////////////////////
-		class iterator : public std::iterator<std::forward_iterator_tag,std::vector<IntType>>
+		class iterator :  public boost::iterator_facade<
+													iterator,
+													const dyck_path&,
+													boost::forward_traversal_tag
+													>
 		{
 		public:
 			iterator() : m_ID(0), m_data() {} //empty initializer
-		public:
 			explicit iterator(IntType n) : m_ID(0), m_data(2*n,1)
 			{
 				for (size_t i = n; i < m_data.size(); ++i)
 					m_data[i] = -1;
 			}
 			
-			//prefix
-			inline iterator& operator++()
-			{
-				++m_ID;
-				
-				next_dyck_path(m_data);
-				
-				return *this;
-			}
-			
-			inline iterator& operator--()
-			{
-				
-				if (m_ID == 0)
-					return *this;
-				
-				--m_ID;
-				
-				prev_dyck_path(m_data);
-				
-				return *this;
-			}
-			
-			inline const std::vector<IntType>& operator*() const
-			{
-				return m_data;
-			}
-			
-			inline const dyck_path* operator->() const
-			{ 
-				return & operator*();
-			}
-			
-			friend difference_type operator-(const iterator& lhs, const iterator& rhs)
-			{
-				return static_cast<difference_type>(lhs.ID()) - rhs.ID();
-			}
-			
 			inline size_type ID() const { return m_ID; }
-			
-			inline bool operator==(const iterator& it) const
-			{
-				return it.ID() == ID();
-			}
-			
-			inline bool operator!=(const iterator& it) const
-			{
-				return it.ID() != ID();
-			}
-			
+
 			inline bool is_at_end(IntType n) const
 			{
 				return m_ID == catalan(n);
@@ -240,10 +196,32 @@ namespace dscr
 			}
 			
 		private:
+			//prefix
+			void increment()
+			{
+				++m_ID;
+				
+				next_dyck_path(m_data);
+			}
+			
+			
+			const std::vector<IntType>& dereference() const
+			{
+				return m_data;
+			}
+			
+			
+			bool equal(const iterator& it) const
+			{
+				return it.ID() == ID();
+			}
+			
+		private:
 			size_type m_ID;
 			dyck_path m_data;
 			
 			friend class basic_dyck_paths;
+			friend class boost::iterator_core_access;
 		}; // end class iterator
 
 		////////////////////////////////////////////////////////////

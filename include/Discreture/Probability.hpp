@@ -3,8 +3,7 @@
 #include "Misc.hpp"
 #include <ctime>
 #include <random>
-namespace dscr
-{
+namespace dscr{	namespace random {
 // Who came up with the dumb C++11 way of getting random stuff?
 // It's obviously missing some utility functions. Here they are.
 
@@ -51,4 +50,5 @@ FloatType random_real(FloatType from, FloatType upto)
 	using parm_t = decltype(d)::param_type;
 	return d(random_engine(), parm_t {from, upto});
 }
-}
+	
+}} // namespace dscr::random
