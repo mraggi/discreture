@@ -140,7 +140,7 @@ void produceAllCombinationData(int from, int to)
 
 	for (int n = from; n < to; ++n)
 	{
-		for (const auto& x : combinations(n, n / 2))
+		for (const auto& x : combinations_fast(n, n / 2))
 		{
 			DoNotOptimize(x);
 		}
@@ -158,7 +158,7 @@ void produceAllCombinationReverseData(int from, int to)
 
 	for (int n = from; n < to; ++n)
 	{
-		combinations X(n, n / 2);
+		combinations_fast X(n, n / 2);
 
 		for (auto it = X.rbegin(); it != X.rend(); ++it)
 		{
@@ -178,7 +178,7 @@ void produceAllCombinationTreeData(int from, int to)
 
 	for (int n = from; n < to; ++n)
 	{
-		for (const auto& x : combinations_tree(n, n / 2))
+		for (const auto& x : combinations_tree_fast(n, n / 2))
 		{
 			DoNotOptimize(x);
 		}
@@ -196,7 +196,7 @@ void produceAllCombinationTreeReverseData(int from, int to)
 
 	for (int n = from; n < to; ++n)
 	{
-		combinations_tree X(n, n / 2);
+		combinations_tree_fast X(n, n / 2);
 
 		for (auto it = X.rbegin(); it != X.rend(); ++it)
 		{
@@ -217,26 +217,9 @@ void produceAllEulerGuyData(int from, int to)
 
 	for (int n = from; n < to; ++n)
 	{
-		auto end = combination_iterator<long>();
+		auto end = combination_iterator<int>();
 
-		for (auto it = combination_iterator<long>(n, n / 2); it != end; ++it)
-		{
-			DoNotOptimize(*it);
-		}
-
-		std::cout << C.Reset() << ", ";
-	}
-
-	std::cout << ']' << std::endl;
-	
-	
-	std::cout << "euler314maximin = [";
-
-	for (int n = from; n < to; ++n)
-	{
-		auto end = combination_iterator_minimax_order<long>();
-
-		for (auto it = combination_iterator_minimax_order<long>(n, n / 2); it != end; ++it)
+		for (auto it = combination_iterator<int>(n, n / 2); it != end; ++it)
 		{
 			DoNotOptimize(*it);
 		}
@@ -254,9 +237,9 @@ void produceAllBFCombinations(int from, int to)
 
 	for (int n = from; n < to; ++n)
 	{
-		combinations X(n, n / 2);
+		combinations_fast X(n, n / 2);
 
-		X.for_each([](const combinations::combination& x)
+		X.for_each([](const combinations_fast::combination& x)
 		{
 			DoNotOptimize(x);
 		});
