@@ -275,7 +275,7 @@ The GNU Scientific Library is a well-known and mature library. For more informat
 
 Euler314's library (unnamed as far as I know) can be found [here](https://github.com/euler314/combinatorics) and provides similar functionality to discreture, although discreture provides many more features.
 
-Iterating over all combinations of size n/2 over a set of size n took the following time:
+Iterating over all combinations of size n/2 over a set of size n took the following time (lower is better):
 
 <img src="https://github.com/mraggi/discreture/blob/master/combvsgsl.png" width="600" alt="discreture::combinations vs GSL combinations" title="discreture::combinations vs GSL combinations">
 
@@ -341,7 +341,7 @@ This comparison isn't very fair (C++ vs python). On the same system, iterating o
 
 The following benchmarks where done on a i7-5820K CPU @ 3.30GHz, using Manjaro Linux with gcc 7.2.1. All tests were done using boost::container::static_vector (*i.e.* no heap memory).
 
-The important columns are Speed and Speed (w/o _fast). They mean "how many (combinations/permutations/etc) were generated in one second". Tests were done with e.g. `combinations_fast` and `combinations` respectively. Times are only reported for _fast version.
+The important columns are Speed and Speed (w/o _fast). Higher is better. They mean "how many (combinations/permutations/etc) were generated in one second". Tests were done with e.g. `combinations_fast` and `combinations` respectively. Times are only reported for _fast version.
 
 |Benchmark name                  |   Time     |   # processed     |           Speed (with _fast)    | Speed (w/o _fast) |
 |--------------------------------|------------:|-------------------:|:---------------------:|:--------------:|
@@ -366,7 +366,7 @@ The important columns are Speed and Speed (w/o _fast). They mean "how many (comb
 |Multisets Forward               |  0.026s    |       9331200     |      3.524e+08 #/sec| 4.189e+08 #/sec|
 | **Catalan** | | | | |
 |Dyck Paths Forward              |  2.049s    |     477638700     |      2.331e+08 #/sec| 2.234e+08 #/sec|
-|Motzkin Paths Forward           |  1.025s    |      50852019     |      4.959e+07 #/sec| 5.068e+07 #/sec|                            
+|Motzkin Paths Forward           |  1.025s    |      50852019     |      4.959e+07 #/sec| 5.068e+07 #/sec|
 | **Partitions** | | | | |
 |Partitions Forward              |  0.030s    |        966467     |      3.194e+07 #/sec| 3.464e+07 #/sec|
 |Set Partitions Forward          |  0.766s    |      27644437     |      3.608e+07 #/sec| 3.780e+07 #/sec|
