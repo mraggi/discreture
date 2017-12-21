@@ -9,7 +9,9 @@
 #include <numeric>
 #include <algorithm>
 #include <boost/iterator/iterator_facade.hpp>
-
+#include <boost/container/static_vector.hpp>
+#include <boost/container/small_vector.hpp>
+#include <boost/container/vector.hpp>
 namespace dscr
 {
 
@@ -29,14 +31,14 @@ namespace dscr
 /// 	[ 0 1 2 ] [ 0 1 3 ] [ 0 1 4 ] [ 0 1 5 ] [ 0 2 3 ] [ 0 2 4 ] [ 0 2 5 ] [ 0 3 4 ] [ 0 3 5 ] [ 0 4 5 ] [ 1 2 3 ] [ 1 2 4 ] [ 1 2 5 ] [ 1 3 4 ] [ 1 3 5 ] [ 1 4 5 ] [ 2 3 4 ] [ 2 3 5 ] [ 2 4 5 ] [ 3 4 5 ]
 ///
 ////////////////////////////////////////////////////////////
-template <class IntType>
+template <class IntType, class RAContainerInt = std::vector<IntType>>
 class basic_combinations_tree
 {
 public:
 
 	using difference_type = long long;
 	using size_type = long long;
-	using value_type = std::vector<IntType>;
+	using value_type = RAContainerInt;
 	using combination = value_type;
 
 	//Declarations.
@@ -193,7 +195,7 @@ public:
 	public:
 		iterator() : m_ID(0LL), m_data() {} //empty initializer
 		
-		iterator(const combination& comb, IntType n) : m_ID(basic_combinations_tree<IntType>::get_index(comb,n)), m_data(comb) {} //empty initializer
+		iterator(const combination& comb, IntType n) : m_ID(basic_combinations_tree<IntType,RAContainerInt>::get_index(comb,n)), m_data(comb) {} //empty initializer
 	
 		iterator(IntType n, IntType k) : m_ID(0), m_n(n), m_data(k)
 		{
@@ -306,127 +308,25 @@ public:
 	////////////////////////////////////////////////////////////
 	/// \brief Reverse random access iterator class. It's much more efficient as a bidirectional iterator than purely random access.
 	////////////////////////////////////////////////////////////
-	class reverse_iterator : public std::iterator<std::random_access_iterator_tag, std::vector<IntType>> //bidirectional iterator
+	class reverse_iterator : public boost::iterator_facade<
+													reverse_iterator,
+													const combination&,
+													boost::random_access_traversal_tag
+													>
 	{
 	public:
 		reverse_iterator() : m_n(0), m_ID(0), m_data() {} //empty initializer
-	private:
-		explicit reverse_iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
-	public:
 		reverse_iterator(IntType n, IntType r) : m_n(n), m_ID(0), m_data(r)
 		{
 			std::iota(m_data.begin(), m_data.end(), n-r);
 		}
-
-		//prefix
-		inline reverse_iterator& operator++()
-		{
-			++m_ID;
-
-			prev_combination(m_data, m_n);
-
-			return *this;
-		}
-
-		inline reverse_iterator& operator--()
-		{
-			assert(m_ID != 0);
-
-			--m_ID;
-
-			next_combination(m_data);
-
-			return *this;
-		}
-
-		inline const combination& operator*()
-		{
-			return m_data;
-		}
-
-		inline const combination& operator*() const
-		{
-			return m_data;
-		}
-
-		inline const combination* operator->() const
-		{
-			return & operator*();
-		}
-
-		////////////////////////////////////////
-		///
-		/// \brief Random access capabilities to the iterators
-		/// \param m -> This assumes 0 <= m+ID <= size(m,k)
-		///
-		////////////////////////////////////////
-		inline reverse_iterator& operator+=(difference_type m)
-		{
-			assert(0 <= m + m_ID);
-
-			if (abs(m) < 20)
-			{
-				while (m > 0)
-				{
-					operator++();
-					--m;
-				}
-
-				while (m < 0)
-				{
-					operator--();
-					++m;
-				}
-
-				return *this;
-			}
-
-			m_ID += m;
-			auto num = binomial<size_type>(m_n, m_data.size()) - m_ID - 1;
-			// If n is large, then it's better to just construct it from scratch.
-			construct_combination(m_data, num);
-			return *this;
-
-		}
-
-		inline reverse_iterator& operator-=(difference_type n)
-		{
-			return operator+=(-n);
-		}
-
-
-		friend reverse_iterator operator+(reverse_iterator lhs, difference_type  n)
-		{
-			lhs += n;
-			return lhs;
-		}
-
-		friend reverse_iterator operator-(reverse_iterator lhs, difference_type  n)
-		{
-			lhs -= n;
-			return lhs;
-		}
-		friend difference_type operator-(const reverse_iterator& lhs, const reverse_iterator& rhs)
-		{
-			return static_cast<difference_type>(lhs.ID()) - rhs.ID();
-		}
-
-		inline size_type ID() const
+		
+		size_type ID() const
 		{
 			return m_ID;
 		}
-
-		inline bool operator==(const reverse_iterator& it)
-		{
-			return it.ID() == ID();
-		}
-
-		inline bool operator!=(const reverse_iterator& it)
-		{
-			return it.ID() != ID();
-		}
-
-		inline bool is_at_end() const
+		
+		bool is_at_end() const
 		{
 			return m_ID == binomial<size_type>(m_n, m_data.size());;
 		}
@@ -437,13 +337,88 @@ public:
 			m_ID = 0;
 			m_data = basic_number_range<IntType>(n - r, n);
 		}
+		
 	private:
+
+		void increment()
+		{
+			++m_ID;
+
+			prev_combination(m_data, m_n);
+		}
+
+		void decrement()
+		{
+			assert(m_ID != 0);
+
+			--m_ID;
+
+			next_combination(m_data);
+		}
+
+		const combination& dereference() const
+		{
+			return m_data;
+		}
+
+		////////////////////////////////////////
+		///
+		/// \brief Random access capabilities to the iterators
+		/// \param m -> This assumes 0 <= m+ID <= size(m,k)
+		///
+		////////////////////////////////////////
+		void advance(difference_type m)
+		{
+			assert(0 <= m + m_ID);
+
+			if (abs(m) < 20)
+			{
+				while (m > 0)
+				{
+					increment();
+					--m;
+				}
+
+				while (m < 0)
+				{
+					decrement();
+					++m;
+				}
+
+				return;
+			}
+
+			m_ID += m;
+			auto num = binomial<size_type>(m_n, m_data.size()) - m_ID - 1;
+			// If n is large, then it's better to just construct it from scratch.
+			construct_combination(m_data, num);
+
+		}
+
+		
+		difference_type distance_to(const reverse_iterator& lhs) const
+		{
+			return static_cast<difference_type>(lhs.ID()) - ID();
+		}
+
+		
+
+		bool equal(const reverse_iterator& it) const
+		{
+			return it.ID() == ID();
+		}
+
+	private:
+		explicit reverse_iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
+
 		IntType m_n;
 		size_type m_ID;
 		combination m_data;
 
 		friend class basic_combinations_tree;
-	}; // end class iterator
+		friend class boost::iterator_core_access;
+
+	}; // end class reverse_iterator
 
 	iterator begin() const
 	{
@@ -489,7 +464,7 @@ public:
 	/// # Example:
 	///
 	/// 	combinations X(40,6);
-	/// 	auto it = X.find_if([](const std::vector<int>& comb) -> bool
+	/// 	auto it = X.find_if([](const combinations::combination& comb) -> bool
 	/// 	{
 	/// 		for (int i = 0; i < comb.size()-1; ++i)
 	/// 		{
@@ -533,7 +508,7 @@ public:
 	/// # Example:
 	///
 	/// 	combinations X(30,4);
-	/// 	auto vall = X.find_all([](const std::vector<int>& comb) -> bool
+	/// 	auto vall = X.find_all([](constcombinations::combination& comb) -> bool
 	///		{
 	///			if (comb.size() < 2) return true;
 	///			int k = comb.size();
@@ -586,10 +561,9 @@ public:
 	///
 	/////////////////////////////////////////////
 	template<class PartialPredicate>
-	basic_combinations_tree_prunned<IntType, PartialPredicate> find_all(PartialPredicate pred)
+	auto find_all(PartialPredicate pred)
 	{
-		basic_combinations_tree_prunned<IntType, PartialPredicate> X(m_n, m_k, pred);
-		return X;
+		return basic_combinations_tree_prunned<IntType, PartialPredicate, RAContainerInt>(m_n, m_k, pred);
 	}
 	
 	template <class Func>
@@ -599,75 +573,75 @@ public:
 		switch (m_k)
 		{
 		case 0:
-			detail::combination_tree_helper0(f,m_n);
+			detail::combination_tree_helper0<combination>(f,m_n);
 			break;
 
 		case 1:
-			detail::combination_tree_helper1(f,m_n);
+			detail::combination_tree_helper1<combination>(f,m_n);
 			break;
 
 		case 2:
-			detail::combination_tree_helper2(f,m_n);
+			detail::combination_tree_helper2<combination>(f,m_n);
 			break;
 
 		case 3:
-			detail::combination_tree_helper3(f,m_n);
+			detail::combination_tree_helper3<combination>(f,m_n);
 			break;
 
 		case 4:
-			detail::combination_tree_helper4(f,m_n);
+			detail::combination_tree_helper4<combination>(f,m_n);
 			break;
 
 		case 5:
-			detail::combination_tree_helper5(f,m_n);
+			detail::combination_tree_helper5<combination>(f,m_n);
 			break;
 
 		case 6:
-			detail::combination_tree_helper6(f,m_n);
+			detail::combination_tree_helper6<combination>(f,m_n);
 			break;
 
 		case 7:
-			detail::combination_tree_helper7(f,m_n);
+			detail::combination_tree_helper7<combination>(f,m_n);
 			break;
 
 		case 8:
-			detail::combination_tree_helper8(f,m_n);
+			detail::combination_tree_helper8<combination>(f,m_n);
 			break;
 
 		case 9:
-			detail::combination_tree_helper9(f,m_n);
+			detail::combination_tree_helper9<combination>(f,m_n);
 			break;
 
 		case 10:
-			detail::combination_tree_helper10(f,m_n);
+			detail::combination_tree_helper10<combination>(f,m_n);
 			break;
 
 		case 11:
-			detail::combination_tree_helper11(f,m_n);
+			detail::combination_tree_helper11<combination>(f,m_n);
 			break;
 
 		case 12:
-			detail::combination_tree_helper12(f,m_n);
+			detail::combination_tree_helper12<combination>(f,m_n);
 			break;
 
 		case 13:
-			detail::combination_tree_helper13(f,m_n);
+			detail::combination_tree_helper13<combination>(f,m_n);
 			break;
 
 		case 14:
-			detail::combination_tree_helper14(f,m_n);
+			detail::combination_tree_helper14<combination>(f,m_n);
 			break;
 
 		case 15:
-			detail::combination_tree_helper15(f,m_n);
+			detail::combination_tree_helper15<combination>(f,m_n);
 			break;
 
 		case 16:
-			detail::combination_tree_helper16(f,m_n);
+			detail::combination_tree_helper16<combination>(f,m_n);
 			break;
 			
 		case 17:
-			detail::combination_tree_helper17(f,m_n);
+			detail::combination_tree_helper17<combination>(f,m_n);
 			break;
 
 		default:
@@ -749,6 +723,7 @@ private:
 }; // end class basic_combinations_tree
 
 using combinations_tree = basic_combinations_tree<int>;
+using combinations_tree_fast = basic_combinations_tree<std::int_fast16_t,boost::container::static_vector<std::int_fast16_t, 20>>;
 
 
 } // end namespace dscr;

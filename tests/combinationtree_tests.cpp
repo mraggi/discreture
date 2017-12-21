@@ -59,6 +59,7 @@ TEST(CombinationsTree,ReverseIteration)
 		long total = 0;
 		for (int k = 0; k <= n+1; ++k) //even k+1
 		{
+			std::cout << k << " <--- k" << endl;
 			combinations_tree X(n, k);
 			long i = 0;
 
@@ -66,6 +67,7 @@ TEST(CombinationsTree,ReverseIteration)
 			{
 				auto x = *it;
 				check_combination_tree(x,n,k);
+				
 				check_combination_tree_index(X,x,X.size()-i-1);
 				++i;
 				++total;

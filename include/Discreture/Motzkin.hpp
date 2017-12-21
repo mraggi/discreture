@@ -50,17 +50,17 @@ namespace dscr
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 
-template <class IntType>
+template <class IntType, class RAContainerInt = std::vector<IntType>>
 class basic_motzkin_paths
 {
 public:
 
 	using difference_type = long long;
 	using size_type = long long;
-	using value_type = std::vector<IntType>;
+	using value_type = RAContainerInt;
 	using motzkin_path = value_type;
-	using comb_i = typename basic_combinations<IntType>::iterator;
-	using dyck_i = typename basic_dyck_paths<IntType>::iterator;
+	using comb_i = typename basic_combinations<IntType, RAContainerInt>::iterator;
+	using dyck_i = typename basic_dyck_paths<IntType, RAContainerInt>::iterator;
 
 	static std::string to_string(const motzkin_path& data, const std::string& delim = "(-)")
 	{
@@ -225,5 +225,6 @@ private:
 }; // end class basic_motzkin_paths
 
 using motzkin_paths = basic_motzkin_paths<int>;
+using motzkin_paths_fast = basic_motzkin_paths<int, boost::container::static_vector<int,48>>;
 
 } // end namespace dscr;

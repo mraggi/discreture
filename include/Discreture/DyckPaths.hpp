@@ -42,14 +42,14 @@ namespace dscr
 	///		()()()
 	///
 	/////////////////////////////////////////////////////////////////////////////////////
-	template <class IntType>
+	template <class IntType, class RAContainerInt = std::vector<IntType>>
 	class basic_dyck_paths
 	{
 	public:
 		
 		using difference_type = long long;
-		using size_type = unsigned long long;
-		using value_type = std::vector<IntType>;
+		using size_type = long long;
+		using value_type = RAContainerInt;
 		using dyck_path = value_type;
 
 		//Declarations.
@@ -205,7 +205,7 @@ namespace dscr
 			}
 			
 			
-			const std::vector<IntType>& dereference() const
+			const dyck_path& dereference() const
 			{
 				return m_data;
 			}
@@ -331,5 +331,6 @@ namespace dscr
 	}; // end class basic_dyck_paths
 	
 	using dyck_paths = basic_dyck_paths<int>;
+	using dyck_paths_fast = basic_dyck_paths<int,boost::container::static_vector<int,48>>;
 
 } // end namespace dscr;

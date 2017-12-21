@@ -10,8 +10,6 @@
 #include "CombinationsTreePrunned.hpp"
 #include "combinations_bf.hpp" //Horrible. Do NOT read. Please. But I can't find another way. Sorry about that. If you think you can do better, please, tell me about it.
 
-#include <boost/iterator/iterator_facade.hpp>
-
 namespace dscr
 {
 
@@ -52,14 +50,15 @@ namespace dscr
 ///			he-hl-el-hl-el-ll-ho-eo-lo-lo-hw-ew-lw-lw-ow-ho-eo-lo-lo-oo-wo-hr-er-lr-lr-or-wr-or-hl-el-ll-ll-ol-wl-ol-rl-hd-ed-ld-ld-od-wd-od-rd-ld-
 ///
 ////////////////////////////////////////////////////////////
-template <class IntType>
+template <class IntType, class RAContainerInt = std::vector<IntType>>
 class basic_combinations
 {
 public:
 
 	using difference_type = long long;
 	using size_type = long long; //yeah, signed. Fuck you, STL!
-	using value_type = std::vector<IntType>;
+// 	using value_type = std::vector<IntType>;
+	using value_type = RAContainerInt;
 	using combination = value_type;
 
 	//Declarations.
@@ -248,7 +247,7 @@ public:
 			}
 		}
 		
-		explicit iterator(const combination& data) : m_ID(basic_combinations<IntType>::get_index(data)), m_data(data) {}
+		explicit iterator(const combination& data) : m_ID(basic_combinations<IntType,RAContainerInt>::get_index(data)), m_data(data) {}
 		
 		inline bool is_at_end(IntType n) const
 		{
@@ -611,10 +610,9 @@ public:
 	///
 	/////////////////////////////////////////////
 	template<class PartialPredicate>
-	basic_combinations_tree_prunned<IntType, PartialPredicate> find_all(PartialPredicate pred)
+	auto find_all(PartialPredicate pred)
 	{
-		basic_combinations_tree_prunned<IntType, PartialPredicate> X(m_n, m_k, pred);
-		return X;
+		return basic_combinations_tree_prunned<IntType, PartialPredicate, combination>(m_n, m_k, pred);
 	}
 
 	///////////////////////////////////////////////
@@ -648,75 +646,75 @@ public:
 		switch (m_k)
 		{
 		case 0:
-			detail::combination_helper0(f,m_n);
+			detail::combination_helper0<combination>(f,m_n);
 			break;
 
 		case 1:
-			detail::combination_helper1(f,m_n);
+			detail::combination_helper1<combination>(f,m_n);
 			break;
 
 		case 2:
-			detail::combination_helper2(f,m_n);
+			detail::combination_helper2<combination>(f,m_n);
 			break;
 
 		case 3:
-			detail::combination_helper3(f,m_n);
+			detail::combination_helper3<combination>(f,m_n);
 			break;
 
 		case 4:
-			detail::combination_helper4(f,m_n);
+			detail::combination_helper4<combination>(f,m_n);
 			break;
 
 		case 5:
-			detail::combination_helper5(f,m_n);
+			detail::combination_helper5<combination>(f,m_n);
 			break;
 
 		case 6:
-			detail::combination_helper6(f,m_n);
+			detail::combination_helper6<combination>(f,m_n);
 			break;
 
 		case 7:
-			detail::combination_helper7(f,m_n);
+			detail::combination_helper7<combination>(f,m_n);
 			break;
 
 		case 8:
-			detail::combination_helper8(f,m_n);
+			detail::combination_helper8<combination>(f,m_n);
 			break;
 
 		case 9:
-			detail::combination_helper9(f,m_n);
+			detail::combination_helper9<combination>(f,m_n);
 			break;
 
 		case 10:
-			detail::combination_helper10(f,m_n);
+			detail::combination_helper10<combination>(f,m_n);
 			break;
 
 		case 11:
-			detail::combination_helper11(f,m_n);
+			detail::combination_helper11<combination>(f,m_n);
 			break;
 
 		case 12:
-			detail::combination_helper12(f,m_n);
+			detail::combination_helper12<combination>(f,m_n);
 			break;
 
 		case 13:
-			detail::combination_helper13(f,m_n);
+			detail::combination_helper13<combination>(f,m_n);
 			break;
 
 		case 14:
-			detail::combination_helper14(f,m_n);
+			detail::combination_helper14<combination>(f,m_n);
 			break;
 
 		case 15:
-			detail::combination_helper15(f,m_n);
+			detail::combination_helper15<combination>(f,m_n);
 			break;
 
 		case 16:
-			detail::combination_helper16(f,m_n);
+			detail::combination_helper16<combination>(f,m_n);
 			break;
 			
 		case 17:
-			detail::combination_helper17(f,m_n);
+			detail::combination_helper17<combination>(f,m_n);
 			break;
 
 		default:
@@ -800,7 +798,10 @@ private:
 
 }; // end class basic_combinations
 
-using combinations = basic_combinations<short>;
+#include<typeinfo>
+
+using combinations = basic_combinations<int>;
+using combinations_fast = basic_combinations<int,boost::container::static_vector<int, 32>>;
 
 /**
  * \brief This function is an attempt to recreate next_permutation's 

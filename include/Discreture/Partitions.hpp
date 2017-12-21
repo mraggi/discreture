@@ -22,14 +22,14 @@ namespace dscr
 ///
 /// 	[ 1 1 1 1 1 1 ] [ 2 1 1 1 1 ] [ 3 1 1 1 ] [ 2 2 1 1 ] [ 4 1 1 ] [ 3 2 1 ] [ 2 2 2 ] [ 5 1 ] [ 4 2 ] [ 3 3 ] [ 6 ]
 ////////////////////////////////////////////////////////////
-template <class IntType>
+template <class IntType, class RAContainerInt = std::vector<IntType>>
 class basic_partitions
 {
 public:
 
 	using difference_type = long long;
 	using size_type = long long;
-	using value_type = std::vector<IntType>;
+	using value_type = RAContainerInt;
 	using partition = value_type;
 
 	//Declarations.
@@ -280,5 +280,6 @@ private:
 }; // end class basic_partitions
 
 using partitions = basic_partitions<int>;
+using partitions_fast = basic_partitions<int, boost::container::static_vector<int,128>>;
 
 }// end namespace dscr;

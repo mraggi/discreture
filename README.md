@@ -6,7 +6,7 @@ This is a modern C++14 library designed to facilitate combinatorial research by 
 
 In addition, many of the algorithms described in the standard <algorithm> library work as-is in these containers, as if the containers were marked as const.
 
-This library is provided as a header-only library.
+This library is provided as a header-only library and has been tested on Linux. Other operating systems might work. Let me know if you find any issues!
 
 # Quick preview:
 
@@ -18,7 +18,6 @@ This library is provided as a header-only library.
 		using namespace std;
 		using namespace dscr; //for expository purposes.
 		
-		;
 		for (auto& x : combinations(5,3))
 			cout << x << endl;
 		
@@ -38,14 +37,12 @@ The above code would produce the following output:
 	1 3 4
 	2 3 4
 
-You need to compile with the -std=c++14 flag:
-`g++ -std=c++14 -O2 main.cpp`
-
-Some tests show discreture is usually faster when compiled with clang++ instead of g++. Full benchmarks at the end of the README.
+You need to compile with the `-std=c++14` flag:
+`g++ -std=c++14 -O3 main.cpp`
 
 # Installation
 
-Discreture is a header-only library, so making sure your programs have access to the .hpp files (all files inside "include" dir) is enough. Just copy them to your project's include folders. 
+Discreture is a header-only library. To use, simpley make sure your programs have access to the .hpp files (all files inside "include" dir). Just copy them to your project's include folders or tell your compiler where to look.
 
 To do a system-wide install, do the standard cmake/make dance:
 ```sh
@@ -58,13 +55,13 @@ To do a system-wide install, do the standard cmake/make dance:
 	sudo make install
 ```
 
-This will install everything under `/usr/local/` by default. If you wish to install to some other directory, replace the cmake .. above by something like `cmake .. -DCMAKE_INSTALL_PREFIX=/usr/`.
+This will install everything under `/usr/local/` by default. If you wish to install to some other directory, replace the `cmake ..` above by something like `cmake .. -DCMAKE_INSTALL_PREFIX=/usr/`.
 
-There are three options: BUILD_EXAMPLES, BUILD_TESTS and BUILD_BENCHMARKS. To use discreture you don't need to compile anything, but the examples are compiled by default. You can compile the examples by replacing the `cmake ..` part by:
-	`cmake .. -DBUILD_EXAMPLES=ON`
+There are three options: BUILD_EXAMPLES, BUILD_TESTS and BUILD_BENCHMARKS. To use discreture you don't need to compile anything, but if you wish to, you can compile examples, tests and benchmarks by replacing the `cmake ..` part by:
+	`cmake .. -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DBUILD_BENCHMARKS=ON`
 
 # How to start using the library
-To use the library, after compiling, just add `#include <discreture.hpp>` to your project and make sure you are using -std=c++14. With the GCC compiler this can be done by compiling like this: `g++ -std=c++14 myfile.cpp`. If you wish to include only part of the library, one could do `#include <Discreture/Combinations.hpp>` for example.
+To use the library, after compiling, just add `#include <discreture.hpp>` to your project and make sure you are compiling in `c++14` mode (or later). With the GCC compiler this can be done by compiling like this: `g++ -std=c++14 myfile.cpp`. You can include only part of the library, say, combinations, by adding `#include <Discreture/Combinations.hpp>` for example.
 
 # Combinatorial Objects
 
@@ -76,9 +73,11 @@ Within this library, one can construct a few combinatorial objects, such as:
   - Motzkin Paths
   - Set Partitions
   - Multisets
-  - Range
+  - Number Ranges
 
-All follow the same design principle: The templated class is calles basic_SOMETHING<class T>, and the most reasonable type for T is instantiated as SOMETHING. For example, `combinations` is a typedef of `basic_combinations<int>`, and `partitions` is a typedef of `basic_partitions<int>`. T is usually an (signed) integer type, like `char`, `short`, `int`, `long`. Some tests show that on different machines different types produce faster code, so even if you don't need numbers bigger than 127 it might be a good idea to use `int` or `long` for some reason.
+All follow the same design principle: The templated class is called `basic_SOMETHING<class T, class Container>`, and the simplest types for `T` and `Container` are instantiated as SOMETHING. For example, `combinations` is a typedef of `basic_combinations< int, vector<int> >`, and `partitions` is a typedef of `basic_partitions<int, vector<int>>`. T is usually an (signed) integer type, like `char`, `short`, `int`, `long`. Some tests show that on different machines different types produce faster code, so even if you don't need numbers bigger than 127 it might be a good idea to use `int` or `long` rather than `char`. 
+
+`Container` is defaulted to `vector<T>`, so you can just write `basic_combinations<short>` instead of `basic_combinations<short, vector<short>>`, but other container types with similar interfaces to vector are possible. A good example is boost's `static_vector`. See section "Getting that last drop of speed" for more.
 
 # Basic usage
 
@@ -106,20 +105,19 @@ for (auto it = X.rbegin(); it != X.rend(); ++it)
 Combinations and permutations are a random-access container (although they are MUCH slower as such than forward or reverse iteration), so something like this works too:
 ```c++
 	combinations X(30,10);
-	for (size_t i = 0; i < X.size(); ++i)
-	{
-		auto x = X[i]; // VERY SLOW: don't do this
-	}
+	auto comb = X[10000]; //produces the 10,000-th combination.
 ```
 
-This is much slower if one plans to actually iterate over all of them, but iterator arithmetic is implemented, so one could even do binary search on `X` with the following code:
+This is much slower if one plans to actually iterate over all of them. 
+
+However, iterator arithmetic is implemented, so one could even do binary search on `X` with the following code:
 ```c++
 	#include <algorithm>
 	// ...
 	combinations X(30,10);
 	std::partition_point(X.begin(), X.end(), predicate);
 ```
-where `predicate` is a unary predicate that takes a `const vector<int>&` as an argument and returns true or false, in a way that for all the first combinations it returns true and the last ones return false.
+where `predicate` is a unary predicate that takes a `const combinations::combination&` as an argument and returns true or false, in a way that for all the first combinations it returns true and the last ones return false.
 
 ## Examples
 
@@ -210,6 +208,63 @@ Prints out:
 
 These are all combinations for which every element is a divisor of the next element. Note that not all combinations are created and then filtered, only combinations which satisfy the partial predicate (given by a lambda function) are further explored.
 
+
+### Getting that last drop of speed
+
+By default, `basic_combinations<T>::combination` (and all others) are `std::vector<T>`, which allocates memory on the heap. If you really need the utmost performance, this may be changed to any random access container with the same interface as vector. A good choice is `boost::containter::static_vector<T,K>` (or even `boost::containter::small_vector<T,K>`), where `K` is the biggest size you'll need.
+
+Some sane defaults for `K` have been set in `combinations_fast`, `permutations_fast`, `dyck_paths_fast`, which are just typedef's of `basic_combinations<int,boost::containter::static_vector<int,K>>` and so on.
+
+So for example, the following code iterates over all combinations of size 3 of `{0,1,...,6}` in a slightly faster way than `dscr::combinations`.
+```c++
+	#include <Discreture/Combinations.hpp>
+	
+	int main()
+	{
+		for (auto& x : dscr::combinations_fast(7,3))
+		{
+			//do stuff with x
+		}
+	}
+```
+
+This only works if combination size (*e.g.* 3) is less than 32. If for some reason you need combination sizes bigger than 32, just use something like this:
+```c++
+	#include <Discreture/Combinations.hpp>
+	
+	int main()
+	{
+		using my_fast_big_combinations = dscr::basic_combinations<int,boost::containter::static_vector<int,50>>;
+		for (auto& x : my_fast_big_combinations(52,50))
+		{
+			//do stuff with x
+		}
+	}
+```
+
+Each of `permutations`, `dyck_paths`, etc. has its corresponding "fast" version: `permutations_fast`, `dyck_paths_fast`, etc. with their own custom set limits. If you are going to need monstrous objects (like permutations of size 17 or more (why?!)), just typedef as in the previous example or use regular old fashioned `permutations`.
+
+#### combinations::for_each
+
+For combinations in particular, there is one last possible speedup: use for_each, like in the following example.
+
+```c++
+	#include <Discreture/Combinations.hpp>
+	
+	void f(const dscr::combinations_fast::combination& x)
+	{
+		// Do stuff to x
+	}
+	
+	int main()
+	{
+		dscr::combinations_fast X(34,17);
+		X.for_each(f);
+	}
+```
+
+This code applies `f` to every element of `X`, and it's almost twice as fast (see benchmarks) as doing manual iteration, up to size 17. More than that and `for_each` falls back on manual iteration. Of course, `f` can be a lambda or a functor too.
+
 # Benchmarks.
 
 ## Combinations benchmarks
@@ -284,56 +339,48 @@ This comparison isn't very fair (C++ vs python). On the same system, iterating o
 
 ## Benchmarks
 
-The following benchmarks where done on a i7-5820K CPU @ 3.30GHz, using Manjaro Linux with clang 5.0.0.
+The following benchmarks where done on a i7-5820K CPU @ 3.30GHz, using Manjaro Linux with gcc 7.2.1. All tests were done using boost::container::static_vector (*i.e.* no heap memory).
 
-|Test name                     |  Time         |  # processed     |     Speed          |
-|------------------------------|:-------------:|-----------------:|-------------------:|
-|Combinations Forward          |  5.4309s      |   2333606220     |     4.297e+08 #/sec|
-|Combinations Reverse          |  8.0012s      |   2333606220     |     2.917e+08 #/sec|
-|Combinations for_each         |  3.7972s      |   2333606220     |     6.146e+08 #/sec|
-|Combinations Euler314         |  5.7366s      |   2333606220     |     4.068e+08 #/sec|
-|Combinations Construct        |  0.0010s      |   1000           |     9.704e+05 #/sec|
-|------------------------------|---------------|------------------|--------------------|
-|Combinations Tree Forward     |  9.9079s      |   2333606220     |     2.355e+08 #/sec|
-|Combinations Tree Reverse     |  6.8077s      |   2333606220     |     3.428e+08 #/sec|
-|Combinations Tree for_each    |  4.0138s      |   2333606220     |     5.814e+08 #/sec|
-|Combinations Tree Euler314    |  8.8788s      |   2333606220     |     2.628e+08 #/sec|
-|Combinations Tree GSL         |  11.3641s     |   2333606220     |     2.053e+08 #/sec|
-|Combinations Tree Construct   |  0.0010s      |   1000           |     9.614e+05 #/sec|
-|------------------------------|---------------|------------------|--------------------|
-|Permutations Forward          |  1.6265s      |   479001600      |     2.945e+08 #/sec|
-|Permutations Reverse          |  4.1861s      |   479001600      |     1.144e+08 #/sec|
-|Permutations Construct        |  0.0003s      |   1000           |     2.994e+06 #/sec|
-|------------------------------|---------------|------------------|--------------------|
-|Dyck Paths Forward            |  2.0600s      |   477638700      |     2.319e+08 #/sec|
-|------------------------------|---------------|------------------|--------------------|
-|Motzkin Paths Forward         |  1.0144s      |   50852019       |     5.013e+07 #/sec|
-|------------------------------|---------------|------------------|--------------------|
-|Partitions Forward            |  0.0048s      |   204226         |     4.297e+07 #/sec|
-|------------------------------|---------------|------------------|--------------------|
-|Set Partitions Forward        |  0.1456s      |   4213597        |     2.894e+07 #/sec|
+The important columns are Speed and Speed (w/o _fast). They mean "how many (combinations/permutations/etc) were generated in one second". Tests were done with e.g. `combinations_fast` and `combinations` respectively. Times are only reported for _fast version.
 
-<!--On a i7-5820K CPU @ 3.30GHz, on Linux, compiling with -Ofast yields the following results:
+|Benchmark name                  |   Time     |   # processed     |           Speed (with _fast)    | Speed (w/o _fast) |
+|--------------------------------|------------:|-------------------:|:---------------------:|:--------------:|
+| **Combinations** | | | | |
+|Combinations for_each           |  2.558s    |    2333606220     |      9.121e+08 #/sec| 6.381e+08 #/sec|
+|Combinations (No iterator)      |  4.319s    |    2333606220     |      5.403e+08 #/sec| 5.850e+08 #/sec|
+|Combinations Forward            |  4.807s    |    2333606220     |      4.855e+08 #/sec| 4.296e+08 #/sec|
+|Combinations Reverse            | 10.492s    |    2333606220     |      2.224e+08 #/sec| 2.348e+08 #/sec|
+|Combinations Construct          |  0.009s    |         10000     |      1.106e+06 #/sec| 1.089e+06 #/sec|
+| **Combinations Tree** | | | | |
+|Combinations Tree for_each      |  2.981s    |    2333606220     |      7.828e+08 #/sec| 6.255e+08 #/sec|
+|Combinations Tree (No iterator) |  7.723s    |    2333606220     |      3.022e+08 #/sec| 2.512e+08 #/sec|
+|Combinations Tree Forward       |  6.993s    |    2333606220     |      3.337e+08 #/sec| 2.973e+08 #/sec|
+|Combinations Tree Reverse       |  8.279s    |    2333606220     |      2.819e+08 #/sec| 3.128e+08 #/sec|
+|Combinations Tree GSL           | 12.772s    |    2333606220     |      1.827e+08 #/sec| 1.829e+08 #/sec|
+|Combinations Tree Construct     |  0.009s    |         10000     |      1.135e+06 #/sec| 1.045e+06 #/sec|
+| **Permutations** | | | | |
+|Permutations Forward            |  1.462s    |     479001600     |      3.277e+08 #/sec| 3.087e+08 #/sec|
+|Permutations Reverse            |  3.332s    |     479001600     |      1.438e+08 #/sec| 1.438e+08 #/sec|
+|Permutations Construct          |  0.003s    |         10000     |      2.946e+06 #/sec| 2.963e+06 #/sec|
+| **Multisets** | | | | |
+|Multisets Forward               |  0.026s    |       9331200     |      3.524e+08 #/sec| 4.189e+08 #/sec|
+| **Catalan** | | | | |
+|Dyck Paths Forward              |  2.049s    |     477638700     |      2.331e+08 #/sec| 2.234e+08 #/sec|
+|Motzkin Paths Forward           |  1.025s    |      50852019     |      4.959e+07 #/sec| 5.068e+07 #/sec|                            
+| **Partitions** | | | | |
+|Partitions Forward              |  0.030s    |        966467     |      3.194e+07 #/sec| 3.464e+07 #/sec|
+|Set Partitions Forward          |  0.766s    |      27644437     |      3.608e+07 #/sec| 3.780e+07 #/sec|
 
-| Task | Time taken CLANG 3.7.0 | Time taken GCC 5.2.0 |
-| ------------- |:-------------:| :-------------:|
-| Time taken to see all (32 choose 16) = 601080390 combinations 					|	 **2.29281s**		|   3.36332s   |
-| Time taken to see all (32 choose 16) = 601080390 combinations in reverse order 	|	 **1.67853s**		|   3.98176s   |
-| Time taken to see all 12! = 479001600 permutations								|	   1.70865s  		| **1.33693s** |
-| Time taken to see all 56634173 partitions of size 90 								|	 **1.41834s**		|   1.48321s   |
-| Time taken to see all 559872000 multisets 										|	 **1.84566s**		|   1.90435s   |
-| Time taken to see all 477638700 dyck paths of size 18 							|	 **2.16288s**		|   2.74891s   |
-| Time taken to see all 50852019 motzkin paths of size 20 							|	 **1.30359s**		|   1.46971s   |
-| Time taken to see all 27644437 set partitions of size 13 							|	   0.960195s  		| **0.79946s** |
-| Time taken to see all 42355950 set partitions a set of 15 elements with 4 parts 	|	   1.20166s  		| **1.01687s** |
-| **Total Time**																	|	 **19.7s**			|	22.1s	   |-->
+**Noteworthy**: for_each can be really fast if using _fast version for combinations. Standard iteration was slower with _fast version on both combinations and combinations tree reverse for some unknown reason.
 
 # Acknowledgements
  - Manuel Alejandro Romo de Vivar (manolo) for his work on dyck paths, motzkin paths, and his contribution to partition numbers.
 
- - César Benjamín García for suggesting the name "discreture".
- 
  - Juho Lauri for suggestions on improving "tree" combination iterator and many interesting discussions on combinations. 
+
+ - César Benjamín García for suggesting the name "discreture".
+ - You: for reading this.
+ 
 
 # Contributing
 Please help us testing, debugging, benchmarking, packaging for the various distros, etc. Also, if you use discreture for your own purposes, let us know!

@@ -22,7 +22,7 @@ struct BenchRow
 	
 	static void print_header(std::ostream& os)
 	{
-		const std::string head1 = "Test name";
+		const std::string head1 = "Benchmark name";
 		const std::string head2 = "Time";
 		const std::string head3 = "# processed";
 		const std::string head4 = "Speed";

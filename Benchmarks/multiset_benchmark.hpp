@@ -12,3 +12,17 @@ inline void BM_MultisetFWD()
 		DoNotOptimize(x);
 	}
 }
+
+inline std::vector<int> get_random_multiset(int n)
+{
+	std::vector<int> result(n);
+	
+	
+	std::generate(result.begin(), result.end(), []()
+	{
+		return dscr::random::random_int(0,5);
+	});
+	
+	
+	return result;
+}

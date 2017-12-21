@@ -219,7 +219,6 @@ TEST(Combinations,FindIf)
 		}
 	}
 
-// 	return true;
 
 	auto T = W.find_all(predicate2);
 	

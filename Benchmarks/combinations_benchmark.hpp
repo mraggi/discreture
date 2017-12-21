@@ -6,7 +6,7 @@
 
 inline void BM_CombinationsConstruct(int n, int k, int numtimes)
 {
-	dscr::combinations X(n, k);
+	dscr::combinations_fast X(n, k);
 
 	for (int i = 0; i < numtimes; ++i)
 	{
@@ -15,22 +15,10 @@ inline void BM_CombinationsConstruct(int n, int k, int numtimes)
 	}
 }
 
-#include "combinations_pureforward_iterator.hpp"
-
-inline void BM_CombinationsLA(int n,int k)
-{
-	auto end = combination_iterator_pureforward<int>();
-
-	for (auto it = combination_iterator_pureforward<int>(n, k); it != end; ++it)
-	{
-		DoNotOptimize(*it);
-	}
-}
-
 inline void BM_CombinationsNAP(int n, int k)
 {
-	dscr::combinations::combination comb(k);
-	dscr::combinations::combination::value_type hint = k;
+	dscr::combinations_fast::combination comb(k);
+	dscr::combinations_fast::combination::value_type hint = k;
 	std::iota(comb.begin(), comb.end(), 0);
 // 	int count = 0;
 	do
@@ -38,7 +26,7 @@ inline void BM_CombinationsNAP(int n, int k)
 		DoNotOptimize(comb);
 // 		++count;
 // 		DoNotOptimize(count);
-	} while(dscr::combinations::next_combination(comb,hint,n));
+	} while(dscr::combinations_fast::next_combination(comb,hint,n));
 }
 
 

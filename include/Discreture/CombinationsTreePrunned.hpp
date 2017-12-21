@@ -4,14 +4,14 @@
 
 namespace dscr
 {
-template <class IntType, class Predicate>
+template <class IntType, class Predicate, class RAContainerInt = std::vector<IntType>>
 class basic_combinations_tree_prunned
 {
 public:
 
 	using difference_type = long long;
 	using size_type = long long;
-	using value_type = std::vector<IntType>;
+	using value_type = RAContainerInt;
 	using combination = value_type;
 
 	//Declarations.
@@ -45,11 +45,15 @@ public:
 	////////////////////////////////////////////////////////////
 	/// \brief Forward iterator for constructing combinations that satisfy a certain predicate one by one
 	////////////////////////////////////////////////////////////
-	class iterator : public std::iterator<std::forward_iterator_tag, std::vector<IntType>>
+	class iterator : public boost::iterator_facade<
+													iterator,
+													const combination&,
+													boost::forward_traversal_tag
+													>
 	{
 	public:
 		iterator(Predicate p, bool last) : m_ID(0), m_data(), m_atEnd(last), m_pred(p) {} //empty initializer
-	public:
+		
 		iterator(IntType n, IntType k, Predicate p) : m_ID(0), m_n(n), m_k(k), m_data(), m_atEnd(false), m_pred(p)
 		{
 			m_data.reserve(m_k);
@@ -64,37 +68,30 @@ public:
 
 			m_atEnd = true;
 		}
-
+		
+		inline bool is_at_end(IntType n) const
+		{
+			return m_atEnd;
+		}
+		
+	private:
 		//prefix
-		inline iterator& operator++()
+		void increment()
 		{
 // 				cout << "size of pred: " << sizeof(m_pred) << endl;
 			while (DFSUtil(m_data, m_pred, m_n, m_k))
 			{
 				if (m_data.size() == static_cast<size_t>(m_k))
-					return *this;
+					return;
 			}
 
 			m_atEnd = true;
-			return *this;
 		}
 
-		inline const std::vector<IntType>& operator*() const
-		{
-			return m_data;
-		}
+		
+		const combination& dereference() const	{ return m_data; }
 
-		inline const combination* operator->() const
-		{
-			return & operator*();
-		}
-
-		inline size_type ID() const
-		{
-			return m_ID;
-		}
-
-		inline bool operator==(const iterator& it) const
+		bool equal(const iterator& it) const
 		{
 			if (m_atEnd != it.m_atEnd)
 				return false;
@@ -104,22 +101,8 @@ public:
 
 			return m_data == it.m_data;
 		}
-
-		inline bool operator!=(const iterator& it) const
-		{
-			if (m_atEnd != it.m_atEnd)
-				return true;
-
-			if (m_atEnd)
-				return false;
-
-			return m_data != it.m_data;
-		}
-
-		inline bool is_at_end(IntType n) const
-		{
-			return m_atEnd;
-		}
+		
+		
 
 	private:
 		size_type m_ID {0};
@@ -130,6 +113,8 @@ public:
 		Predicate m_pred;
 
 		friend class basic_combinations_tree_prunned;
+		friend class boost::iterator_core_access;
+
 	}; // end class iterator
 
 	const iterator& begin() const

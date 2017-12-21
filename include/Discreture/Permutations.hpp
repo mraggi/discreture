@@ -37,13 +37,13 @@ namespace dscr
 ///		abc-acb-bac-bca-cab-cba-
 ///
 ////////////////////////////////////////////////////////////
-template <class IntType>
+template <class IntType, class RAContainerInt = std::vector<IntType>>
 class basic_permutations
 {
 public:
 	using difference_type = long long;
 	using size_type = long long;
-	using value_type = std::vector<IntType>;
+	using value_type = RAContainerInt;
 	using permutation = value_type;
 public:
 
@@ -150,7 +150,7 @@ public:
 		if (n < 2)
 			return 0;
 
-		std::vector<IntType> sortedperm(perm.begin() + start, perm.end());
+		RAContainerInt sortedperm(perm.begin() + start, perm.end());
 		std::sort(sortedperm.begin(), sortedperm.end());
 		size_t i = 0;
 
@@ -227,7 +227,7 @@ public:
 		
 		
 
-		const std::vector<IntType>& dereference() const
+		const permutation& dereference() const
 		{
 			return m_data;
 		}
@@ -285,12 +285,13 @@ public:
 		friend class boost::iterator_core_access;
 		friend class basic_permutations;
 	}; // end class iterator
-
-
-	////////////////////////////////////////////////////////////
-	/// \brief Reverse random access iterator class. It's much more efficient as a bidirectional iterator than purely random access.
-	////////////////////////////////////////////////////////////
-	class reverse_iterator : public std::iterator<std::random_access_iterator_tag, std::vector<IntType>> //bidirectional iterator
+	
+	
+	class reverse_iterator : public boost::iterator_facade<
+													reverse_iterator,
+													const permutation&,
+													boost::random_access_traversal_tag
+													>
 	{
 	public:
 		reverse_iterator() : m_ID(0), m_data() {} //empty initializer
@@ -300,30 +301,38 @@ public:
 			std::iota(m_data.begin(), m_data.end(), 0);
 			std::reverse(m_data.begin(), m_data.end());
 		}
-
-		//prefix
-		inline reverse_iterator& operator++()
+		
+		inline size_type ID() const
+		{
+			return m_ID;
+		}
+		
+		void reset(IntType n)
+		{
+			m_ID = 0;
+			m_data = basic_number_range<IntType>(n);
+			std::reverse(m_data.begin(), m_data.end());
+		}
+		
+	private:
+		void increment()
 		{
 			++m_ID;
 
 			std::prev_permutation(m_data.begin(), m_data.end());
-
-			return *this;
 		}
 
-		inline reverse_iterator& operator--()
+		void decrement()
 		{
 			if (m_ID == 0)
-				return *this;
+				return;
 
 			--m_ID;
 
 			std::next_permutation(m_data.begin(), m_data.end());
-
-			return *this;
 		}
 
-		inline const permutation& operator*() const
+		const permutation& dereference() const
 		{
 			return m_data;
 		}
@@ -334,83 +343,44 @@ public:
 		/// \param n -> This assumes 0 <= n+ID <= size(n,k)
 		///
 		////////////////////////////////////////
-		inline reverse_iterator& operator+=(long int m)
+		void advance(difference_type m)
 		{
 			assert(0 <= m + m_ID);
 
-			if (abs(m) < 20)
+			if (abs(m) < 10) //found experimentally
 			{
 				while (m > 0)
 				{
-					operator++();
+					increment();
 					--m;
 				}
 
 				while (m < 0)
 				{
-					operator--();
+					increment();
 					++m;
 				}
-
-				return *this;
+				return;
 			}
 
 			// If n is large, then it's better to just construct it from scratch.
 			m_ID += m;
 			construct_permutation(m_data, factorial(m_data.size()) - m_ID - 1);
-			return *this;
-
 		}
 
-		inline reverse_iterator& operator-=(long int n)
-		{
-			return operator+=(-n);
-		}
-
-		inline size_type ID() const
-		{
-			return m_ID;
-		}
-
-		inline bool operator==(const reverse_iterator& it) const
+		bool equal(const reverse_iterator& it) const
 		{
 			return it.ID() == ID();
 		}
 
-		inline bool operator!=(const reverse_iterator& it) const
-		{
-			return it.ID() != ID();
-		}
-
-
-		friend reverse_iterator operator+(reverse_iterator lhs, difference_type  n)
-		{
-			lhs += n;
-			return lhs;
-		}
-
-		friend reverse_iterator operator-(reverse_iterator lhs, difference_type  n)
-		{
-			lhs -= n;
-			return lhs;
-		}
-		friend difference_type operator-(const reverse_iterator& lhs, const reverse_iterator& rhs)
-		{
-			return static_cast<difference_type>(lhs.ID()) - rhs.ID();
-		}
-
-		void reset(IntType n)
-		{
-			m_ID = 0;
-			m_data = basic_number_range<IntType>(n);
-			std::reverse(m_data.begin(), m_data.end());
-		}
 	private:
 		size_type m_ID;
 		permutation m_data;
 
 		friend class basic_permutations;
+		friend class boost::iterator_core_access;
 	}; // end class iterator
+
 
 	iterator begin() const
 	{
@@ -458,7 +428,7 @@ private:
 	{
 		if (last <= first) return 0;
 
-		std::vector<int> A(perm.begin() + first, perm.begin() + last);
+		RAContainerInt A(perm.begin() + first, perm.begin() + last);
 		std::sort(A.begin(), A.end());
 
 		int n = last - first;
@@ -477,5 +447,6 @@ private:
 
 }; // end class basic_permutations
 using permutations = basic_permutations<int>;
+using permutations_fast = basic_permutations<int,boost::container::static_vector<int, 16>>;
 
 }

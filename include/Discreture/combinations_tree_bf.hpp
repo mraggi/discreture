@@ -7,27 +7,27 @@ namespace dscr{
 namespace detail
 {
 	using std::vector;
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper0(Func f, IntType n)
 	{
-		vector<IntType> x;
+		combination x;
 		f(x);
 	}
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper1(Func f, IntType n)
 	{
-		vector<IntType> x(1);
+		combination x(1);
 		for (x[0] = 0; x[0] < n; ++x[0])
 		{
 			f(x);
 		}
 	}
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper2(Func f, IntType n)
 	{
-		vector<IntType> x(2);
+		combination x(2);
 		for (x[0] = 0   ; x[0]+1 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+0 < n; ++x[1])
 		{
@@ -35,10 +35,10 @@ namespace detail
 		}
 	}
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper3(Func f, IntType n)
 	{
-		vector<IntType> x(3);
+		combination x(3);
 		for (x[0] = 0   ; x[0]+2 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+1 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+0 < n; ++x[2])
@@ -47,10 +47,10 @@ namespace detail
 		}
 	}
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper4(Func f, IntType n)
 	{
-		vector<IntType> x(4);
+		combination x(4);
 		for (x[0] = 0   ; x[0]+3 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+2 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+1 < n; ++x[2])
@@ -61,10 +61,10 @@ namespace detail
 	}
 
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper5(Func f, IntType n)
 	{
-		vector<IntType> x(5);
+		combination x(5);
 		for (x[0] = 0   ; x[0]+4 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+3 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+2 < n; ++x[2])
@@ -75,10 +75,10 @@ namespace detail
 		}
 	}
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper6(Func f, IntType n)
 	{
-		vector<IntType> x(6);
+		combination x(6);
 		for (x[0] = 0   ; x[0]+5 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+4 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+3 < n; ++x[2])
@@ -90,10 +90,10 @@ namespace detail
 		}
 	}
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper7(Func f, IntType n)
 	{
-		vector<IntType> x(7);
+		combination x(7);
 		for (x[0] = 0   ; x[0]+6 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+5 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+4 < n; ++x[2])
@@ -106,10 +106,10 @@ namespace detail
 		}
 	}
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper8(Func f, IntType n)
 	{
-		vector<IntType> x(8);
+		combination x(8);
 		for (x[0] = 0   ; x[0]+7 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+6 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+5 < n; ++x[2])
@@ -123,10 +123,10 @@ namespace detail
 		}
 	}
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper9(Func f, IntType n)
 	{
-		vector<IntType> x(9);
+		combination x(9);
 		for (x[0] = 0   ; x[0]+8 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+7 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+6 < n; ++x[2])
@@ -141,10 +141,10 @@ namespace detail
 		}
 	}
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper10(Func f, IntType n)
 	{
-		vector<IntType> x(10);
+		combination x(10);
 		for (x[0] = 0   ; x[0]+9 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+8 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+7 < n; ++x[2])
@@ -160,10 +160,10 @@ namespace detail
 		}
 	}
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper11(Func f, IntType n)
 	{
-		vector<IntType> x(11);
+		combination x(11);
 		for (x[0] = 0   ; x[0]+10 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+9 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+8  < n; ++x[2])
@@ -180,10 +180,10 @@ namespace detail
 		}
 	}
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper12(Func f, IntType n)
 	{
-		vector<IntType> x(12);
+		combination x(12);
 		for (x[0] = 0   ; x[0]+11 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+10 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+9  < n; ++x[2])
@@ -202,10 +202,10 @@ namespace detail
 	}
 
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper13(Func f, IntType n)
 	{
-		vector<IntType> x(13);
+		combination x(13);
 		for (x[0] = 0   ; x[0]+12 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+11 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+10 < n; ++x[2])
@@ -224,10 +224,10 @@ namespace detail
 		}
 	}
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper14(Func f, IntType n)
 	{
-		vector<IntType> x(14);
+		combination x(14);
 		for (x[0] = 0   ; x[0]+13 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+12 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+11 < n; ++x[2])
@@ -248,10 +248,10 @@ namespace detail
 	}
 
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper15(Func f, IntType n)
 	{
-		vector<IntType> x(15);
+		combination x(15);
 		for (x[0] = 0   ; x[0]+14 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+13 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+12 < n; ++x[2])
@@ -272,10 +272,10 @@ namespace detail
 		}
 	}
 
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper16(Func f, IntType n)
 	{
-		vector<IntType> x(16);
+		combination x(16);
 		for (x[0] = 0   ; x[0]+15 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+14 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+13 < n; ++x[2])
@@ -297,10 +297,10 @@ namespace detail
 		}
 	}
 	
-	template<class Func, class IntType>
+	template<class combination, class Func, class IntType>
 	void combination_tree_helper17(Func f, IntType n)
 	{
-		vector<IntType> x(17);
+		combination x(17);
 		for (x[0] = 0   ; x[0]+16 < n; ++x[0])
 		for (x[1] = x[0]+1; x[1]+15 < n; ++x[1])
 		for (x[2] = x[1]+1; x[2]+14 < n; ++x[2])
