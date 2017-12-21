@@ -8,10 +8,7 @@
 #include "CombinationsTreePrunned.hpp"
 #include <numeric>
 #include <algorithm>
-#include <boost/iterator/iterator_facade.hpp>
-#include <boost/container/static_vector.hpp>
-#include <boost/container/small_vector.hpp>
-#include <boost/container/vector.hpp>
+
 namespace dscr
 {
 

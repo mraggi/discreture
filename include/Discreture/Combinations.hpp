@@ -102,7 +102,7 @@ public:
 
 	static inline void prev_combination(combination& data)
 	{
-		IntType k = data.size();
+		const IntType k = data.size();
 		IntType i = 0;
 
 		for (; i < k; ++i)
