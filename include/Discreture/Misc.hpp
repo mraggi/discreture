@@ -25,7 +25,6 @@ inline IntType modulo(IntType a, IntType b)
 	return r;
 }
 
-
 template <class T>
 inline T pow(T a, unsigned long n)
 {
@@ -41,29 +40,6 @@ inline T pow(T a, unsigned long n)
 	}
 
 	return r;
-}
-
-//////////////////////////////////////////
-/// \brief For those who hate typing fabs, labs, llabs instead of just abs. Seriosly, WTF C++?
-//////////////////////////////////////////
-inline long abs(long a)
-{
-	return labs(a);
-}
-
-
-inline long long abs(long long a)
-{
-	return llabs(a);
-}
-
-template <class NumType>
-inline NumType abs(NumType a)
-{
-	if (a > 0)
-		return a;
-
-	return -a;
 }
 
 }

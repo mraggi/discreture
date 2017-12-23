@@ -254,7 +254,7 @@ public:
 			assert(0 <= n + m_ID);
 
 			// If n is small, it's actually more efficient to just iterate to it
-			if (abs(n) < 15)
+			if (std::abs(n) < 20)
 			{
 				while (n > 0)
 				{
@@ -368,7 +368,7 @@ public:
 		{
 			assert(0 <= m + m_ID);
 
-			if (abs(m) < 20)
+			if (std::abs(m) < 20)
 			{
 				while (m > 0)
 				{

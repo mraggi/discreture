@@ -242,7 +242,7 @@ public:
 		{
 			assert(0 <= n + m_ID);
 
-			if (abs(n) < 20)
+			if (std::abs(n) < 20)
 			{
 				while (n > 0)
 				{
@@ -347,7 +347,7 @@ public:
 		{
 			assert(0 <= m + m_ID);
 
-			if (abs(m) < 10) //found experimentally
+			if (std::abs(m) < 10) //found experimentally
 			{
 				while (m > 0)
 				{
