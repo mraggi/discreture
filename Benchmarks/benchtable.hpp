@@ -112,8 +112,6 @@ std::ostream& operator<<(std::ostream& os, const BenchRow& T)
 	return os;
 }
 
-using Table = std::vector<BenchRow>;
-
 template <class Container>
 BenchRow ProduceRowForward(std::string name, const Container& A)
 {

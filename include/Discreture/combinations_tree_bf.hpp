@@ -322,4 +322,31 @@ namespace detail
 			f(x);
 		}
 	}
+	
+	template<class combination, class Func, class IntType>
+	void combination_tree_helper18(Func f, IntType n)
+	{
+		combination x(18);
+		for (x[0] = 0   ; x[0]+17 < n; ++x[0])
+		for (x[1] = x[0]+1; x[1]+16 < n; ++x[1])
+		for (x[2] = x[1]+1; x[2]+15 < n; ++x[2])
+		for (x[3] = x[2]+1; x[3]+14 < n; ++x[3])
+		for (x[4] = x[3]+1; x[4]+13 < n; ++x[4])
+		for (x[5] = x[4]+1; x[5]+12 < n; ++x[5])
+		for (x[6] = x[5]+1; x[6]+11 < n; ++x[6])
+		for (x[7] = x[6]+1; x[7]+10 < n; ++x[7])
+		for (x[8] = x[7]+1; x[8]+9 < n; ++x[8])
+		for (x[9] = x[8]+1; x[9]+8 < n; ++x[9])
+		for (x[10] = x[9]+1; x[10]+7 < n; ++x[10])
+		for (x[11] = x[10]+1; x[11]+6 < n; ++x[11])
+		for (x[12] = x[11]+1; x[12]+5 < n; ++x[12])
+		for (x[13] = x[12]+1; x[13]+4 < n; ++x[13])
+		for (x[14] = x[13]+1; x[14]+3 < n; ++x[14])
+		for (x[15] = x[14]+1; x[15]+2 < n; ++x[15])
+		for (x[16] = x[15]+1; x[16]+1 < n; ++x[16])
+		for (x[17] = x[16]+1; x[17] < n; ++x[17])
+		{
+			f(x);
+		}
+	}
 }} //namespace dscr::detail close

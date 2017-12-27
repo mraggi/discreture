@@ -9,6 +9,9 @@
 #include <numeric>
 #include <algorithm>
 
+#define likely(x)      __builtin_expect(!!(x), 1)
+#define unlikely(x)    __builtin_expect(!!(x), 0)
+
 namespace dscr
 {
 
@@ -42,17 +45,22 @@ public:
 	class iterator;
 
 	// **************** Begin functions
-	static inline bool next_combination(combination& data, IntType n)
+	static inline bool next_combination(combination& data, IntType n, IntType k, IntType s)
 	{
-		const long k = data.size();
-
-		const long s = n-k;
-		for (long i = k - 1; i >= 0; --i)
+		if (k==0)
+			return false;
+		const IntType last = k-1;
+		if (data[last]+1 < n)
+		{
+			++data[last];
+			return true;
+		}
+		
+		for (IntType i = k-2; i >= 0; --i)
 		{
 			if (data[i] != s + i)
 			{
-				++data[i];
-				++i;
+				++data[i++];
 				for (; i < k; ++i)
 				{
 					data[i] = data[i-1]+1;
@@ -62,6 +70,13 @@ public:
 			}
 		}
 		return false;
+	}
+	
+	static inline bool next_combination(combination& data, IntType n)
+	{
+		const IntType k = data.size();
+		const IntType s = n-k;
+		return next_combination(data,n,k,s);
 	}
 	
 	static inline void prev_combination(combination& data, IntType n)
@@ -190,11 +205,11 @@ public:
 													>
 	{
 	public:
-		iterator() : m_ID(0LL), m_data() {} //empty initializer
+		iterator() : m_ID(0LL) {} //empty initializer
 		
 		iterator(const combination& comb, IntType n) : m_ID(basic_combinations_tree<IntType,RAContainerInt>::get_index(comb,n)), m_data(comb) {} //empty initializer
 	
-		iterator(IntType n, IntType k) : m_ID(0), m_n(n), m_data(k)
+		iterator(IntType n, IntType k) : m_ID(0), m_n(n), m_k(k), m_s(n-k), m_data(k)
 		{
 			std::iota(m_data.begin(), m_data.end(), 0);
 		}
@@ -210,12 +225,12 @@ public:
 			return m_data.front() == m_n - k;
 		}
 
-		void reset(IntType n, IntType k)
-		{
-			m_ID = 0;
-			m_data.resize(k);
-			std::iota(m_data.begin(),m_data.end(),0);
-		}
+// 		void reset(IntType n, IntType k)
+// 		{
+// 			m_ID = 0;
+// 			m_data.resize(k);
+// 			std::iota(m_data.begin(),m_data.end(),0);
+// 		}
 		
 	private:
 		explicit iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
@@ -223,8 +238,8 @@ public:
 		//prefix
 		void increment()
 		{
+			next_combination(m_data, m_n, m_k, m_s);
 			++m_ID;
-			next_combination(m_data, m_n);
 		}
 
 		void decrement()
@@ -291,6 +306,8 @@ public:
 	private:
 		size_type m_ID {0};
 		IntType m_n;
+		IntType m_k;
+		IntType m_s;
 		combination m_data;
 
 		friend class basic_combinations_tree;
@@ -639,6 +656,10 @@ public:
 			
 		case 17:
 			detail::combination_tree_helper17<combination>(f,m_n);
+			break;
+			
+		case 18:
+			detail::combination_tree_helper18<combination>(f,m_n);
 			break;
 
 		default:

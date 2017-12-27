@@ -65,40 +65,75 @@ public:
 	class iterator;
 
 	// **************** Begin static functions
-	static void next_combination(combination& data, IntType& hint)
+	static void next_combination(combination& data, IntType& hint, IntType last)
 	{
-		if (hint < 0)
-			return;
 		if (hint > 0)
 		{
-			--hint;
-			++data[hint];
+			++data[--hint];
 			return;
 		}
 		
-		const IntType last = data.size()-1;
-		for (IntType i = 0; i < last; ++i)
+		assert(last == data.size()-1);
+		
+		if (last > 0)
 		{
-			if (data[i]+1 != data[i+1])
-			{
-				++data[i];
-				hint = i;
+			
+			if (data[0] + 1 != data[1])
+			{	
+				++data[0];
 				return;
 			}
-			data[i] = i;
+			data[0] = 0;
+			IntType i = 1;
+			
+// 			IntType i = 0;
+			
+			for ( ; i < last && data[i] + 1 == data[i+1]; ++i)
+			{
+				data[i] = i;
+			}
+			
+			++data[hint = i];
+			return;
 		}
-		hint = last;
-		++data[last];
 		
+		if (last == 0)
+			++data[0];
+	}
+	
+	static void next_combination(combination& data, IntType& hint)
+	{
+		IntType last = data.size()-1;
+		next_combination(data,hint,last);
 	} //next_combination
 	
-	static bool next_combination(combination& data, IntType& hint, IntType n)
+	static void next_combination(combination& data)
 	{
-		if (hint < 0)
-			return false;
+		IntType hint = 0;
+		IntType last = data.size()-1;
+		next_combination(data,hint,last);
+	} //next_combination
+	
+	static bool next_combination(IntType n, combination& data)
+	{
+		next_combination(data);
+		return data.back() != n;
+	} //next_combination data hint n
+	
+	static bool next_combination(IntType n, combination& data, IntType& hint)
+	{
 		next_combination(data,hint);
 		return data.back() != n;
-	} //next_combination
+	} //next_combination data hint n
+	
+	static bool next_combination(IntType n, combination& data, IntType& hint, IntType last)
+	{
+		assert(last == data.size() - 1);
+		if (last <= 0)
+			return false;
+		next_combination(data,hint,last);
+		return data.back() != n;
+	} //next_combination n data hint last
 
 	static inline void prev_combination(combination& data)
 	{
@@ -235,9 +270,9 @@ public:
 	{
 	public:
 		
-		iterator() : m_ID(0), m_data() {} //empty initializer
+		iterator() {} //empty initializer
 		
-		iterator(IntType n, IntType k) : m_ID(0),  m_hint(k), m_data(k)
+		iterator(IntType n, IntType k) : m_ID(0), m_last(k-1), m_hint(k), m_data(k)
 		{
 			std::iota(m_data.begin(), m_data.end(), 0);
 			if (k == 0)
@@ -259,20 +294,22 @@ public:
 		{
 			m_ID = 0;
 			m_hint = k;
+			m_last = k-1;
 			m_data.resize(k);
 			std::iota(m_data.begin(),m_data.end(),0);
 		}
 		
 		//boost::iterator_facade provides all the public interface you need, like ++, etc.
 
-	private:
 		explicit iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
+	private:
 
 		
 		//prefix
 		void increment()
 		{
-			next_combination(m_data, m_hint);
+			next_combination(m_data,m_hint,m_last);
+// 			next_combination(m_data,m_hint);
 			++m_ID;
 
 		}
@@ -343,8 +380,9 @@ public:
 		
 		
 		size_type m_ID {0};
+		IntType m_last{0}; //should always be k-1
 		IntType m_hint {0};
-		combination m_data;
+		combination m_data {};
 
 	}; // end class iterator
 
@@ -406,8 +444,7 @@ public:
 
 			--m_ID;
 
-			IntType hint = 0;
-			next_combination(m_data,hint);
+			next_combination(m_data);
 		}
 		
 		difference_type distance_to(const reverse_iterator& other) const
@@ -716,6 +753,10 @@ public:
 		case 17:
 			detail::combination_helper17<combination>(f,m_n);
 			break;
+			
+		case 18:
+			detail::combination_helper18<combination>(f,m_n);
+			break;
 
 		default:
 			for (auto& comb : (*this))
@@ -731,10 +772,6 @@ private:
 	IntType m_n;
 	IntType m_k;
 	size_type m_size;
-// 	iterator m_begin;
-// 	iterator m_end;
-// 	reverse_iterator m_rbegin;
-// 	reverse_iterator m_rend;
 
 	template <class P>
 	bool augment(combination& comb, P pred, IntType start = 0)
@@ -796,6 +833,8 @@ private:
 		return false;
 	}
 
+	
+	
 }; // end class basic_combinations
 
 #include<typeinfo>
