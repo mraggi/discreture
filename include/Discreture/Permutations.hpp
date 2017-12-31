@@ -185,9 +185,9 @@ public:
 													>
 	{
 	public:
-		iterator() : m_ID(0), m_data() {} //empty initializer
+		iterator() {} //empty initializer
 		
-		iterator(IntType n) : m_ID(0), m_data(n)
+		iterator(IntType n) : m_ID(0), m_last(n-1), m_data(n)
 		{
 			std::iota(m_data.begin(), m_data.end(), 0);
 		}
@@ -200,7 +200,9 @@ public:
 		void reset(IntType r)
 		{
 			m_ID = 0;
-			m_data = basic_number_range<IntType>(r);
+			m_last = r-1;
+			m_data.resize(r);
+			std::iota(m_data.begin(), m_data.end(), 0);
 		}
 		
 		inline size_type ID() const
@@ -212,8 +214,14 @@ public:
 		//prefix
 		void increment()
 		{
+			if (m_ID > 1 && m_ID%2 == 0)
+			{
+				std::swap(m_data[m_last],m_data[m_last-1]);
+			}
+			else{
+				std::next_permutation(m_data.begin(), m_data.end());
+			}
 			++m_ID;
-			std::next_permutation(m_data.begin(), m_data.end());
 		}
 
 		void decrement()
@@ -279,8 +287,9 @@ public:
 
 		
 	private:
-		size_type m_ID;
-		permutation m_data;
+		size_type m_ID{0};
+		size_type m_last{0};
+		permutation m_data{};
 
 		friend class boost::iterator_core_access;
 		friend class basic_permutations;

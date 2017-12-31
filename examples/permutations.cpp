@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <string>
-
+#include "../Benchmarks/external/rang.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -42,9 +42,23 @@ int main(int argc, char* argv[])
 		}
 
 		permutations X(n);
-
+		
+// 		permutations::permutation old(n,-1);
+// 		int num = 0;
+// 		std::vector<rang::fg> colors = {rang::fg::green, rang::fg::yellow, rang::fg::magenta, rang::fg::red, rang::fg::cyan};
 		for (auto& x : X)
 		{
+// 			for (int i = 0; i < x.size(); ++i)
+// 			{
+// 				if (old[i] != x[i])
+// 				{
+// 					cout << colors[x[i]] << rang::style::bold;
+// 				}
+// 				cout << x[i] << ' ' << rang::style::reset;
+// 				
+// 			}
+// 			cout << " --> " << num++ << '\n';
+// 			old = x;
 			cout << x << '\n';
 		}
 		return 0;

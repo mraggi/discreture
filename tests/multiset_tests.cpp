@@ -13,6 +13,7 @@ void check_multiset(const multisets::multiset& x, const multisets::multiset& tot
 	for (size_t i = 0; i < x.size(); ++i)
 	{
 		ASSERT_LE(x[i],total[i]);
+		ASSERT_GE(x[i],0);
 	}
 }
 
@@ -34,11 +35,11 @@ TEST(Multisets,ForwardIteration)
 {
 	for (int n = 0; n < 12; ++n)
 	{
-		std::vector<int> total = get_random_multiset(n);
+		auto total = get_random_multiset(n);
 		multisets X(total);
 		set<multisets::multiset> S(X.begin(),X.end());
-		ASSERT_EQ(X.size(), S.size()); //check if all dyck paths are different
-
+		ASSERT_EQ(X.size(), S.size()); //check if all multisets are different
+		
 		for (const auto& x : X)
 		{
 			check_multiset(x, total);

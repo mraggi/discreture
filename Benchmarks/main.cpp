@@ -46,7 +46,7 @@ int main()
 // 	const int nmotzkin = 10;
 
 	BenchRow::print_header(cout);
-// 	BenchRow::print_line(cout);
+	BenchRow::print_line(cout);
 	cout << ProduceRowForEach("Combinations", dscr::combinations(n,k));
 	cout << ProduceRowForEach("Combinations Stack", dscr::combinations_fast(n,k));
 	cout << BenchRow("Combinations (No iterator)", Benchmark([](){BM_CombinationsNAP(n,k);}), combs_size);

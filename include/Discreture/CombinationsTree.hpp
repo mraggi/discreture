@@ -9,9 +9,6 @@
 #include <numeric>
 #include <algorithm>
 
-#define likely(x)      __builtin_expect(!!(x), 1)
-#define unlikely(x)    __builtin_expect(!!(x), 0)
-
 namespace dscr
 {
 
@@ -60,10 +57,11 @@ public:
 		{
 			if (data[i] != s + i)
 			{
-				++data[i++];
-				for (; i < k; ++i)
+				IntType a = ++data[i++];
+				++a;
+				for (; i < k; ++i,++a)
 				{
-					data[i] = data[i-1]+1;
+					data[i] = a;
 				}
 
 				return true;

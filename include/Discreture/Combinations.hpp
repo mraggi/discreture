@@ -135,29 +135,61 @@ public:
 		return data.back() != n;
 	} //next_combination n data hint last
 
-	static inline void prev_combination(combination& data)
+	static void prev_combination(combination& data, IntType last)
 	{
-		const IntType k = data.size();
-		IntType i = 0;
-
-		for (; i < k; ++i)
+		if (last > 0)
 		{
-			if (data[i] != i)
+			if (data[0] != 0)
 			{
-				--data[i];
-				break;
+				--data[0];
+				return;
 			}
-		}
-
-		if (i != k)
-		{
-			IntType a = data[i] - i;
-
-			for (IntType j = 0; j < i; ++j, ++a)
+			
+			IntType i = 0;
+			for ( ; i < last && (data[i] == i); ++i)
 			{
-				data[j] = a;
 			}
+			
+			--data[i];
+			--i;
+			
+			for ( ;i >= 0; --i)
+			{
+				data[i] = data[i+1]-1;
+			}
+			
+			return;
 		}
+		
+		if (last == 0)
+			--data[0];
+	}
+	
+	static void prev_combination(combination& data)
+	{
+		prev_combination(data, data.size()-1);
+		
+// 		const IntType k = data.size();
+// 		IntType i = 0;
+// 
+// 		for (; i < k; ++i)
+// 		{
+// 			if (data[i] != i)
+// 			{
+// 				--data[i];
+// 				break;
+// 			}
+// 		}
+// 
+// 		if (i != k)
+// 		{
+// 			IntType a = data[i] - i;
+// 
+// 			for (IntType j = 0; j < i; ++j, ++a)
+// 			{
+// 				data[j] = a;
+// 			}
+// 		}
 	}
 
 	static inline void construct_combination(combination& data, size_type m)
@@ -371,7 +403,7 @@ public:
 			--m_ID;
 			m_hint = 0;
 
-			prev_combination(m_data);
+			prev_combination(m_data,m_last);
 
 		}
 
@@ -401,9 +433,9 @@ public:
 															>
 	{
 	public:
-		reverse_iterator() : m_n(0), m_ID(0), m_data() {} //empty initializer
+		reverse_iterator() : m_n(0), m_ID(0), m_last(-1), m_data() {} //empty initializer
 
-		reverse_iterator(IntType n, IntType k) : m_n(n), m_ID(0), m_data(k)
+		reverse_iterator(IntType n, IntType k) : m_n(n), m_ID(0), m_last(k-1), m_data(k)
 		{
 			std::iota(m_data.begin(), m_data.end(), n-k);
 		}
@@ -422,20 +454,21 @@ public:
 		{
 			m_n = n;
 			m_ID = 0;
+			m_last = k-1;
 			m_data.resize(k);
 			std::iota(m_data.begin(), m_data.end(), n-k);
 		}
 		
 	private:
 		
-		explicit reverse_iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
+		explicit reverse_iterator(size_type id) : m_ID(id) {} //ending initializer: for id only. Do not use unless you know what you are doing.
 
 		
 		void increment()
 		{
 			++m_ID;
 
-			prev_combination(m_data);
+			prev_combination(m_data,m_last);
 		}
 
 		void decrement()
@@ -499,6 +532,7 @@ public:
 	private:
 		IntType m_n;
 		size_type m_ID;
+		size_type m_last;
 		combination m_data;
 
 		friend class basic_combinations;

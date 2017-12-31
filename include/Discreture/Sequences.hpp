@@ -25,7 +25,7 @@ template <class BigIntType = llint>
 inline BigIntType binomial(llint n, llint r);
 
 //////////////////////////////
-/// \brief The n-th catalan number
+/// \brief The n-th catalan number.
 /// \param n is a (small) nonnegative integer
 /// \return binomial(2n,n)/(n+1)
 //////////////////////////////
@@ -33,7 +33,7 @@ template <class BigIntType = llint>
 inline BigIntType catalan(llint n);
 
 //////////////////////////////
-/// \brief The n-th motzkin number
+/// \brief The n-th motzkin number.
 /// \param n is a (small) nonnegative integer
 /// \return M_n
 //////////////////////////////
@@ -68,10 +68,10 @@ template <class BigIntType = llint>
 inline BigIntType stirling_cycle_number(llint n, llint k);
 
 //////////////////////////////
-/// \brief The number of partitions of a set of n elements with k parts
+/// \brief The number of partitions of a set of n elements with exactly k parts
 /// \param n is a (small) nonnegative integer
 /// \param k <= n is a (small) nonnegative integer
-/// \return P_{n,k}
+/// \return The stirling number of the second kind S_{n,k}
 //////////////////////////////
 template <class BigIntType = llint>
 inline BigIntType stirling_partition_number(llint n, llint k);

@@ -69,13 +69,11 @@ public:
 
 
 			--data[i];
-			//cout << "Le decidí bajar al " << i << " que ahora vale " << data[i] << endl;
 
 			++suma;
 
 			size_t numespacios = t - i - 1;
 			difference_type exceso = suma - numespacios;
-
 
 			for (size_t j = i + 1; j < t; ++j)
 			{
