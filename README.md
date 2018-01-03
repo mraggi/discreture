@@ -344,7 +344,7 @@ The following benchmarks where done on a i7-5820K CPU @ 3.30GHz, using Manjaro L
 The important columns are Speed and Speed (w/o _fast). Higher is better. They mean "how many (combinations/permutations/etc) were generated in one second". Tests were done with e.g. `combinations_fast` and `combinations` respectively. Times are only reported for _fast version.
 
 |Benchmark name                  |   Time     |   # processed     |           Speed (with _fast)    | Speed (w/o _fast) |
-|-----|------|-----:|:------:|:------:|:------:|
+|-----|------|-----:|:------:|:------:|
 |Combinations | | | | |
 |Combinations for_each           | 0.827s        | 847660528           |1.025e+09 #/sec|        8.846e+08 #/sec|
 |Combinations (No iterator)      | 1.007s        | 847660528           |8.418e+08 #/sec|        7.444e+08 #/sec|
