@@ -59,10 +59,11 @@ struct BenchRow
 
 std::ostream& operator<<(std::ostream& os, const BenchRow& T)
 {
+// 	os << '|';
 	os << T.name;
 	for (int i = T.name.size(); i < columntime; ++i) 
 		os << ' ';
-	
+// 	os << '|';
 	double avg_time = T.avg_time;
 	std::string units = "s";
 	auto color = rang::fg::magenta;
@@ -91,12 +92,14 @@ std::ostream& operator<<(std::ostream& os, const BenchRow& T)
 	
 	for (int i = columntime+units.size()+timewidth; i <= columnsize; ++i) 
 		os << ' ';
+// 	os << '|';
 	
 	const int sizewidth = 10;
 	os << rang::fg::blue << std::setw(sizewidth) << T.container_size << rang::fg::reset;
 	
 	for (int i = columnsize + sizewidth; i <= columnspeed; ++i) 
 		os << ' ';
+// 	os << '|';
 	
 	auto speed_color = rang::fg::green;
 	if (T.speed() < 5e8)

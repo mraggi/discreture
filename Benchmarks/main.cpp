@@ -74,6 +74,7 @@ int main()
 	
 	BenchRow::print_line(cout);
 	cout << ProduceRowForward("Multisets", dscr::multisets_fast({4,2,3,1,0,1,5,0,5,4,0,1,1,5,2,0,2}));
+	cout << ProduceRowReverse("Multisets", dscr::multisets_fast({4,2,3,1,0,1,5,0,5,4,0,1,1,5,2,0,2}));
 	
 	
 	BenchRow::print_line(cout);

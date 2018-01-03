@@ -42,10 +42,18 @@ public:
 	class iterator;
 
 	// **************** Begin functions
-	static inline bool next_combination(combination& data, IntType n, IntType k, IntType s)
+	static inline bool next_combination(combination& data, IntType n)
+	{
+		const IntType k = data.size();
+		const IntType diff = n-k;
+		return next_combination(data,n,k,diff);
+	}
+	
+	static inline bool next_combination(combination& data, IntType n, IntType k, IntType difference)
 	{
 		if (k==0)
 			return false;
+		assert(difference == n-k);
 		const IntType last = k-1;
 		if (data[last]+1 < n)
 		{
@@ -55,10 +63,11 @@ public:
 		
 		for (IntType i = k-2; i >= 0; --i)
 		{
-			if (data[i] != s + i)
+			if (data[i] != difference + i)
 			{
-				IntType a = ++data[i++];
-				++a;
+				++data[i];
+				IntType a = data[i]+1;
+				++i;
 				for (; i < k; ++i,++a)
 				{
 					data[i] = a;
@@ -70,12 +79,7 @@ public:
 		return false;
 	}
 	
-	static inline bool next_combination(combination& data, IntType n)
-	{
-		const IntType k = data.size();
-		const IntType s = n-k;
-		return next_combination(data,n,k,s);
-	}
+	
 	
 	static inline void prev_combination(combination& data, IntType n)
 	{

@@ -344,32 +344,36 @@ The following benchmarks where done on a i7-5820K CPU @ 3.30GHz, using Manjaro L
 The important columns are Speed and Speed (w/o _fast). Higher is better. They mean "how many (combinations/permutations/etc) were generated in one second". Tests were done with e.g. `combinations_fast` and `combinations` respectively. Times are only reported for _fast version.
 
 |Benchmark name                  |   Time     |   # processed     |           Speed (with _fast)    | Speed (w/o _fast) |
-|--------------------------------|------------:|-------------------:|:---------------------:|:--------------:|
-| **Combinations** | | | | |
-|Combinations for_each           |  2.558s    |    2333606220     |      9.121e+08 #/sec| 6.381e+08 #/sec|
-|Combinations (No iterator)      |  4.319s    |    2333606220     |      5.403e+08 #/sec| 5.850e+08 #/sec|
-|Combinations Forward            |  4.807s    |    2333606220     |      4.855e+08 #/sec| 4.296e+08 #/sec|
-|Combinations Reverse            | 10.492s    |    2333606220     |      2.224e+08 #/sec| 2.348e+08 #/sec|
-|Combinations Construct          |  0.009s    |         10000     |      1.106e+06 #/sec| 1.089e+06 #/sec|
-| **Combinations Tree** | | | | |
-|Combinations Tree for_each      |  2.981s    |    2333606220     |      7.828e+08 #/sec| 6.255e+08 #/sec|
-|Combinations Tree (No iterator) |  7.723s    |    2333606220     |      3.022e+08 #/sec| 2.512e+08 #/sec|
-|Combinations Tree Forward       |  6.993s    |    2333606220     |      3.337e+08 #/sec| 2.973e+08 #/sec|
-|Combinations Tree Reverse       |  8.279s    |    2333606220     |      2.819e+08 #/sec| 3.128e+08 #/sec|
-|Combinations Tree GSL           | 12.772s    |    2333606220     |      1.827e+08 #/sec| 1.829e+08 #/sec|
-|Combinations Tree Construct     |  0.009s    |         10000     |      1.135e+06 #/sec| 1.045e+06 #/sec|
-| **Permutations** | | | | |
-|Permutations Forward            |  1.462s    |     479001600     |      3.277e+08 #/sec| 3.087e+08 #/sec|
-|Permutations Reverse            |  3.332s    |     479001600     |      1.438e+08 #/sec| 1.438e+08 #/sec|
-|Permutations Construct          |  0.003s    |         10000     |      2.946e+06 #/sec| 2.963e+06 #/sec|
-| **Multisets** | | | | |
-|Multisets Forward               |  0.026s    |       9331200     |      3.524e+08 #/sec| 4.189e+08 #/sec|
-| **Catalan** | | | | |
-|Dyck Paths Forward              |  2.049s    |     477638700     |      2.331e+08 #/sec| 2.234e+08 #/sec|
-|Motzkin Paths Forward           |  1.025s    |      50852019     |      4.959e+07 #/sec| 5.068e+07 #/sec|
-| **Partitions** | | | | |
-|Partitions Forward              |  0.030s    |        966467     |      3.194e+07 #/sec| 3.464e+07 #/sec|
-|Set Partitions Forward          |  0.766s    |      27644437     |      3.608e+07 #/sec| 3.780e+07 #/sec|
+|-----|------|-----:|:------:|:------:|:------:|
+|Combinations | | | | |
+|Combinations for_each           | 0.827s        | 847660528           |1.025e+09 #/sec|        8.846e+08 #/sec|
+|Combinations (No iterator)      | 1.007s        | 847660528           |8.418e+08 #/sec|        7.444e+08 #/sec|
+|Combinations Forward            | 1.550s        | 847660528           |5.470e+08 #/sec|        8.470e+08 #/sec|
+|Combinations Reverse            | 1.717s        | 847660528           |4.937e+08 #/sec|        4.878e+08 #/sec|
+|Combinations Construct          | 0.104s        |    100000           |9.652e+05 #/sec|        1.021e+06 #/sec|
+|Combinations Tree  | | | | |
+|Combinations Tree for_each      | 0.934s        | 847660528           |9.079e+08 #/sec|        8.273e+08 #/sec|
+|Combinations Tree (No iterator) | 1.607s        | 847660528           |5.274e+08 #/sec|        5.320e+08 #/sec|
+|Combinations Tree Forward       | 1.979s        | 847660528           |4.283e+08 #/sec|        4.558e+08 #/sec|
+|Combinations Tree Reverse       | 1.854s        | 847660528           |4.572e+08 #/sec|        4.666e+08 #/sec|
+|Combinations Tree GSL           | 3.245s        | 847660528           |2.612e+08 #/sec|        2.377e+08 #/sec|
+|Combinations Tree Construct     | 0.105s        |    100000           |9.552e+05 #/sec|        9.504e+05 #/sec|
+|Permutations  | | | | |
+|Permutations Forward            | 1.242s        | 479001600           |3.856e+08 #/sec|        3.438e+08 #/sec|
+|Permutations Reverse            | 4.814s        | 479001600           |9.950e+07 #/sec|        9.956e+07 #/sec|
+|Permutations Construct          | 0.038s        |    100000           |2.651e+06 #/sec|        2.608e+06 #/sec|
+|Multisets  | | | | |
+|Multisets Forward               | 0.017s        |   9331200           |5.392e+08 #/sec|        7.906e+08 #/sec|
+|Multisets Reverse               | 0.020s        |   9331200           |4.563e+08 #/sec|        5.396e+08 #/sec|
+|Dyck Paths  | | | | |
+|Dyck Paths Forward              | 2.027s        | 477638700           |2.357e+08 #/sec|        2.222e+08 #/sec|
+|Motzkin Paths  | | | | |
+|Motzkin Paths Forward           | 0.925s        |  50852019           |5.500e+07 #/sec|        6.055e+07 #/sec|
+| Partitions  | | | | |
+|Partitions Forward              | 0.024s        |    966467           |4.034e+07 #/sec|        3.805e+07 #/sec|
+| Set Partitions  | | | | |
+|Set Partitions Forward          | 0.689s        |  27644437           |4.013e+07 #/sec|        4.395e+07 #/sec|
+
 
 **Noteworthy**: for_each can be really fast if using _fast version for combinations. Standard iteration was slower with _fast version on both combinations and combinations tree reverse for some unknown reason.
 

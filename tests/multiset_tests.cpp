@@ -46,3 +46,40 @@ TEST(Multisets,ForwardIteration)
 		}
 	}
 }
+
+TEST(Multisets,ReverseIteration)
+{
+	for (int n = 0; n < 12; ++n)
+	{
+		auto total = get_random_multiset(n);
+		multisets X(total);
+		set<multisets::multiset> S(X.rbegin(),X.rend());
+		ASSERT_EQ(X.size(), S.size()); //check if all multisets are different
+		
+		for (auto it = X.rbegin(); it != X.rend(); ++it)
+		{
+			check_multiset(*it, total);
+		}
+	}
+}
+
+TEST(Multisets,BidirectionalIteration)
+{
+	for (int n = 0; n < 8; ++n)
+	{
+		auto total = get_random_multiset(n);
+		multisets X(total);
+		if (X.size() < 2)
+			continue;
+		auto it = X.begin();
+		int start = dscr::random::random_int<int>(0,X.size()/2);
+		std::advance(it,start);
+		auto x = *it;
+		int adv = random::random_int<int>(0,X.size()/2);
+		std::advance(it,adv);
+		
+		std::advance(it,-adv);
+		
+		ASSERT_EQ(*it,x);
+	}
+}

@@ -13,6 +13,15 @@ inline void BM_MultisetFWD()
 	}
 }
 
+inline void BM_MultisetReverse()
+{
+	dscr::multisets X({2, 2, 1, 3, 4, 2, 3, 3, 2, 3, 4, 4, 5, 0, 0, 1, 0, 2, 2});
+	for (auto it = X.rbegin(); it != X.rend(); ++it)
+	{
+		DoNotOptimize(*it);
+	}
+}
+
 inline std::vector<int> get_random_multiset(int n)
 {
 	std::vector<int> result(n);

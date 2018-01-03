@@ -14,6 +14,43 @@ public:
 	using value_type = RAContainerInt;
 	using multiset = value_type;
 
+	static bool can_increment(size_t index, const multiset& sub, const multiset& total)
+	{
+		return sub[index] + 1 <= total[index];
+	}
+	
+	static void next_multiset(multiset& sub, const multiset& total, size_t n)
+	{
+		assert(n == sub.size());
+		assert(n == total.size());
+		for (size_t i = 0; i < n; ++i)
+		{
+			if (can_increment(i,sub,total))
+			{
+				++sub[i];
+
+				return;
+			}
+			sub[i] = 0;
+		}
+	}
+	
+	static void prev_multiset(multiset& sub, const multiset& total, size_t n)
+	{
+		assert(n == sub.size());
+		assert(n == total.size());
+		
+		for (size_t i = 0; i < n; ++i)
+		{
+			if (sub[i] != 0)
+			{
+				--sub[i];
+				return;
+			}
+			sub[i] = total[i];
+		}
+	}
+	
 	////////////////////////////////////////////////////////////
 	/// \brief class of all submultisets of a given multiset, expressed as incidence vectors with multiplicities
 	/// \param IntType can be an int, short, etc.
@@ -45,7 +82,7 @@ public:
 	/// TODO: Make it a random-access class and more like the others. It's not hard.
 	///
 	////////////////////////////////////////////////////////////
-	basic_multisets(const multiset& set) : m_total(set),
+	explicit basic_multisets(const multiset& set) : m_total(set),
 	m_size(1)
 	{
 		for (auto x : set)
@@ -54,7 +91,7 @@ public:
 		}
 	}
 
-	basic_multisets(IntType size, IntType n = 1) : m_total(size, n), m_size(std::pow(n+1,size))
+	explicit basic_multisets(IntType size, IntType n = 1) : m_total(size, n), m_size(std::pow(n+1,size))
 	{
 	}
 
@@ -63,23 +100,17 @@ public:
 		return m_size;
 	}
 
-	struct end_iterator
-	{
-		end_iterator(size_type id) : m_ID(id) {}
-		size_type m_ID;
-	};
-	
-	class iterator :  public boost::iterator_facade<
-													iterator,
-													const multiset&,
-													boost::forward_traversal_tag
-													>
+	class iterator : public boost::iterator_facade<
+												iterator,
+												const multiset&,
+												boost::bidirectional_traversal_tag
+												>
 	{
 	
 	public:
 		//iterator() : m_submulti(), m_atend(false), m_total(nullptr) {} //empty initializer
 
-		iterator(const multiset& total) : m_ID(0), m_n(total.size()), m_submulti(total.size(), 0), m_total(total)
+		explicit iterator(const multiset& total) : m_ID(0), m_n(total.size()), m_submulti(total.size(), 0), m_total(total)
 		{
 			
 		}
@@ -87,29 +118,18 @@ public:
 	private:
 		
 		iterator(const multiset& total, size_type id) : m_ID(id), m_total(total) {}
-
-		bool can_increment(size_t index)
-		{
-			return m_submulti[index] + 1 <= m_total[index];
-		}
 		
 		//prefix
 		void increment()
 		{
 			++m_ID;
-			if (m_n <= 0)
-				return;
-			
-			for (size_t i = 0; i < m_n; ++i)
-			{
-				if (can_increment(i))
-				{
-					++m_submulti[i];
-
-					return;
-				}
-				m_submulti[i] = 0;
-			}
+			next_multiset(m_submulti,m_total,m_n);
+		}
+		
+		void decrement()
+		{
+			--m_ID;
+			prev_multiset(m_submulti,m_total,m_n);
 		}
 		
 		const multiset& dereference() const
@@ -142,6 +162,69 @@ public:
 	{
 		return iterator(m_total,size());
 	}
+	
+	class reverse_iterator : 
+		public boost::iterator_facade<
+					reverse_iterator,
+					const multiset&,
+					boost::bidirectional_traversal_tag
+					>
+	{
+	
+	public:
+		explicit reverse_iterator(const multiset& total) : m_ID(0), m_n(total.size()), m_submulti(total), m_total(total)
+		{
+			
+		}
+
+	private:
+		
+		reverse_iterator(const multiset& total, size_type id) : m_ID(id), m_total(total) {}
+		
+		//prefix
+		void increment()
+		{
+			++m_ID;
+			prev_multiset(m_submulti,m_total,m_n);
+		}
+		
+		void decrement()
+		{
+			--m_ID;
+			next_multiset(m_submulti,m_total,m_n);
+		}
+		
+		const multiset& dereference() const
+		{
+			return m_submulti;
+		}
+
+		//It only makes sense to compare iterators from the SAME multiset.
+		bool equal(const reverse_iterator& it) const
+		{
+			return m_ID == it.m_ID;
+		}
+		
+	private:
+		size_type m_ID{0};
+		size_type m_n{0};
+		multiset m_submulti {};
+		const multiset& m_total;
+		
+		friend class basic_multisets;
+		friend class boost::iterator_core_access;
+	};
+
+	reverse_iterator rbegin() const
+	{
+		return reverse_iterator(m_total);
+	}
+
+	reverse_iterator rend() const
+	{
+		return reverse_iterator(m_total,size());
+	}
+	
 private:
 	RAContainerInt m_total;
 	size_type m_size;

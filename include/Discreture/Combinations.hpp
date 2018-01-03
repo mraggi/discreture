@@ -65,6 +65,19 @@ public:
 	class iterator;
 
 	// **************** Begin static functions
+	static void next_combination(combination& data)
+	{
+		IntType hint = 0;
+		IntType last = data.size()-1;
+		next_combination(data,hint,last);
+	} //next_combination data only
+	
+	static void next_combination(combination& data, IntType& hint)
+	{
+		IntType last = data.size()-1;
+		next_combination(data,hint,last);
+	} //next_combination data, hint
+	
 	static void next_combination(combination& data, IntType& hint, IntType last)
 	{
 		if (hint > 0)
@@ -99,42 +112,39 @@ public:
 		
 		if (last == 0)
 			++data[0];
-	}
-	
-	static void next_combination(combination& data, IntType& hint)
-	{
-		IntType last = data.size()-1;
-		next_combination(data,hint,last);
-	} //next_combination
-	
-	static void next_combination(combination& data)
-	{
-		IntType hint = 0;
-		IntType last = data.size()-1;
-		next_combination(data,hint,last);
-	} //next_combination
+	} // next_combination data, hint, last
+
 	
 	static bool next_combination(IntType n, combination& data)
 	{
+		if (data.empty())
+			return false;
 		next_combination(data);
 		return data.back() != n;
-	} //next_combination data hint n
+	} //next_combination n, data
 	
 	static bool next_combination(IntType n, combination& data, IntType& hint)
 	{
+		if (data.empty())
+			return false;
 		next_combination(data,hint);
 		return data.back() != n;
-	} //next_combination data hint n
+	} //next_combination n, data hint
 	
 	static bool next_combination(IntType n, combination& data, IntType& hint, IntType last)
 	{
 		assert(last == data.size() - 1);
-		if (last <= 0)
+		if (last < 0) //this means data is empty
 			return false;
 		next_combination(data,hint,last);
 		return data.back() != n;
 	} //next_combination n data hint last
 
+	static void prev_combination(combination& data)
+	{
+		prev_combination(data, data.size()-1);
+	}
+	
 	static void prev_combination(combination& data, IntType last)
 	{
 		if (last > 0)
@@ -145,15 +155,15 @@ public:
 				return;
 			}
 			
-			IntType i = 0;
-			for ( ; i < last && (data[i] == i); ++i)
-			{
-			}
+			IntType i = 1;
+			
+			//Advance i until the first that can decrease: data[i] != i
+			for ( ; i < last && (data[i] == i); ++i) {	}
 			
 			--data[i];
 			--i;
 			
-			for ( ;i >= 0; --i)
+			for ( ; i >= 0; --i)
 			{
 				data[i] = data[i+1]-1;
 			}
@@ -163,33 +173,6 @@ public:
 		
 		if (last == 0)
 			--data[0];
-	}
-	
-	static void prev_combination(combination& data)
-	{
-		prev_combination(data, data.size()-1);
-		
-// 		const IntType k = data.size();
-// 		IntType i = 0;
-// 
-// 		for (; i < k; ++i)
-// 		{
-// 			if (data[i] != i)
-// 			{
-// 				--data[i];
-// 				break;
-// 			}
-// 		}
-// 
-// 		if (i != k)
-// 		{
-// 			IntType a = data[i] - i;
-// 
-// 			for (IntType j = 0; j < i; ++j, ++a)
-// 			{
-// 				data[j] = a;
-// 			}
-// 		}
 	}
 
 	static inline void construct_combination(combination& data, size_type m)
