@@ -20,3 +20,12 @@ TEST(NaturalNumber,ForwardIteration)
 }
 
 
+TEST(NaturalNumber, PartitionPoint)
+{
+	big_natural_number A(1000000000000LL);
+	auto n = A.partition_point([](auto t)
+	{
+		return t < 50811;
+	});
+	ASSERT_EQ(n,50811);
+}

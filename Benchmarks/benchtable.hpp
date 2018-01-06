@@ -11,14 +11,14 @@
 #include "external/rang.hpp"
 #include "benchmarker.hpp"
 
-const int columntime = 32;
-const int columnsize = 46;
-const int columnspeed = 66;
+const int columntime = 35;
+const int columnsize = 50;
+const int columnspeed = 70;
 
 struct BenchRow
 {
 	BenchRow() {} // empty initializer
-	BenchRow(const std::string& Name, double t, size_t cs) : name(Name), avg_time(t), container_size(cs)  {} 
+	BenchRow(const std::string& Name, double t, size_t cs) : name(Name), avg_time(t), container_size(cs)  {}
 	
 	static void print_header(std::ostream& os)
 	{
@@ -43,7 +43,9 @@ struct BenchRow
 	
 	static void print_line(std::ostream& os)
 	{
-		os << "-----------------------------------------------------------------------------------" << std::endl;
+		for (int i = 0; i < columnspeed + 17; ++i)
+			os << '-';
+		os << std::endl;
 	}
 	
 	double speed() const
@@ -146,7 +148,7 @@ BenchRow ProduceRowForEach(std::string name, const Container& A)
 }
 
 template <class Container>
-BenchRow ProduceRowConstruct(std::string name, const Container& A, int numtimes)
+BenchRow ProduceRowConstruct(std::string name, const Container& A, int numtimes = 100000)
 {
 	double t = ConstructionBenchmark(A,numtimes);
 

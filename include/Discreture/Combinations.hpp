@@ -167,21 +167,25 @@ public:
 	static inline void construct_combination(combination& data, size_type m)
 	{
 		IntType k = data.size();
-
-		for (IntType i = 0; i < k; ++i)
+		
+		long long upper = 68; //this is the biggest for which binomial is still well defined. Hopefully it's enough for most use cases.
+		
+		for (IntType r = k; r > 1; --r)
 		{
-			IntType r = k - i;
-			IntType first = r;
+			IntType t;
 			
-			while (binomial<size_type>(first, r) <= m)
+			big_number_range NR(r,upper);
+			
+			t = NR.partition_point([m,r](auto x)
 			{
-				++first;
-			}
-
-			--first;
-			data[r - 1] = first;
-			m -= binomial<size_type>(first, r);
+				return binomial<size_type>(x,r) <= m;
+			}) - 1;
+			data[r - 1] = t;
+			upper = t;
+			m -= binomial<size_type>(t, r);
 		}
+		if (k > 0)
+			data[0] = m;
 	}
 
 	///////////////////////////////////////

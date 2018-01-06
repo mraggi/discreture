@@ -35,6 +35,16 @@ TEST(NumberRange,RandomAccess)
 	ASSERT_EQ(A.size(),6);
 }
 
+TEST(NumberRange, PartitionPoint)
+{
+	big_number_range A(-3700LL,1000000000000LL);
+	auto n = A.partition_point([](auto t)
+	{
+		return t < 5000;
+	});
+	ASSERT_EQ(n,5000);
+}
+
 TEST(NumberRange,NegativeStepTest)
 {
 	basic_number_range<long> A(16,9,-2);

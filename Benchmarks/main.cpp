@@ -17,7 +17,7 @@ int main()
 	std::ios_base::sync_with_stdio(false);
 	dscr::Chronometer chrono;
 
-	cout << "|============================== Starting Speed Tests =============================|" << endl;
+	cout << "|================================ Starting Speed Tests ===============================|" << endl;
 	
 	//slow, real tests
 	const int n = 40;

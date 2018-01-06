@@ -69,10 +69,10 @@ public:
 		for (long i = n-1; i >= 0; --i)
 		{
 			size_type w = coeffs[i];
-			auto t = biggest_upto_satisfying_predicate(total[i], [m,w](size_type a)
+			auto t = big_natural_number(total[i]+1).partition_point([m,w](size_type a)
 			{
 				return a*w <= m;
-			});
+			}) - 1;
 			sub[i] = t;
 			m -= w*t;
 			if (m <= 0)

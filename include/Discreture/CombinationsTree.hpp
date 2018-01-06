@@ -115,28 +115,24 @@ public:
 		return get_index(comb,m_n);
 	}
 
-	static void construct_combination(combination& data, size_type m, IntType m_n)
+	static void construct_combination(combination& data, size_type m, IntType n)
 	{
 		IntType k = data.size();
-		m = binomial<size_type>(m_n, k) - m - 1;
+		m = binomial<size_type>(n, k) - m - 1;
 
 		for (IntType i = 0; i < k; ++i)
 		{
 			IntType r = k - i;
-			IntType first = r;
+			
+			// i <= n-t-1 <= n-r implies that the range is this
+			big_number_range N(r,n-i);
+			auto t = N.partition_point([m,r](auto t){
+				return binomial<size_type>(t, r) <= m;
+			})-1;
 
-			while (binomial<size_type>(first, r) <= m)
-			{
-				++first;
-			}
-
-			--first;
-
-			data[k - (r - 1) - 1] = m_n - first - 1;
-			m -= binomial<size_type>(first, r);
+			data[i] = n - t - 1;
+			m -= binomial<size_type>(t, r);
 		}
-
-// 			cout << "data = " << data << endl;
 	}
 
 	///////////////////////////////////////

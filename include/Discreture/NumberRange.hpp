@@ -3,6 +3,7 @@
 #include "Misc.hpp"
 #include <boost/iterator/iterator_facade.hpp>
 #include <cassert>
+#include <algorithm>
 namespace  dscr
 {
 
@@ -70,7 +71,10 @@ public:
 	{
 	public:
 
-		explicit iterator(size_type t_from = 0, size_type t_step = 1) : m_step(t_step), m_ID(t_from) { }
+		explicit iterator(size_type t_from = 0, size_type t_step = 1) : m_ID(t_from), m_step(t_step) 
+		{ 
+			
+		}
 
 		size_type step() const
 		{
@@ -105,6 +109,7 @@ public:
 		
 		difference_type distance_to(const iterator& it) const
 		{
+			assert(m_step != 0);
 			return (static_cast<difference_type>(it.m_ID) -
 					static_cast<difference_type>(m_ID)) / 
 					m_step;
@@ -112,8 +117,8 @@ public:
 
 		
 	private:
-		size_type m_step {1};
 		IntType m_ID {0};
+		size_type m_step {1};
 
 		friend class boost::iterator_core_access;
 		friend class basic_number_range;
@@ -136,6 +141,12 @@ public:
 	{
 		return m_from + m_step * m;
 	}
+	
+	template <class Pred>
+	IntType partition_point(Pred p)
+	{
+		return *std::partition_point(begin(), end(), p);
+	}
 
 private:
 	IntType m_from;
@@ -144,5 +155,6 @@ private:
 }; // end class basic_number_range
 
 using number_range = basic_number_range<int>;
+using big_number_range = basic_number_range<long long>;
 
 } // end namespace dscr;
