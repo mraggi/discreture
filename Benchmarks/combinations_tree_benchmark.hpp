@@ -37,17 +37,6 @@ inline long BM_CombinationsTreeFindAll(int n, int k)
 	return size;
 }
 
-inline void BM_CombinationsTreeConstruct(int n, int k, int numtimes)
-{
-	dscr::combinations_tree_fast X(n, k);
-
-	for (int i = 0; i < numtimes; ++i)
-	{
-		auto t = dscr::random::random_int<long>(0,X.size());
-		DoNotOptimize(X[t]);
-	}
-}
-
 #include "external/euler314_combination_iterator.hpp"
 
 inline void BM_CombinationsTreeEuler314(int n,int k)

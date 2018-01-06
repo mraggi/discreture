@@ -57,3 +57,17 @@ double ForEachBenchmark(const Container& A)
 		});
 	});
 }
+
+template <class Container>
+double ConstructionBenchmark(const Container& A, int numtimes)
+{
+	return Benchmark([&A,numtimes]()
+	{
+		for (int i = 0; i < numtimes; ++i)
+		{
+			auto t = dscr::random::random_int<long>(0,A.size());
+			DoNotOptimize(A[t]);
+		}
+	});
+}
+

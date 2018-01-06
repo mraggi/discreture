@@ -15,7 +15,7 @@ int main()
 
 	using dscr::binomial;
 	std::ios_base::sync_with_stdio(false);
-	dscr::Chronometer C;
+	dscr::Chronometer chrono;
 
 	cout << "|============================== Starting Speed Tests =============================|" << endl;
 	
@@ -23,7 +23,7 @@ int main()
 	const int n = 40;
 	const int k = 10;
 	const auto combs_size = binomial<long long>(n,k);
-	const int construct = 100000;
+	const int construct = 1000000;
 	
 	const int nperm = 12;
 	
@@ -33,65 +33,85 @@ int main()
 	const int nmotzkin = 20;
 	const int nmultiset = 19;
 	
-	//fast tests
-// 	const int n = 25;
-// 	const int k = 12;
-// 	const int combconstruct = 1000;
-// 	
-// 	const int nperm = 9;
-// 	
-// 	const int npart = 20;
-// 	const int nsetpart = 7;
-// 	const int ndyck = 10;
-// 	const int nmotzkin = 10;
-
+	dscr::combinations C(n,k);
+	dscr::combinations_fast CF(n,k);
+	dscr::combinations_tree CT(n,k);
+	dscr::combinations_tree_fast CTF(n,k);
+	
+	dscr::permutations P(nperm);
+	dscr::permutations_fast PF(nperm);
+	
+	dscr::dyck_paths DP(ndyck);
+	dscr::dyck_paths_fast DPF(ndyck);
+	dscr::motzkin_paths MP(ndyck);
+	dscr::motzkin_paths_fast MPF(ndyck);
+	
+	dscr::partitions PT(npart);
+	dscr::partitions_fast PTF(npart);
+	dscr::set_partitions SPT(nsetpart);
+	
+	dscr::multisets MS({4,2,3,1,0,1,5,0,5,4,0,1,1,5,2,0,2});
+	dscr::multisets_fast MSF({4,2,3,1,0,1,5,0,5,4,0,1,1,5,2,0,2});
+	
+	
 	BenchRow::print_header(cout);
 	BenchRow::print_line(cout);
-	cout << ProduceRowForEach("Combinations", dscr::combinations(n,k));
-	cout << ProduceRowForEach("Combinations Stack", dscr::combinations_fast(n,k));
-	cout << BenchRow("Combinations (No iterator)", Benchmark([](){BM_CombinationsNAP(n,k);}), combs_size);
-	cout << ProduceRowForward("Combinations", dscr::combinations(n,k));	
-	cout << ProduceRowForward("Combinations Stack", dscr::combinations_fast(n,k));	
-	cout << ProduceRowReverse("Combinations", dscr::combinations(n,k));
-	cout << BenchRow("Combinations Construct", Benchmark([](){BM_CombinationsConstruct(n,k,construct);}), construct);
+	cout << ProduceRowForEach("Combinations", C);
+	cout << ProduceRowForEach("Combinations Stack", CF);
+	cout << ProduceRowForward("Combinations", C);	
+	cout << ProduceRowForward("Combinations Stack", CF);	
+	cout << ProduceRowReverse("Combinations", C);
+	cout << ProduceRowReverse("Combinations Stack", CF);
+	cout << ProduceRowConstruct("Combinations", C, construct);
+	cout << ProduceRowConstruct("Combinations Stack", CF, construct);
 	
 	BenchRow::print_line(cout);
-	cout << ProduceRowForEach("Combinations Tree", dscr::combinations_tree(n,k));
-	cout << ProduceRowForEach("Combinations Tree Stack", dscr::combinations_tree_fast(n,k));
-	cout << BenchRow("Combinations Tree (No iterator)", Benchmark([](){BM_CombinationsTreeNAP(n,k);}), combs_size);
-	cout << ProduceRowForward("Combinations Tree", dscr::combinations_tree(n,k));
-	cout << ProduceRowForward("Combinations Tree Stack", dscr::combinations_tree_fast(n,k));
-	cout << ProduceRowReverse("Combinations Tree", dscr::combinations_tree(n,k));
+	cout << ProduceRowForEach("Combinations Tree", CT);
+	cout << ProduceRowForEach("Combinations Tree Stack", CTF);
+	cout << ProduceRowForward("Combinations Tree", CT);
+	cout << ProduceRowForward("Combinations Tree Stack", CTF);
+	cout << ProduceRowReverse("Combinations Tree", CT);
+	cout << ProduceRowReverse("Combinations Tree Stack", CTF);
 #ifdef TEST_GSL_COMBINATIONS
 	cout << BenchRow("Combinations Tree GSL", Benchmark([](){BM_CombinationsTreeGSL(n,k);}), combs_size);
 #endif
-	cout << BenchRow("Combinations Tree Construct", Benchmark([](){BM_CombinationsTreeConstruct(n,k,construct);}), construct);
+	cout << ProduceRowConstruct("Combinations Tree", CT, construct);
+	cout << ProduceRowConstruct("Combinations Tree Stack", CTF, construct);
 	
 	BenchRow::print_line(cout);
-	cout << ProduceRowForward("Permutations", dscr::permutations_fast(nperm));
-	cout << ProduceRowReverse("Permutations", dscr::permutations_fast(nperm));
-	cout << BenchRow("Permutations Construct", Benchmark([](){BM_PermutationsConstruct(nperm,construct);}), construct);
+	cout << ProduceRowForward("Permutations", P);
+	cout << ProduceRowForward("Permutations Stack", PF);
+	cout << ProduceRowReverse("Permutations", P);
+	cout << ProduceRowReverse("Permutations Stack", PF);
+	cout << ProduceRowConstruct("Permutations", P, construct);
+	cout << ProduceRowConstruct("Permutations Stack", PF, construct);
 	
 	BenchRow::print_line(cout);
-	cout << ProduceRowForward("Multisets", dscr::multisets_fast({4,2,3,1,0,1,5,0,5,4,0,1,1,5,2,0,2}));
-	cout << ProduceRowReverse("Multisets", dscr::multisets_fast({4,2,3,1,0,1,5,0,5,4,0,1,1,5,2,0,2}));
-	
-	
-	BenchRow::print_line(cout);
-	cout << ProduceRowForward("Dyck Paths", dscr::dyck_paths_fast(ndyck));
-	
-	BenchRow::print_line(cout);
-	cout << ProduceRowForward("Motzkin Paths", dscr::motzkin_paths_fast(nmotzkin));
+	cout << ProduceRowForward("Multisets", MS);
+	cout << ProduceRowForward("Multisets Stack", MSF);
+	cout << ProduceRowReverse("Multisets", MS);
+	cout << ProduceRowReverse("Multisets Stack", MSF);
+	cout << ProduceRowConstruct("Multisets", MS, construct);
+	cout << ProduceRowConstruct("Multisets", MSF, construct);
 	
 	BenchRow::print_line(cout);
-	cout << ProduceRowForward("Partitions", dscr::partitions_fast(npart));
+	cout << ProduceRowForward("Dyck Paths", DP);
+	cout << ProduceRowForward("Dyck Paths Stack", DPF);
 	
 	BenchRow::print_line(cout);
-	cout << ProduceRowForward("Set Partitions", dscr::set_partitions(nsetpart));
+	cout << ProduceRowForward("Motzkin Paths", MP);
+	cout << ProduceRowForward("Motzkin Paths Stack", MPF);
+	
+	BenchRow::print_line(cout);
+	cout << ProduceRowForward("Partitions", PT);
+	cout << ProduceRowForward("Partitions Stack", PTF);
+	
+	BenchRow::print_line(cout);
+	cout << ProduceRowForward("Set Partitions", SPT);
 
 	BenchRow::print_line(cout);
 	
-	cout << "\nTotal Time taken = " << C.Reset() << "s" << endl;
+	cout << "\nTotal Time taken = " << chrono.Reset() << "s" << endl;
 	return 0;
 
 }

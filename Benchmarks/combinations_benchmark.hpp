@@ -4,17 +4,6 @@
 #include "do_not_optimize.hpp"
 #include "Probability.hpp"
 
-inline void BM_CombinationsConstruct(int n, int k, int numtimes)
-{
-	dscr::combinations_fast X(n, k);
-
-	for (int i = 0; i < numtimes; ++i)
-	{
-		auto t = dscr::random::random_int<long>(0,X.size());
-		DoNotOptimize(X[t]);
-	}
-}
-
 inline void BM_CombinationsNAP(int n, int k)
 {
 	dscr::combinations::combination comb(k);
@@ -41,13 +30,6 @@ inline void BM_combinationsIterator(int n, int k, long size)
 	}
 }
 
-inline void BM_combinations(int n, int k, long size)
-{
-	for (auto& t : dscr::combinations(n,k))
-	{
-		DoNotOptimize(t);
-	}
-}
 
 class algoT_iterator : public boost::iterator_facade<
     algoT_iterator,

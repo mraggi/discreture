@@ -1,10 +1,13 @@
 #pragma once
+
 #include <cmath>
 #include <iostream>
 #include <cstdlib>
+
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/container/static_vector.hpp>
 #include <boost/container/vector.hpp>
+
 
 namespace dscr
 {
@@ -41,5 +44,6 @@ inline T pow(T a, unsigned long n)
 
 	return r;
 }
+
 
 }

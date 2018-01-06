@@ -70,13 +70,13 @@ public:
 	{
 	public:
 
-		iterator(size_type t_from, size_type t_step = 1) : m_step(t_step), m_ID(t_from) { }
+		explicit iterator(size_type t_from = 0, size_type t_step = 1) : m_step(t_step), m_ID(t_from) { }
 
 		size_type step() const
 		{
 			return m_step;
 		}
-				
+
 	private:
 		void increment()
 		{

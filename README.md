@@ -388,3 +388,6 @@ The important columns are Speed and Speed (w/o _fast). Higher is better. They me
 
 # Contributing
 Please help us testing, debugging, benchmarking, packaging for the various distros, etc. Also, if you use discreture for your own purposes, let us know!
+
+Here is what we hope to accomplish:
+

@@ -19,12 +19,17 @@ int main()
 	cout << "These are all the submultisets of " << total << endl;
 	
 	auto X = multisets(total);
-	
+	int i =  0;
 	for (auto& x : X)
 	{
 		cout << x << endl;
+// 		cout << x << " <---" << i << " == " << X.get_index(x) << endl;
+// 		multisets::multiset u(total.size());
+// 		multisets::construct_multiset(u,total,i);
+// 		cout << "Constructed: " << u << endl;
+// 		++i;
 	}
-	
+// 	return 0;
 	cout << "And here they are in reverse order: " << endl;
 	for (auto it = X.rbegin(); it != X.rend(); ++it)
 	{

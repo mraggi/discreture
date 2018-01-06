@@ -144,3 +144,13 @@ BenchRow ProduceRowForEach(std::string name, const Container& A)
 	
 	return BenchRow(name, t, A.size());
 }
+
+template <class Container>
+BenchRow ProduceRowConstruct(std::string name, const Container& A, int numtimes)
+{
+	double t = ConstructionBenchmark(A,numtimes);
+
+	name += " Construct";
+	
+	return BenchRow(name, t, numtimes);
+}

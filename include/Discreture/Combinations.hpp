@@ -9,6 +9,7 @@
 #include "CombinationsTree.hpp"
 #include "CombinationsTreePrunned.hpp"
 #include "combinations_bf.hpp" //Horrible. Do NOT read. Please. But I can't find another way. Sorry about that. If you think you can do better, please, tell me about it.
+#include "NaturalNumber.hpp"
 
 namespace dscr
 {
@@ -183,14 +184,13 @@ public:
 		{
 			IntType r = k - i;
 			IntType first = r;
-
+			
 			while (binomial<size_type>(first, r) <= m)
 			{
 				++first;
 			}
 
 			--first;
-
 			data[r - 1] = first;
 			m -= binomial<size_type>(first, r);
 		}

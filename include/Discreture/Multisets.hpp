@@ -1,6 +1,7 @@
 #pragma once
 #include "VectorHelpers.hpp"
 #include "Misc.hpp"
+#include "NaturalNumber.hpp"
 #include <boost/iterator/iterator_facade.hpp>
 
 namespace dscr
@@ -14,9 +15,9 @@ public:
 	using value_type = RAContainerInt;
 	using multiset = value_type;
 
-	static bool can_increment(size_t index, const multiset& sub, const multiset& total)
+	static void next_multiset(multiset& sub, const multiset& total)
 	{
-		return sub[index] + 1 <= total[index];
+		next_multiset(sub,total,total.size());
 	}
 	
 	static void next_multiset(multiset& sub, const multiset& total, size_t n)
@@ -49,6 +50,47 @@ public:
 			}
 			sub[i] = total[i];
 		}
+	}
+	
+	static void construct_multiset(multiset& sub, const multiset& total, size_type m)
+	{
+		assert(sub.size() == total.size());
+		size_type n = total.size();
+		if (n == 0)
+			return;
+		for (auto& s : sub) s = 0;
+		std::vector<size_type> coeffs(n);
+		coeffs[0] = 1;
+		for (size_type i = 1; i < n; ++i)
+		{
+			coeffs[i] = coeffs[i-1]*(total[i-1]+1);
+		}
+		
+		for (long i = n-1; i >= 0; --i)
+		{
+			size_type w = coeffs[i];
+			auto t = biggest_upto_satisfying_predicate(total[i], [m,w](size_type a)
+			{
+				return a*w <= m;
+			});
+			sub[i] = t;
+			m -= w*t;
+			if (m <= 0)
+				break;
+		}
+	}
+	
+	size_type get_index(const multiset& sub) const
+	{
+		assert(sub.size() == m_total.size());
+		size_type coeff = 1;
+		size_type result = 0;
+		for (size_t i = 0; i < m_total.size(); ++i)
+		{
+			result += coeff*sub[i];
+			coeff *= (m_total[i]+1);
+		}
+		return result;
 	}
 	
 	////////////////////////////////////////////////////////////
@@ -103,7 +145,7 @@ public:
 	class iterator : public boost::iterator_facade<
 												iterator,
 												const multiset&,
-												boost::bidirectional_traversal_tag
+												boost::random_access_traversal_tag
 												>
 	{
 	
@@ -115,6 +157,11 @@ public:
 			
 		}
 
+		size_type ID() const
+		{
+			return m_ID;
+		}
+		
 	private:
 		
 		iterator(const multiset& total, size_type id) : m_ID(id), m_total(total) {}
@@ -143,6 +190,17 @@ public:
 			return m_ID == it.m_ID;
 		}
 		
+		void advance(difference_type m)
+		{
+			m_ID += m;
+			construct_multiset(m_submulti,m_total,m_ID);
+		}
+		
+		difference_type distance_to(const iterator& it) const
+		{
+			return it.m_ID - m_ID;
+		}
+		
 	private:
 		size_type m_ID{0};
 		size_type m_n{0};
@@ -161,6 +219,13 @@ public:
 	iterator end() const
 	{
 		return iterator(m_total,size());
+	}
+	
+	multiset operator[](size_type t) const
+	{
+		auto w = begin();
+		w += t;
+		return *w;
 	}
 	
 	class reverse_iterator : 
@@ -228,6 +293,11 @@ public:
 private:
 	RAContainerInt m_total;
 	size_type m_size;
+	
+	static bool can_increment(size_t index, const multiset& sub, const multiset& total)
+	{
+		return sub[index] < total[index];
+	}
 };
 using multisets = basic_multisets<int>;
 using multisets_fast = basic_multisets<int, boost::container::static_vector<int,48>>;

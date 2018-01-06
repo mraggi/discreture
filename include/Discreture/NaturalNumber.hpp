@@ -45,7 +45,7 @@ public:
 	{
 	public:
 
-		iterator(IntType t) : m_ID(t) { }
+		explicit iterator(IntType t=0) : m_ID(t) { }
 				
 	private:
 		void increment()
@@ -110,5 +110,15 @@ private:
 }; // end class basic_natural_number
 
 using natural_number = basic_natural_number<int>;
+
+template <class IntType, class Pred>
+static IntType biggest_upto_satisfying_predicate(IntType up_to, Pred pred)
+{
+	basic_natural_number<IntType> M(++up_to);
+	
+	auto t = std::partition_point(M.begin(), M.end(), pred);
+	
+	return *t-1;
+}
 
 } // end namespace dscr;
