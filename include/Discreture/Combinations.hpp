@@ -23,7 +23,7 @@ namespace dscr
 ///
 ///		combinations X(6,3);
 ///		for (const auto& x : X)
-///			cout << x << " ";
+///			cout << '[' << x << "] ";
 ///
 /// Prints out:
 ///
@@ -33,22 +33,10 @@ namespace dscr
 ///
 ///	 basic_combinations<short int> X(5,1);
 ///		for (const auto& x : X)
-///			cout << x << " ";
+///			cout << x << ',';
 ///		Prints out:
-///			[0] [1] [2] [3] [4]
+///			0,1,2,3,4,
 ///
-///	# Example 3:
-///
-///		string A = "helloworld";
-///		combinations X(A.size(),2);
-///		for (const auto& x : X)
-///		{
-///			auto b = compose(A,x);
-///			cout << b << "-";
-///		}
-///
-///		Prints out:
-///			he-hl-el-hl-el-ll-ho-eo-lo-lo-hw-ew-lw-lw-ow-ho-eo-lo-lo-oo-wo-hr-er-lr-lr-or-wr-or-hl-el-ll-ll-ol-wl-ol-rl-hd-ed-ld-ld-od-wd-od-rd-ld-
 ///
 ////////////////////////////////////////////////////////////
 template <class IntType, class RAContainerInt = std::vector<IntType>>
@@ -102,7 +90,7 @@ public:
 			
 // 			IntType i = 0;
 			
-			for ( ; i < last && data[i] + 1 == data[i+1]; ++i)
+			for ( ; i < last && (data[i] + 1 == data[i+1]); ++i)
 			{
 				data[i] = i;
 			}
@@ -774,6 +762,10 @@ public:
 		case 18:
 			detail::combination_helper18<combination>(f,m_n);
 			break;
+			
+		case 19:
+			detail::combination_helper19<combination>(f,m_n);
+			break;
 
 		default:
 			for (auto& comb : (*this))
@@ -869,8 +861,7 @@ bool next_combination(ForwardIt in_first,
 					  ForwardIt in_last,
 					  BiDirectionalItOut out_first,
 					  BiDirectionalItOut out_last,
-					  BiDirectionalItOut& hint
- 					)
+					  BiDirectionalItOut& hint)
 {
 	if (out_first == out_last)
 		return false;

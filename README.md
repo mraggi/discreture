@@ -102,13 +102,19 @@ for (auto it = X.rbegin(); it != X.rend(); ++it)
 }
 ```
 
-Combinations and permutations are a random-access container (although they are MUCH slower as such than forward or reverse iteration), so something like this works too:
+Combinations, permutations and multisets are a random-access container (although they are MUCH slower as such than forward or reverse iteration), so something like this works too:
 ```c++
 	combinations X(30,10);
 	auto comb = X[10000]; //produces the 10,000-th combination.
 ```
 
-This is much slower if one plans to actually iterate over all of them. 
+This is much slower if one plans to actually iterate over all of them *à la* 
+```c++
+	for (int i = 0; i < X.size(); ++i)
+	{ 
+		// use X[i] 
+	}
+```
 
 However, iterator arithmetic is implemented, so one could even do binary search on `X` with the following code:
 ```c++
@@ -180,7 +186,6 @@ Combinations is the most mature part of the library, and the following functions
 		// T will be an iterable object whose elements are the combinations that satisfy the predicate specified by the lambda function.
 		// In this case, the lambda checks that the next to last element divides the last element.
 		// The elements of T will therefore be the combinations for which every element is a divisor of the next element.
-		
 		auto T = X.find_all([](const auto& comb) -> bool
 		{
 			int k = comb.size();
@@ -206,12 +211,12 @@ Prints out:
 	2 4 8
 ```
 
-These are all combinations for which every element is a divisor of the next element. Note that not all combinations are created and then filtered, only combinations which satisfy the partial predicate (given by a lambda function) are further explored.
+These are all combinations for which every element is a divisor of the next element. This is *not* merely a filter: only combinations which satisfy the partial predicate (given by a lambda function) are further explored, in a branch-and-cut way.
 
 
 ### Getting that last drop of speed
 
-By default, `basic_combinations<T>::combination` (and all others) are `std::vector<T>`, which allocates memory on the heap. If you really need the utmost performance, this may be changed to any random access container with the same interface as vector. A good choice is `boost::containter::static_vector<T,K>` (or even `boost::containter::small_vector<T,K>`), where `K` is the biggest size you'll need.
+By default, `basic_combinations<T>::combination` (and many others) is a typedef of `std::vector<T>`, which allocates memory on the free store. If you really need the utmost performance, this may be changed to any random access container with the same interface as vector. A good choice is `boost::containter::static_vector<T,K>` (or even `boost::containter::small_vector<T,K>`), where `K` is the biggest size you'll need.
 
 Some sane defaults for `K` have been set in `combinations_fast`, `permutations_fast`, `dyck_paths_fast`, which are just typedef's of `basic_combinations<int,boost::containter::static_vector<int,K>>` and so on.
 
@@ -329,7 +334,7 @@ Or the for_each variant of discreture:
 On the other hand, euler314_maximin (in gray) was a commit that adapted some of discreture's code and iterates in the same order as `combinations`. It's essentially the same code, which is why it takes almost exactly the same amount of time. A minor improvement has been since made by discreture, which is why it's now faster.
 
 
-Note 2: DoNotOptimize(x) is just a way to tell the compiler to not optimize away the empty loop. From [google benchmarking tools](https://github.com/google/benchmark). 
+Note 2: DoNotOptimize(x) is just a way to tell the compiler to not optimize away the empty loop. Taken from [google benchmarking tools](https://github.com/google/benchmark). 
 
 If you'd like to see other benchmarks, let me know.
 
@@ -339,7 +344,7 @@ This comparison isn't very fair (C++ vs python). On the same system, iterating o
 
 ## Benchmarks
 
-The following benchmarks where done on a i7-5820K CPU @ 3.30GHz, using Manjaro Linux with gcc 7.2.1. All tests were done using boost::container::static_vector (*i.e.* no heap memory).
+The following benchmarks where done on a i7-5820K CPU @ 3.30GHz, using Manjaro Linux with gcc 7.2.1.
 
 The important columns are Speed and Speed (w/o _fast). Higher is better. They mean "how many (combinations/permutations/etc) were generated in one second". Tests were done with e.g. `combinations_fast` and `combinations` respectively. Times are only reported for _fast version.
 
@@ -389,5 +394,22 @@ The important columns are Speed and Speed (w/o _fast). Higher is better. They me
 # Contributing
 Please help us testing, debugging, benchmarking, packaging for the various distros, etc. Also, if you use discreture for your own purposes, let us know!
 
-Here is what we hope to accomplish:
+Optimizations, suggestions, feature requests, etc. are very welcome too.
 
+Here is the current status of the project.
+
+| Container | Forward Iteration? | Reverse Iteration? | Random Access? |
+|:----------|:------------------:|:------------------:|:--------------:|
+| Combinations 	| ✓✓ | ✓ | ✓ |
+| Permutations 	| ✓ | ✓ | ✓ |
+| Multisets 	| ✓ | ✓ | ✓ |
+| Dyck Paths 	| ✓ | 	| 	|
+| Motzkin Paths | ✓ | 	| 	|
+| Partitions 	| ✓ | 	| 	|
+| Set Partitions| ✓ | 	|	|
+
+If you wish to contribute, just let us know which algorithm you'd like to implement for something that is missing a checkmark ✓. 
+
+Or choose another combinatorial object of your liking. For example, "non-decreasing sequences" (also known as combinations with repetition) or "compositions" are probably pretty easy to implement, if you wish to get your hands wet.
+
+Finally, partitions, set partitions and motzkin paths are both pretty slow right now (well, relatively: only at a few tens of millions of objects generated per second, as opposed to hundreds or even thousands of millions per second, as in the case of combinations for_each).
