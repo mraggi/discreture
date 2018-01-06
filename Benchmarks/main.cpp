@@ -27,31 +27,32 @@ int main()
 	
 	const int nperm = 12;
 	
-	const int npart = 60;
+	const int npart = 75;
 	const int nsetpart = 13;
 	const int ndyck = 18;
 	const int nmotzkin = 20;
 	const int nmultiset = 19;
 	
 	dscr::combinations C(n,k);
-	dscr::combinations_fast CF(n,k);
+	dscr::basic_combinations<int,boost::container::static_vector<int,k>> CF(n,k);
 	dscr::combinations_tree CT(n,k);
-	dscr::combinations_tree_fast CTF(n,k);
+	dscr::basic_combinations_tree<int,boost::container::static_vector<int,k>> CTF(n,k);
 	
 	dscr::permutations P(nperm);
-	dscr::permutations_fast PF(nperm);
+	dscr::basic_permutations<int,boost::container::static_vector<int,nperm>> PF(nperm);
 	
 	dscr::dyck_paths DP(ndyck);
-	dscr::dyck_paths_fast DPF(ndyck);
-	dscr::motzkin_paths MP(ndyck);
-	dscr::motzkin_paths_fast MPF(ndyck);
+	dscr::basic_dyck_paths<int,boost::container::static_vector<int,2*ndyck>> DPF(ndyck);
+	dscr::motzkin_paths MP(nmotzkin);
+	dscr::basic_motzkin_paths<int,boost::container::static_vector<int,nmotzkin>> MPF(nmotzkin);
 	
 	dscr::partitions PT(npart);
-	dscr::partitions_fast PTF(npart);
+	dscr::basic_partitions<int,boost::container::static_vector<int,npart>> PTF(npart);
 	dscr::set_partitions SPT(nsetpart);
 	
-	dscr::multisets MS({4,2,3,1,0,1,5,0,5,4,0,1,1,5,2,0,2});
-	dscr::multisets_fast MSF({4,2,3,1,0,1,5,0,5,4,0,1,1,5,2,0,2});
+	auto ms = {4,2,3,1,0,1,5,0,5,4,0,1,1,5,2,0,2,1};
+	dscr::multisets MS(ms);
+	dscr::multisets_fast MSF(ms);
 	
 	
 	BenchRow::print_header(cout);
