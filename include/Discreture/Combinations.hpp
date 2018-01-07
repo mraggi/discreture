@@ -876,8 +876,6 @@ private:
 	
 }; // end class basic_combinations
 
-#include<typeinfo>
-
 using combinations = basic_combinations<int>;
 using combinations_fast = basic_combinations<int,boost::container::static_vector<int, 32>>;
 
