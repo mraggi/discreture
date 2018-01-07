@@ -202,6 +202,7 @@ int main()
 ```
 
 Prints out:
+
 	1 2 4
 	1 2 6
 	1 2 8
