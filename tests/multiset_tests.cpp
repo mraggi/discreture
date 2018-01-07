@@ -128,3 +128,22 @@ TEST(Multisets,RandomAccess)
 		ASSERT_EQ(*it,x);
 	}
 }
+
+TEST(Multisets, PartitionPoint)
+{
+	multisets::multiset total(55,1);
+	total[0] = 2;
+	total.back() = 2;
+	multisets X(total);
+	
+	auto t = *std::partition_point(X.begin(), X.end(), [](const auto& x)
+	{
+		return x.back() < 2;
+	});
+	
+	multisets::multiset correct(55,0);
+	correct.back() = 2;
+	check_multiset(t,total);
+	
+	ASSERT_EQ(t, correct);	
+}

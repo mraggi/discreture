@@ -247,4 +247,33 @@ TEST(CombinationsTree,FindIf)
 }
 
 
-
+TEST(CombinationsTree, PartitionPoint)
+{
+	int n = 60;
+	int k = 30;
+	combinations_tree X(n,k);
+	auto comb = *std::partition_point(X.begin(), X.end(), [](const auto& x)
+	{
+		return x.front() < 26;
+	});
+	
+	// comb should be == to {26,27,...,55}
+	
+	ASSERT_EQ(comb.back(), 55);
+	ASSERT_EQ(comb.front(), 26);
+	check_combination_tree(comb, n, k);
+	
+	auto rcomb = *std::partition_point(X.rbegin(), X.rend(), 
+	[](const auto& x)
+	{
+		return x.front() > 0;
+	});
+	
+	//rcomb should be {0, 31,... , 59}
+	
+	check_combination_tree(rcomb,n,k);
+	ASSERT_EQ(rcomb[0], 0);
+	ASSERT_EQ(rcomb[1], 31);
+	ASSERT_EQ(rcomb.back(), 59);
+	
+}

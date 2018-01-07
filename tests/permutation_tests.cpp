@@ -103,5 +103,30 @@ TEST(Permutations,Bidirectional)
 	ASSERT_EQ(*t,*s);
 }
 
-
+TEST(Permutations, PartitionPoint)
+{
+	int n = 20;
+	permutations X(n);
+	auto perm = *std::partition_point(X.begin(), X.end(), [](const permutations::permutation& x)
+	{
+		return x.front() < 17;
+	});
+	
+	// perm should be == to {17,0,1,2,...,16,18,19}
+	
+	check_permutation(perm);
+	ASSERT_EQ(perm[0], 17);
+	ASSERT_TRUE(std::is_sorted(perm.begin()+1,perm.end()));
+	
+	auto rperm = *std::partition_point(X.rbegin(), X.rend(), [](const permutations::permutation& x)
+	{
+		return x.front() > 5;
+	});
+	
+	// rperm should be == to {5,19,18,...,0}
+	
+	check_permutation(rperm);
+	ASSERT_EQ(rperm[0], 5);
+	ASSERT_TRUE(std::is_sorted(rperm.begin()+1,rperm.end(), std::greater<int>()));
+}
 

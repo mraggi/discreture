@@ -219,7 +219,6 @@ TEST(Combinations,FindIf)
 		}
 	}
 
-
 	auto T = W.find_all(predicate2);
 	
 	size_t numpred2 = 0;
@@ -241,5 +240,33 @@ TEST(Combinations,FindIf)
 	}
 }
 
+TEST(Combinations, PartitionPoint)
+{
+	int n = 60;
+	int k = 30;
+	combinations X(n,k);
+	auto comb = *std::partition_point(X.begin(), X.end(), 
+	[](const auto& x)
+	{
+		return x.back() < 56;
+	});
+	
+	// comb should be == to {0,1,2,...,28,56}
+	
+	ASSERT_EQ(comb[k-1], 56);
+	ASSERT_EQ(comb[k-2], k-2);
+	check_combination(comb, n, k);
+	
+	auto rcomb = *std::partition_point(X.rbegin(), X.rend(), [](const auto& x)
+	{
+		return x.back() > 47;
+	});
+	
+	// rcomb should be == to {18, 19, ..., 46, 47}
+	check_combination(rcomb,n,k);
+	ASSERT_EQ(rcomb.back(), 47);
+	ASSERT_EQ(rcomb.front(), 18);
+	
+}
 
 

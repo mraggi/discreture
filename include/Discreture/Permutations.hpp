@@ -274,7 +274,7 @@ public:
 
 		}
 
-		difference_type distance_to(const iterator& other)
+		difference_type distance_to(const iterator& other) const
 		{
 			return static_cast<difference_type>(other.ID()) - ID();
 		}
@@ -376,10 +376,15 @@ public:
 			m_ID += m;
 			construct_permutation(m_data, factorial(m_data.size()) - m_ID - 1);
 		}
-
+		
 		bool equal(const reverse_iterator& it) const
 		{
 			return it.ID() == ID();
+		}
+		
+		difference_type distance_to(const reverse_iterator& other) const
+		{
+			return static_cast<difference_type>(other.ID()) - ID();
 		}
 
 	private:

@@ -121,8 +121,6 @@ public:
 	///		[ 0 0 3 1 ]
 	///		[ 1 0 3 1 ]
 	///
-	/// TODO: Make it a random-access class and more like the others. It's not hard.
-	///
 	////////////////////////////////////////////////////////////
 	explicit basic_multisets(const multiset& set) : m_total(set),
 	m_size(1)
@@ -150,9 +148,9 @@ public:
 	{
 	
 	public:
-		//iterator() : m_submulti(), m_atend(false), m_total(nullptr) {} //empty initializer
-
-		explicit iterator(const multiset& total) : m_ID(0), m_n(total.size()), m_submulti(total.size(), 0), m_total(total)
+		iterator(){}
+			
+		explicit iterator(const multiset& total) : m_ID(0), m_n(total.size()), m_submulti(total.size(), 0), m_total(&total)
 		{
 			
 		}
@@ -164,19 +162,19 @@ public:
 		
 	private:
 		
-		iterator(const multiset& total, size_type id) : m_ID(id), m_total(total) {}
+		iterator(size_type id) : m_ID(id) {}
 		
 		//prefix
 		void increment()
 		{
 			++m_ID;
-			next_multiset(m_submulti,m_total,m_n);
+			next_multiset(m_submulti,*m_total,m_n);
 		}
 		
 		void decrement()
 		{
 			--m_ID;
-			prev_multiset(m_submulti,m_total,m_n);
+			prev_multiset(m_submulti,*m_total,m_n);
 		}
 		
 		const multiset& dereference() const
@@ -193,19 +191,19 @@ public:
 		void advance(difference_type m)
 		{
 			m_ID += m;
-			construct_multiset(m_submulti,m_total,m_ID);
+			construct_multiset(m_submulti,*m_total,m_ID);
 		}
 		
 		difference_type distance_to(const iterator& it) const
 		{
-			return it.m_ID - m_ID;
+			return static_cast<difference_type>(it.ID()) - ID();
 		}
 		
 	private:
 		size_type m_ID{0};
 		size_type m_n{0};
 		multiset m_submulti {};
-		const multiset& m_total;
+		multiset const * m_total {nullptr};
 		
 		friend class basic_multisets;
 		friend class boost::iterator_core_access;
@@ -218,7 +216,7 @@ public:
 
 	iterator end() const
 	{
-		return iterator(m_total,size());
+		return iterator(size());
 	}
 	
 	multiset operator[](size_type t) const
@@ -237,26 +235,33 @@ public:
 	{
 	
 	public:
-		explicit reverse_iterator(const multiset& total) : m_ID(0), m_n(total.size()), m_submulti(total), m_total(total)
+		reverse_iterator() {}
+		
+		explicit reverse_iterator(const multiset& total) : m_ID(0), m_n(total.size()), m_submulti(total), m_total(&total)
 		{
 			
 		}
 
+		size_type ID() const
+		{
+			return m_ID;
+		}
+		
 	private:
 		
-		reverse_iterator(const multiset& total, size_type id) : m_ID(id), m_total(total) {}
+		reverse_iterator(size_type id) : m_ID(id) {}
 		
 		//prefix
 		void increment()
 		{
 			++m_ID;
-			prev_multiset(m_submulti,m_total,m_n);
+			prev_multiset(m_submulti,*m_total,m_n);
 		}
 		
 		void decrement()
 		{
 			--m_ID;
-			next_multiset(m_submulti,m_total,m_n);
+			next_multiset(m_submulti,*m_total,m_n);
 		}
 		
 		const multiset& dereference() const
@@ -270,11 +275,16 @@ public:
 			return m_ID == it.m_ID;
 		}
 		
+		difference_type distance_to(const reverse_iterator& other) const
+		{
+			return static_cast<difference_type>(other.ID()) - ID();
+		}
+		
 	private:
 		size_type m_ID{0};
 		size_type m_n{0};
 		multiset m_submulti {};
-		const multiset& m_total;
+		multiset const * m_total{nullptr};
 		
 		friend class basic_multisets;
 		friend class boost::iterator_core_access;
@@ -287,7 +297,7 @@ public:
 
 	reverse_iterator rend() const
 	{
-		return reverse_iterator(m_total,size());
+		return reverse_iterator(size());
 	}
 	
 private:

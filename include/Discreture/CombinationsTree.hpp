@@ -365,7 +365,7 @@ public:
 
 			--m_ID;
 
-			next_combination(m_data);
+			next_combination(m_data, m_n);
 		}
 
 		const combination& dereference() const
@@ -403,7 +403,7 @@ public:
 			m_ID += m;
 			auto num = binomial<size_type>(m_n, m_data.size()) - m_ID - 1;
 			// If n is large, then it's better to just construct it from scratch.
-			construct_combination(m_data, num);
+			construct_combination(m_data, num, m_n);
 
 		}
 

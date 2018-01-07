@@ -11,18 +11,18 @@ This library is provided as a header-only library and has been tested on Linux. 
 # Quick preview:
 
 ```c++
-	#include <iostream>
-	#include <discreture.hpp>
-	int main()
-	{
-		using namespace std;
-		using namespace dscr; //for expository purposes.
-		
-		for (auto& x : combinations(5,3))
-			cout << x << endl;
-		
-		return 0;
-	}
+#include <iostream>
+#include <discreture.hpp>
+int main()
+{
+	using namespace std;
+	using namespace dscr; //for expository purposes.
+	
+	for (auto& x : combinations(5,3))
+		cout << x << endl;
+	
+	return 0;
+}
 ```
 The above code would produce the following output:
 
@@ -46,13 +46,13 @@ Discreture is a header-only library. To use, simpley make sure your programs hav
 
 To do a system-wide install, do the standard cmake/make dance:
 ```sh
-	git clone https://github.com/mraggi/discreture
-	cd discreture
-	mkdir build
-	cd build
-	cmake ..
-	make
-	sudo make install
+git clone https://github.com/mraggi/discreture
+cd discreture
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
 ```
 
 This will install everything under `/usr/local/` by default. If you wish to install to some other directory, replace the `cmake ..` above by something like `cmake .. -DCMAKE_INSTALL_PREFIX=/usr/`.
@@ -104,24 +104,24 @@ for (auto it = X.rbegin(); it != X.rend(); ++it)
 
 Combinations, permutations and multisets are a random-access container (although they are MUCH slower as such than forward or reverse iteration), so something like this works too:
 ```c++
-	combinations X(30,10);
-	auto comb = X[10000]; //produces the 10,000-th combination.
+combinations X(30,10);
+auto comb = X[10000]; //produces the 10,000-th combination.
 ```
 
 This is much slower if one plans to actually iterate over all of them *à la* 
 ```c++
-	for (int i = 0; i < X.size(); ++i)
-	{ 
-		// use X[i] 
-	}
+for (int i = 0; i < X.size(); ++i)
+{ 
+	// use X[i] 
+}
 ```
 
 However, iterator arithmetic is implemented, so one could even do binary search on `X` with the following code:
 ```c++
-	#include <algorithm>
-	// ...
-	combinations X(30,10);
-	std::partition_point(X.begin(), X.end(), predicate);
+#include <algorithm>
+// ...
+combinations X(30,10);
+std::partition_point(X.begin(), X.end(), predicate);
 ```
 where `predicate` is a unary predicate that takes a `const combinations::combination&` as an argument and returns true or false, in a way that for all the first combinations it returns true and the last ones return false.
 
@@ -132,84 +132,83 @@ Check the files under `examples` for a tutorial on how to use the library. Here 
 For example, suppose you wanted to see all ways to add up to 20 with at most 6 numbers so that all numbers are squares. You can do:
 
 ```c++
-	#include <iostream>
-	#include <Discreture/Partitions.hpp>
-	#include <Discreture/VectorHelpers.hpp>
+#include <iostream>
+#include <Discreture/Partitions.hpp>
+#include <Discreture/VectorHelpers.hpp>
 
-	using namespace dscr;
+using namespace dscr;
+
+bool is_perfect_square(int n) 
+{
+	if (n < 0)
+		return false;
+	int r = round(sqrt(n));
+	return n == r*r;
+}
+
+int main()
+{
 	
-	bool is_perfect_square(int n) 
+	dscr::partitions X(20,1,6);
+	for (auto& x : X)
 	{
-		if (n < 0)
-			return false;
-		int r = round(sqrt(n));
-		return n == r*r;
+		if (std::all_of(x.begin(), x.end(), is_perfect_square))
+			std::cout << x << std::endl;
 	}
-
-	int main()
-	{
-		
-		dscr::partitions X(20,1,6);
-		for (auto& x : X)
-		{
-			if (std::all_of(x.begin(), x.end(), is_perfect_square))
-				std::cout << x << std::endl;
-		}
-		
-		return 0;
-	}
+	
+	return 0;
+}
 ```
 
 Then compile with the command `g++ -O2 -std=C++14 main.cpp -o out` and run `./out`. It should produce the following output:
-```sh
+
 	9 4 4 1 1 1
 	16 1 1 1 1
 	4 4 4 4 4
 	9 9 1 1
 	16 4
-```
+
 
 ## Combinations find_if and find_all
 Combinations is the most mature part of the library, and the following functions have been implemented:
 
 ```c++
-	#include <iostream>
-	#include <vector>
-	#include <discreture.hpp>
+#include <iostream>
+#include <vector>
+#include <discreture.hpp>
+
+int main()
+{
+	using namespace dscr;
+	using namespace std;
+	combinations X(10,3);
 	
-	int main()
+	// T will be an iterable object whose elements are the combinations that satisfy the predicate specified by the lambda function.
+	// In this case, the lambda checks that the next to last element divides the last element.
+	// The elements of T will therefore be the combinations for which every element is a divisor of the next element.
+	auto T = X.find_all([](const auto& comb) -> bool
 	{
-		using namespace dscr;
-		using namespace std;
-		combinations X(10,3);
+		int k = comb.size();
 		
-		// T will be an iterable object whose elements are the combinations that satisfy the predicate specified by the lambda function.
-		// In this case, the lambda checks that the next to last element divides the last element.
-		// The elements of T will therefore be the combinations for which every element is a divisor of the next element.
-		auto T = X.find_all([](const auto& comb) -> bool
-		{
-			int k = comb.size();
-			
-			if (k <= 1) return true;
-			
-			if (comb[k-2] == 0) return false;
+		if (k <= 1) return true;
 		
-			return (comb[k-1]%comb[k-2] == 0);
-		});
-		for (auto& t : T)
-			cout << t << endl;
-	}
+		if (comb[k-2] == 0) return false;
+	
+		return (comb[k-1]%comb[k-2] == 0);
+	});
+	for (auto& t : T)
+		cout << t << endl;
+}
 ```
 
 Prints out:
-```
 	1 2 4
 	1 2 6
 	1 2 8
 	1 3 6
 	1 3 9
 	2 4 8
-```
+
 
 These are all combinations for which every element is a divisor of the next element. This is *not* merely a filter: only combinations which satisfy the partial predicate (given by a lambda function) are further explored, in a branch-and-cut way.
 
@@ -222,29 +221,29 @@ Some sane defaults for `K` have been set in `combinations_fast`, `permutations_f
 
 So for example, the following code iterates over all combinations of size 3 of `{0,1,...,6}` in a slightly faster way than `dscr::combinations`.
 ```c++
-	#include <Discreture/Combinations.hpp>
-	
-	int main()
+#include <Discreture/Combinations.hpp>
+
+int main()
+{
+	for (auto& x : dscr::combinations_fast(7,3))
 	{
-		for (auto& x : dscr::combinations_fast(7,3))
-		{
-			//do stuff with x
-		}
+		//do stuff with x
 	}
+}
 ```
 
 This only works if combination size (*e.g.* 3) is less than 32. If for some reason you need combination sizes bigger than 32, just use something like this:
 ```c++
-	#include <Discreture/Combinations.hpp>
-	
-	int main()
+#include <Discreture/Combinations.hpp>
+
+int main()
+{
+	using my_fast_big_combinations = dscr::basic_combinations<int,boost::containter::static_vector<int,50>>;
+	for (auto& x : my_fast_big_combinations(52,50))
 	{
-		using my_fast_big_combinations = dscr::basic_combinations<int,boost::containter::static_vector<int,50>>;
-		for (auto& x : my_fast_big_combinations(52,50))
-		{
-			//do stuff with x
-		}
+		//do stuff with x
 	}
+}
 ```
 
 Each of `permutations`, `dyck_paths`, etc. has its corresponding "fast" version: `permutations_fast`, `dyck_paths_fast`, etc. with their own custom set limits. If you are going to need monstrous objects (like permutations of size 17 or more (why?!)), just typedef as in the previous example or use regular old fashioned `permutations`.
@@ -254,18 +253,18 @@ Each of `permutations`, `dyck_paths`, etc. has its corresponding "fast" version:
 For combinations in particular, there is one last possible speedup: use for_each, like in the following example.
 
 ```c++
-	#include <Discreture/Combinations.hpp>
-	
-	void f(const dscr::combinations_fast::combination& x)
-	{
-		// Do stuff to x
-	}
-	
-	int main()
-	{
-		dscr::combinations_fast X(34,17);
-		X.for_each(f);
-	}
+#include <Discreture/Combinations.hpp>
+
+void f(const dscr::combinations_fast::combination& x)
+{
+	// Do stuff to x
+}
+
+int main()
+{
+	dscr::combinations_fast X(34,17);
+	X.for_each(f);
+}
 ```
 
 This code applies `f` to every element of `X`, and it's almost twice as fast (see benchmarks) as doing manual iteration, up to size 17. More than that and `for_each` falls back on manual iteration. Of course, `f` can be a lambda or a functor too.
@@ -288,44 +287,43 @@ Iterating over all combinations of size n/2 over a set of size n took the follow
 The GSL code used was the following:
 
 ```c++
-	gsl_combination * c;
+gsl_combination * c;
 
-	c = gsl_combination_calloc (n, n/2);
-	do
-	{
-		DoNotOptimize(*c);
-	}
-	while (gsl_combination_next (c) == GSL_SUCCESS);
-	gsl_combination_free (c);	
-
+c = gsl_combination_calloc (n, n/2);
+do
+{
+	DoNotOptimize(*c);
+}
+while (gsl_combination_next (c) == GSL_SUCCESS);
+gsl_combination_free (c);	
 ```
 
 The same code using euler314's library:
 
 ```c++
-	auto end = combination_iterator<long>();
+auto end = combination_iterator<long>();
 
-	for (auto it = combination_iterator<long>(n, n/2); it != end; ++it)
-	{
-		DoNotOptimize(*it);
-	}
+for (auto it = combination_iterator<long>(n, n/2); it != end; ++it)
+{
+	DoNotOptimize(*it);
+}
 ```
 
 Compare to the following (beautiful) code, using discreture:
 ```c++
-	for (auto& x : combinations(n,n/2))
-	{
-		DoNotOptimize(x);
-	}
+for (auto& x : combinations(n,n/2))
+{
+	DoNotOptimize(x);
+}
 ```
 
 Or the for_each variant of discreture:
 ```c++
-	auto X = combinations(n,n/2);
-	X.for_each([](const combinations::combination& x)
-	{
-		DoNotOptimize(x);
-	});
+auto X = combinations(n,n/2);
+X.for_each([](const combinations::combination& x)
+{
+	DoNotOptimize(x);
+});
 ```
 
 
