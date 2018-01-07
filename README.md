@@ -302,9 +302,9 @@ gsl_combination_free (c);
 The same code using euler314's library:
 
 ```c++
-auto end = combination_iterator<long>();
+auto end = combination_iterator<int>();
 
-for (auto it = combination_iterator<long>(n, n/2); it != end; ++it)
+for (auto it = combination_iterator<int>(n, n/2); it != end; ++it)
 {
 	DoNotOptimize(*it);
 }
