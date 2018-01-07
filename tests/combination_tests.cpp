@@ -5,7 +5,8 @@
 using namespace std;
 using namespace dscr;
 
-void check_combination(const combinations::combination& x, int n, int k)
+template <class Combination>
+void check_combination(const Combination& x, int n, int k)
 {
 	ASSERT_TRUE(std::is_sorted(x.begin(),x.end()));
 	ASSERT_EQ(x.size(), k);
@@ -168,6 +169,7 @@ TEST(Combinations,EdgeCases)
 
 	for (const auto& z : Z)
 	{
+		check_combination(z,5,8);
 		ASSERT_TRUE(false);
 	}
 }
@@ -223,12 +225,16 @@ TEST(Combinations,FindIf)
 	
 	size_t numpred2 = 0;
 	for (auto& t : T)
+	{
+		check_combination(t,W.get_n(), W.get_k());
 		++numpred2;
+	}
 
-	size_t numpred = 0;
+	
 
 	if (W.get_n() < 30)
 	{
+		size_t numpred = 0;
 		for (const auto& w : W)
 		{
 			if (predicate2(w))

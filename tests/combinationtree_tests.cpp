@@ -6,7 +6,8 @@
 using namespace std;
 using namespace dscr;
 
-void check_combination_tree(const combinations_tree::combination& x, int n, int k)
+template <class Combination>
+void check_combination_tree(const Combination& x, int n, int k)
 {
 	ASSERT_TRUE(std::is_sorted(x.begin(),x.end()));
 	ASSERT_EQ(x.size(), k);
@@ -172,6 +173,7 @@ TEST(CombinationsTree,EdgeCases)
 
 	for (const auto& z : Z)
 	{
+		check_combination_tree(z,5,8);
 		ASSERT_TRUE(false);
 	}
 }
@@ -229,12 +231,16 @@ TEST(CombinationsTree,FindIf)
 	
 	size_t numpred2 = 0;
 	for (auto& t : T)
+	{
+		check_combination_tree(t,W.get_n(), W.get_k());
 		++numpred2;
-
-	size_t numpred = 0;
+	}
+	
+	
 
 	if (W.get_n() < 30)
 	{
+		size_t numpred = 0;
 		for (const auto& w : W)
 		{
 			if (predicate2(w))

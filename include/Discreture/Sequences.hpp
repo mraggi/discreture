@@ -121,7 +121,7 @@ inline BigIntType binomial(llint n, llint k)
 		{ 1,  5,  10 },
 		{ 1,  6,  15,  20 }
 	};
-	size_t m = B.size();
+	llint m = B.size();
 
 	if (n < m)
 		return B[n][k];
@@ -132,10 +132,10 @@ inline BigIntType binomial(llint n, llint k)
 
 	for (; m < n + 1; ++m)
 	{
-		auto last = (m + 2) / 2 - 1;
+		llint last = (m + 2) / 2 - 1;
 		B[m].resize(last + 1);
 
-		for (size_t r = 1; r < last; ++r)
+		for (llint r = 1; r < last; ++r)
 		{
 			B[m][r] = B[m - 1][r - 1] + B[m - 1][r];
 		}
@@ -157,7 +157,9 @@ BigIntType catalan(llint n)
 {
 	static const std::vector<llint> C = {1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, 208012, 742900, 2674440, 9694845, 35357670, 129644790, 477638700, 1767263190, 6564120420, 24466267020, 91482563640, 343059613650, 1289904147324, 4861946401452};
 
-	if (n < C.size())
+	llint Csize = C.size();
+	
+	if (n < Csize)
 		return C[n];
 
 	return binomial(2 * n, n) / (n + 1);
@@ -168,8 +170,10 @@ inline BigIntType motzkin(llint n)
 {
 	static std::vector<BigIntType> M = {1, 1, 2, 4, 9, 21, 51, 127, 323};
 // 	static std::vector<BigIntType> M = {1, 1, 2, 4, 9, 21, 51, 127, 323, 835, 2188, 5798, 15511, 41835, 113634, 310572, 853467, 2356779, 6536382, 18199284, 50852019, 142547559, 400763223, 1129760415, 3192727797, 9043402501, 25669818476, 73007772802, 208023278209, 593742784829};
+	
+	llint Msize = M.size();
 
-	if (n < M.size())
+	if (n < Msize)
 		return M[n];
 	
 	llint oldsize = M.size();
@@ -234,7 +238,9 @@ inline BigIntType partition_number(llint n, llint k)
 		{0, 1, 2, 2, 1, 1}
 	};
 
-	if (n < PNK.size())
+	llint oldsize = PNK.size();
+	
+	if (n < oldsize)
 		return PNK[n][k];
 
 	if (k == 0 || n == 0)
@@ -242,8 +248,6 @@ inline BigIntType partition_number(llint n, llint k)
 	
 	if (k == n || k == 1)
 		return 1;
-	
-	llint oldsize = PNK.size();
 	
 	for (llint m = oldsize; m <= n; ++m)
 	{

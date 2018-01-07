@@ -162,7 +162,7 @@ public:
 		
 	private:
 		
-		iterator(size_type id) : m_ID(id) {}
+		explicit iterator(size_type id) : m_ID(id) {}
 		
 		//prefix
 		void increment()
@@ -249,7 +249,7 @@ public:
 		
 	private:
 		
-		reverse_iterator(size_type id) : m_ID(id) {}
+		explicit reverse_iterator(size_type id) : m_ID(id) {}
 		
 		//prefix
 		void increment()

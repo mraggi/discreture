@@ -1,8 +1,8 @@
 #include "Permutations.hpp"
+#include "../Benchmarks/external/rang.hpp"
 #include <cstdlib>
 #include <sstream>
 #include <string>
-#include "../Benchmarks/external/rang.hpp"
 
 int main(int argc, char* argv[])
 {

@@ -50,9 +50,9 @@ public:
 	// Static functions
 	static void construct_permutation(permutation& data, size_type m)
 	{
-		size_t n = data.size();
+		size_type n = data.size();
 		std::iota(data.begin(), data.end(), 0);
-		size_t start = 0;
+		size_type start = 0;
 
 		for (; m > 0 && start < n; ++start)
 		{
@@ -65,7 +65,7 @@ public:
 				continue;
 			}
 
-			for (size_t u = 1; u < n + 1; ++u)
+			for (size_type u = 1; u < n + 1; ++u)
 			{
 				if (u * f > m)
 				{
@@ -93,7 +93,7 @@ public:
 	/// \param n is an integer >= 0
 	///
 	////////////////////////////////////////////////////////////
-	basic_permutations(IntType n) : m_n(n)
+	explicit basic_permutations(IntType n) : m_n(n)
 	{
 	}
 
@@ -143,16 +143,16 @@ public:
 	/// \return the index of permutation comb, as if basic_permutations was a proper data structure
 	/// \note This constructs the proper index from scratch. If an iterator is already known, calling ID() on the iterator is much more efficient.
 	/////////////////////////////////////////////////////////////////////////////
-	size_type get_index(const permutation& perm, size_t start = 0) const
+	size_type get_index(const permutation& perm, size_type start = 0) const
 	{
-		auto n = perm.size();
+		size_type n = perm.size();
 
 		if (n < 2)
 			return 0;
 
 		RAContainerInt sortedperm(perm.begin() + start, perm.end());
 		std::sort(sortedperm.begin(), sortedperm.end());
-		size_t i = 0;
+		size_type i = 0;
 
 		while (start < n)
 		{
@@ -168,7 +168,7 @@ public:
 		if (start == n)
 			return 0;
 
-		int b = n - start - 1;
+		size_type b = n - start - 1;
 		auto w = std::lower_bound(sortedperm.begin(), sortedperm.end(), perm[start]) - sortedperm.begin() - i;
 
 		return factorial(b) * (w) + get_index(perm, start + 1);
@@ -187,7 +187,7 @@ public:
 	public:
 		iterator() {} //empty initializer
 		
-		iterator(IntType n) : m_ID(0), m_last(n-1), m_data(n)
+		explicit iterator(IntType n) : m_ID(0), m_last(n-1), m_data(n)
 		{
 			std::iota(m_data.begin(), m_data.end(), 0);
 		}
@@ -305,7 +305,7 @@ public:
 	public:
 		reverse_iterator() : m_ID(0), m_data() {} //empty initializer
 	public:
-		reverse_iterator(IntType n) : m_ID(0), m_data(n)
+		explicit reverse_iterator(IntType n) : m_ID(0), m_data(n)
 		{
 			std::iota(m_data.begin(), m_data.end(), 0);
 			std::reverse(m_data.begin(), m_data.end());

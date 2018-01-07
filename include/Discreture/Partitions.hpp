@@ -111,7 +111,7 @@ public:
 		data.resize(k);
 		data[0] = n - k + 1;
 
-		for (size_t i = 1; i < k; ++i)
+		for (size_t i = 1; i < static_cast<size_t>(k); ++i)
 			data[i] = 1;
 	}
 
@@ -146,7 +146,11 @@ public:
 	/// \param n is an integer >= 0
 	///
 	////////////////////////////////////////////////////////////
-	basic_partitions(IntType n) : m_n(n), m_minnumparts(1), m_maxnumparts(n), m_begin(n, n), m_end()
+	explicit basic_partitions(IntType n) : m_n(n), 
+											m_minnumparts(1), 
+											m_maxnumparts(n), 
+											m_begin(n, n), 
+											m_end()
 	{
 		m_end.m_ID = size();
 	}
@@ -190,7 +194,7 @@ public:
 
 		size_type toReturn = 0;
 
-		for (size_t k = m_minnumparts; k <= m_maxnumparts; ++k)
+		for (size_type k = m_minnumparts; k <= m_maxnumparts; ++k)
 			toReturn += partition_number(m_n, k);
 
 		return toReturn;

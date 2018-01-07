@@ -54,6 +54,27 @@ public:
 	class iterator;
 
 	// **************** Begin static functions
+	
+	/** @name next_combination
+	* @brief next_combination, which has a few different overloads (depending on how much information you have about the current combination in order to make it faster)
+	* @param data is the current combination
+	* @param hint is an integer value that holds which index was last modified 
+	* (in a previous call to next_combination). 
+	* It serves to speed things up. If unsure, use 0. 
+	* The overload which only takes data automatically does this.
+	* @param last is data.size()-1. Tests show precomputing this value 
+	* is highly beneficial to performance. Contrary to what you might be 
+	* thinking, this is *NOT* premature optimization, since we've 
+	* carefully measured the impact.
+	* @param n denotes that combinations should be taken from the set {0,1,...,n-1}
+	* @retval void is returned if starting with data, and a bool is 
+	* returned if starting with n, depending on whether or not we 
+	* are at the last possible combination. 
+	* Note that n is not needed if you don't need to know if this combination 
+	* is the "last" one.
+	*/
+	///@{
+	//* Assumes hint = 0 and last=data.size()-1. If you don't need the utmost performance, just use this one. */
 	static void next_combination(combination& data)
 	{
 		IntType hint = 0;
@@ -61,12 +82,14 @@ public:
 		next_combination(data,hint,last);
 	} //next_combination data only
 	
+	//* Calculates last as data.size()-1 automatically */
 	static void next_combination(combination& data, IntType& hint)
 	{
 		IntType last = data.size()-1;
 		next_combination(data,hint,last);
 	} //next_combination data, hint
 	
+	//* Use this one for best speed */
 	static void next_combination(combination& data, IntType& hint, IntType last)
 	{
 		if (hint > 0)
@@ -103,7 +126,7 @@ public:
 			++data[0];
 	} // next_combination data, hint, last
 
-	
+	//* This overload returns false if data is the last combination, true otherwise. */
 	static bool next_combination(IntType n, combination& data)
 	{
 		if (data.empty())
@@ -112,6 +135,7 @@ public:
 		return data.back() != n;
 	} //next_combination n, data
 	
+	//* This overload returns false if data is the last combination, true otherwise. */
 	static bool next_combination(IntType n, combination& data, IntType& hint)
 	{
 		if (data.empty())
@@ -120,6 +144,7 @@ public:
 		return data.back() != n;
 	} //next_combination n, data hint
 	
+	//* This overload returns false if data is the last combination, true otherwise. */
 	static bool next_combination(IntType n, combination& data, IntType& hint, IntType last)
 	{
 		assert(last == data.size() - 1);
@@ -128,7 +153,8 @@ public:
 		next_combination(data,hint,last);
 		return data.back() != n;
 	} //next_combination n data hint last
-
+	///@}
+	
 	static void prev_combination(combination& data)
 	{
 		prev_combination(data, data.size()-1);
@@ -168,7 +194,7 @@ public:
 	{
 		IntType k = data.size();
 		
-		long long upper = 68; //this is the biggest for which binomial is still well defined. Hopefully it's enough for most use cases.
+		size_type upper = 68; //this is the biggest for which binomial is still well defined. Hopefully it's enough for most use cases.
 		
 		for (IntType r = k; r > 1; --r)
 		{

@@ -195,4 +195,4 @@ private:
 }; // end class basic_combinations_tree_prunned
 
 // 	using combinations_tree_prunned = basic_combinations_tree_prunned<int>;
-};
+}

@@ -57,8 +57,10 @@ sudo make install
 
 This will install everything under `/usr/local/` by default. If you wish to install to some other directory, replace the `cmake ..` above by something like `cmake .. -DCMAKE_INSTALL_PREFIX=/usr/`.
 
-There are three options: BUILD_EXAMPLES, BUILD_TESTS and BUILD_BENCHMARKS. To use discreture you don't need to compile anything, but if you wish to, you can compile examples, tests and benchmarks by replacing the `cmake ..` part by:
-	`cmake .. -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DBUILD_BENCHMARKS=ON`
+There are three options: BUILD_EXAMPLES, BUILD_TESTS and BUILD_BENCHMARKS. **To use discreture you don't need to compile anything**, but if you wish to, you can compile examples, tests and benchmarks by replacing the `cmake ..` part by: 
+```sh
+cmake .. -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DBUILD_BENCHMARKS=ON
+```
 
 # How to start using the library
 To use the library, after compiling, just add `#include <discreture.hpp>` to your project and make sure you are compiling in `c++14` mode (or later). With the GCC compiler this can be done by compiling like this: `g++ -std=c++14 myfile.cpp`. You can include only part of the library, say, combinations, by adding `#include <Discreture/Combinations.hpp>` for example.

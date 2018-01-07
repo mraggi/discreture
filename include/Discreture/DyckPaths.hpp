@@ -144,7 +144,11 @@ namespace dscr
 		/// \param n is an integer >= 0
 		///
 		////////////////////////////////////////////////////////////
-		basic_dyck_paths(IntType n) : m_n(n), m_begin(n), m_end(), m_rbegin(n),  m_rend()
+		explicit basic_dyck_paths(IntType n) : m_n(n), 
+												m_begin(n), 
+												m_end(), 
+												m_rbegin(n),  
+												m_rend()
 		{
 			m_end.m_ID = size();
 			m_rend.m_ID = size();

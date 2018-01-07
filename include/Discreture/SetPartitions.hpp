@@ -66,10 +66,10 @@ public:
 
 	static bool next_set_partition(set_partition& data, const number_partition& part)
 	{
-		int n = std::accumulate(part.begin(), part.end(), 0);
-		int anteriorpos = pop(data, n - 1);
-		int curr = n - 2;
-		int currpos = 0;
+		long n = std::accumulate(part.begin(), part.end(), 0);
+		long anteriorpos = pop(data, n - 1);
+		long curr = n - 2;
+		long currpos = 0;
 
 		while (true)
 		{
@@ -92,7 +92,7 @@ public:
 
 		data[newpos].push_back(curr);
 
-		for (int i = curr + 1; i < n; ++i)
+		for (long i = curr + 1; i < n; ++i)
 		{
 			data[NextAcceptablePlaceToAdd(data, part)].push_back(i);
 		}
@@ -130,7 +130,11 @@ public:
 	/// \param n is an integer >= 0
 	///
 	////////////////////////////////////////////////////////////
-	basic_set_partitions(IntType n) : m_n(n), m_minnumparts(1), m_maxnumparts(n), m_begin(n, n), m_end()
+	explicit basic_set_partitions(IntType n) : m_n(n), 
+												m_minnumparts(1), 
+												m_maxnumparts(n), 
+												m_begin(n, n), 
+												m_end()
 	{
 		m_end.m_ID = size();
 	}
@@ -171,7 +175,7 @@ public:
 	{
 		size_type toReturn = 0;
 
-		for (size_t k = m_minnumparts; k <= m_maxnumparts; ++k)
+		for (IntType k = m_minnumparts; k <= m_maxnumparts; ++k)
 			toReturn += stirling_partition_number(m_n, k);
 
 		return toReturn;
@@ -259,9 +263,10 @@ private:
 
 private:
 	// Private static functions
-	static int pop(set_partition& data, IntType num)
+	static long pop(set_partition& data, IntType num)
 	{
-		for (int i = 0; i < data.size(); ++i)
+		const long n = data.size();
+		for (long i = 0; i < n; ++i)
 		{
 			if (!data[i].empty() && data[i].back() == num)
 			{
@@ -274,12 +279,14 @@ private:
 		return -1;
 	}
 
-	static int NextAcceptablePlaceToAdd(const set_partition& data, const number_partition& part, int oldpos = -1)
+	static long NextAcceptablePlaceToAdd(const set_partition& data, const number_partition& part, long oldpos = -1)
 	{
 // 			cout << "Finding if I can put the next number where " << endl;
-		for (int i = oldpos + 1; i < data.size(); ++i)
+		const long n = data.size();
+		for (long i = oldpos + 1; i < n; ++i)
 		{
-			if (data[i].size() == part[i])
+			const long dataisize = data[i].size();
+			if (dataisize == part[i])
 				continue;
 
 			if ((i > 0) && (part[i - 1] == part[i]) && data[i - 1].empty())
@@ -290,7 +297,7 @@ private:
 
 		return -1;
 	}
-	static bool shouldBreak(const set_partition& data, const number_partition& part, int currpos, int anteriorpos)
+	static bool shouldBreak(const set_partition& data, const number_partition& part, long currpos, long anteriorpos)
 	{
 		if (currpos == -1)
 			return true;

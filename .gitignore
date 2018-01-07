@@ -7,3 +7,4 @@ partitionold.hpp
 timeresultscombination.sage
 build
 ct-build
+cppcheck-build

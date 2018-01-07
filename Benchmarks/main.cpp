@@ -22,7 +22,7 @@ int main()
 	//slow, real tests
 	const int n = 40;
 	const int k = 10;
-	const auto combs_size = binomial<long long>(n,k);
+	const auto combs_size = binomial<std::int64_t>(n,k);
 	const int construct = 1000000;
 	
 	const int nperm = 12;
@@ -31,7 +31,7 @@ int main()
 	const int nsetpart = 13;
 	const int ndyck = 18;
 	const int nmotzkin = 20;
-	const int nmultiset = 19;
+// 	const int nmultiset = 19;
 	
 	dscr::combinations C(n,k);
 	dscr::basic_combinations<int,boost::container::static_vector<int,k>> CF(n,k);

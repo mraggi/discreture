@@ -85,7 +85,7 @@ public:
 	/// \param n is an integer >= 0
 	///
 	////////////////////////////////////////////////////////////
-	basic_motzkin_paths(IntType n) : m_n(n), m_begin(n), m_end()
+	explicit basic_motzkin_paths(IntType n) : m_n(n), m_begin(n), m_end()
 	{
 		m_end.m_ID = size();
 	}

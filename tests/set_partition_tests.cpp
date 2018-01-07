@@ -14,7 +14,9 @@ void check_set_partition(const set_partitions::set_partition& x)
 		all.insert(all.end(),u.begin(), u.end());
 	}
 	std::sort(all.begin(),all.end());
-	for (int i = 0; i < all.size(); ++i)
+	
+	const int n = all.size();
+	for (int i = 0; i < n; ++i)
 	{
 		ASSERT_EQ(i,all[i]);
 	}
