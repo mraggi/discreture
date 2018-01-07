@@ -42,7 +42,16 @@ You need to compile with the `-std=c++14` flag:
 
 # Installation
 
-Discreture is a header-only library. To use, simpley make sure your programs have access to the .hpp files (all files inside "include" dir). Just copy them to your project's include folders or tell your compiler where to look.
+Discreture is a header-only library. To use, simply make sure your programs have access to the .hpp files (all files inside "include" dir). Just copy them to your project's include folders or tell your compiler where to look.
+
+## Pre requisites
+First, you need a relatively modern version of gcc or clang. Tested with gcc 5.4.0 and clang 3.9.0 and up. Other compilers might work too. You also need cmake and git, obviously.
+
+Finally, you also need [boost](http://www.boost.org/). In ubuntu, for example, just do `sudo apt-get install libboost-all-dev`. In arch linux and derivatives, `sudo pacman -S boost`.
+
+To build the unit tests (not necessary to use discreture) you also need [google's testing library](https://github.com/google/googletest). 
+
+## Install discreture
 
 To do a system-wide install, do the standard cmake/make dance:
 ```sh
