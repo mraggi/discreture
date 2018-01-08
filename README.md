@@ -42,14 +42,39 @@ You need to compile with the `-std=c++14` flag:
 
 # Installation
 
-Discreture is a header-only library. To use, simply make sure your programs have access to the .hpp files (all files inside "include" dir). Just copy them to your project's include folders or tell your compiler where to look.
+Discreture is a header-only library and its only dependency is boost. Programs using it need to be compiled with `c++14` or later. Tested with gcc 5.4.0 and clang 3.9.0 and up. Other compilers might work too.
 
-## Pre requisites
-First, you need a relatively modern version of gcc or clang. Tested with gcc 5.4.0 and clang 3.9.0 and up. Other compilers might work too. You also need cmake and git, obviously.
+To use, simply make sure your programs have access to the .hpp files (all files inside "include" dir). Just copy them to your project's include folders or tell your compiler where to look.
 
-Finally, you also need [boost](http://www.boost.org/). In ubuntu, for example, just do `sudo apt-get install libboost-all-dev`. In arch linux and derivatives, `sudo pacman -S boost`.
+## Pre-requisites for compiling
 
-To build the unit tests (not necessary to use discreture) you also need [google's testing library](https://github.com/google/googletest). 
+Nothing needs to be compiled. But if you wish to build examples, benchmarks and tests, these are the pre-requisites.
+- A C++ compiler (*i.e.* gcc or clang)
+- [boost](http://www.boost.org) (header files. Specifically: iterator_facade)
+- [cmake](https://cmake.org/)
+- [git](https://git-scm.com/) (only for downloading the directory. You can also download it directly from github)
+- [Google's Test Framework](https://github.com/google/googletest) (for building unit tests only).
+
+### Installing pre-requisites in Ubuntu Linux and derivatives
+```sh
+sudo apt-get install libboost-all-dev cmake git build-essentials libgtest-dev
+```
+
+### Installing pre-requisites in Arch Linux and derivatives
+```sh
+sudo pacman -S boost cmake git gcc gtest
+```
+
+### Installing pre-requisites in mac OS
+First, make sure [HomeBrew](https://brew.sh/) is installed. Then in a terminal do:
+
+```sh
+brew install gcc cmake git boost
+```
+
+If you wish to run unit tests, you'll need to install [gtest](https://github.com/google/googletest) manually since--as of this writing--brew doesn't have a package for google test.
+
+For a more detailed instruction set, see [this ticket](https://github.com/mraggi/discreture/issues/1).
 
 ## Install discreture
 
@@ -64,12 +89,21 @@ make
 sudo make install
 ```
 
-This will install everything under `/usr/local/` by default. If you wish to install to some other directory, replace the `cmake ..` above by something like `cmake .. -DCMAKE_INSTALL_PREFIX=/usr/`.
+This will install the necessary headers under `/usr/local/` by default. If you wish to install to some other directory, replace the `cmake ..` above by something like `cmake .. -DCMAKE_INSTALL_PREFIX=/usr/`.
 
 There are three options: BUILD_EXAMPLES, BUILD_TESTS and BUILD_BENCHMARKS. **To use discreture you don't need to compile anything**, but if you wish to, you can compile examples, tests and benchmarks by replacing the `cmake ..` part by: 
 ```sh
 cmake .. -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DBUILD_BENCHMARKS=ON
 ```
+
+### Trying the examples
+After compiling the examples (with `cmake .. -DBUILD_EXAMPLES=ON`), try for example running:
+```sh
+./combinations 5 3
+```
+will output all combinations of size 3 from the set {0,1,2,3,4}.
+
+There are many other programs there. Play with them.
 
 # How to start using the library
 To use the library, after compiling, just add `#include <discreture.hpp>` to your project and make sure you are compiling in `c++14` mode (or later). With the GCC compiler this can be done by compiling like this: `g++ -std=c++14 myfile.cpp`. You can include only part of the library, say, combinations, by adding `#include <Discreture/Combinations.hpp>` for example.
@@ -389,12 +423,19 @@ The important columns are Speed and Speed (w/o _fast). Higher is better. They me
 
 **Noteworthy**: for_each can be really fast if using _fast version for combinations. Standard iteration was slower with _fast version on both combinations and combinations tree reverse for some unknown reason.
 
+Run your own benchmarks by building with `cmake -DBUILD_BENCHMARKS=ON` and running
+```sh
+./discreture_benchmarks
+```
+
 # Acknowledgements
  - Manuel Alejandro Romo de Vivar (manolo) for his work on dyck paths, motzkin paths, and his contribution to partition numbers.
 
  - Juho Lauri for suggestions on improving "tree" combination iterator and many interesting discussions on combinations. 
 
  - César Benjamín García for suggesting the name "discreture".
+ 
+ - Samuel Lelièvre for his help installing in macOS.
  
  - You: for reading this.
  

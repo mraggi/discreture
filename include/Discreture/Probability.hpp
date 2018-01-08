@@ -12,7 +12,9 @@ namespace dscr{	namespace random {
  */
 inline std::default_random_engine& random_engine()
 {
-	static std::default_random_engine e {static_cast<long unsigned int>(time(nullptr))};
+	using RE = std::default_random_engine;
+	using result_type = RE::result_type;
+	static std::default_random_engine e(static_cast<result_type>(time(nullptr)));
 	return e;
 }
 
@@ -40,8 +42,8 @@ IntType random_int(IntType from, IntType thru)
 }
 
 /**
- * @brief "I just wanted a random integer!
- * @return A random integer in the range [from,thru), with uniform probability distribution
+ * @brief "I just wanted a random float!
+ * @return A random float number in the range [from,thru), with uniform probability distribution
  */
 template <class FloatType = double>
 FloatType random_real(FloatType from, FloatType upto)

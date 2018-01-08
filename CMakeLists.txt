@@ -21,8 +21,8 @@ find_package(Boost REQUIRED)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Discreture)
 
-# add_definitions(-march=native -pipe -O3 -Wall -Wpedantic -Werror)
-add_definitions(-march=native -pipe -O3)
+add_definitions(-march=native -pipe -O3 -Wall -Wpedantic -Werror)
+# add_definitions(-march=native -pipe -O3)
 
 message("Installing to " ${CMAKE_INSTALL_PREFIX})
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION ${CMAKE_INSTALL_PREFIX})
