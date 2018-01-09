@@ -233,10 +233,10 @@ public:
 		}
 
 	private:
-		size_type m_ID;
-		set_partition m_data;
-		IntType m_n;
-		number_partition m_npartition;
+		size_type m_ID{0};
+		set_partition m_data{};
+		IntType m_n{0};
+		number_partition m_npartition{};
 
 		friend class basic_set_partitions;
 		friend class boost::iterator_core_access;

@@ -154,6 +154,9 @@ public:
 		{
 			
 		}
+		
+		iterator(const iterator& it) = default;
+		iterator& operator=(const iterator& it) = default;
 
 		size_type ID() const
 		{
@@ -242,6 +245,9 @@ public:
 			
 		}
 
+		reverse_iterator(const reverse_iterator& it) = default;
+		reverse_iterator& operator=(const reverse_iterator& it) = default;
+		
 		size_type ID() const
 		{
 			return m_ID;

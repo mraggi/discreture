@@ -203,9 +203,9 @@ public:
 													>
 	{
 	public:
-		iterator() : m_ID(0LL) {} //empty initializer
+		iterator() : m_ID(0LL), m_n(0), m_k(0), m_s(0), m_data() {} //empty initializer
 		
-		iterator(const combination& comb, IntType n) : m_ID(basic_combinations_tree<IntType,RAContainerInt>::get_index(comb,n)), m_data(comb) {} //empty initializer
+		iterator(const combination& comb, IntType n) : m_ID(basic_combinations_tree<IntType,RAContainerInt>::get_index(comb,n)), m_n(n), m_k(comb.size()), m_s(n-comb.size()), m_data(comb) {} //empty initializer
 	
 		iterator(IntType n, IntType k) : m_ID(0), m_n(n), m_k(k), m_s(n-k), m_data(k)
 		{
@@ -231,7 +231,7 @@ public:
 // 		}
 		
 	private:
-		explicit iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
+		explicit iterator(size_type id) : m_ID(id), m_n(), m_k(), m_s(), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
 
 		//prefix
 		void increment()
@@ -423,8 +423,8 @@ public:
 	private:
 		explicit reverse_iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
 
-		IntType m_n;
-		size_type m_ID;
+		IntType m_n{};
+		size_type m_ID{};
 		combination m_data;
 
 		friend class basic_combinations_tree;

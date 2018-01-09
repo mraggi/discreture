@@ -531,10 +531,10 @@ public:
 		
 		
 	private:
-		IntType m_n;
-		size_type m_ID;
-		size_type m_last;
-		combination m_data;
+		IntType m_n{0};
+		size_type m_ID{0};
+		size_type m_last{0};
+		combination m_data{};
 
 		friend class basic_combinations;
 		friend class boost::iterator_core_access;

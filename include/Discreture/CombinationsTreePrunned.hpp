@@ -106,10 +106,10 @@ public:
 
 	private:
 		size_type m_ID {0};
-		IntType m_n;
-		IntType m_k;
-		combination m_data;
-		bool m_atEnd;
+		IntType m_n{0};
+		IntType m_k{0};
+		combination m_data{};
+		bool m_atEnd{true};
 		Predicate m_pred;
 
 		friend class basic_combinations_tree_prunned;
