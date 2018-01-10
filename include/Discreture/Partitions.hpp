@@ -238,6 +238,13 @@ public:
 		
 		//boost::iterator_facade provides all the public interface you need, like ++, etc.
 		
+		iterator make_invalid_with_id(size_type id)
+		{
+			iterator it;
+			it.m_ID = id;
+			return it;
+		}
+		
 	private:
 		void increment()
 		{

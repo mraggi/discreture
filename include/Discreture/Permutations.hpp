@@ -4,6 +4,7 @@
 #include "Sequences.hpp"
 #include "NumberRange.hpp"
 #include "Probability.hpp"
+#include "CompoundContainer.hpp"
 
 #include <algorithm>
 #include <numeric>
@@ -13,28 +14,32 @@ namespace dscr
 ////////////////////////////////////////////////////////////
 /// \brief class of all n! permutation of size n of the set {0,1,...,n-1}.
 /// \param IntType should be an integral type with enough space to store n and k. It can be signed or unsigned.
-/// \param n should be an integer < 20, since 20! already exceeds the numeric limits of a long unsigned int
-/// # Example:
+/// \param n should be an integer < 20, since 20! already exceeds the numeric limits of a 64-bit int
+/// # Example 1:
 ///
 ///		permutations X(3);
-///		for (const auto& x : X)
-///			cout << x << " ";
+///		for (auto& x : X)
+///			cout << "[" << x << "] ";
 ///
 ///		Prints out:
 ///			[ 0 1 2 ] [ 0 2 1 ] [ 1 0 2 ] [ 1 2 0 ] [ 2 0 1 ] [ 2 1 0 ]
 ///
-///	# Example 3:
+///	# Example 2:
 ///
 ///		string A = "abc";
-///		permutations X(A.size());
-///		for (const auto& x : X)
+///		
+///		for (const auto& x : compound_permutations(A))
 ///		{
-///			auto b = compose(A,x);
-///			cout << b << "-";
+///			cout << b << endl;
 ///		}
 ///
 ///	Prints out:
-///		abc-acb-bac-bca-cab-cba-
+///		a b c 
+///		a c b 
+///		b a c 
+///		b c a 
+///		c a b 
+///		c b a 
 ///
 ////////////////////////////////////////////////////////////
 template <class IntType, class RAContainerInt = std::vector<IntType>>
@@ -230,16 +235,14 @@ public:
 													>
 	{
 	public:
-		iterator() {} //empty initializer
-		
-		explicit iterator(IntType n) : m_ID(0), m_last(n-1), m_data(n)
+		explicit iterator(IntType n = 0) : m_ID(0), m_last(n-1), m_data(n)
 		{
 			std::iota(m_data.begin(), m_data.end(), 0);
 		}
 		
-		inline bool is_at_end(IntType n) const
+		inline bool is_at_end() const
 		{
-			return m_ID == factorial(n);
+			return m_ID == factorial(m_last+1);
 		}
 
 		void reset(IntType r)
@@ -255,8 +258,16 @@ public:
 			return m_ID;
 		}
 		
+		iterator make_invalid_with_id(size_type id)
+		{
+			iterator it;
+			it.m_ID = id;
+			return it;
+		}
+		
 	private:
-		//prefix
+		
+		
 		void increment()
 		{
 			if (m_ID > 1 && m_ID%2 == 0)
@@ -349,7 +360,6 @@ public:
 	{
 	public:
 		reverse_iterator() : m_ID(0), m_data() {} //empty initializer
-	public:
 		explicit reverse_iterator(IntType n) : m_ID(0), m_data(n)
 		{
 			std::iota(m_data.begin(), m_data.end(), 0);
@@ -458,7 +468,7 @@ private:
 // 			size_type result = 0;
 		int firstdiffer = 0;
 
-		for (; firstdiffer < n - 1; ++firstdiffer)
+		for (; firstdiffer+1 < n; ++firstdiffer)
 		{
 			if (perm[firstdiffer + first] != A[firstdiffer])
 				break;
@@ -470,5 +480,11 @@ private:
 }; // end class basic_permutations
 using permutations = basic_permutations<int>;
 using permutations_fast = basic_permutations<int,boost::container::static_vector<int, 16>>;
+
+template <class Container>
+auto compound_permutations(const Container& X)
+{
+	return compound_container<Container,permutations>(X,permutations(X.size()));
+}
 
 }

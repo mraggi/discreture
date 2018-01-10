@@ -82,7 +82,6 @@ public:
 					static_cast<difference_type>(m_ID));
 		}
 
-		
 	private:
 		IntType m_ID {0};
 

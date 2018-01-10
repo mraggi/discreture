@@ -8,8 +8,9 @@
 #include "NumberRange.hpp"
 #include "CombinationsTree.hpp"
 #include "CombinationsTreePrunned.hpp"
-#include "combinations_bf.hpp" //Horrible. Do NOT read. Please. But I can't find another way. Sorry about that. If you think you can do better, please, tell me about it.
+#include "detail_combinations_bf.hpp" //Horrible. Do NOT read. Please. But I can't find another way. Sorry about that. If you think you can do better, please, tell me about it.
 #include "NaturalNumber.hpp"
+#include "CompoundContainer.hpp"
 
 namespace dscr
 {
@@ -21,8 +22,7 @@ namespace dscr
 /// \param k the size of the combination (subset). Should be an integer such that n choose k is not bigger than the largest unsigned long int there is. For example, typically 50 choose 25 is already larger than the largest long unsigned int.
 /// # Example:
 ///
-///		combinations X(6,3);
-///		for (const auto& x : X)
+///		for (auto& x : combinations(6,3))
 ///			cout << '[' << x << "] ";
 ///
 /// Prints out:
@@ -31,11 +31,20 @@ namespace dscr
 ///
 /// # Example 2:
 ///
-///	 basic_combinations<short int> X(5,1);
-///		for (const auto& x : X)
-///			cout << x << ',';
+///	    string A = "abcde";
+///		for (auto x : compound_combinations(A,3))
+///			cout << x << endl;
 ///		Prints out:
-///			0,1,2,3,4,
+///			a b c 
+///			a b d 
+///			a c d 
+///			b c d 
+///			a b e 
+///			a c e 
+///			b c e 
+///			a d e 
+///			b d e 
+///			c d e 
 ///
 ///
 ////////////////////////////////////////////////////////////
@@ -45,7 +54,7 @@ class basic_combinations
 public:
 
 	using difference_type = long long;
-	using size_type = long long; //yeah, signed. Fuck you, STL!
+	using size_type = long long; //yeah, signed.
 	using value_type = RAContainerInt;
 	using combination = value_type;
 	class iterator;
@@ -77,20 +86,20 @@ public:
 	//* Assumes hint = 0 and last=data.size()-1. If you don't need the utmost performance, just use this one. */
 	static void next_combination(combination& data)
 	{
-		IntType hint = 0;
-		IntType last = data.size()-1;
+		size_type hint = 0;
+		size_type last = data.size()-1;
 		next_combination(data,hint,last);
 	} //next_combination data only
 	
 	//* Calculates last as data.size()-1 automatically */
-	static void next_combination(combination& data, IntType& hint)
+	static void next_combination(combination& data, size_type& hint)
 	{
-		IntType last = data.size()-1;
+		size_type last = data.size()-1;
 		next_combination(data,hint,last);
 	} //next_combination data, hint
 	
 	//* Use this one for best speed */
-	static void next_combination(combination& data, IntType& hint, IntType last)
+	static void next_combination(combination& data, size_type& hint, IntType last)
 	{
 		if (hint > 0)
 		{
@@ -98,11 +107,10 @@ public:
 			return;
 		}
 		
-		assert(last == data.size()-1);
+		assert(last+1 == data.size());
 		
 		if (last > 0)
 		{
-			
 			if (data[0] + 1 != data[1])
 			{	
 				++data[0];
@@ -136,7 +144,7 @@ public:
 	} //next_combination n, data
 	
 	//* This overload returns false if data is the last combination, true otherwise. */
-	static bool next_combination(IntType n, combination& data, IntType& hint)
+	static bool next_combination(IntType n, combination& data, size_type& hint)
 	{
 		if (data.empty())
 			return false;
@@ -145,7 +153,7 @@ public:
 	} //next_combination n, data hint
 	
 	//* This overload returns false if data is the last combination, true otherwise. */
-	static bool next_combination(IntType n, combination& data, IntType& hint, IntType last)
+	static bool next_combination(IntType n, combination& data, size_type& hint, IntType last)
 	{
 		assert(last == data.size() - 1);
 		if (last < 0) //this means data is empty
@@ -382,17 +390,22 @@ public:
 		size_type ID() const { return m_ID; }
 		//boost::iterator_facade provides all the public interface you need, like ++, etc.
 		
-		explicit 
-		iterator(size_type id) : m_ID(id) {} //ending initializer: for id only. Do not use unless you know what you are doing.
+		//////////////////////////////////////
+		/// @brief Constructs an invalid iterator whose only purpose is to have an id (for comparison purposes)
+		//////////////////////////////////////
+		static iterator make_invalid_with_id(size_type id)
+		{
+			return iterator(id);
+		}
 		
 	private:
+		explicit 
+		iterator(size_type id) : m_ID(id) {}
 		
-		//prefix
 		void increment()
 		{
 			next_combination(m_data,m_hint,m_last);
 			++m_ID;
-
 		}
 		
 		bool equal(const iterator& other) const
@@ -445,7 +458,6 @@ public:
 
 		void decrement()
 		{
-
 			if (m_ID == 0)
 				return;
 
@@ -453,7 +465,6 @@ public:
 			m_hint = 0;
 
 			prev_combination(m_data,m_last);
-
 		}
 
 		friend class boost::iterator_core_access;
@@ -462,7 +473,7 @@ public:
 		
 		size_type m_ID {0};
 		IntType m_last{-1}; //should always be m_data.size()-1!!!
-		IntType m_hint {0};
+		size_type m_hint {0};
 		combination m_data {};
 
 	}; // end class iterator
@@ -573,7 +584,7 @@ public:
 	private:
 		IntType m_n{0};
 		size_type m_ID{0};
-		size_type m_last{-1}; //this should ALWAYS be m_data.size()-1!!!!
+		IntType m_last{-1}; //this should ALWAYS be m_data.size()-1!!!!
 		combination m_data{};
 
 		friend class basic_combinations;
@@ -866,10 +877,17 @@ private:
 using combinations = basic_combinations<int>;
 using combinations_fast = basic_combinations<int,boost::container::static_vector<int, 32>>;
 
+template <class Container, class IntType>
+auto compound_combinations(const Container& X, IntType k)
+{
+	using comb = basic_combinations<IntType>;
+	return compound_container<Container,comb>(X,comb(X.size(),k));
+}
+
 /**
- * \brief This function is an attempt to recreate next_permutation's 
+ * \brief This function recreates next_permutation's 
  * 		  behaviour but for combinations. [out_first, out_last) should be
- * 		  a range of iterators in [in_first, in_last).
+ * 		  a range of **iterators** in [in_first, in_last).
  **/
 template <class ForwardIt, class BiDirectionalItOut>
 bool next_combination(ForwardIt in_first,

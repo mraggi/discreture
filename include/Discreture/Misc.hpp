@@ -28,6 +28,20 @@ inline IntType modulo(IntType a, IntType b)
 	return r;
 }
 
+//////////////////////////////////////////
+/// \brief This is what operator %= should be but isn't (!).
+///
+/// C++ modulo operator %= is dumb for negative integers: (-7)%3 returns -1, instead of 2.
+/// This fixes it.
+//////////////////////////////////////////
+template <class IntType>
+inline void reduce_modulo(IntType& a, IntType b)
+{
+	a %= b;
+	if (a < 0)
+		a += b;
+}
+
 template <class T>
 inline T pow(T a, unsigned long n)
 {

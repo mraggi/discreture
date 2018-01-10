@@ -138,12 +138,20 @@ public:
 		{
 		}
 		
-		inline size_type ID() const
+		size_type ID() const
 		{
 			return m_ID;
 		}
+		
+		iterator make_invalid_with_id(size_type id)
+		{
+			iterator it;
+			it.m_ID = id;
+			return it;
+		}
+		
 	private:
-		//prefix
+		
 		void increment()
 		{
 			using namespace std;

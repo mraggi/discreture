@@ -22,9 +22,7 @@ int main()
 	//slow, real tests
 	const int n = 40;
 	const int k = 10;
-	const auto combs_size = binomial<std::int64_t>(n,k);
 	const int construct = 1000000;
-	
 	const int nperm = 12;
 	
 	const int npart = 75;
@@ -74,7 +72,7 @@ int main()
 	cout << ProduceRowReverse("Combinations Tree", CT);
 	cout << ProduceRowReverse("Combinations Tree Stack", CTF);
 #ifdef TEST_GSL_COMBINATIONS
-	cout << BenchRow("Combinations Tree GSL", Benchmark([](){BM_CombinationsTreeGSL(n,k);}), combs_size);
+	cout << BenchRow("Combinations Tree GSL", Benchmark([](){BM_CombinationsTreeGSL(n,k);}), binomial<std::int64_t>(n,k));
 #endif
 	cout << ProduceRowConstruct("Combinations Tree", CT, construct);
 	cout << ProduceRowConstruct("Combinations Tree Stack", CTF, construct);

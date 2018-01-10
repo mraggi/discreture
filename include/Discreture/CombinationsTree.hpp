@@ -4,8 +4,9 @@
 #include "Misc.hpp"
 #include "Sequences.hpp"
 #include "NumberRange.hpp"
-#include "combinations_tree_bf.hpp"
+#include "detail_combinations_tree_bf.hpp"
 #include "CombinationsTreePrunned.hpp"
+#include "CompoundContainer.hpp"
 #include <numeric>
 #include <algorithm>
 
@@ -274,6 +275,10 @@ public:
 // 			m_data.resize(k);
 // 			std::iota(m_data.begin(),m_data.end(),0);
 // 		}
+        static iterator make_invalid_with_id(size_type id)
+		{
+			return iterator(id);
+		}
 
     private:
         explicit iterator(size_type id) : m_ID(id), m_n(), m_k(), m_s(), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
@@ -744,6 +749,12 @@ private:
 using combinations_tree = basic_combinations_tree<int>;
 using combinations_tree_fast = basic_combinations_tree<std::int_fast16_t,boost::container::static_vector<std::int_fast16_t, 20>>;
 
+template <class Container, class IntType>
+auto compound_combinations_tree(const Container& X, IntType k)
+{
+	using comb = basic_combinations_tree<IntType>;
+	return compound_container<Container,comb>(X,comb(X.size(),k));
+}
 
 } // end namespace dscr;
 

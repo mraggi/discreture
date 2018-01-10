@@ -208,8 +208,15 @@ public:
 		{
 			return m_ID;
 		}
+		
+		iterator make_invalid_with_id(size_type id)
+		{
+			iterator it;
+			it.m_ID = id;
+			return it;
+		}
+		
 	private:
-		//prefix
 		void increment()
 		{
 			++m_ID;

@@ -204,11 +204,16 @@ public:
 			return m_ID;
 		}
 		
+		iterator make_invalid_with_id(size_type id)
+		{
+			return iterator(id);
+		}
+		
 	private:
+		
 		
 		explicit iterator(size_type id) : m_ID(id) {}
 		
-		//prefix
 		void increment()
 		{
 			++m_ID;
