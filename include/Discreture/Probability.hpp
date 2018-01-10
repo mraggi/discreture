@@ -38,7 +38,7 @@ IntType random_int(IntType from, IntType thru)
 {
 	static std::uniform_int_distribution<IntType> d {};
 	using parm_t = typename decltype(d)::param_type;
-	return d(random_engine(), parm_t {from, thru - 1});
+	return d(random_engine(), parm_t {from, --thru});
 }
 
 /**

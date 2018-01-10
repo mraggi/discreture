@@ -45,6 +45,11 @@ public:
 	using size_type = long long;
 	using value_type = RAContainerInt;
 	using permutation = value_type;
+	class iterator;
+	using const_iterator = iterator;
+	class reverse_iterator;
+	using const_reverse_iterator = reverse_iterator;
+	
 public:
 
 	// Static functions
@@ -108,6 +113,46 @@ public:
 		return factorial(m_n);
 	}
 
+	iterator begin() const
+	{
+		return iterator(m_n);
+	}
+
+	const iterator end() const
+	{
+		iterator last;
+		last.m_ID = size();
+		return last;
+	}
+
+	reverse_iterator rbegin() const
+	{
+		return reverse_iterator(m_n);
+	}
+
+	const reverse_iterator rend() const
+	{
+		reverse_iterator last;
+		last.m_ID = size();
+		return last;
+	}
+
+
+	////////////////////////////////////////////////////////////
+	/// \brief Access to the m-th permutation (slow for iteration)
+	///
+	/// This is equivalent to calling *(begin()+m)
+	/// \param m should be an integer between 0 and size(). Undefined behavior otherwise.
+	/// \return The m-th permutation, as defined in the order of iteration (lexicographic)
+	////////////////////////////////////////////////////////////
+	permutation operator[](size_type m) const
+	{
+		assert(m >= 0 && m < size());
+		permutation perm(m_n);
+		construct_permutation(perm,m);
+		return perm;
+	}
+	
 	////////////////////////////////////////////////////////////
 	/// \brief Returns the identity permutation: [1, 2, 3, ... , (n-1)]
 	///
@@ -396,44 +441,7 @@ public:
 	}; // end class iterator
 
 
-	iterator begin() const
-	{
-		return iterator(m_n);
-	}
-
-	iterator end() const
-	{
-		iterator last;
-		last.m_ID = size();
-		return last;
-	}
-
-	reverse_iterator rbegin() const
-	{
-		return reverse_iterator(m_n);
-	}
-
-	reverse_iterator rend() const
-	{
-		reverse_iterator last;
-		last.m_ID = size();
-		return last;
-	}
-
-
-	////////////////////////////////////////////////////////////
-	/// \brief Access to the m-th permutation (slow for iteration)
-	///
-	/// This is equivalent to calling *(begin()+m)
-	/// \param m should be an integer between 0 and size(). Undefined behavior otherwise.
-	/// \return The m-th permutation, as defined in the order of iteration (lexicographic)
-	////////////////////////////////////////////////////////////
-	permutation operator[](size_type m) const
-	{
-		auto it = begin();
-		it += m;
-		return *it;
-	}
+	
 
 private:
 	IntType m_n;

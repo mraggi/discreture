@@ -165,11 +165,10 @@ TEST(Combinations,CorrectOrder)
 
 TEST(Combinations,EdgeCases)
 {
-	basic_combinations<unsigned char> Z(5, 8);
+	basic_combinations<char> Z(5, 8);
 
 	for (const auto& z : Z)
 	{
-		check_combination(z,5,8);
 		ASSERT_TRUE(false);
 	}
 }

@@ -61,6 +61,8 @@ public:
 	using motzkin_path = value_type;
 	using comb_i = typename basic_combinations<IntType, RAContainerInt>::iterator;
 	using dyck_i = typename basic_dyck_paths<IntType, RAContainerInt>::iterator;
+	class iterator;
+	using const_iterator = iterator;
 
 	static std::string to_string(const motzkin_path& data, const std::string& delim = "(-)")
 	{
@@ -85,9 +87,9 @@ public:
 	/// \param n is an integer >= 0
 	///
 	////////////////////////////////////////////////////////////
-	explicit basic_motzkin_paths(IntType n) : m_n(n), m_begin(n), m_end()
+	explicit basic_motzkin_paths(IntType n) : m_n(n)
 	{
-		m_end.m_ID = size();
+		
 	}
 
 	////////////////////////////////////////////////////////////
@@ -108,6 +110,18 @@ public:
 	}
 
 
+	iterator begin() const
+	{
+		return iterator(m_n);
+	}
+
+	iterator end() const
+	{
+		iterator m_end;
+		m_end.m_ID = size();
+		return m_end;
+	}
+	
 	////////////////////////////////////////////////////////////
 	/// \brief Forward iterator class.
 	////////////////////////////////////////////////////////////
@@ -118,11 +132,11 @@ public:
 													>
 	{
 	public:
-		iterator() : m_ID(0), m_data(), m_comb(), m_dyck(), m_numnonzerohalved(0) {} //empty initializer
-		explicit iterator(IntType n) : m_ID(0), m_data(n, 0), m_comb(n, 0), m_dyck(0), m_numnonzerohalved(0)
+		iterator() : m_data(), m_comb(), m_dyck() {} //empty initializer
+		
+		explicit iterator(IntType n) : m_data(n, 0), m_comb(n, 0), m_dyck(0)
 		{
 		}
-
 		
 		inline size_type ID() const
 		{
@@ -180,11 +194,11 @@ public:
 		}
 
 	private:
-		size_type m_ID;
+		size_type m_ID {0};
 		motzkin_path m_data;
 		comb_i m_comb;
 		dyck_i m_dyck;
-		IntType m_numnonzerohalved;
+		IntType m_numnonzerohalved {0};
 
 		void ConvertToMotzkin()
 		{
@@ -207,21 +221,10 @@ public:
 		friend class boost::iterator_core_access;
 	}; // end class iterator
 
-	const iterator& begin() const
-	{
-		return m_begin;
-	}
-
-	const iterator& end() const
-	{
-		return m_end;
-	}
+	
 
 private:
 	IntType m_n;
-	iterator m_begin;
-	iterator m_end;
-
 }; // end class basic_motzkin_paths
 
 using motzkin_paths = basic_motzkin_paths<int>;

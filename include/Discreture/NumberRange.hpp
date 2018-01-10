@@ -17,6 +17,8 @@ public:
 	using difference_type = long long;
 	using size_type = long long;
 	using value_type = IntType;
+	class iterator;
+	using const_iterator = iterator;
 public:
 
 	////////////////////////////////////////////////////////////

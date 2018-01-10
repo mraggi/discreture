@@ -31,9 +31,8 @@ public:
 	using size_type = long long;
 	using value_type = RAContainerInt;
 	using partition = value_type;
-
-	//Declarations.
 	class iterator;
+	using const_iterator = iterator;
 
 
 	// **************** Begin static functions
@@ -205,6 +204,16 @@ public:
 		return m_n;
 	}
 
+	const iterator& begin() const // Looks like I shouldn't erase this like I did for everything else, since it does change depending on the numparts and stuff.
+	{
+		return m_begin;
+	}
+
+	const iterator& end() const // Looks like I shouldn't erase this like I did for everything else, since it does change depending on the numparts and stuff.
+	{
+		return m_end;
+	}
+	
 	////////////////////////////////////////////////////////////
 	/// \brief Forward iterator class.
 	////////////////////////////////////////////////////////////
@@ -260,17 +269,6 @@ public:
 		friend class boost::iterator_core_access;
 		friend class basic_partitions;
 	}; // end class iterator
-
-
-	const iterator& begin() const
-	{
-		return m_begin;
-	}
-
-	const iterator& end() const
-	{
-		return m_end;
-	}
 
 private:
 	IntType m_n;

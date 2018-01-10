@@ -152,7 +152,7 @@ bool testCombinations()
 	}
 
 	std::cout << " Edge case test: " << std::endl;
-	basic_combinations<unsigned char> Z(5, 8);
+	basic_combinations<char> Z(5, 8);
 
 	for (const auto& z : Z)
 	{

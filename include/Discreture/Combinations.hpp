@@ -46,12 +46,12 @@ public:
 
 	using difference_type = long long;
 	using size_type = long long; //yeah, signed. Fuck you, STL!
-// 	using value_type = std::vector<IntType>;
 	using value_type = RAContainerInt;
 	using combination = value_type;
-
-	//Declarations.
 	class iterator;
+	using const_iterator = iterator;
+	class reverse_iterator;
+	using const_reverse_iterator = reverse_iterator;
 
 	// **************** Begin static functions
 	
@@ -235,6 +235,27 @@ public:
 
 		return false;
 	}
+	
+	/////////////////////////////////////////////////////////////////////////////
+	/// \brief Returns the ID of the iterator whose value is comb. That is, the index of combination comb in the lexicographic order.
+	///
+	/// Inverse of operator[]. If combination x is the m-th combination, then get_index(x) is m.
+	/// If one has a combinations::iterator, then the member function ID() should return the same value.
+	/// \return the index of combination comb, as if basic_combinations was a proper data structure
+	/// \note This constructs the proper index from scratch. If an iterator is already known, calling ID on the iterator is much more efficient.
+	/////////////////////////////////////////////////////////////////////////////
+	static size_type get_index(const combination& comb)
+	{
+		const size_type k = comb.size();
+
+		size_type result = 0;
+
+		for (difference_type i = 0; i < k; ++i)
+			result += binomial<size_type>(comb[i], i + 1);
+
+		return result;
+	}
+	
 	// **************** End static functions
 
 public:
@@ -260,28 +281,7 @@ public:
 	{
 		return m_size;
 	}
-
-
-	/////////////////////////////////////////////////////////////////////////////
-	/// \brief Returns the ID of the iterator whose value is comb. That is, the index of combination comb in the lexicographic order.
-	///
-	/// Inverse of operator[]. If combination x is the m-th combination, then get_index(x) is m.
-	/// If one has a combinations::iterator, then the member function ID() should return the same value.
-	/// \return the index of combination comb, as if basic_combinations was a proper data structure
-	/// \note This constructs the proper index from scratch. If an iterator is already known, calling ID on the iterator is much more efficient.
-	/////////////////////////////////////////////////////////////////////////////
-	static size_type get_index(const combination& comb)
-	{
-		const size_type k = comb.size();
-
-		size_type result = 0;
-
-		for (difference_type i = 0; i < k; ++i)
-			result += binomial<size_type>(comb[i], i + 1);
-
-		return result;
-	}
-
+	
 	IntType get_n() const
 	{
 		return m_n;
@@ -291,10 +291,53 @@ public:
 		return m_k;
 	}
 
+	iterator begin() const
+	{
+		return iterator(m_n,m_k);
+	}
 
+	iterator end() const
+	{
+		return iterator(size());
+	}
+	
 	////////////////////////////////////////////////////////////
-	/// \brief Random access iterator class. It's much more efficient as a bidirectional iterator than purely random access.
+	/// \brief Access to the m-th combination (slow for iteration)
+	///
+	/// This is equivalent to calling *(begin()+m)
+	/// \param m should be an integer between 0 and size(). Undefined behavior otherwise.
+	/// \return The m-th combination, as defined in the order of iteration (lexicographic)
 	////////////////////////////////////////////////////////////
+	combination operator[](size_type m) const
+	{
+		assert(m >= 0 && m < size());
+		combination comb(m_k);
+		construct_combination(comb,m);
+		return comb;
+	}
+	
+	////////////////////////////////////////////////////////////
+	/// \brief Get an iterator whose current value is comb
+	///
+	/// \param comb the wanted combination
+	/// \return An iterator currently pointing at comb.
+	////////////////////////////////////////////////////////////
+	iterator get_iterator(const combination& comb)
+	{
+		return iterator(comb);
+	}
+
+	reverse_iterator rbegin() const
+	{
+		return reverse_iterator(m_n,m_k);
+	}
+
+	reverse_iterator rend() const
+	{
+		return reverse_iterator(size());
+	}
+	
+	//************** Begin iterator definitions
 	class iterator : public boost::iterator_facade<
 													iterator,
 													const combination&,
@@ -305,19 +348,23 @@ public:
 		
 		iterator() {} //empty initializer
 		
-		iterator(IntType n, IntType k) : m_ID(0), m_last(k-1), m_hint(k), m_data(k)
+		iterator(IntType n, IntType k) : m_ID(0), 
+										 m_last(k-1), 
+										 m_hint(k), 
+										 m_data(k)
 		{
 			std::iota(m_data.begin(), m_data.end(), 0);
-			if (k == 0)
-			{
-				m_hint = -1;
-// 				m_data.reserve(1); //just to stop it from crashing
-			}
 		}
 		
-		explicit iterator(const combination& data) : m_ID(basic_combinations<IntType,RAContainerInt>::get_index(data)), m_data(data) {}
+		explicit 
+		iterator(const combination& data) : m_ID(get_index(data)),
+											m_last(data.size()-1),
+											m_hint(0),
+											m_data(data) 
+		{}
 		
-		inline bool is_at_end(IntType n) const
+		inline 
+		bool is_at_end(IntType n) const
 		{
 			
 			return m_data.empty() || m_data.back() == n;
@@ -332,17 +379,18 @@ public:
 			std::iota(m_data.begin(),m_data.end(),0);
 		}
 		
+		size_type ID() const { return m_ID; }
 		//boost::iterator_facade provides all the public interface you need, like ++, etc.
-
-		explicit iterator(size_type id) : m_ID(id), m_data() {} //ending initializer: for id only. Do not use unless you know what you are doing.
+		
+		explicit 
+		iterator(size_type id) : m_ID(id) {} //ending initializer: for id only. Do not use unless you know what you are doing.
+		
 	private:
-
 		
 		//prefix
 		void increment()
 		{
 			next_combination(m_data,m_hint,m_last);
-// 			next_combination(m_data,m_hint);
 			++m_ID;
 
 		}
@@ -367,8 +415,8 @@ public:
 		{
 			assert(0 <= n + m_ID);
 
-			// If n is small, it's actually more efficient to just advance to it one by one. 20 was found empirically
-			if (std::abs(n) < 20)
+			// If n is small, it's actually more efficient to just advance to it one by one. 40 was found empirically
+			if (std::abs(n) < 40)
 			{
 				while (n > 0)
 				{
@@ -413,20 +461,12 @@ public:
 		
 		
 		size_type m_ID {0};
-		IntType m_last{0}; //should always be k-1
+		IntType m_last{-1}; //should always be m_data.size()-1!!!
 		IntType m_hint {0};
 		combination m_data {};
 
 	}; // end class iterator
-
-	iterator get_iterator(const combination& comb)
-	{
-		return iterator(comb);
-	}
-
-	////////////////////////////////////////////////////////////
-	/// \brief Reverse random access iterator class. It's much more efficient as a bidirectional iterator than purely random access.
-	////////////////////////////////////////////////////////////
+	
 	class reverse_iterator : public boost::iterator_facade<
 															reverse_iterator,
 															const combination&,
@@ -434,7 +474,7 @@ public:
 															>
 	{
 	public:
-		reverse_iterator() : m_n(0), m_ID(0), m_last(-1), m_data() {} //empty initializer
+		reverse_iterator() {} //empty initializer
 
 		reverse_iterator(IntType n, IntType k) : m_n(n), m_ID(0), m_last(k-1), m_data(k)
 		{
@@ -533,48 +573,12 @@ public:
 	private:
 		IntType m_n{0};
 		size_type m_ID{0};
-		size_type m_last{0};
+		size_type m_last{-1}; //this should ALWAYS be m_data.size()-1!!!!
 		combination m_data{};
 
 		friend class basic_combinations;
 		friend class boost::iterator_core_access;
 	}; // end class iterator
-
-	iterator begin() const
-	{
-		return iterator(m_n,m_k);
-	}
-
-	const iterator end() const
-	{
-		return iterator(size());
-	}
-
-	reverse_iterator rbegin() const
-	{
-		return reverse_iterator(m_n,m_k);
-	}
-
-	const reverse_iterator rend() const
-	{
-		return reverse_iterator(size());
-	}
-
-
-	////////////////////////////////////////////////////////////
-	/// \brief Access to the m-th combination (slow for iteration)
-	///
-	/// This is equivalent to calling *(begin()+m)
-	/// \param m should be an integer between 0 and size(). Undefined behavior otherwise.
-	/// \return The m-th combination, as defined in the order of iteration (lexicographic)
-	////////////////////////////////////////////////////////////
-	combination operator[](size_type m) const
-	{
-		auto it = begin();
-		it += m;
-		return *it;
-	}
-
 
 	///////////////////////////////////////////////
 	/// \brief This is an efficient way to construct a combination of size k which fully satisfies a predicate
@@ -687,30 +691,13 @@ public:
 		return basic_combinations_tree_prunned<IntType, PartialPredicate, combination>(m_n, m_k, pred);
 	}
 
-	///////////////////////////////////////////////
-	/// \brief This is an efficient way to construct all combination of size k which fully satisfy a predicate, std::vector version.
+	////////////////////////////////////////////////////////////
+	/// \brief Applies function f to each element of *this. This is faster than doing manual iteration up to size 19. After that it falls back on manual iteration.
+	///			Equivalent (but faster) to:
+	///			for (auto& x : (*this)) f(x);
 	///
-	/// Equivalent to:
-	///	 auto T = find_all(pred);
-	/// 	return std::vector<combination>(T.begin(),T.end());
-	///
-	//////////////////////////////////////////////
-	template<class PartialPredicate>
-	std::vector<combination> get_all(PartialPredicate pred)
-	{
-		std::vector<combination> toReturn;
-		combination A;
-		A.reserve(m_k);
-
-		while (DFSUtil(A, pred))
-		{
-			if (A.size() == static_cast<size_t>(m_k))
-				toReturn.push_back(A);
-		}
-
-		return toReturn;
-	}
-
+	/// \param f is the function to apply. It should take a const combination& as parameter. You can use lambdas, etc.
+	///////////////////////////////////////////////////////////
 	template <class Func>
 	void for_each(Func f) const
 	{

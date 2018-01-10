@@ -14,7 +14,12 @@ public:
 	using size_type = long long;
 	using value_type = RAContainerInt;
 	using multiset = value_type;
+	class iterator;
+	using const_iterator = iterator;
+	class reverse_iterator;
+	using const_reverse_iterator = reverse_iterator;
 
+public:
 	static void next_multiset(multiset& sub, const multiset& total)
 	{
 		next_multiset(sub,total,total.size());
@@ -80,19 +85,6 @@ public:
 		}
 	}
 	
-	size_type get_index(const multiset& sub) const
-	{
-		assert(sub.size() == m_total.size());
-		size_type coeff = 1;
-		size_type result = 0;
-		for (size_t i = 0; i < m_total.size(); ++i)
-		{
-			result += coeff*sub[i];
-			coeff *= (m_total[i]+1);
-		}
-		return result;
-	}
-	
 	////////////////////////////////////////////////////////////
 	/// \brief class of all submultisets of a given multiset, expressed as incidence vectors with multiplicities
 	/// \param IntType can be an int, short, etc.
@@ -139,7 +131,56 @@ public:
 	{
 		return m_size;
 	}
+	
+	iterator begin() const
+	{
+		return iterator(m_total);
+	}
 
+	iterator end() const
+	{
+		return iterator(size());
+	}
+	
+	reverse_iterator rbegin() const
+	{
+		return reverse_iterator(m_total);
+	}
+
+	reverse_iterator rend() const
+	{
+		return reverse_iterator(size());
+	}
+	
+	//////////////////////////////
+	/// @brief Random Access Capabilities for multiset
+	/// @param m assumes 0 <= m < size(). Undefined behaviour otherwise
+	//////////////////////////////
+	multiset operator[](size_type m) const
+	{
+		assert(m >= 0 && m < size());
+		multiset sub(m_total.size());
+		construct_multiset(sub,m_total,m);
+		return sub;
+	}
+	
+	//////////////////////////////
+	/// @brief Opposite operator to operator[]
+	/// @param sub given a multiset, what would it's index be?
+	//////////////////////////////
+	size_type get_index(const multiset& sub) const
+	{
+		assert(sub.size() == m_total.size());
+		size_type coeff = 1;
+		size_type result = 0;
+		for (size_t i = 0; i < m_total.size(); ++i)
+		{
+			result += coeff*sub[i];
+			coeff *= (m_total[i]+1);
+		}
+		return result;
+	}
+	
 	class iterator : public boost::iterator_facade<
 												iterator,
 												const multiset&,
@@ -155,7 +196,7 @@ public:
 			
 		}
 		
-		iterator(const iterator& it) = default;
+		iterator(const iterator& it) = default; // This is so that the -Weffc++ doesn't complain about me having pointers. I'm not the owner of the pointer anyway.
 		iterator& operator=(const iterator& it) = default;
 
 		size_type ID() const
@@ -212,23 +253,6 @@ public:
 		friend class boost::iterator_core_access;
 	};
 
-	iterator begin() const
-	{
-		return iterator(m_total);
-	}
-
-	iterator end() const
-	{
-		return iterator(size());
-	}
-	
-	multiset operator[](size_type t) const
-	{
-		auto w = begin();
-		w += t;
-		return *w;
-	}
-	
 	class reverse_iterator : 
 		public boost::iterator_facade<
 					reverse_iterator,
@@ -245,7 +269,7 @@ public:
 			
 		}
 
-		reverse_iterator(const reverse_iterator& it) = default;
+		reverse_iterator(const reverse_iterator& it) = default; // This is so that the -Weffc++ doesn't complain about me having pointers. I'm not the owner of the pointer anyway.
 		reverse_iterator& operator=(const reverse_iterator& it) = default;
 		
 		size_type ID() const
@@ -288,26 +312,16 @@ public:
 		
 	private:
 		size_type m_ID{0};
-		size_type m_n{0};
+		size_type m_n{0}; // must have m_n = m_submulti.size() = m_total->size()
 		multiset m_submulti {};
-		multiset const * m_total{nullptr};
+		multiset const *m_total{nullptr};
 		
 		friend class basic_multisets;
 		friend class boost::iterator_core_access;
 	};
 
-	reverse_iterator rbegin() const
-	{
-		return reverse_iterator(m_total);
-	}
-
-	reverse_iterator rend() const
-	{
-		return reverse_iterator(size());
-	}
-	
 private:
-	RAContainerInt m_total;
+	multiset m_total;
 	size_type m_size;
 	
 	static bool can_increment(size_t index, const multiset& sub, const multiset& total)

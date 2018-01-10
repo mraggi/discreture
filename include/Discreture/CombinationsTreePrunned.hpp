@@ -13,9 +13,8 @@ public:
 	using size_type = long long;
 	using value_type = RAContainerInt;
 	using combination = value_type;
-
-	//Declarations.
 	class iterator;
+	using const_iterator = iterator;
 
 public:
 
