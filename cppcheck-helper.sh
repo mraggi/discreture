@@ -8,3 +8,4 @@ cmake -DBUILD_BENCHMARKS=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DCMAKE_EXPORT_
 echo -e "---------------\n"
 
 cppcheck --project=compile_commands.json --enable=all > cppcheckoutput.txt
+cd ..
