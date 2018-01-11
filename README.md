@@ -388,7 +388,7 @@ This comparison isn't very fair (C++ vs python). On the same system, iterating o
 The following benchmarks where done on a i7-5820K CPU @ 3.30GHz, using Manjaro Linux with gcc 7.2.1.
 
 The important column is speed. Higher is better. It means "how many (combinations/permutations/etc) were generated in one second".
-<img src="https://github.com/mraggi/discreture/blob/master/benchmark.png" width="900" alt="discreture::benchmarks" title="discreture::benchmarks">
+<img src="https://github.com/mraggi/discreture/blob/master/benchmarks.png" width="900" alt="discreture::benchmarks" title="discreture::benchmarks">
 
 <!--|Benchmark name                  |   Time     |   # processed     |           Speed (with _fast)    | Speed (w/o _fast) |
 |-----|------|-----:|:------:|:------:|
