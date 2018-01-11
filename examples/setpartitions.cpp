@@ -1,117 +1,25 @@
-#include "SetPartitions.hpp"
+#include "Discreture/SetPartitions.hpp"
 #include <cstdlib>
 #include <sstream>
 #include <string>
 
+using std::cout;
+using std::endl;
+using std::stringstream;
+using dscr::set_partitions;
+using dscr::operator<<;
 
+const int default_num = 4;
+int n = default_num;
+int min_parts = 1;
+int max_parts = n;
+
+void parse_command_line(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 {
-	using std::cout;
-	using std::endl;
-	using std::stringstream;
-	using dscr::set_partitions;
-	using dscr::operator<<;
 	std::ios_base::sync_with_stdio(false);
-	stringstream usage;
-	usage	<< "Usage: setpartitions n [min_parts] [max_parts]\n"
-			<< "Print to STDOUT the set of set partitions of size n, \n with an optional minimum number of parts and maximum number of parts\n"
-			<< "Example 1:\n"
-			<< "setpartitions 3\n"
-			<< "[0][1][2]\n"
-			<< "[0 1][2]\n"
-			<< "[0 2][1]\n"
-			<< "[1 2][0]\n"
-			<< "[0 1 2]\n\n"
-			<< "Example 2:\n"
-			<< "setpartitions 4 2 3\n"
-			<< "[0 1][2][3]\n"
-			<< "[0 2][1][3]\n"
-			<< "[0 3][1][2]\n"
-			<< "[1 2][0][3]\n"
-			<< "[1 3][0][2]\n"
-			<< "[2 3][0][1]\n"
-			<< "[0 1 2][3]\n"
-			<< "[0 1 3][2]\n"
-			<< "[0 2 3][1]\n"
-			<< "[1 2 3][0]\n"
-			<< "[0 1][2 3]\n"
-			<< "[0 2][1 3]\n"
-			<< "[0 3][1 2]\n";
-
-	std::vector<std::string> arguments(argv + 1, argv + argc);
-	
-	if (arguments.empty() || arguments.size() > 3)
-	{
-
-		cout << "ERROR: Wrong number of arguments\n\n";
-		cout << usage.str();
-		return 0;
-	}
-	
-	int n;
-	try
-	{
-		n = std::stoi(arguments[0]);
-	}
-	catch (...)
-	{
-		cout << "ERROR: Arguments must be numbers\n\n";
-		cout << usage.str();
-		return 0;
-	}
-	int min_parts {1};
-	int max_parts {n};
-
-	if (arguments.size() == 2)
-	{
-		try
-		{
-			min_parts = std::stoi(arguments[1]);
-			max_parts = min_parts;
-		}
-		catch (...)
-		{
-			cout << "ERROR: Arguments must be numbers\n\n";
-			cout << usage.str();
-			return 0;
-		}
-	}
-	
-	if (arguments.size() == 3)
-	{
-		try
-		{
-			min_parts = std::stoi(arguments[1]);
-			max_parts = std::stoi(arguments[2]);
-		}
-		catch (...)
-		{
-			cout << "ERROR: Arguments must be numbers\n\n";
-			cout << usage.str();
-			return 0;
-		}
-	}
-	if (min_parts > max_parts)
-	{
-		cout << "ERROR: minimum number of parts must be greater or equal to maximum number of parts\n\n";
-		cout << usage.str();
-		return 0;
-	}
-	if (min_parts <= 0)
-	{
-		cout << "ERROR: cannot have 0 or less parts!\n\n";
-		cout << usage.str();
-		return 0;
-	}
-	
-	if (max_parts > n)
-	{
-		cout << "ERROR: cannot have more than n parts!\n\n";
-		cout << usage.str();
-		return 0;
-	}
-		
+	parse_command_line(argc,argv);
 	
 	set_partitions X(n,min_parts,max_parts);
 
@@ -125,4 +33,99 @@ int main(int argc, char* argv[])
 	}
 	
 	return 0;
+}
+
+void reset()
+{
+	n = default_num;
+	min_parts = 1;
+	max_parts = n;
+}
+
+void parse_command_line(int argc, char* argv[])
+{
+	stringstream usage;
+	usage	<< "Usage: set_partitions n [min_parts] [max_parts]\n"
+			<< "Print to STDOUT all partitions of {0,1,...,n-1} into distinct sets, \n"
+			<< "with an optional minimum number of parts and maximum number of parts\n\n"
+			<< "Example:\n"
+			<< "./set_partitions " << n << '\n';
+
+	std::vector<std::string> arguments(argv + 1, argv + argc);
+	
+	if (arguments.empty() || arguments.size() > 3)
+	{
+
+		cout << "\nERROR: Wrong number of arguments. Give between 1 and 3 arguments.\n\n";
+		cout << usage.str();
+		reset();
+		return;
+	}
+	
+	try
+	{
+		n = std::stoi(arguments[0]);
+		max_parts = n;
+	}
+	catch (...)
+	{
+		cout << "\nERROR: Arguments must be numbers\n\n";
+		reset();
+		cout << usage.str();
+		return;
+	}
+
+	if (arguments.size() == 2)
+	{
+		try
+		{
+			min_parts = std::stoi(arguments[1]);
+			max_parts = min_parts;
+		}
+		catch (...)
+		{
+			reset();
+			cout << "\nERROR: Arguments must be numbers\n\n";
+			cout << usage.str();
+			return;
+		}
+	}
+	
+	if (arguments.size() == 3)
+	{
+		try
+		{
+			min_parts = std::stoi(arguments[1]);
+			max_parts = std::stoi(arguments[2]);
+		}
+		catch (...)
+		{
+			reset();
+			cout << "\nERROR: Arguments must be numbers\n\n";
+			cout << usage.str();
+			return;
+		}
+	}
+	if (min_parts > max_parts)
+	{
+		cout << "\nERROR: minimum number of parts must be greater or equal to maximum number of parts\n\n";
+		reset();
+		cout << usage.str();
+		return ;
+	}
+	if (min_parts <= 0)
+	{
+		cout << "\nERROR: cannot have 0 or less parts!\n\n";
+		reset();
+		cout << usage.str();
+		return;
+	}
+	
+	if (max_parts > n)
+	{
+		cout << "\nERROR: cannot have more than n parts!\n\n";
+		reset();
+		cout << usage.str();
+		return;
+	}
 }

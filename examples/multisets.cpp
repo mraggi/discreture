@@ -3,29 +3,63 @@
 #include <sstream>
 #include <string>
 
+using std::cout;
+using std::endl;
+using std::stringstream;
+using dscr::multisets;
+using dscr::operator<<;
+
+std::vector<int> total;
+
+void parse_command_line(int argc, char* argv[]);
 
 
-int main()
+int main(int argc, char* argv[])
 {
-	using std::cout;
-	using std::endl;
-	using std::stringstream;
-	using dscr::multisets;
-	using dscr::operator<<;
+	
 	std::ios_base::sync_with_stdio(false);
 
-	std::vector<int> total = {3,2,1,1};
+	parse_command_line(argc,argv);
 	
-	cout << "These are all the submultisets of " << total << endl;
-	
-	auto X = multisets(total);
+	multisets X(total);
 	for (auto& x : X)
 		cout << x << endl;
 	
-
-	cout << "And here they are in reverse order: " << endl;
-	for (auto it = X.rbegin(); it != X.rend(); ++it)
-		cout << *it << endl;
-	
 	return 0;
+}
+
+
+void parse_command_line(int argc, char* argv[])
+{
+	std::stringstream usage;
+	usage	<< "Usage: multisets [integer params]\n"
+			<< "Print to STDOUT all submultisets of the given multiset.\n\n"
+			<< "Example:\n\n"
+			<< "./multisets 1 2 0 1\n";
+
+
+	std::vector<std::string> arguments(argv + 1, argv + argc);
+	try
+	{
+		for (size_t n = 0; n < arguments.size(); ++n)
+		{
+			total.emplace_back(std::stoi(arguments[n]));
+		}
+	}
+	catch (...)
+	{
+		cout << "\nERROR: All arguments must be numbers\n\n";
+		total = {1,2,0,1};
+		cout << usage.str();
+		return;
+	}
+	
+	if (total.empty())
+	{
+		total = {1,2,0,1};
+		cout << usage.str();
+	}
+
+	return;
+	
 }

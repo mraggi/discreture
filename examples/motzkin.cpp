@@ -1,93 +1,95 @@
-#include "Motzkin.hpp"
+#include "Discreture/Motzkin.hpp"
 #include <cstdlib>
 #include <sstream>
 #include <string>
 
+int n = 0; //Global variable for exposition purposes. Do not use global variables in real code.
+std::string replacement_string = "";
 
+using std::cout;
+using std::cerr;
+using std::endl;
+using dscr::motzkin_paths;
+using dscr::operator<<;
+
+// Just sets global variables n and k.
+void parse_command_line(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 {
-	using std::cout;
-	using std::endl;
-	using std::stringstream;
-	using dscr::motzkin_paths;
-	using dscr::operator<<;
-	std::ios_base::sync_with_stdio(false);
-	stringstream usage;
+	std::ios_base::sync_with_stdio(false); //this makes terminal output a bit faster.
+	
+	parse_command_line(argc,argv);
+	
+	if (replacement_string.size() == 3)
+	{
+		for (auto& x : motzkin_paths(n))
+			cout << motzkin_paths::to_string(x, replacement_string) << endl;
+	} else
+	{
+		for (auto& x : motzkin_paths(n))
+			cout << x << endl;
+	}
+	return 0;
+}
+
+void parse_command_line(int argc, char* argv[])
+{
+	std::stringstream usage;
 	usage	<< "Usage: motzkin n [replacement-string]\n"
-			<< "Print to STDOUT the set of motzkin paths of size n,\n"
+			<< "Print to STDOUT the set of motzkin paths (catalan paths) of size 2n,\n"
 			<< "where n is an integer and replacement-string is a set of three characters that play the role of 1, 0 and -1.\n\n"
 			<< "Example 1:\n"
-			<< "motzkin 4\n"
-			<< "0 0 0 0\n"
-			<< "1 -1 0 0\n" 
-			<< "1 0 -1 0 \n"
-			<< "0 1 -1 0 \n"
-			<< "1 0 0 -1 \n"
-			<< "0 1 0 -1 \n"
-			<< "0 0 1 -1 \n"
-			<< "1 1 -1 -1 \n"
-			<< "1 -1 1 -1\n\n"
+			<< "  ./motzkin 4\n"
+			<<	"  0 0 0 0\n"
+			<<	"  1 -1 0 0\n"
+			<<	"  0 1 -1 0\n"
+			<<	"  1 0 0 -1\n"
+			<<	"  0 1 0 -1\n"
+			<<	"  0 0 1 -1\n"
+			<<	"  1 1 -1 -1\n"
+			<<	"  1 -1 1 -1\n\n"
 			<< "Example 2:\n"
-			<< "motzkin 4 \"(-)\"\n"
-			<< "----\n"
-			<< "()--\n"
-			<< "(-)-\n"
-			<< "-()-\n"
-			<< "(--)\n"
-			<< "-(-)\n"
-			<< "--()\n"
-			<< "(())\n"
-			<< "()()\n";
+			<< "  ./motzkin 3 \"(-)\"\n"
+			<<  "  ---\n"
+			<<	"  ()-\n"
+			<<	"  (-)\n"
+			<<	"  -()\n";
+
 
 	if (argc >= 2)
 	{
 		std::vector<std::string> arguments(argv + 1, argv + argc);
-
-		int n {0};
-
+// 		cout << "arguments = " << arguments << endl;
 		try
 		{
 			n = std::stoi(arguments[0]);
 		}
 		catch (...)
 		{
-			cout << "First argument must be a number\n";
+			cout << "\nERROR: First argument must be a number\n\n";
 			cout << usage.str();
-			return 0;
+			return;
 		}
 
 		if (arguments.size() == 2)
 		{
 			if (arguments[1].size() != 3)
 			{
-				cout << "Second argument must be two characters long\n";
+				cout << "\nERROR: Second argument must be three characters long\n\n";
 				cout << usage.str();
-				return 0;
+				n = 0;
+				return;
 			}
+			replacement_string = arguments[1];
 
-			motzkin_paths X(n);
-
-			for (auto& x : X)
-			{
-				cout << motzkin_paths::to_string(x, arguments[1]) << '\n';
-			}
-
-			return 0;
+			return;
 		} //then arguments.size() must be 2
-
-		motzkin_paths X(n);
-
-		for (auto& x : X)
-		{
-			cout << x << '\n';
-		}
-
-		return 0;
-
+		return;
 	}
 
 	cout << "Wrong number of arguments\n";
 	cout << usage.str();
-	return 0;
+	
 }
+

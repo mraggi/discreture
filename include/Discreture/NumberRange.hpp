@@ -48,12 +48,16 @@ public:
 		if (m_step > 0 && m_to < m_from) m_to = m_from;
 		if (m_step < 0 && m_to > m_from) m_to = m_from;
 		
-		auto d = modulo(m_from-m_to,m_step);
+		auto d = modulo<IntType>(m_from-m_to,m_step);
 		
 		if (m_step > 0)
 			m_to += d;
 		else
+		{
 			m_to += d + m_step;
+			if (d == 0)
+				m_to -= m_step;
+		}
 	}
 
 	size_type size() const
