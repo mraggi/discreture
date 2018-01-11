@@ -15,7 +15,7 @@ TEST(NaturalNumber,ForwardIteration)
 		ASSERT_EQ(R.size(), n);
 		ASSERT_TRUE(std::is_sorted(R.begin(), R.end()));
 		ASSERT_EQ(*R.begin(),0);
-		ASSERT_EQ(*(R.end()-1),n-1);
+		ASSERT_EQ(*R.end(),n);
 	}
 }
 
@@ -28,4 +28,15 @@ TEST(NaturalNumber, PartitionPoint)
 		return t < 50811;
 	});
 	ASSERT_EQ(n,50811);
+}
+
+TEST(NaturalNumber, Indices)
+{
+	std::vector<int> A(10);
+	int j = 0;
+	for (auto i : indices(A))
+	{
+		ASSERT_EQ(i,j);
+		++j;
+	}
 }

@@ -120,4 +120,12 @@ private:
 using natural_number = basic_natural_number<int>;
 using big_natural_number = basic_natural_number<long long>;
 
+template <class Container, class T = typename Container::size_type>
+basic_natural_number<T> indices(const Container& C)
+{
+	return basic_natural_number<T>(C.size());
+}
+
+//TODO(mraggi): zip and enumerate.
+
 } // end namespace dscr;
