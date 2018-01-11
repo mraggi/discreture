@@ -147,11 +147,9 @@ public:
 	////////////////////////////////////////////////////////////
 	explicit basic_partitions(IntType n) : m_n(n), 
 											m_minnumparts(1), 
-											m_maxnumparts(n), 
-											m_begin(n, n), 
-											m_end()
+											m_maxnumparts(n),
+											m_size(calc_size(n))
 	{
-		m_end.m_ID = size();
 	}
 
 	////////////////////////////////////////////////////////////
@@ -161,9 +159,11 @@ public:
 	/// \param numparts is an integer >= 1 and <= n
 	///
 	////////////////////////////////////////////////////////////
-	basic_partitions(IntType n, IntType numparts) : m_n(n), m_minnumparts(numparts), m_maxnumparts(numparts), m_begin(n, numparts), m_end()
+	basic_partitions(IntType n, IntType numparts) : m_n(n), 
+													m_minnumparts(numparts), 
+													m_maxnumparts(numparts),
+													m_size(calc_size(n,numparts))
 	{
-		m_end.m_ID = size();
 	}
 
 	////////////////////////////////////////////////////////////
@@ -174,9 +174,11 @@ public:
 	/// \param maxnumparts is an integer >= minnumparts and <= n
 	///
 	////////////////////////////////////////////////////////////
-	basic_partitions(IntType n, IntType minnumparts, IntType maxnumparts) : m_n(n), m_minnumparts(minnumparts), m_maxnumparts(maxnumparts), m_begin(n, maxnumparts), m_end()
+	basic_partitions(IntType n, IntType minnumparts, IntType maxnumparts) 
+	: 	m_n(n), 
+		m_minnumparts(minnumparts), m_maxnumparts(maxnumparts),
+		m_size(calc_size(n,minnumparts,maxnumparts))
 	{
-		m_end.m_ID = size();
 	}
 
 
@@ -188,15 +190,7 @@ public:
 	////////////////////////////////////////////////////////////
 	size_type size() const
 	{
-		if (m_minnumparts == 1 && m_maxnumparts == m_n)
-			return partition_number(m_n);
-
-		size_type toReturn = 0;
-
-		for (size_type k = m_minnumparts; k <= m_maxnumparts; ++k)
-			toReturn += partition_number(m_n, k);
-
-		return toReturn;
+		return m_size;
 	}
 
 	IntType get_n() const
@@ -204,14 +198,14 @@ public:
 		return m_n;
 	}
 
-	const iterator& begin() const // Looks like I shouldn't erase this like I did for everything else, since it does change depending on the numparts and stuff.
+	iterator begin() const
 	{
-		return m_begin;
+		return iterator(m_n,m_maxnumparts);
 	}
 
-	const iterator& end() const // Looks like I shouldn't erase this like I did for everything else, since it does change depending on the numparts and stuff.
+	const iterator end() const
 	{
-		return m_end;
+		return iterator::make_invalid_with_id(size());
 	}
 	
 	////////////////////////////////////////////////////////////
@@ -238,7 +232,7 @@ public:
 		
 		//boost::iterator_facade provides all the public interface you need, like ++, etc.
 		
-		iterator make_invalid_with_id(size_type id)
+		static const iterator make_invalid_with_id(size_type id)
 		{
 			iterator it;
 			it.m_ID = id;
@@ -274,15 +268,31 @@ public:
 		IntType m_n;
 
 		friend class boost::iterator_core_access;
-		friend class basic_partitions;
 	}; // end class iterator
 
 private:
 	IntType m_n;
 	IntType m_minnumparts;
 	IntType m_maxnumparts;
-	iterator m_begin;
-	iterator m_end;
+	size_type m_size;
+	
+	static size_type calc_size(IntType n)
+	{
+		return partition_number(n);
+	}
+	
+	static size_type calc_size(IntType n, IntType numparts)
+	{
+		return partition_number(n,numparts);
+	}
+	
+	static size_type calc_size(IntType n, IntType minnumparts, IntType maxnumparts)
+	{
+		size_type toReturn = 0;
+		for (size_type k = minnumparts; k <= maxnumparts; ++k)
+			toReturn += partition_number(n, k);
+		return toReturn;
+	}
 
 }; // end class basic_partitions
 

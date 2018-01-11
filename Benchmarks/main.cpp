@@ -91,13 +91,13 @@ int main()
 	cout << ProduceRowReverse("Multisets", MS);
 	cout << ProduceRowReverse("Multisets Stack", MSF);
 	cout << ProduceRowConstruct("Multisets", MS, construct);
-	cout << ProduceRowConstruct("Multisets", MSF, construct);
+	cout << ProduceRowConstruct("Multisets Stack", MSF, construct);
 	
 	BenchRow::print_line(cout);
 	cout << ProduceRowForward("Dyck Paths", DP);
 	cout << ProduceRowForward("Dyck Paths Stack", DPF);
 	
-	BenchRow::print_line(cout);
+// 	BenchRow::print_line(cout);
 	cout << ProduceRowForward("Motzkin Paths", MP);
 	cout << ProduceRowForward("Motzkin Paths Stack", MPF);
 	
@@ -105,11 +105,11 @@ int main()
 	cout << ProduceRowForward("Partitions", PT);
 	cout << ProduceRowForward("Partitions Stack", PTF);
 	
-	BenchRow::print_line(cout);
+// 	BenchRow::print_line(cout);
 	cout << ProduceRowForward("Set Partitions", SPT);
 
 	BenchRow::print_line(cout);
-	
+	cout << std::defaultfloat;
 	cout << "\nTotal Time taken = " << chrono.Reset() << "s" << endl;
 	return 0;
 

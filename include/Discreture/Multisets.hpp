@@ -137,9 +137,9 @@ public:
 		return iterator(m_total);
 	}
 
-	iterator end() const
+	const iterator end() const
 	{
-		return iterator(size());
+		return iterator::make_invalid_with_id(size());
 	}
 	
 	reverse_iterator rbegin() const
@@ -147,9 +147,9 @@ public:
 		return reverse_iterator(m_total);
 	}
 
-	reverse_iterator rend() const
+	const reverse_iterator rend() const
 	{
-		return reverse_iterator(size());
+		return reverse_iterator::make_invalid_with_id(size());
 	}
 	
 	//////////////////////////////
@@ -204,7 +204,7 @@ public:
 			return m_ID;
 		}
 		
-		iterator make_invalid_with_id(size_type id)
+		static const iterator make_invalid_with_id(size_type id)
 		{
 			return iterator(id);
 		}
@@ -254,7 +254,6 @@ public:
 		multiset m_submulti {};
 		multiset const * m_total {nullptr};
 		
-		friend class basic_multisets;
 		friend class boost::iterator_core_access;
 	};
 
@@ -280,6 +279,11 @@ public:
 		size_type ID() const
 		{
 			return m_ID;
+		}
+		
+		static const reverse_iterator make_invalid_with_id(size_type id)
+		{
+			return reverse_iterator(id);
 		}
 		
 	private:
@@ -321,7 +325,6 @@ public:
 		multiset m_submulti {};
 		multiset const *m_total{nullptr};
 		
-		friend class basic_multisets;
 		friend class boost::iterator_core_access;
 	};
 

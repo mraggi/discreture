@@ -117,9 +117,7 @@ public:
 
 	iterator end() const
 	{
-		iterator m_end;
-		m_end.m_ID = size();
-		return m_end;
+		return iterator::make_invalid_with_id(size());
 	}
 	
 	////////////////////////////////////////////////////////////
@@ -143,7 +141,7 @@ public:
 			return m_ID;
 		}
 		
-		iterator make_invalid_with_id(size_type id)
+		static iterator make_invalid_with_id(size_type id)
 		{
 			iterator it;
 			it.m_ID = id;
@@ -225,7 +223,6 @@ public:
 			}
 		}
 
-		friend class basic_motzkin_paths;
 		friend class boost::iterator_core_access;
 	}; // end class iterator
 

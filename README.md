@@ -387,9 +387,10 @@ This comparison isn't very fair (C++ vs python). On the same system, iterating o
 
 The following benchmarks where done on a i7-5820K CPU @ 3.30GHz, using Manjaro Linux with gcc 7.2.1.
 
-The important columns are Speed and Speed (w/o _fast). Higher is better. They mean "how many (combinations/permutations/etc) were generated in one second". Tests were done with e.g. `combinations_fast` and `combinations` respectively. Times are only reported for _fast version.
+The important column is speed. Higher is better. It means "how many (combinations/permutations/etc) were generated in one second".
+<img src="https://github.com/mraggi/discreture/blob/master/benchmark.png" width="900" alt="discreture::benchmarks" title="discreture::benchmarks">
 
-|Benchmark name                  |   Time     |   # processed     |           Speed (with _fast)    | Speed (w/o _fast) |
+<!--|Benchmark name                  |   Time     |   # processed     |           Speed (with _fast)    | Speed (w/o _fast) |
 |-----|------|-----:|:------:|:------:|
 |Combinations | | | | |
 |Combinations for_each           | 0.827s        | 847660528           |1.025e+09 #/sec|        8.846e+08 #/sec|
@@ -418,12 +419,12 @@ The important columns are Speed and Speed (w/o _fast). Higher is better. They me
 | Partitions  | | | | |
 |Partitions Forward              | 0.024s        |    966467           |4.034e+07 #/sec|        3.805e+07 #/sec|
 | Set Partitions  | | | | |
-|Set Partitions Forward          | 0.689s        |  27644437           |4.013e+07 #/sec|        4.395e+07 #/sec|
+|Set Partitions Forward          | 0.689s        |  27644437           |4.013e+07 #/sec|        4.395e+07 #/sec|-->
 
 
-**Noteworthy**: for_each can be really fast if using _fast version for combinations. Standard iteration was slower with _fast version on both combinations and combinations tree reverse for some unknown reason.
+**Noteworthy**: for_each can be really fast if using "stack" version for combinations (*i.e.* combinations_fast). Standard iteration was slower with _fast version on both combinations and combinations tree reverse for some unknown reason.
 
-Run your own benchmarks by building with `cmake -DBUILD_BENCHMARKS=ON` and running
+Run your own benchmarks (with colors!) by building with `cmake -DBUILD_BENCHMARKS=ON` and running
 ```sh
 ./discreture_benchmarks
 ```
@@ -438,7 +439,6 @@ Run your own benchmarks by building with `cmake -DBUILD_BENCHMARKS=ON` and runni
  - Samuel Lelièvre for his help installing in macOS.
  
  - You: for reading this.
- 
 
 # Contributing
 Please help us testing, debugging, benchmarking, packaging for the various distros, etc. Also, if you use discreture for your own purposes, let us know!

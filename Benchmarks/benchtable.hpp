@@ -112,7 +112,12 @@ std::ostream& operator<<(std::ostream& os, const BenchRow& T)
 		speed_color = rang::fg::red;
 	
 	
-	os << std::setprecision(3) << std::scientific << speed_color << T.speed() << " #/sec" << rang::fg::reset << std::endl;
+	os << std::setprecision(3) << std::scientific << speed_color;
+	
+	if (T.speed() > 1e9)
+		os << rang::fgB::green << rang::style::bold;
+	
+	os << T.speed() << " #/sec" << rang::fg::reset << rang::style::reset << std::endl;
 	
 	return os;
 }

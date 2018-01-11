@@ -125,9 +125,7 @@ public:
 
 	const iterator end() const
 	{
-		iterator last;
-		last.m_ID = size();
-		return last;
+		return iterator::make_invalid_with_id(size());
 	}
 
 	reverse_iterator rbegin() const
@@ -137,9 +135,7 @@ public:
 
 	const reverse_iterator rend() const
 	{
-		reverse_iterator last;
-		last.m_ID = size();
-		return last;
+		return reverse_iterator::make_invalid_with_id(size());
 	}
 
 
@@ -258,7 +254,7 @@ public:
 			return m_ID;
 		}
 		
-		iterator make_invalid_with_id(size_type id)
+		static const iterator make_invalid_with_id(size_type id)
 		{
 			iterator it;
 			it.m_ID = id;
@@ -348,7 +344,6 @@ public:
 		permutation m_data{};
 
 		friend class boost::iterator_core_access;
-		friend class basic_permutations;
 	}; // end class iterator
 	
 	
@@ -376,6 +371,13 @@ public:
 			m_ID = 0;
 			m_data = basic_number_range<IntType>(n);
 			std::reverse(m_data.begin(), m_data.end());
+		}
+		
+		static const reverse_iterator make_invalid_with_id(size_type id)
+		{
+			reverse_iterator it;
+			it.m_ID = id;
+			return it;
 		}
 		
 	private:
@@ -446,7 +448,6 @@ public:
 		size_type m_ID;
 		permutation m_data;
 
-		friend class basic_permutations;
 		friend class boost::iterator_core_access;
 	}; // end class iterator
 

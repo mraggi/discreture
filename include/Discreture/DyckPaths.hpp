@@ -209,7 +209,7 @@ public:
                 m_data[i] = -1;
         }
 
-        iterator make_invalid_with_id(size_type id)
+        static const iterator make_invalid_with_id(size_type id)
 		{
 			iterator it;
 			it.m_ID = id;
@@ -241,7 +241,6 @@ public:
         size_type m_ID {0};
         dyck_path m_data {};
 
-        friend class basic_dyck_paths;
         friend class boost::iterator_core_access;
     }; // end class iterator
 
@@ -250,11 +249,9 @@ public:
         return iterator(m_n);
     }
 
-    iterator end() const
+    const iterator end() const
     {
-        iterator m_end;
-        m_end.m_ID = size();
-        return m_end;
+        return iterator::make_invalid_with_id(size());
     }
 
 

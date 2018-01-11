@@ -304,9 +304,10 @@ public:
 		return iterator(m_n,m_k);
 	}
 
-	iterator end() const
+	const iterator end() const
 	{
 		return iterator(size());
+// 		return iterator::make_invalid_with_id(size());
 	}
 	
 	////////////////////////////////////////////////////////////
@@ -340,7 +341,7 @@ public:
 		return reverse_iterator(m_n,m_k);
 	}
 
-	reverse_iterator rend() const
+	const reverse_iterator rend() const
 	{
 		return reverse_iterator(size());
 	}
@@ -470,7 +471,6 @@ public:
 		friend class boost::iterator_core_access;
 		friend class basic_combinations;
 		
-		
 		size_type m_ID {0};
 		IntType m_last{-1}; //should always be m_data.size()-1!!!
 		size_type m_hint {0};
@@ -509,6 +509,14 @@ public:
 			m_last = k-1;
 			m_data.resize(k);
 			std::iota(m_data.begin(), m_data.end(), n-k);
+		}
+		
+		//////////////////////////////////////
+		/// @brief Constructs an invalid iterator whose only purpose is to have an id (for comparison purposes)
+		//////////////////////////////////////
+		static reverse_iterator make_invalid_with_id(size_type id)
+		{
+			return reverse_iterator(id);
 		}
 		
 	private:
@@ -587,8 +595,8 @@ public:
 		IntType m_last{-1}; //this should ALWAYS be m_data.size()-1!!!!
 		combination m_data{};
 
-		friend class basic_combinations;
 		friend class boost::iterator_core_access;
+		friend class basic_combinations;
 	}; // end class iterator
 
 	///////////////////////////////////////////////

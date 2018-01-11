@@ -67,6 +67,11 @@ public:
 	static bool next_set_partition(set_partition& data, const number_partition& part)
 	{
 		long n = std::accumulate(part.begin(), part.end(), 0);
+		return next_set_partition(data,part,n);
+	}
+	
+	static bool next_set_partition(set_partition& data, const number_partition& part, long n)
+	{
 		long anteriorpos = pop(data, n - 1);
 		long curr = n - 2;
 		long currpos = 0;
@@ -133,10 +138,8 @@ public:
 	explicit basic_set_partitions(IntType n) : m_n(n), 
 												m_minnumparts(1), 
 												m_maxnumparts(n), 
-												m_begin(n, n), 
-												m_end()
+												m_size(calc_size(n,1,n))
 	{
-		m_end.m_ID = size();
 	}
 
 	////////////////////////////////////////////////////////////
@@ -146,9 +149,12 @@ public:
 	/// \param numparts is an integer >= 1 and <= n
 	///
 	////////////////////////////////////////////////////////////
-	basic_set_partitions(IntType n, IntType numparts) : m_n(n), m_minnumparts(numparts), m_maxnumparts(numparts), m_begin(n, numparts), m_end()
+	basic_set_partitions(IntType n, IntType numparts) : m_n(n), 
+														m_minnumparts(numparts), 
+														m_maxnumparts(numparts), 
+														m_size(calc_size(n,numparts,numparts))
 	{
-		m_end.m_ID = size();
+		
 	}
 
 	////////////////////////////////////////////////////////////
@@ -159,31 +165,40 @@ public:
 	/// \param maxnumparts is an integer >= minnumparts and <= n
 	///
 	////////////////////////////////////////////////////////////
-	basic_set_partitions(IntType n, IntType minnumparts, IntType maxnumparts) : m_n(n), m_minnumparts(minnumparts), m_maxnumparts(maxnumparts), m_begin(n, maxnumparts), m_end()
+	basic_set_partitions(IntType n, IntType minnumparts, IntType maxnumparts) : m_n(n), 
+																				m_minnumparts(minnumparts), 
+																				m_maxnumparts(maxnumparts),
+																				m_size(calc_size(n,minnumparts,maxnumparts))
 	{
-		m_end.m_ID = size();
 	}
 
 
 	////////////////////////////////////////////////////////////
 	/// \brief The total number of set_partitions
 	///
-	/// \return If the number of parts was not specified, then the bell number B_n. If it was, then the sum of the appropiate stirling numbers of the second kind.
+	/// \return If the number of parts was not specified, then the bell number B_n. If it was, then the sum of the appropiate stirling partition numbers.
 	///
 	////////////////////////////////////////////////////////////
 	size_type size() const
 	{
-		size_type toReturn = 0;
-
-		for (IntType k = m_minnumparts; k <= m_maxnumparts; ++k)
-			toReturn += stirling_partition_number(m_n, k);
-
-		return toReturn;
+		return m_size;
+		
 	}
 
 	IntType get_n() const
 	{
 		return m_n;
+	}
+	
+	
+	iterator begin() const
+	{
+		return iterator(m_n,m_maxnumparts);
+	}
+
+	const iterator end() const
+	{
+		return iterator::make_invalid_with_id(size());
 	}
 
 	////////////////////////////////////////////////////////////
@@ -209,7 +224,7 @@ public:
 			return m_ID;
 		}
 		
-		iterator make_invalid_with_id(size_type id)
+		static const iterator make_invalid_with_id(size_type id)
 		{
 			iterator it;
 			it.m_ID = id;
@@ -245,31 +260,27 @@ public:
 		IntType m_n{0};
 		number_partition m_npartition{};
 
-		friend class basic_set_partitions;
 		friend class boost::iterator_core_access;
 	}; // end class iterator
-
-
-	const iterator& begin() const
-	{
-		return m_begin;
-	}
-
-	const iterator& end() const
-	{
-		return m_end;
-	}
 
 private:
 	IntType m_n;
 	IntType m_minnumparts;
 	IntType m_maxnumparts;
-	iterator m_begin;
-	iterator m_end;
-
-
+	size_type m_size;
+	
 private:
 	// Private static functions
+	static size_type calc_size(IntType n, IntType minnumparts, IntType maxnumparts)
+	{
+		size_type toReturn = 0;
+
+		for (IntType k = minnumparts; k <= maxnumparts; ++k)
+			toReturn += stirling_partition_number(n, k);
+
+		return toReturn;
+	}
+	
 	static long pop(set_partition& data, IntType num)
 	{
 		const long n = data.size();

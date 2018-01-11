@@ -34,18 +34,41 @@ TEST(Partitions,ForwardIteration)
 
 TEST(Partitions,WithSpecifiedNumParts)
 {
-	for (int n = 0; n < 8; ++n)
+	for (int n = 1; n < 10; ++n)
 	{
 		for (int k = 1; k <= n; ++k)
 		{
 			partitions X(n,k);
 			set<partitions::partition> S(X.begin(),X.end());
-			ASSERT_EQ(X.size(), S.size()); //check if all motzkin paths are different
+			ASSERT_EQ(X.size(), S.size()); //check if all are different
 
 			for (const auto& x : X)
 			{
 				check_partition(x,n);
 				ASSERT_EQ(x.size(),k);
+			}
+		}
+	}
+}
+
+TEST(Partitions,WithRangeNumParts)
+{
+	for (int n = 1; n < 10; ++n)
+	{
+		for (int k = 1; k <= n; ++k)
+		{
+			for (int m = k; m <= n; ++m)
+			{
+				partitions X(n,k,m);
+				set<partitions::partition> S(X.begin(),X.end());
+				ASSERT_EQ(X.size(), S.size()); //check if all are different
+
+				for (const auto& x : X)
+				{
+					check_partition(x,n);
+					ASSERT_GE(x.size(),k);
+					ASSERT_LE(x.size(),m);
+				}
 			}
 		}
 	}
