@@ -17,11 +17,12 @@ TEST(Sequences,Binomial)
 	ASSERT_EQ(binomial(10000,10000),1);
 	ASSERT_EQ(binomial(10000,9999),10000);
 	ASSERT_EQ(binomial(1000,3),166167000L);
+	ASSERT_EQ(binomial(4e9,2),7999999998000000000L);
 	ASSERT_EQ(binomial(98,8),157366449604L);
 	
 	for (int i = 0; i < 100; ++i)
 	{
-		int n = random::random_int(0,50);
+		int n = random::random_int(0,100);
 		int k = random::random_int(0,n+1);
 		if (n == 0 && k == 0)
 			continue;

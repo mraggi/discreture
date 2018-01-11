@@ -3,7 +3,8 @@
 #include <cmath>
 #include <iostream>
 #include <cstdlib>
-
+#include <numeric>
+#include "VectorHelpers.hpp"
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/container/static_vector.hpp>
 #include <boost/container/vector.hpp>
@@ -59,5 +60,38 @@ inline T pow(T a, unsigned long n)
 	return r;
 }
 
+// Deprecated in c++17. Here for use in c++14. 
+template<class T>
+T gcd(T a, T b) 
+{
+	while (b != 0) 
+	{
+		T r = a % b;
+		a = b;
+		b = r;
+	}
+	return a;
+}
+
+template <class T, class Container>
+T reduce_fraction(Container Numerator, Container Denominator)
+{
+	for (auto& b : Denominator)
+	{
+		for (auto& a : Numerator)
+		{
+			auto d = gcd(a,b);
+			a /= d;
+			b /= d;
+			if (b == 1)
+				break;
+		}
+	}
+	
+	T result = 1;
+	for (auto a : Numerator)
+		result *= a;
+	return result;
+}
 
 }

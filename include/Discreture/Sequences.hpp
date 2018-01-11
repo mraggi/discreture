@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include "Misc.hpp"
+#include "VectorHelpers.hpp"
 namespace dscr
 {
 using llint = long long int;
@@ -126,11 +127,19 @@ inline BigIntType binomial(llint n, llint k)
 	if (n < m)
 		return B[n][k];
 
-	//TODO: Don't resize if n is really large
+	const llint max_saved_size = 66; //this is the maximum n for which binomial(n,k) < 2^63 for any k.
+	if (n > max_saved_size)
+	{
+		std::vector<llint> denominator(k-1);
+		std::iota(denominator.begin(), denominator.end(), 2);
+		std::vector<llint> numerator(k);
+		std::iota(numerator.begin(), numerator.end(), n-k+1);
+		return reduce_fraction<BigIntType>(std::move(numerator),std::move(denominator));
+	}
 	
 	B.resize(n + 1, {1});
 
-	for (; m < n + 1; ++m)
+	for (; m <= n; ++m)
 	{
 		llint last = (m + 2) / 2 - 1;
 		B[m].resize(last + 1);
@@ -146,8 +155,6 @@ inline BigIntType binomial(llint n, llint k)
 			B[m][last] = B[m - 1][last] + B[m - 1][last - 1];
 	}
 
-// 		for (int i = 0; i < B.size(); ++i)
-// 			cout << i << ":  " << B[i] << endl;
 	return B[n][k];
 
 }
