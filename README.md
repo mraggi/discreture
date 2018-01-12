@@ -447,6 +447,7 @@ First: If you use discreture for your own purposes, let us know!
 Optimizations, suggestions, feature requests, etc. are very welcome too.
 
 Otherwise, you can contribute in many ways:
+	
  - Provide bug reports if you encounter them, or do some feature requests.
  - Help us package for the various distros (maybe even other OS's).
  - If you are a developer (or aspiring developer) looking to get your feet wet, here is the current status of the project.
