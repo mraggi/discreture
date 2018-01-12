@@ -455,7 +455,7 @@ Here is the current status of the project.
 | Multisets 	| ✓ | ✓ | ✓ |
 | Dyck Paths 	| ✓ | 	| 	|
 | Motzkin Paths | ✓ | 	| 	|
-| Partitions 	| ✓ | 	| 	|
+| Partitions 	| ✓ | ✓	| 	|
 | Set Partitions| ✓ | 	|	|
 
 If you wish to contribute, just let us know which algorithm you'd like to implement for something that is missing a checkmark ✓. 
