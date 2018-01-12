@@ -45,7 +45,7 @@ int main()
 	dscr::basic_motzkin_paths<int,boost::container::static_vector<int,nmotzkin>> MPF(nmotzkin);
 	
 	dscr::partitions PT(npart);
-	dscr::basic_partitions<int,boost::container::static_vector<int,npart>> PTF(npart);
+	dscr::basic_partitions<int,boost::container::static_vector<int,npart+1>> PTF(npart);
 	dscr::set_partitions SPT(nsetpart);
 	
 	auto ms = {4,2,3,1,0,1,5,0,5,4,0,1,1,5,2,0,2,1};
@@ -104,8 +104,10 @@ int main()
 	BenchRow::print_line(cout);
 	cout << ProduceRowForward("Partitions", PT);
 	cout << ProduceRowForward("Partitions Stack", PTF);
+	cout << ProduceRowReverse("Partitions", PT);
+	cout << ProduceRowReverse("Partitions Stack", PTF);
 	
-// 	BenchRow::print_line(cout);
+	BenchRow::print_line(cout);
 	cout << ProduceRowForward("Set Partitions", SPT);
 
 	BenchRow::print_line(cout);

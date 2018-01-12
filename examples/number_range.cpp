@@ -1,4 +1,5 @@
-#include "discreture.hpp"
+#include "Discreture/NumberRange.hpp"
+#include "VectorHelpers.hpp"
 #include <cstdlib>
 #include <sstream>
 #include <string>

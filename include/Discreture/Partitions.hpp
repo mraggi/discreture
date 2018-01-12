@@ -33,6 +33,8 @@ public:
 	using partition = value_type;
 	class iterator;
 	using const_iterator = iterator;
+	class reverse_iterator;
+	using const_reverse_iterator = iterator;
 
 
 	// **************** Begin static functions
@@ -40,7 +42,7 @@ public:
 	{
 		size_t t = data.size();
 
-		if (t < 2) //At END
+		if (t < 2)
 		{
 			return;
 		}
@@ -53,52 +55,52 @@ public:
 
 		// If no size change is necessary
 
-		// Starting from the end, we look at the first whose difference is at least 2 in order to transfer one unit from to the first possible.
-		IntType menor = data.back();
-		IntType suma = menor;
+		// Starting from the end, we look at the first whose difference is at least 2 in order to transfer
+		// one unit from that one and then divide unevenly among the other ones.
+		IntType smallest = data.back();
+		difference_type suffixSum = smallest;
 
-		for (difference_type i = t - 2; i > -1; --i)
+		for (difference_type i = t - 2; i >= 0; --i)
 		{
-			suma += data[i];
-
-			if (data[i] - menor < 2)
-				continue;
-
-			suma -= data[i];
-
-
-			--data[i];
-
-			++suma;
-
-			size_t numespacios = t - i - 1;
-			difference_type exceso = suma - numespacios;
-
-			for (size_t j = i + 1; j < t; ++j)
+			if (data[i] - smallest > 1)
 			{
-				if (exceso <= 0)
-				{
-					data[j] = 1;
-					continue;
-				}
-
-				if (exceso + 1 >= data[i])
-				{
-					data[j] = data[i];
-
-					exceso -= difference_type(data[j] - 1);
-
-					continue;
-				}
-
-				data[j] = 1 + exceso;
-				exceso = 0;
+				--data[i];
+				distribute_unevenly(data.begin()+i+1, data.end(), suffixSum+1, data[i]);
+				return;
 			}
-
-			return;
+			suffixSum += data[i];
 		}
 	}
+	
+	static void prev_partition(partition& data, IntType n)
+	{
+		size_type t = data.size();
+		if (t == 0)
+			return;
+		if (t == 1 || data[1] == 1)
+		{
+			last_with_given_number_of_parts(data,n,t+1);
+			return;
+		}
+		
+		difference_type suffixSum = data.back();
+		
+		for (IntType i = t-2; i >= 0; --i)
+		{
+			
+			if (can_increase(data,n,i))
+			{
+				++data[i];
+				distribute_evenly(data.begin()+i+1,data.end(),suffixSum-1);
+				return;
+			}
+			suffixSum += data[i];
+		}
+		
+	}
 
+	
+	
 	static void first_with_given_number_of_parts(partition& data, IntType n, IntType k)
 	{
 		if (n == 0)
@@ -108,12 +110,24 @@ public:
 		}
 
 		data.resize(k);
+		
+		std::fill(data.begin(),data.end(),1);
+		
 		data[0] = n - k + 1;
-
-		for (size_t i = 1; i < static_cast<size_t>(k); ++i)
-			data[i] = 1;
 	}
-
+	
+	static void last_with_given_number_of_parts(partition& data, IntType n, IntType k)
+	{
+		if (n == 0)
+		{
+			data.clear();
+			return;
+		}
+		data.resize(k);
+		
+		distribute_evenly(data.begin(), data.end(), n);
+	}
+	
 	static partition conjugate(const partition& P)
 	{
 		assert(!P.empty());
@@ -208,21 +222,34 @@ public:
 		return iterator::make_invalid_with_id(size());
 	}
 	
+	reverse_iterator rbegin() const
+	{
+		return reverse_iterator(m_n,m_minnumparts);
+	}
+
+	const reverse_iterator rend() const
+	{
+		return reverse_iterator::make_invalid_with_id(size());
+	}
+	
 	////////////////////////////////////////////////////////////
-	/// \brief Forward iterator class.
+	/// \brief Bidirectional iterator class.
 	////////////////////////////////////////////////////////////
 	class iterator :  public boost::iterator_facade<
 													iterator,
 													const partition&,
-													boost::forward_traversal_tag
+													boost::bidirectional_traversal_tag
 													>
 	{
 	public:
 		iterator() : m_ID(0), m_data(), m_n(0) {}
 
-		explicit iterator(IntType n, IntType numparts) : m_ID(0), m_data(), m_n(n)
+		explicit iterator(IntType n, IntType numparts) : 	m_ID(0),
+															m_n(n),
+															m_data(numparts,1)
 		{
-			first_with_given_number_of_parts(m_data, n, numparts);
+			if (numparts > 0)
+				m_data[0] = n - numparts + 1;
 		}
 		
 		inline size_type ID() const
@@ -247,6 +274,13 @@ public:
 			next_partition(m_data, m_n);
 		}
 		
+		void decrement()
+		{
+			--m_ID;
+
+			prev_partition(m_data, m_n);
+		}
+		
 		const partition& dereference() const
 		{
 			return m_data;
@@ -264,11 +298,82 @@ public:
 
 	private:
 		size_type m_ID;
-		partition m_data;
 		IntType m_n;
+		partition m_data;
 
 		friend class boost::iterator_core_access;
 	}; // end class iterator
+	
+	////////////////////////////////////////////////////////////
+	/// \brief Bidirectional iterator class.
+	////////////////////////////////////////////////////////////
+	class reverse_iterator :  public boost::iterator_facade<
+													reverse_iterator,
+													const partition&,
+													boost::bidirectional_traversal_tag
+													>
+	{
+	public:
+		reverse_iterator() : m_ID(0), m_data(), m_n(0) {}
+
+		explicit reverse_iterator(IntType n, IntType numparts) : m_ID(0), 
+																 m_n(n),
+																 m_data()
+		{
+			last_with_given_number_of_parts(m_data,n,numparts);
+		}
+		
+		inline size_type ID() const
+		{
+			return m_ID;
+		}
+		
+		//boost::iterator_facade provides all the public interface you need, like ++, etc.
+		
+		static const reverse_iterator make_invalid_with_id(size_type id)
+		{
+			reverse_iterator it;
+			it.m_ID = id;
+			return it;
+		}
+		
+	private:
+		void increment()
+		{
+			++m_ID;
+
+			prev_partition(m_data, m_n);
+		}
+		
+		void decrement()
+		{
+			--m_ID;
+
+			next_partition(m_data, m_n);
+		}
+		
+		const partition& dereference() const
+		{
+			return m_data;
+		}
+		
+		bool equal(const reverse_iterator& it) const
+		{
+			return it.ID() == ID();
+		}
+		
+		difference_type distance_to(const reverse_iterator& lhs) const
+		{
+			return static_cast<difference_type>(lhs.ID()) - ID();
+		}
+
+	private:
+		size_type m_ID;
+		IntType m_n;
+		partition m_data;
+
+		friend class boost::iterator_core_access;
+	}; // end class reverse_iterator
 
 private:
 	IntType m_n;
@@ -292,6 +397,46 @@ private:
 		for (size_type k = minnumparts; k <= maxnumparts; ++k)
 			toReturn += partition_number(n, k);
 		return toReturn;
+	}
+	
+	static bool can_increase(const partition& data,IntType n, size_type i)
+	{
+		if (i == 0)
+			return true;
+		
+		if (data[i] == 1 || data[i+1] == 1)
+			return false;
+		
+		if (data[i-1] == data[i])
+			return false;
+		
+		return true;
+	}
+	
+	template <class Iter>
+	static void distribute_evenly(const Iter& first, const Iter& last, IntType n)
+	{
+		if (first == last)
+			return;
+		auto k = last-first;
+		IntType lower = n/k;
+		IntType residue = n - lower*k;
+		auto mid = first + residue;
+		std::fill(first,mid,lower+1);
+		std::fill(mid,last,lower);
+	}
+	
+	template <class Iter>
+	static void distribute_unevenly(Iter first, const Iter& last, IntType n, IntType maximum)
+	{
+		auto k = last - first;
+		IntType excess = n-k;
+		for ( ; first != last; ++first)
+		{
+			*first = std::min<IntType>(maximum,excess+1);
+			excess += (1-*first);
+		}
+		
 	}
 
 }; // end class basic_partitions

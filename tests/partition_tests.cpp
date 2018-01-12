@@ -23,7 +23,7 @@ TEST(Partitions,ForwardIteration)
 	{
 		partitions X(n);
 		set<partitions::partition> S(X.begin(),X.end());
-		ASSERT_EQ(X.size(), S.size()); //check if all motzkin paths are different
+		ASSERT_EQ(X.size(), S.size()); //check if all are different
 
 		for (const auto& x : X)
 		{
@@ -32,6 +32,39 @@ TEST(Partitions,ForwardIteration)
 	}
 }
 
+TEST(Partitions,ReverseIteration)
+{
+	for (int n = 0; n < 11; ++n)
+	{
+		partitions X(n);
+		std::vector<partitions::partition> R(X.rbegin(), X.rend());
+		std::reverse(R.begin(), R.end());
+		ASSERT_EQ(X.size(), R.size());
+		long i = 0;
+		for (auto& x : X)
+		{
+			ASSERT_EQ(x,R[i]);
+			++i;
+		}
+		
+		for (int a = 1; a <= n; ++a)
+		{
+			for (int b = a; b <= n; ++b)
+			{
+				partitions X(n,a,b);
+				std::vector<partitions::partition> R(X.rbegin(), X.rend());
+				std::reverse(R.begin(), R.end());
+				ASSERT_EQ(X.size(), R.size());
+				long i = 0;
+				for (auto& x : X)
+				{
+					ASSERT_EQ(x,R[i]);
+					++i;
+				}
+			}
+		}
+	}
+}
 TEST(Partitions,WithSpecifiedNumParts)
 {
 	for (int n = 1; n < 10; ++n)
