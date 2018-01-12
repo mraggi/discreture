@@ -1,14 +1,14 @@
 # Maintainer: Miguel Raggi <mraggi@gmail.com>
 
 pkgname=discreture
-pkgver=1.2
+pkgver=1.2.1
 pkgrel=1
 pkgdesc="A modern C++14 library providing iterable objects such as combinations, permutations, partitions, etc."
 arch=('x86_64')
 url="http://github.com/mraggi/discreture"
 license=('Apache')
-# depends=('gcc')
-makedepends=('cmake' 'doxygen' 'git')
+depends=('boost')
+makedepends=('cmake' 'git' 'gtest')
 provides=('discreture')
 conflicts=('discreture')
 replaces=('discreture')
