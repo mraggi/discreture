@@ -442,24 +442,31 @@ Run your own benchmarks (with colors!) by building with `cmake -DBUILD_BENCHMARK
  - You: for reading this.
 
 # Contributing
-Please help us testing, debugging, benchmarking, packaging for the various distros, etc. Also, if you use discreture for your own purposes, let us know!
+First: If you use discreture for your own purposes, let us know!
 
 Optimizations, suggestions, feature requests, etc. are very welcome too.
 
-Here is the current status of the project.
+Otherwise, you can contribute in many ways:
+ - Provide bug reports if you encounter them, or do some feature requests.
+ - Help us package for the various distros (maybe even other OS's).
+ - If you are a developer (or aspiring developer) looking to get your feet wet, here is the current status of the project.
 
 | Container | Forward Iteration? | Reverse Iteration? | Random Access? |
 |:----------|:------------------:|:------------------:|:--------------:|
 | Combinations 	| ✓✓ | ✓ | ✓ |
-| Permutations 	| ✓ | ✓ | ✓ |
-| Multisets 	| ✓ | ✓ | ✓ |
-| Dyck Paths 	| ✓ | 	| 	|
-| Motzkin Paths | ✓ | 	| 	|
-| Partitions 	| ✓ | ✓	| 	|
-| Set Partitions| ✓ | 	|	|
+| Permutations 	| ✓  | ✓ | ✓ |
+| Multisets 	| ✓  | ✓ | ✓ |
+| Dyck Paths 	| ✓  | 	 | 	 |
+| Motzkin Paths | ✓  | 	 | 	 |
+| Partitions 	| ✓  | ✓ | 	 |
+| Set Partitions| ✓  | 	 |	 |
 
-If you wish to contribute, just let us know which algorithm you'd like to implement for something that is missing a checkmark ✓. 
+Just let us know which algorithm you'd like to implement for something that is missing a checkmark ✓. 
 
-Or choose another combinatorial object of your liking. For example, "non-decreasing sequences" (also known as combinations with repetition) or "compositions" are probably pretty easy to implement, if you wish to get your hands wet.
+Or choose another combinatorial object of your liking.
 
-Finally, partitions, set partitions and motzkin paths are both pretty slow right now (well, relatively: only at a few tens of millions of objects generated per second, as opposed to hundreds or even thousands of millions per second, as in the case of combinations for_each).
+For example, two (likely) easy ones to implement would be "non-decreasing sequences" (also known as combinations with repetition) and [compositions](https://en.wikipedia.org/wiki/Composition_(combinatorics)) are probably pretty easy to implement, if you wish to get your hands wet.
+
+We'll even help you set up all the boilerplate code. You just need to say what `next` means for your combinatorial object.
+
+Finally, partitions, set partitions and motzkin paths are both pretty slow right now (well, relatively: only at a few tens of millions of objects generated per second, as opposed to hundreds or even thousands of millions per second, as in the case of combinations for_each). Maybe you have an idea to make them faster.
