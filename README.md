@@ -57,7 +57,7 @@ Nothing needs to be compiled. But if you wish to build examples, benchmarks and 
 
 ### Installing pre-requisites in Ubuntu Linux and derivatives
 ```sh
-sudo apt-get install libboost-all-dev cmake git build-essentials libgtest-dev
+sudo apt-get install libboost-all-dev cmake git build-essential libgtest-dev
 ```
 
 ### Installing pre-requisites in Arch Linux and derivatives
