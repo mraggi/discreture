@@ -6,7 +6,7 @@
 #include <iostream>
 #include <cstdlib>
 
-#include <Discreture/TimeHelpers.hpp>
+#include "TimeHelpers.hpp"
 
 namespace dscr
 {
