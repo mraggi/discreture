@@ -1,7 +1,7 @@
 #pragma once
-#include "VectorHelpers.hpp"
 #include "Misc.hpp"
 #include "NaturalNumber.hpp"
+#include "VectorHelpers.hpp"
 #include <boost/iterator/iterator_facade.hpp>
 
 namespace dscr
@@ -10,10 +10,10 @@ template<class IntType, class RAContainerInt = std::vector<IntType>>
 class basic_multisets
 {
 public:
-	using difference_type = long long;
-	using size_type = long long;
 	using value_type = RAContainerInt;
 	using multiset = value_type;
+	using difference_type = long long; //NOLINT
+	using size_type = difference_type;
 	class iterator;
 	using const_iterator = iterator;
 	class reverse_iterator;
@@ -71,7 +71,7 @@ public:
 			coeffs[i] = coeffs[i-1]*(total[i-1]+1);
 		}
 		
-		for (long i = n-1; i >= 0; --i)
+		for (difference_type i = n-1; i >= 0; --i)
 		{
 			size_type w = coeffs[i];
 			auto t = big_natural_number(total[i]+1).partition_point([m,w](size_type a)
@@ -189,16 +189,13 @@ public:
 	{
 	
 	public:
-		iterator(){}
+		iterator() = default;
 			
 		explicit iterator(const multiset& total) : m_ID(0), m_n(total.size()), m_submulti(total.size(), 0), m_total(&total)
 		{
 			
 		}
 		
-		iterator(const iterator& it) = default; // This is so that the -Weffc++ doesn't complain about me having pointers. I'm not the owner of the pointer anyway.
-		iterator& operator=(const iterator& it) = default;
-
 		size_type ID() const
 		{
 			return m_ID;
@@ -266,16 +263,13 @@ public:
 	{
 	
 	public:
-		reverse_iterator() {}
+		reverse_iterator() = default;
 		
 		explicit reverse_iterator(const multiset& total) : m_ID(0), m_n(total.size()), m_submulti(total), m_total(&total)
 		{
 			
 		}
 
-		reverse_iterator(const reverse_iterator& it) = default; // This is so that the -Weffc++ doesn't complain about me having pointers. I'm not the owner of the pointer anyway.
-		reverse_iterator& operator=(const reverse_iterator& it) = default;
-		
 		size_type ID() const
 		{
 			return m_ID;
@@ -340,4 +334,4 @@ private:
 using multisets = basic_multisets<int>;
 using multisets_fast = basic_multisets<int, boost::container::static_vector<int,48>>;
 
-}
+}  // namespace dscr

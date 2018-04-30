@@ -13,10 +13,10 @@
 
 // This code was produced by Juho Lauri (euler314).
 
-#include <vector>
-#include <numeric>
 #include <cassert>
 #include <cstdint>
+#include <numeric>
+#include <vector>
 
 #include <boost/iterator/iterator_facade.hpp>
 
@@ -29,7 +29,7 @@ class combination_iterator
 	>
 {
 public:
-	combination_iterator() : end_(true), n_(0), k_(0), comb_() { }
+	combination_iterator() :  comb_() { }
 
 	explicit combination_iterator(T n, T k) : end_(false), n_(n), k_(k), comb_(k)
 	{
@@ -61,7 +61,6 @@ private:
 			comb_[j + 1] = comb_[j] + 1;
 		}
 
-		return;
 	}
 
 	bool equal(const combination_iterator& other) const
@@ -74,9 +73,9 @@ private:
 		return comb_;
 	}
 
-	bool end_;
-	const int n_;
-	const int k_;
+	bool end_{true};
+	const int n_{0};
+	const int k_{0};
 	std::vector<T> comb_;
 };
 
@@ -90,7 +89,7 @@ class combination_iterator_minimax_order
 	>
 {
 public:
-	combination_iterator_minimax_order() : end_(true), n_(0), k_(0), comb_() { }
+	combination_iterator_minimax_order() :  comb_() { }
 
 	explicit combination_iterator_minimax_order(T n, T k) : end_(false), n_(n), k_(k), hint_(k), comb_(k)
 	{
@@ -142,10 +141,10 @@ private:
 		return comb_;
 	}
 
-	bool end_;
-	const int n_;
-	const int k_;
-	int hint_;
+	bool end_{true};
+	const int n_{0};
+	const int k_{0};
+	int hint_{};
 	std::vector<T> comb_;
 };
 

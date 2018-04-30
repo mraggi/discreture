@@ -53,4 +53,5 @@ FloatType random_real(FloatType from, FloatType upto)
 	return d(random_engine(), parm_t {from, upto});
 }
 	
-}} // namespace dscr::random
+} // namespace random
+} // namespace dscr

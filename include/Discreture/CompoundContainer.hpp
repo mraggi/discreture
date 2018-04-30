@@ -11,8 +11,8 @@ template < 	class Container,
 class compound_container
 {
 public:
-	using difference_type = long long;
-	using size_type = long long; //yeah, signed!
+	using difference_type = long long; //NOLINT
+	using size_type = difference_type; //yeah, signed!
 	using indices = typename IndexContainerOfContainers::value_type;
 	using index = typename indices::value_type;
 	using value_type = arrangement<Container,indices>;
@@ -58,7 +58,7 @@ public:
 	{
 	public:
 		using indexcontainer_iter = typename IndexContainerOfContainers::const_iterator;
-		iterator() {}
+		iterator() = default;
 		iterator (const Container& objects, const indexcontainer_iter& iiter) : m_container(&objects), 
 																			m_index_container_iter(iiter) 
 		{}

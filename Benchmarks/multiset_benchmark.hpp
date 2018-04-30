@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Multisets.hpp"
-#include "do_not_optimize.hpp"
 #include "Probability.hpp"
+#include "do_not_optimize.hpp"
 
 inline void BM_MultisetFWD()
 {

@@ -1,14 +1,14 @@
 #pragma once
 
-#include "VectorHelpers.hpp"
-#include "Misc.hpp"
-#include "Sequences.hpp"
-#include "NumberRange.hpp"
-#include "detail_combinations_tree_bf.hpp"
 #include "CombinationsTreePrunned.hpp"
 #include "CompoundContainer.hpp"
-#include <numeric>
+#include "Misc.hpp"
+#include "NumberRange.hpp"
+#include "Sequences.hpp"
+#include "VectorHelpers.hpp"
+#include "detail_combinations_tree_bf.hpp"
 #include <algorithm>
+#include <numeric>
 
 namespace dscr
 {
@@ -34,10 +34,10 @@ class basic_combinations_tree
 {
 public:
 
-    using difference_type = long long;
-    using size_type = long long;
     using value_type = RAContainerInt;
     using combination = value_type;
+    using difference_type = long long; //NOLINT
+    using size_type = difference_type;
     class iterator;
 	using const_iterator = iterator;
 	class reverse_iterator;
@@ -88,7 +88,7 @@ public:
         if (data.empty())
             return;
         IntType a = n-1;
-        for (long i = data.size()-1; i > 0L; --i,--a)
+        for (difference_type i = data.size()-1; i > 0L; --i,--a)
         {
             if (data[i]-1 != data[i-1])
             {
@@ -372,8 +372,8 @@ public:
         >
     {
     public:
-        reverse_iterator() : m_n(0), m_ID(0), m_data() {} //empty initializer
-        reverse_iterator(IntType n, IntType r) : m_n(n), m_ID(0), m_data(r)
+        reverse_iterator() : m_n(0),  m_data() {} //empty initializer
+        reverse_iterator(IntType n, IntType r) : m_n(n),  m_data(r)
         {
             std::iota(m_data.begin(), m_data.end(), n-r);
         }
@@ -694,10 +694,10 @@ private:
                 comb.push_back(start);
                 return true;
             }
-            else
-            {
+            
+            
                 return false;
-            }
+            
         }
 
         auto last = comb.back();
@@ -756,7 +756,7 @@ auto compound_combinations_tree(const Container& X, IntType k)
 	return compound_container<Container,comb>(X,comb(X.size(),k));
 }
 
-} // end namespace dscr;
+}  // namespace dscr
 
 
 

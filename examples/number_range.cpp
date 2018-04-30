@@ -8,7 +8,6 @@ using std::cout;
 using std::endl;
 using std::stringstream;
 using dscr::number_range;
-using dscr::operator<<;
 
 int from = 2;
 int to = 15;

@@ -1,10 +1,10 @@
 #pragma once
-#include "VectorHelpers.hpp"
+#include "CompoundContainer.hpp"
 #include "Misc.hpp"
-#include "Sequences.hpp"
 #include "NumberRange.hpp"
 #include "Probability.hpp"
-#include "CompoundContainer.hpp"
+#include "Sequences.hpp"
+#include "VectorHelpers.hpp"
 
 #include <algorithm>
 #include <numeric>
@@ -46,10 +46,10 @@ template <class IntType, class RAContainerInt = std::vector<IntType>>
 class basic_permutations
 {
 public:
-	using difference_type = long long;
-	using size_type = long long;
 	using value_type = RAContainerInt;
 	using permutation = value_type;
+	using difference_type = long long; //NOLINT
+	using size_type = difference_type;
 	class iterator;
 	using const_iterator = iterator;
 	class reverse_iterator;
@@ -322,7 +322,6 @@ public:
 			// If n is large, then it's better to just construct it from scratch.
 			m_ID += n;
 			construct_permutation(m_data, m_ID);
-			return;
 
 		}
 
@@ -354,7 +353,7 @@ public:
 													>
 	{
 	public:
-		reverse_iterator() : m_ID(0), m_data() {} //empty initializer
+		reverse_iterator() :  m_data() {} //empty initializer
 		explicit reverse_iterator(IntType n) : m_ID(0), m_data(n)
 		{
 			std::iota(m_data.begin(), m_data.end(), 0);
@@ -445,7 +444,7 @@ public:
 		}
 
 	private:
-		size_type m_ID;
+		size_type m_ID{0};
 		permutation m_data;
 
 		friend class boost::iterator_core_access;
@@ -488,4 +487,4 @@ auto compound_permutations(const Container& X)
 	return compound_container<Container,permutations>(X,permutations(X.size()));
 }
 
-}
+} // namespace dscr

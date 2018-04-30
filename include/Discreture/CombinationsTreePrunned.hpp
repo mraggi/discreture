@@ -1,6 +1,8 @@
 #pragma once
 
 #include "CombinationsTree.hpp"
+#include "Misc.hpp"
+#include "VectorHelpers.hpp"
 
 namespace dscr
 {
@@ -9,10 +11,10 @@ class basic_combinations_tree_prunned
 {
 public:
 
-	using difference_type = long long;
-	using size_type = long long;
 	using value_type = RAContainerInt;
 	using combination = value_type;
+	using difference_type = long long; //NOLINT
+	using size_type = difference_type;
 	class iterator;
 	using const_iterator = iterator;
 
@@ -143,10 +145,10 @@ private:
 				comb.push_back(start);
 				return true;
 			}
-			else
-			{
+			
+			
 				return false;
-			}
+			
 		}
 
 		auto last = comb.back();
@@ -194,4 +196,4 @@ private:
 }; // end class basic_combinations_tree_prunned
 
 // 	using combinations_tree_prunned = basic_combinations_tree_prunned<int>;
-}
+}  // namespace dscr

@@ -349,4 +349,5 @@ namespace detail
 			f(x);
 		}
 	}
-}} //namespace dscr::detail close
+} // namespace detail
+} // namespace dscr

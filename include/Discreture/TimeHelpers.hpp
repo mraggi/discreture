@@ -1,7 +1,7 @@
 #pragma once
 
-#include <ctime>
 #include <chrono>
+#include <ctime>
 
 
 namespace dscr
@@ -15,7 +15,7 @@ inline double diffclock(clock_t a, clock_t b)
 	return double(a - b) * c;
 }
 
-typedef std::chrono::time_point<std::chrono::steady_clock> clockt;
+using clockt = std::chrono::time_point<std::chrono::steady_clock>;
 
 inline double diffclockt(clockt a, clockt b)
 {
@@ -69,4 +69,4 @@ inline double TimeFromStart()
 
 	return diffclockt(tnow, RClock::Instance().start_timer);
 }
-}
+} // namespace dscr

@@ -5,7 +5,6 @@
 #include <string>
 
 using std::cout;
-using std::endl;
 using std::stringstream;
 using dscr::permutations;
 using dscr::operator<<;
@@ -52,5 +51,4 @@ void parse_command_line(int argc, char* argv[])
 	cout << "ERROR: Wrong number of arguments\n\n";
 	n = 3;
 	cout << usage.str();
-	return;
 }

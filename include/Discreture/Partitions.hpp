@@ -1,9 +1,9 @@
 #pragma once
 
-#include "VectorHelpers.hpp"
 #include "Misc.hpp"
-#include "Sequences.hpp"
 #include "NumberRange.hpp"
+#include "Sequences.hpp"
+#include "VectorHelpers.hpp"
 #include <boost/iterator/iterator_facade.hpp>
 
 namespace dscr
@@ -27,10 +27,10 @@ class basic_partitions
 {
 public:
 
-	using difference_type = long long;
-	using size_type = long long;
 	using value_type = RAContainerInt;
 	using partition = value_type;
+	using difference_type = long long; //NOLINT
+	using size_type = difference_type;
 	class iterator;
 	using const_iterator = iterator;
 	class reverse_iterator;
@@ -242,7 +242,7 @@ public:
 													>
 	{
 	public:
-		iterator() : m_ID(0), m_data(), m_n(0) {}
+		iterator() :  m_data(), m_n(0) {}
 
 		explicit iterator(IntType n, IntType numparts) : 	m_ID(0),
 															m_n(n),
@@ -297,7 +297,7 @@ public:
 		}
 
 	private:
-		size_type m_ID;
+		size_type m_ID{0};
 		IntType m_n;
 		partition m_data;
 
@@ -314,7 +314,7 @@ public:
 													>
 	{
 	public:
-		reverse_iterator() : m_ID(0), m_data(), m_n(0) {}
+		reverse_iterator() :  m_data(), m_n(0) {}
 
 		explicit reverse_iterator(IntType n, IntType numparts) : m_ID(0), 
 																 m_n(n),
@@ -368,7 +368,7 @@ public:
 		}
 
 	private:
-		size_type m_ID;
+		size_type m_ID{0};
 		IntType m_n;
 		partition m_data;
 
@@ -444,4 +444,4 @@ private:
 using partitions = basic_partitions<int>;
 using partitions_fast = basic_partitions<int, boost::container::static_vector<int,128>>;
 
-}// end namespace dscr;
+}  // namespace dscr

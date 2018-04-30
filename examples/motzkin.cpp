@@ -4,22 +4,20 @@
 #include <string>
 
 int n = 0; //Global variable for exposition purposes. Do not use global variables in real code.
-std::string replacement_string = "";
 
 using std::cout;
-using std::cerr;
 using std::endl;
 using dscr::motzkin_paths;
 using dscr::operator<<;
 
 // Just sets global variables n and k.
-void parse_command_line(int argc, char* argv[]);
+std::string parse_command_line(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 {
 	std::ios_base::sync_with_stdio(false); //this makes terminal output a bit faster.
 	
-	parse_command_line(argc,argv);
+	auto replacement_string = parse_command_line(argc,argv);
 	
 	if (replacement_string.size() == 3)
 	{
@@ -33,8 +31,9 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-void parse_command_line(int argc, char* argv[])
+std::string parse_command_line(int argc, char* argv[])
 {
+	std::string replacement_string;
 	std::stringstream usage;
 	usage	<< "Usage: motzkin n [replacement-string]\n"
 			<< "Print to STDOUT the set of motzkin paths (catalan paths) of size 2n,\n"
@@ -69,7 +68,7 @@ void parse_command_line(int argc, char* argv[])
 		{
 			cout << "\nERROR: First argument must be a number\n\n";
 			cout << usage.str();
-			return;
+			return replacement_string;
 		}
 
 		if (arguments.size() == 2)
@@ -79,17 +78,17 @@ void parse_command_line(int argc, char* argv[])
 				cout << "\nERROR: Second argument must be three characters long\n\n";
 				cout << usage.str();
 				n = 0;
-				return;
+				return replacement_string;
 			}
 			replacement_string = arguments[1];
 
-			return;
+			return replacement_string;
 		} //then arguments.size() must be 2
-		return;
+		return replacement_string;
 	}
 
 	cout << "Wrong number of arguments\n";
 	cout << usage.str();
-	
+	return replacement_string;
 }
 

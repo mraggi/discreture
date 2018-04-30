@@ -41,9 +41,9 @@ void parse_command_line(int argc, char* argv[])
 	std::vector<std::string> arguments(argv + 1, argv + argc);
 	try
 	{
-		for (size_t n = 0; n < arguments.size(); ++n)
+		for (auto& arg : arguments)
 		{
-			total.emplace_back(std::stoi(arguments[n]));
+			total.emplace_back(std::stoi(arg));
 		}
 	}
 	catch (...)
@@ -59,7 +59,4 @@ void parse_command_line(int argc, char* argv[])
 		total = {1,2,0,1};
 		cout << usage.str();
 	}
-
-	return;
-	
 }

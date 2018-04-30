@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Combinations.hpp"
-#include "do_not_optimize.hpp"
 #include "Probability.hpp"
+#include "do_not_optimize.hpp"
 
 inline void BM_CombinationsNAP(int n, int k)
 {
@@ -16,7 +16,7 @@ inline void BM_CombinationsNAP(int n, int k)
 	} while(dscr::combinations::next_combination(n,comb,hint,last));
 }
 
-inline void BM_combinationsIterator(int n, int k, long size)
+inline void BM_combinationsIterator(int n, int k, std::int64_t size)
 {
 	auto X = dscr::combinations(n,k);
 	auto first = X.begin();
@@ -28,7 +28,7 @@ inline void BM_combinationsIterator(int n, int k, long size)
 }
 
 template <class Iter>
-void BM_typeSizeIter(int n, int k, long size)
+void BM_typeSizeIter(int n, int k, std::int64_t size)
 {
 	auto first = Iter(n,k);
 	auto last = Iter(size);

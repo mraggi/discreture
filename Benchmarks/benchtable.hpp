@@ -1,15 +1,15 @@
 
 #pragma once
 
+#include "TimeHelpers.hpp"
+#include "benchmarker.hpp"
+#include "do_not_optimize.hpp"
+#include "external/rang.hpp"
+#include <array>
+#include <iomanip>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <array>
-#include <iostream>
-#include <iomanip>
-#include "do_not_optimize.hpp"
-#include "TimeHelpers.hpp"
-#include "external/rang.hpp"
-#include "benchmarker.hpp"
 
 const int columntime = 35;
 const int columnsize = 50;
@@ -17,8 +17,8 @@ const int columnspeed = 70;
 
 struct BenchRow
 {
-	BenchRow() {} // empty initializer
-	BenchRow(const std::string& Name, double t, size_t cs) : name(Name), avg_time(t), container_size(cs)  {}
+	BenchRow() = default;
+	BenchRow(std::string Name, double t, size_t cs) : name(std::move(Name)), avg_time(t), container_size(cs)  {}
 	
 	static void print_header(std::ostream& os)
 	{
@@ -59,7 +59,7 @@ struct BenchRow
 	bool variable_time_units {false};
 };
 
-std::ostream& operator<<(std::ostream& os, const BenchRow& T)
+inline std::ostream& operator<<(std::ostream& os, const BenchRow& T)
 {
 // 	os << '|';
 	os << T.name;
@@ -90,7 +90,7 @@ std::ostream& operator<<(std::ostream& os, const BenchRow& T)
 	const int precision = 3;
 	const int timewidth = 6;
 	os << std::setprecision(precision) << std::fixed << color;
-	os << std::setw(timewidth) << T.avg_time << units << rang::fg::reset;
+	os << std::setw(timewidth) << avg_time << units << rang::fg::reset;
 	
 	for (int i = columntime+units.size()+timewidth; i <= columnsize; ++i) 
 		os << ' ';

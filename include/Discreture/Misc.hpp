@@ -1,12 +1,12 @@
 #pragma once
 
-#include <cmath>
-#include <iostream>
-#include <cstdlib>
-#include <numeric>
-#include <boost/iterator/iterator_facade.hpp>
 #include <boost/container/static_vector.hpp>
 #include <boost/container/vector.hpp>
+#include <boost/iterator/iterator_facade.hpp>
+#include <cmath>
+#include <cstdlib>
+#include <iostream>
+#include <numeric>
 
 
 namespace dscr
@@ -43,16 +43,17 @@ inline void reduce_modulo(IntType& a, IntType b)
 }
 
 template <class T>
-inline T pow(T a, unsigned long n)
+inline T pow(T a, std::uint64_t n)
 {
 	T r = 1;
 
 	while (n > 0)
 	{
-		if (n & 1) // if odd
+		auto division = std::div(n,2);
+		if (division.rem == 1) // if odd
 			r *= a;
 
-		n /= 2;
+		n = division.quot;
 		a *= a;
 	}
 
@@ -93,4 +94,4 @@ T reduce_fraction(Container Numerator, Container Denominator)
 	return result;
 }
 
-}
+} // namespace dscr

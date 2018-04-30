@@ -1,9 +1,9 @@
 #pragma once
-#include <vector>
 #include "Misc.hpp"
+#include <algorithm>
 #include <boost/iterator/iterator_facade.hpp>
 #include <cassert>
-#include <algorithm>
+#include <vector>
 namespace  dscr
 {
 
@@ -14,9 +14,9 @@ template <class IntType>
 class basic_number_range
 {
 public:
-	using difference_type = long long;
-	using size_type = long long;
 	using value_type = IntType;
+	using difference_type = long long; //NOLINT
+	using size_type = difference_type;
 	class iterator;
 	using const_iterator = iterator;
 public:
@@ -161,6 +161,6 @@ private:
 }; // end class basic_number_range
 
 using number_range = basic_number_range<int>;
-using big_number_range = basic_number_range<long long>;
+using big_number_range = basic_number_range<long long>; //NOLINT
 
-} // end namespace dscr;
+} // namespace dscr

@@ -1,11 +1,11 @@
 #pragma once
-#include <vector>
-#include <iostream>
 #include "Misc.hpp"
 #include "VectorHelpers.hpp"
+#include <iostream>
+#include <vector>
 namespace dscr
 {
-using llint = long long int;
+using llint = long long int; //NOLINT : I want this to be as big as possible, not restricted to 64 bits. If in the future there are 128 bit ints, that's what I want.
 
 
 //////////////////////////////
@@ -19,11 +19,11 @@ inline BigIntType factorial(llint n);
 //////////////////////////////
 /// \brief The number of subsets of size r chosen from a set of size n
 /// \param n is a (small) nonnegative integer
-/// \param r is a small integer between 0 and n (inclusive)
-/// \return n!/(r!*(n-r)!)
+/// \param k is a small integer between 0 and n (inclusive)
+/// \return n!/(k!*(n-k)!)
 //////////////////////////////
 template <class BigIntType = llint>
-inline BigIntType binomial(llint n, llint r);
+inline BigIntType binomial(llint n, llint k);
 
 //////////////////////////////
 /// \brief The n-th catalan number.
@@ -185,7 +185,7 @@ inline BigIntType motzkin(llint n)
 	
 	llint oldsize = M.size();
 	M.resize(n+1);
-	for (long m = oldsize; m <= n; ++m)
+	for (llint m = oldsize; m <= n; ++m)
 	{
 		M[m] = ( (2*m+1)*M[m-1] + (3*m - 3)*M[m-2] )/(m+2); //quite likely overflow if using llint
 	}

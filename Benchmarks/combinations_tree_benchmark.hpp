@@ -8,7 +8,7 @@ inline void BM_CombinationsTreeNAP(int n, int k)
 	dscr::combinations_tree_fast::combination comb(k);
 	std::iota(comb.begin(), comb.end(), 0);
 	int count = 0;
-	auto size = dscr::binomial<long>(n,k);
+	auto size = dscr::binomial<std::int64_t>(n,k);
 	for ( ; count < size; ++count)
 	{
 		DoNotOptimize(comb);
@@ -16,7 +16,7 @@ inline void BM_CombinationsTreeNAP(int n, int k)
 	}
 }
 
-inline long BM_CombinationsTreeFindAll(int n, int k)
+inline std::int64_t BM_CombinationsTreeFindAll(int n, int k)
 {
 	dscr::combinations_tree_fast W(n, k);
 	auto T = W.find_all([](const dscr::combinations_tree_fast::combination & A)
@@ -24,11 +24,11 @@ inline long BM_CombinationsTreeFindAll(int n, int k)
 		if (A.size() < 2)
 			return true;
 
-		long k = A.size();
+		std::int64_t k = A.size();
 		return A[k - 1] > A[k - 2] + 2;
 	});
 	
-	long size = 0;
+	std::int64_t size = 0;
 	for (auto& t : T)
 	{
 		DoNotOptimize(t);
@@ -41,9 +41,9 @@ inline long BM_CombinationsTreeFindAll(int n, int k)
 
 inline void BM_CombinationsTreeEuler314(int n,int k)
 {
-	auto end = combination_iterator<long>();
+	auto end = combination_iterator<std::int64_t>();
 
-	for (auto it = combination_iterator<long>(n, k); it != end; ++it)
+	for (auto it = combination_iterator<std::int64_t>(n, k); it != end; ++it)
 	{
 		DoNotOptimize(*it);
 	}

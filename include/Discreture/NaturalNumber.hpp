@@ -1,8 +1,10 @@
 #pragma once
-#include <vector>
 #include "Misc.hpp"
+#include <algorithm>
 #include <boost/iterator/iterator_facade.hpp>
 #include <cassert>
+#include <vector>
+
 namespace  dscr
 {
 
@@ -13,9 +15,9 @@ template <class IntType>
 class basic_natural_number
 {
 public:
-	using difference_type = long long;
-	using size_type = long long;
 	using value_type = IntType;
+	using difference_type = long long; //NOLINT
+	using size_type = difference_type;
 	class iterator;
 	using const_iterator = iterator;
 
@@ -118,7 +120,7 @@ private:
 }; // end class basic_natural_number
 
 using natural_number = basic_natural_number<int>;
-using big_natural_number = basic_natural_number<long long>;
+using big_natural_number = basic_natural_number<long long>; //NOLINT
 
 template <class Container, class T = typename Container::size_type>
 basic_natural_number<T> indices(const Container& C)
@@ -128,4 +130,4 @@ basic_natural_number<T> indices(const Container& C)
 
 //TODO(mraggi): zip and enumerate.
 
-} // end namespace dscr;
+}  // namespace dscr

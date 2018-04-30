@@ -13,8 +13,8 @@ class arrangement
 {
 public:
 	using value_type = typename RAContainer::value_type;
-	using size_type = long long;
-	using difference_type = long long;
+	using size_type = long long; //NOLINT
+	using difference_type = size_type;
 	class iterator;
 	using const_iterator = iterator;
 	

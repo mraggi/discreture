@@ -7,7 +7,6 @@ int n = 5; //Global variable for exposition purposes. Do not use global variable
 int k = 3;
 
 using std::cout;
-using std::cerr;
 using std::endl;
 using dscr::combinations_tree;
 using dscr::operator<<;
@@ -36,7 +35,7 @@ void parse_command_line(int argc, char* argv[])
 			<< "Print to STDOUT the set of combinations of size k of a subset of size n,\n"
 			<< "where n and k are integers, in inverse lexicographic order.\n"
 			<< "Example:\n"
-			<< argv[0] << " " << n << " " << k << "\n";
+			<< "./combinations_tree_reverse" << " " << n << " " << k << "\n";
 	
 	if (argc != 3)
 	{

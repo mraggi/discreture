@@ -1,11 +1,11 @@
 #pragma once
 
-#include <string>
-#include <iostream>
-#include <iomanip>
-#include "do_not_optimize.hpp"
 #include "TimeHelpers.hpp"
+#include "do_not_optimize.hpp"
 #include "external/rang.hpp"
+#include <iomanip>
+#include <iostream>
+#include <string>
 
 template <class Func>
 double Benchmark(Func f, int numtimes = 1)
@@ -65,7 +65,7 @@ double ConstructionBenchmark(const Container& A, int numtimes)
 	{
 		for (int i = 0; i < numtimes; ++i)
 		{
-			auto t = dscr::random::random_int<long>(0,A.size());
+			auto t = dscr::random::random_int<std::int64_t>(0,A.size());
 			DoNotOptimize(A[t]);
 		}
 	});

@@ -1,10 +1,10 @@
 #pragma once
 
-#include <vector>
-#include <thread>
 #include <cmath>
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
+#include <thread>
+#include <vector>
 
 #include "TimeHelpers.hpp"
 
@@ -40,7 +40,6 @@ auto divide_work(const Container& C, size_t num_processors) -> std::vector<typen
 template <class RAIter, class Function>
 void parallel_for_each(RAIter first, RAIter last, Function f, size_t num_processors)
 {
-	using namespace std;
 	Chronometer C;
 	auto work = divide_work(first,last,num_processors);
 	

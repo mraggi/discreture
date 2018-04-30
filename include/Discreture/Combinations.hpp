@@ -2,15 +2,15 @@
 #include <algorithm>
 #include <numeric>
 
-#include "VectorHelpers.hpp"
-#include "Misc.hpp"
-#include "Sequences.hpp"
-#include "NumberRange.hpp"
 #include "CombinationsTree.hpp"
 #include "CombinationsTreePrunned.hpp"
-#include "detail_combinations_bf.hpp" //Horrible. Do NOT read. Please. But I can't find another way. Sorry about that. If you think you can do better, please, tell me about it.
-#include "NaturalNumber.hpp"
 #include "CompoundContainer.hpp"
+#include "Misc.hpp"
+#include "NaturalNumber.hpp"
+#include "NumberRange.hpp"
+#include "Sequences.hpp"
+#include "VectorHelpers.hpp"
+#include "detail_combinations_bf.hpp" //Horrible. Do NOT read. Please. But I can't find another way. Sorry about that. If you think you can do better, please, tell me about it.
 
 namespace dscr
 {
@@ -53,10 +53,10 @@ class basic_combinations
 {
 public:
 
-	using difference_type = long long;
-	using size_type = long long; //yeah, signed.
 	using value_type = RAContainerInt;
 	using combination = value_type;
+	using difference_type = long long; //NOLINT
+	using size_type = difference_type; //yeah, signed.
 	class iterator;
 	using const_iterator = iterator;
 	class reverse_iterator;
@@ -355,7 +355,7 @@ public:
 	{
 	public:
 		
-		iterator() {} //empty initializer
+		iterator() = default;
 		
 		iterator(IntType n, IntType k) : m_ID(0), 
 										 m_last(k-1), 
@@ -485,7 +485,7 @@ public:
 															>
 	{
 	public:
-		reverse_iterator() {} //empty initializer
+		reverse_iterator() = default;
 
 		reverse_iterator(IntType n, IntType k) : m_n(n), m_ID(0), m_last(k-1), m_data(k)
 		{
@@ -828,10 +828,7 @@ private:
 				comb.push_back(start);
 				return true;
 			}
-			else
-			{
-				return false;
-			}
+			return false;
 		}
 
 		auto last = comb.back();
@@ -944,7 +941,7 @@ bool next_combination(ForwardIt in_first,
 	return next_combination(in_first, in_last, out_first, out_last, hint);
 }
  
-} // end namespace dscr;
+} // namespace dscr
 
 
 

@@ -12,8 +12,8 @@
 #endif
 
 #if defined(OS_LINUX) || defined(OS_MAC)
-#include <unistd.h>
 #include <cstring>
+#include <unistd.h>
 #elif defined(OS_WIN)
 #include <windows.h>
 #include <io.h>
@@ -147,7 +147,7 @@ namespace rang_implementation {
 	{
 		if (osbuf == RANG_coutbuf()) {
 #if defined(OS_LINUX) || defined(OS_MAC)
-			return isatty(fileno(stdout)) ? true : false;
+			return isatty(fileno(stdout)) != 0 ? true : false;
 #elif defined(OS_WIN)
 			return _isatty(_fileno(stdout)) ? true : false;
 #endif
@@ -155,7 +155,7 @@ namespace rang_implementation {
 
 		if (osbuf == RANG_cerrbuf() || osbuf == RANG_clogbuf()) {
 #if defined(OS_LINUX) || defined(OS_MAC)
-			return isatty(fileno(stderr)) ? true : false;
+			return isatty(fileno(stderr)) != 0 ? true : false;
 #elif defined(OS_WIN)
 			return _isatty(_fileno(stderr)) ? true : false;
 #endif
@@ -254,7 +254,7 @@ namespace rang_implementation {
 	using enableControl =
 	  typename std::enable_if<std::is_same<T, rang::control>::value,
 	    std::ostream &>::type;
-}
+} // namespace rang_implementation
 
 inline void init()
 {
@@ -286,7 +286,7 @@ inline rang_implementation::enableControl<T> operator<<(
 	}
 	return os;
 }
-}
+}  // namespace rang
 
 #undef OS_LINUX
 #undef OS_WIN

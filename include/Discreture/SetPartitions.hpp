@@ -2,11 +2,11 @@
 
 #include <numeric>
 
-#include "VectorHelpers.hpp"
 #include "Misc.hpp"
-#include "Sequences.hpp"
 #include "NumberRange.hpp"
 #include "Partitions.hpp"
+#include "Sequences.hpp"
+#include "VectorHelpers.hpp"
 #include <boost/iterator/iterator_facade.hpp>
 
 namespace dscr
@@ -54,11 +54,11 @@ class basic_set_partitions
 {
 public:
 
-	using difference_type = long long;
-	using size_type = long long;
 	using number_partition = std::vector<IntType> ;
 	using value_type = std::vector<number_partition>;
 	using set_partition = value_type;
+	using difference_type = long long; //NOLINT
+	using size_type = difference_type;
 	class iterator;
 	using const_iterator = iterator;
 
@@ -66,15 +66,15 @@ public:
 
 	static bool next_set_partition(set_partition& data, const number_partition& part)
 	{
-		long n = std::accumulate(part.begin(), part.end(), 0);
+		auto n = std::accumulate(part.begin(), part.end(), 0L);
 		return next_set_partition(data,part,n);
 	}
 	
-	static bool next_set_partition(set_partition& data, const number_partition& part, long n)
+	static bool next_set_partition(set_partition& data, const number_partition& part, difference_type n)
 	{
-		long anteriorpos = pop(data, n - 1);
-		long curr = n - 2;
-		long currpos = 0;
+		difference_type anteriorpos = pop(data, n - 1);
+		difference_type curr = n - 2;
+		difference_type currpos = 0;
 
 		while (true)
 		{
@@ -97,7 +97,7 @@ public:
 
 		data[newpos].push_back(curr);
 
-		for (long i = curr + 1; i < n; ++i)
+		for (difference_type i = curr + 1; i < n; ++i)
 		{
 			data[NextAcceptablePlaceToAdd(data, part)].push_back(i);
 		}
@@ -281,10 +281,10 @@ private:
 		return toReturn;
 	}
 	
-	static long pop(set_partition& data, IntType num)
+	static difference_type pop(set_partition& data, IntType num)
 	{
-		const long n = data.size();
-		for (long i = 0; i < n; ++i)
+		const difference_type n = data.size();
+		for (difference_type i = 0; i < n; ++i)
 		{
 			if (!data[i].empty() && data[i].back() == num)
 			{
@@ -297,13 +297,13 @@ private:
 		return -1;
 	}
 
-	static long NextAcceptablePlaceToAdd(const set_partition& data, const number_partition& part, long oldpos = -1)
+	static difference_type NextAcceptablePlaceToAdd(const set_partition& data, const number_partition& part, difference_type oldpos = -1)
 	{
 // 			cout << "Finding if I can put the next number where " << endl;
-		const long n = data.size();
-		for (long i = oldpos + 1; i < n; ++i)
+		const difference_type n = data.size();
+		for (difference_type i = oldpos + 1; i < n; ++i)
 		{
-			const long dataisize = data[i].size();
+			const difference_type dataisize = data[i].size();
 			if (dataisize == part[i])
 				continue;
 
@@ -315,7 +315,7 @@ private:
 
 		return -1;
 	}
-	static bool shouldBreak(const set_partition& data, const number_partition& part, long currpos, long anteriorpos)
+	static bool shouldBreak(const set_partition& data, const number_partition& part, difference_type currpos, difference_type anteriorpos)
 	{
 		if (currpos == -1)
 			return true;
@@ -336,4 +336,4 @@ private:
 
 using set_partitions = basic_set_partitions<int>;
 
-}// end namespace dscr;
+}  // namespace dscr

@@ -55,10 +55,10 @@ class basic_motzkin_paths
 {
 public:
 
-	using difference_type = long long;
-	using size_type = long long;
 	using value_type = RAContainerInt;
 	using motzkin_path = value_type;
+	using difference_type = long long; //NOLINT
+	using size_type = difference_type;
 	using comb_i = typename basic_combinations<IntType, RAContainerInt>::iterator;
 	using dyck_i = typename basic_dyck_paths<IntType, RAContainerInt>::iterator;
 	class iterator;
@@ -152,7 +152,6 @@ public:
 		
 		void increment()
 		{
-			using namespace std;
 			++m_ID;
 			auto n = m_data.size();
 
@@ -160,30 +159,21 @@ public:
 				return;
 
 			++m_comb;
-// 			std::cout << "hola" << std::endl;
 			if (m_comb.is_at_end(n))
 			{
-// 				cout << "Combination "<< *m_comb << " at end!" << endl;
-				//Reset combinations and make a new dyck path.
 				++m_dyck;
 
-// 					cout << "added 1 to dyck" << endl;
 				if (m_dyck.is_at_end(m_numnonzerohalved))
 				{
-// 										cout << "dyck at end!" << endl;
 					m_numnonzerohalved += 1;
 
-// 						cout << "Resetting dyck..." << endl;
 					m_dyck.reset(m_numnonzerohalved);
 				}
 
-// 					cout << "Resetting combination..." << endl;
 				m_comb.reset(n, 2 * m_numnonzerohalved);
 
 			}
 
-// 				cout << "Done! Converting!" << endl;
-// 			cout << "comb = " << *m_comb << " and dyck = " << *m_dyck << endl;
 			ConvertToMotzkin(); //TODO(mraggi): do this laziliy
 		}
 
@@ -235,4 +225,4 @@ private:
 using motzkin_paths = basic_motzkin_paths<int>;
 using motzkin_paths_fast = basic_motzkin_paths<int, boost::container::static_vector<int,48>>;
 
-} // end namespace dscr;
+}  // namespace dscr

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "VectorHelpers.hpp"
 #include "Misc.hpp"
-#include "Sequences.hpp"
 #include "NumberRange.hpp"
+#include "Sequences.hpp"
+#include "VectorHelpers.hpp"
 #include <boost/iterator/iterator_facade.hpp>
 
 namespace dscr
@@ -47,10 +47,10 @@ class basic_dyck_paths
 {
 public:
 
-    using difference_type = long long;
-    using size_type = long long;
     using value_type = RAContainerInt;
     using dyck_path = value_type;
+    using difference_type = long long; //NOLINT
+    using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
 
@@ -96,8 +96,8 @@ public:
         {
             return;
         }
-        else
-        {
+        
+        
             size_t cont = 0;
             auto encontrar = verif + 1;
 
@@ -122,8 +122,7 @@ public:
                 --cont;
             }
 
-            return;
-        }
+                   
     }
 
     static std::string to_string(const dyck_path& data, const std::string& delim = "()")
@@ -180,7 +179,7 @@ public:
         >
     {
     public:
-        iterator() {} //empty initializer
+        iterator() = default; //empty initializer
         explicit iterator(IntType n) : m_ID(0), m_data(2 * n, 1)
         {
             for (size_t i = n; i < m_data.size(); ++i)
@@ -263,4 +262,4 @@ private:
 using dyck_paths = basic_dyck_paths<int>;
 using dyck_paths_fast = basic_dyck_paths<int, boost::container::static_vector<int, 48>>;
 
-} // end namespace dscr;
+}  // namespace dscr

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Permutations.hpp"
-#include "do_not_optimize.hpp"
 #include "Probability.hpp"
+#include "do_not_optimize.hpp"
 
 inline void BM_PermutationsRandom(int n, int numtimes)
 {
