@@ -5,46 +5,47 @@ using namespace dscr;
 
 bool testPermutations()
 {
-	std::cout << "============= Testing Permutations ============" << '\n';
+    std::cout << "============= Testing Permutations ============" << '\n';
 
-	std::cout << " Use test: " << '\n';
-	permutations X(4);
-	size_t i = 0;
+    std::cout << " Use test: " << '\n';
+    permutations X(4);
+    size_t i = 0;
 
-	for (const auto& x : X)
-	{
-		std::cout << "\t" << i << " = " << X.get_index(x) << " -> " << x << '\n';
+    for (const auto& x : X)
+    {
+        std::cout << "\t" << i << " = " << X.get_index(x) << " -> " << x
+                  << '\n';
 
-		if (i != X.get_index(x))
-		{
-			return false;
-		}
+        if (i != X.get_index(x))
+        {
+            return false;
+        }
 
-		++i;
-	}
+        ++i;
+    }
 
-	std::cout << " Reverse use test: " << '\n';
-	basic_permutations<llint> Y(5);
-	i = 0;
+    std::cout << " Reverse use test: " << '\n';
+    basic_permutations<llint> Y(5);
+    i = 0;
 
-	for (auto it = Y.rbegin(); it != Y.rend(); ++it, ++i)
-	{
-		std::cout << "\t" << i << " -> " << *it << " == " << Y[Y.size() - i - 1] << '\n';
+    for (auto it = Y.rbegin(); it != Y.rend(); ++it, ++i)
+    {
+        std::cout << "\t" << i << " -> " << *it << " == " << Y[Y.size() - i - 1]
+                  << '\n';
 
-		if (*it != Y[Y.size() - i - 1])
-		{
-			return false;
-		}
-	}
+        if (*it != Y[Y.size() - i - 1])
+        {
+            return false;
+        }
+    }
 
-	std::cout << "Edge case test: " << '\n';
-	basic_permutations<unsigned char> Z(0);
+    std::cout << "Edge case test: " << '\n';
+    basic_permutations<unsigned char> Z(0);
 
-	for (const auto& z : Z)
-	{
-		std::cout << z << std::endl;
-	}
+    for (const auto& z : Z)
+    {
+        std::cout << z << std::endl;
+    }
 
-	return true;
+    return true;
 }
-

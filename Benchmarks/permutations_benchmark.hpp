@@ -6,11 +6,10 @@
 
 inline void BM_PermutationsRandom(int n, int numtimes)
 {
-	dscr::permutations X(n);
+    dscr::permutations X(n);
 
-	for (int i = 0; i < numtimes; ++i)
-	{
-		DoNotOptimize(X.random());
-	}
+    for (int i = 0; i < numtimes; ++i)
+    {
+        DoNotOptimize(X.random());
+    }
 }
-

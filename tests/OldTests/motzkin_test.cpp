@@ -5,24 +5,26 @@ using namespace dscr;
 
 bool testMotzkin()
 {
-	std::cout << "============= Testing Motzkin Paths ============" << std::endl;
-	motzkin_paths X(4);
+    std::cout << "============= Testing Motzkin Paths ============"
+              << std::endl;
+    motzkin_paths X(4);
 
-	for (const auto& x : X)
-	{
-		std::cout << x << std::endl;
+    for (const auto& x : X)
+    {
+        std::cout << x << std::endl;
 
-		if (!dyckpathiscorrect(x))
-		{
-			std::cerr << "This dyck path is not correct: [" << x << "]" << std::endl;
-			return false;
-		}
-	}
+        if (!dyckpathiscorrect(x))
+        {
+            std::cerr << "This dyck path is not correct: [" << x << "]"
+                      << std::endl;
+            return false;
+        }
+    }
 
-	for (const auto& x : X)
-	{
-		std::cout << motzkin_paths::to_string(x) << '\n';
-	}
+    for (const auto& x : X)
+    {
+        std::cout << motzkin_paths::to_string(x) << '\n';
+    }
 
-	return true;
+    return true;
 }

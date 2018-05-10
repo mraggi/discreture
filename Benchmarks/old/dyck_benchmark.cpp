@@ -5,19 +5,20 @@ using namespace dscr;
 
 void testDyckPathsSpeed(int n)
 {
-	Chronometer C;
-	dyck_paths X(n);
+    Chronometer C;
+    dyck_paths X(n);
 
-	llint i = 0;
+    llint i = 0;
 
-	for (const auto& x : X)
-	{
-		if (x[0] == 1)
-		{
-			++i;
-		}
-	}
+    for (const auto& x : X)
+    {
+        if (x[0] == 1)
+        {
+            ++i;
+        }
+    }
 
-// 	std::cout << "i = " << i << '\n';
-	std::cout << "Time taken to see all " << X.size() << " dyck paths of size " << n  << ": " << C.Reset() << "s" << '\n';
+    // 	std::cout << "i = " << i << '\n';
+    std::cout << "Time taken to see all " << X.size() << " dyck paths of size "
+              << n << ": " << C.Reset() << "s" << '\n';
 }
