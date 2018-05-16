@@ -56,8 +56,8 @@ int main()
     dscr::set_partitions SPT(nsetpart);
 
     auto ms = {4, 2, 3, 1, 0, 1, 5, 0, 5, 4, 0, 1, 1, 5, 2, 0, 2, 1};
-    dscr::multisets MS(ms);
-    dscr::multisets_fast MSF(ms);
+    dscr::multisets MS(dscr::multisets::multiset{ms});
+    dscr::multisets_fast MSF(dscr::multisets_fast::multiset{ms});
 
     BenchRow::print_header(cout);
     BenchRow::print_line(cout);

@@ -59,12 +59,12 @@ Nothing needs to be compiled. But if you wish to build examples, benchmarks and 
 
 ### Installing pre-requisites in Ubuntu Linux and derivatives
 ```sh
-sudo apt-get install libboost-all-dev cmake git build-essential libgtest-dev
+sudo apt-get install libboost-all-dev cmake git build-essential
 ```
 
 ### Installing pre-requisites in Arch Linux and derivatives
 ```sh
-sudo pacman -S boost cmake git gcc gtest
+sudo pacman -S boost cmake git gcc
 ```
 
 ### Installing pre-requisites in mac OS
@@ -73,10 +73,6 @@ First, make sure [HomeBrew](https://brew.sh/) is installed. Then in a terminal d
 ```sh
 brew install gcc cmake git boost
 ```
-
-If you wish to run unit tests, you'll need to install [gtest](https://github.com/google/googletest) manually since--as of this writing--brew doesn't have a package for google test.
-
-For a more detailed instruction set, see [this ticket](https://github.com/mraggi/discreture/issues/1).
 
 ## Install discreture
 

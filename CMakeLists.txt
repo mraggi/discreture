@@ -7,9 +7,9 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-option(BUILD_EXAMPLES "Build examples" ON)
-option(BUILD_BENCHMARKS "Build benchmarks" ON)
-option(BUILD_TESTS "Build unit tests" ON)
+option(BUILD_EXAMPLES "Build examples" OFF)
+option(BUILD_BENCHMARKS "Build benchmarks" OFF)
+option(BUILD_TESTS "Build unit tests" OFF)
 option(BUILD_OLD_TESTS "Build old unit tests" OFF)
 
 find_package(Boost REQUIRED)
@@ -44,7 +44,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 
-# message(STATUS "Building with the following extra flags: ${CMAKE_CXX_FLAGS}")
+message(STATUS "Building with the following extra flags: ${CMAKE_CXX_FLAGS}")
 
 # --------------------------------------------------------------------------------
 #                         Locate files
@@ -91,7 +91,7 @@ endif()
 # --------------------------------------------------------------------------------
 if(${BUILD_EXAMPLES})
     if (NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-		SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Wpedantic -Wno-sign-compare")
+		SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Wpedantic")
 	endif()
 	add_executable(combinations examples/combinations.cpp)
 	add_executable(combinations_reverse examples/combinations_reverse.cpp)
