@@ -1,0 +1,4 @@
+\frametitle{Dyck and Motzkin}
+  We can easily generate all correct ways of placing parenthesis:
+  \dyckparen
+  which prints: \texttt{((()))} $\quad$  \texttt{(()())} $\quad$  \texttt{()(())} $\quad$ \texttt{(())()} $\quad$  \texttt{()()()}

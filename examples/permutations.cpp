@@ -1,5 +1,5 @@
 #include "Permutations.hpp"
-#include "../Benchmarks/external/rang.hpp"
+#include "../benchmarks/external/rang.hpp"
 #include <cstdlib>
 #include <sstream>
 #include <string>

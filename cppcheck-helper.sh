@@ -1,10 +1,10 @@
 #!/bin/bash
 
-rm -rf cppcheck-build
-mkdir cppcheck-build
-cd cppcheck-build
+rm -rf build-cppcheck
+mkdir build-cppcheck
+cd build-cppcheck
 
-cmake -DBUILD_BENCHMARKS=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
 echo -e "---------------\n"
 
 cppcheck --project=compile_commands.json --enable=all > cppcheckoutput.txt
