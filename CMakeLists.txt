@@ -44,7 +44,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 
-message(STATUS "Building with the following extra flags: ${CMAKE_CXX_FLAGS}")
+# message(STATUS "Building with the following extra flags: ${CMAKE_CXX_FLAGS}")
 
 # --------------------------------------------------------------------------------
 #                         Locate files
@@ -90,6 +90,9 @@ endif()
 #                            Build!
 # --------------------------------------------------------------------------------
 if(${BUILD_EXAMPLES})
+    if (NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+		SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Wpedantic -Wno-sign-compare")
+	endif()
 	add_executable(combinations examples/combinations.cpp)
 	add_executable(combinations_reverse examples/combinations_reverse.cpp)
 	add_executable(combinations_tree examples/combinations_tree.cpp)
@@ -107,7 +110,7 @@ endif()
 if(BUILD_BENCHMARKS)
 	find_package(GSL)
 	if (NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-		add_definitions(-mtune=native)
+		add_definitions("-mtune=native")
 	endif()
 	if (${GSL_FOUND})
 		add_definitions(-DTEST_GSL_COMBINATIONS)

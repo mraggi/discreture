@@ -168,6 +168,7 @@ TEST(Combinations, EdgeCases)
     for (const auto& z : Z)
     {
         ASSERT_TRUE(false);
+        UNUSED(z);
     }
 }
 

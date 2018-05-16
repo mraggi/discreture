@@ -67,7 +67,8 @@ bool testCombinations()
 
     for (const auto& x : X)
     {
-        // 		std::cout << "\t" << i << " == " << X.get_index(x) << " -> " << x
+        // 		std::cout << "\t" << i << " == " << X.get_index(x) << " -> " <<
+        // x
         // << std::endl;
 
         if (i != X.get_index(x))

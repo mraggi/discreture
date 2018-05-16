@@ -8,6 +8,8 @@
 #include <iostream>
 #include <numeric>
 
+#define UNUSED(x) (void)(x) // To supress warnings;
+
 namespace dscr
 {
 

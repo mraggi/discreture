@@ -11,7 +11,7 @@ namespace random
     // It's obviously missing some utility functions. Here they are.
 
     /**
-    *@brief Just a helper function to get the default random engine
+     *@brief Just a helper function to get the default random engine
      */
     inline std::default_random_engine& random_engine()
     {
@@ -23,9 +23,9 @@ namespace random
     }
 
     /**
-    *@brief Returns true with probability p and false with probability 1-p
-    *@return true or false according to probability p, which must be a number
-    *between 0 and 1.
+     *@brief Returns true with probability p and false with probability 1-p
+     *@return true or false according to probability p, which must be a number
+     *between 0 and 1.
      */
     inline bool probability_of_true(double p)
     {
@@ -34,9 +34,9 @@ namespace random
     }
 
     /**
-    *@brief "I just wanted a random integer!
-    *@return A random integer in the range [from,thru), with uniform
-    *probability distribution
+     *@brief "I just wanted a random integer!
+     *@return A random integer in the range [from,thru), with uniform
+     *probability distribution
      */
     template <class IntType = int>
     IntType random_int(IntType from, IntType thru)
@@ -47,9 +47,9 @@ namespace random
     }
 
     /**
-    *@brief "I just wanted a random float!
-    *@return A random float number in the range [from,thru), with uniform
-    *probability distribution
+     *@brief "I just wanted a random float!
+     *@return A random float number in the range [from,thru), with uniform
+     *probability distribution
      */
     template <class FloatType = double>
     FloatType random_real(FloatType from, FloatType upto)

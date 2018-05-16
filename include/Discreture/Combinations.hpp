@@ -68,29 +68,29 @@ public:
     // **************** Begin static functions
 
     /** @name next_combination
-    *@brief next_combination, which has a few different overloads (depending
-    *on how much information you have about the current combination in order
-    *to make it faster)
-    *@param data is the current combination
-    *@param hint is an integer value that holds which index was last modified
-    *(in a previous call to next_combination).
-    *It serves to speed things up. If unsure, use 0.
-    *The overload which only takes data automatically does this.
-    *@param last is data.size()-1. Tests show precomputing this value
-    *is highly beneficial to performance. Contrary to what you might be
-    *thinking, this is *NOT* premature optimization, since we've
-    *carefully measured the impact.
-    *@param n denotes that combinations should be taken from the set
-    *{0,1,...,n-1}
-    *@retval void is returned if starting with data, and a bool is
-    *returned if starting with n, depending on whether or not we
-    *are at the last possible combination.
-    *Note that n is not needed if you don't need to know if this combination
-    *is the "last" one.
+     *@brief next_combination, which has a few different overloads (depending
+     *on how much information you have about the current combination in order
+     *to make it faster)
+     *@param data is the current combination
+     *@param hint is an integer value that holds which index was last modified
+     *(in a previous call to next_combination).
+     *It serves to speed things up. If unsure, use 0.
+     *The overload which only takes data automatically does this.
+     *@param last is data.size()-1. Tests show precomputing this value
+     *is highly beneficial to performance. Contrary to what you might be
+     *thinking, this is *NOT* premature optimization, since we've
+     *carefully measured the impact.
+     *@param n denotes that combinations should be taken from the set
+     *{0,1,...,n-1}
+     *@retval void is returned if starting with data, and a bool is
+     *returned if starting with n, depending on whether or not we
+     *are at the last possible combination.
+     *Note that n is not needed if you don't need to know if this combination
+     *is the "last" one.
      */
     ///@{
     //* Assumes hint = 0 and last=data.size()-1. If you don't need the utmost
-    //performance, just use this one. */
+    // performance, just use this one. */
     static void next_combination(combination& data)
     {
         size_type hint = 0;
@@ -143,7 +143,7 @@ public:
     } // next_combination data, hint, last
 
     //* This overload returns false if data is the last combination, true
-    //otherwise. */
+    // otherwise. */
     static bool next_combination(IntType n, combination& data)
     {
         if (data.empty())
@@ -153,7 +153,7 @@ public:
     } // next_combination n, data
 
     //* This overload returns false if data is the last combination, true
-    //otherwise. */
+    // otherwise. */
     static bool next_combination(IntType n, combination& data, size_type& hint)
     {
         if (data.empty())
@@ -163,7 +163,7 @@ public:
     } // next_combination n, data hint
 
     //* This overload returns false if data is the last combination, true
-    //otherwise. */
+    // otherwise. */
     static bool next_combination(IntType n,
                                  combination& data,
                                  size_type& hint,
@@ -356,6 +356,7 @@ public:
         iterator(IntType n, IntType k)
             : m_ID(0), m_last(k - 1), m_hint(k), m_data(k)
         {
+            UNUSED(n);
             std::iota(m_data.begin(), m_data.end(), 0);
         }
 
@@ -374,6 +375,7 @@ public:
 
         void reset(IntType n, IntType k)
         {
+            UNUSED(n);
             m_ID = 0;
             m_hint = k;
             m_last = k - 1;
@@ -885,9 +887,9 @@ auto compound_combinations(const Container& X, IntType k)
 }
 
 /**
-*\brief This function recreates next_permutation's
-*		  behaviour but for combinations. [out_first, out_last) should be
-*		  a range of **iterators** in [in_first, in_last).
+ *\brief This function recreates next_permutation's
+ *		  behaviour but for combinations. [out_first, out_last) should be
+ *		  a range of **iterators** in [in_first, in_last).
  **/
 template <class ForwardIt, class BiDirectionalItOut>
 bool next_combination(ForwardIt in_first,

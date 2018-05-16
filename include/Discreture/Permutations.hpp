@@ -90,7 +90,8 @@ public:
                     auto temp = data[start];
                     data[start] = data[u + start];
                     data[u + start] = temp;
-                    // 							cout << "and setting m_data[" << start << "] = "
+                    // 							cout << "and setting m_data[" << start << "] =
+                    // "
                     // << m_data[start] << endl;
                     std::sort(data.begin() + start + 1, data.end());
                     break;

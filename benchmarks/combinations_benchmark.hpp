@@ -18,6 +18,7 @@ inline void BM_CombinationsNAP(int n, int k)
 
 inline void BM_combinationsIterator(int n, int k, std::int64_t size)
 {
+    UNUSED(size);
     auto X = dscr::combinations(n, k);
     auto first = X.begin();
     auto last = X.end();

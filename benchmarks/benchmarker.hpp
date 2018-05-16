@@ -1,9 +1,9 @@
 #pragma once
 
+#include "Probability.hpp"
 #include "TimeHelpers.hpp"
 #include "do_not_optimize.hpp"
 #include "external/rang.hpp"
-#include "Probability.hpp"
 #include <iomanip>
 #include <iostream>
 #include <string>

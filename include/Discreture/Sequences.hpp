@@ -6,8 +6,8 @@
 namespace dscr
 {
 using llint = long long int; // NOLINT : I want this to be as big as possible,
-                             // not restricted to 64 bits. If in the future there
-                             // are 128 bit ints, that's what I want.
+                             // not restricted to 64 bits. If in the future
+                             // there are 128 bit ints, that's what I want.
 
 //////////////////////////////
 /// \brief n!

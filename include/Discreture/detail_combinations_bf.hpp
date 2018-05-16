@@ -10,6 +10,7 @@ namespace detail
     template <class combination, class Func, class IntType>
     void combination_helper0(Func f, IntType n)
     {
+        UNUSED(n);
         combination x;
         f(x);
     }

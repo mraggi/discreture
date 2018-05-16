@@ -1,20 +1,20 @@
 /**
-*Welcome to discreture. This is a short tutorial on some of the functions
-*provided by discreture. Remember that discreture is a header-only library,
-*which means there is no need to install anything: You can simply copy the
-*folder "include" to your project and start using it right away.
+ *Welcome to discreture. This is a short tutorial on some of the functions
+ *provided by discreture. Remember that discreture is a header-only library,
+ *which means there is no need to install anything: You can simply copy the
+ *folder "include" to your project and start using it right away.
  *
-*It's assumed you already know C++. Compile this file with "g++ -std=c++14
-*tutorial.cpp -o tutorial"
+ *It's assumed you already know C++. Compile this file with "g++ -std=c++14
+ *tutorial.cpp -o tutorial"
  *
-*If you get an error "fatal error: discreture.hpp: No such file or directory"
-*it means your compiler doesn't know where to find discreture. Fix it by
-*compiling with "g++ -std=c++14 -I/path/to/discreture/include tutorial.cpp -o
-*tutorial"
+ *If you get an error "fatal error: discreture.hpp: No such file or directory"
+ *it means your compiler doesn't know where to find discreture. Fix it by
+ *compiling with "g++ -std=c++14 -I/path/to/discreture/include tutorial.cpp -o
+ *tutorial"
  *
-*For more details about installing, compiling, etc. see README.md.
+ *For more details about installing, compiling, etc. see README.md.
  *
-*Finally, if you need help, feel free to email me at mraggi@gmail.com
+ *Finally, if you need help, feel free to email me at mraggi@gmail.com
  */
 
 #include "discreture.hpp" //This includes everything in discreture.
@@ -42,15 +42,15 @@ int main()
         cout << x << endl;
 
     /***
-    *A few important notes:
-    *  1. It works with any random-access container, such as std::vector
-    *  2. It does not check for repeats! So if you do compound_combinations on
-    *"aaaaa", it will just produce many sets with "aaa".
-    *  3. The std::string is necessary, because "abcde" is not a proper
-    *container. It's an C-style char array.
-    *  4. Note that auto& combination does NOT compile.
-    *	    This is because "combination" is of type dscr::arrangement, which
-    *vanishes.
+     *A few important notes:
+    * 1. It works with any random-access container, such as std::vector
+    * 2. It does not check for repeats! So if you do compound_combinations on
+     *"aaaaa", it will just produce many sets with "aaa".
+    * 3. The std::string is necessary, because "abcde" is not a proper
+     *container. It's an C-style char array.
+    * 4. Note that auto& combination does NOT compile.
+     *	    This is because "combination" is of type dscr::arrangement, which
+     *vanishes.
      */
 
     cout << "\nNow in reverse!" << endl;

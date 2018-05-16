@@ -89,7 +89,7 @@ public:
         for (IntType i = t - 2; i >= 0; --i)
         {
 
-            if (can_increase(data, n, i))
+            if (can_increase(data, i))
             {
                 ++data[i];
                 distribute_evenly(
@@ -229,10 +229,10 @@ public:
                                         boost::bidirectional_traversal_tag>
     {
     public:
-        iterator() : m_data(), m_n(0) {}
+        iterator() : m_n(0),m_data() {}
 
         explicit iterator(IntType n, IntType numparts)
-            : m_ID(0), m_n(n), m_data(numparts, 1)
+            : m_n(n), m_data(numparts, 1)
         {
             if (numparts > 0)
                 m_data[0] = n - numparts + 1;
@@ -291,10 +291,10 @@ public:
                                         boost::bidirectional_traversal_tag>
     {
     public:
-        reverse_iterator() : m_data(), m_n(0) {}
+        reverse_iterator() : m_n(0),  m_data() {}
 
         explicit reverse_iterator(IntType n, IntType numparts)
-            : m_ID(0), m_n(n), m_data()
+            : m_n(n), m_data()
         {
             last_with_given_number_of_parts(m_data, n, numparts);
         }
@@ -365,7 +365,7 @@ private:
         return toReturn;
     }
 
-    static bool can_increase(const partition& data, IntType n, size_type i)
+    static bool can_increase(const partition& data, size_type i)
     {
         if (i == 0)
             return true;
