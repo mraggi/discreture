@@ -11,7 +11,7 @@ before_install:
 
 install: 
   # C++17
-  - sudo apt-get install -qq g++-7 build-essential cmake wget
+  - sudo apt-get install -qq g++-7 build-essential cmake wget libboost-dev
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
   - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 90
    
@@ -33,7 +33,7 @@ before_script:
 
 script:
   - cd $PARENTDIR/build
-  - cmake -DCMAKE_BUILD_TYPE=Coverage -DBUILD_VISUALIZER=OFF $PARENTDIR
+  - cmake -DCMAKE_BUILD_TYPE=Coverage $PARENTDIR
   - make
   - make gtest
   - make coverage
