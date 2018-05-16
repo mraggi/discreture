@@ -61,14 +61,14 @@ TEST(Combinations, ReverseIteration)
             combinations X(n, k);
             long i = 0;
 
-            for (auto it = X.rbegin(); it != X.rend(); ++it)
+            for (auto it = X.rbegin(); it != X.rend(); ++it,--it,++it)
             {
                 auto x = *it;
                 check_combination(x, n, k);
                 check_combination_index(X, x, X.size() - i - 1);
                 ++i;
                 ++total;
-            }
+            }            
         }
         ASSERT_EQ(total, 1 << n);
     }
@@ -118,8 +118,10 @@ TEST(Combinations, Bidirectional)
     ASSERT_EQ(*t, *s);
 
     t -= 250;
-    ++t;
-    ++t;
+    std::advance(t,3);
+    std::advance(t,3);
+    std::advance(t,-3);
+    --t;
     s -= 248;
     check_combination(*t, n, k);
     ASSERT_EQ(*t, *s);
@@ -156,6 +158,7 @@ TEST(Combinations, CorrectOrder)
                     break;
 
                 ASSERT_TRUE(X.compare(*it, *itnext));
+                ASSERT_FALSE(X.compare(*itnext, *it));
             }
         }
     }
@@ -261,4 +264,29 @@ TEST(Combinations, PartitionPoint)
     check_combination(rcomb, n, k);
     ASSERT_EQ(rcomb.back(), 47);
     ASSERT_EQ(rcomb.front(), 18);
+}
+
+TEST(Combinations, next_combination)
+{
+    int n = 10;
+    int k = 6;
+    std::vector<int> A(k);
+    std::iota(A.begin(), A.end(), 0);
+    std::vector<int> B = A;
+    std::vector<int> C = A;
+    long long hintB = k;
+    long long hintC = k;
+    
+    int i = 0;
+    do
+    {
+        ASSERT_EQ(A,B);
+        ASSERT_EQ(B,C);
+        dscr::combinations::next_combination(n,B,hintB);
+        dscr::combinations::next_combination(n,C,hintC,k-1);
+        
+        dscr::combinations::iterator it(A);
+        ASSERT_EQ(it.ID(), i);
+        ++i;
+    } while (dscr::combinations::next_combination(n,A));
 }

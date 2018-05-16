@@ -245,19 +245,7 @@ public:
     static bool compare(const combination& lhs, const combination& rhs)
     {
         assert(lhs.size() == rhs.size());
-        auto itl = lhs.rbegin();
-        auto itr = rhs.rbegin();
-
-        for (; itl != lhs.rend(); ++itl, ++itr)
-        {
-            if (*itl > *itr)
-                return false;
-
-            if (*itl < *itr)
-                return true;
-        }
-
-        return false;
+        return std::lexicographical_compare(lhs.rbegin(), lhs.rend(), rhs.rbegin(), rhs.rend());
     }
 
     /////////////////////////////////////////////////////////////////////////////
