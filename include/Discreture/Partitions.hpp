@@ -229,7 +229,7 @@ public:
                                         boost::bidirectional_traversal_tag>
     {
     public:
-        iterator() : m_n(0),m_data() {}
+        iterator() : m_n(0), m_data() {}
 
         explicit iterator(IntType n, IntType numparts)
             : m_n(n), m_data(numparts, 1)
@@ -291,7 +291,7 @@ public:
                                         boost::bidirectional_traversal_tag>
     {
     public:
-        reverse_iterator() : m_n(0),  m_data() {}
+        reverse_iterator() : m_n(0), m_data() {}
 
         explicit reverse_iterator(IntType n, IntType numparts)
             : m_n(n), m_data()

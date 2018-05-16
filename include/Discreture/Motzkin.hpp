@@ -165,7 +165,8 @@ public:
 
         void ConvertToMotzkin()
         {
-            // 				cout << "Converting: " << *m_comb << " and " << *m_dyck
+            // 				cout << "Converting: " << *m_comb << " and " <<
+            // *m_dyck
             // << endl;
             for (size_t i = 0; i < m_data.size(); ++i)
             {
