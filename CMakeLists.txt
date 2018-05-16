@@ -12,6 +12,11 @@ option(BUILD_BENCHMARKS "Build benchmarks" OFF)
 option(BUILD_TESTS "Build unit tests" OFF)
 option(BUILD_OLD_TESTS "Build old unit tests" OFF)
 
+string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_tolower)
+if (cmake_build_type_tolower STREQUAL "coverage")
+    set(BUILD_TESTS ON)
+endif()
+
 find_package(Boost REQUIRED)
 
 # Set version number (change as needed). These definitions are available
@@ -42,7 +47,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 # Build-type specific flags. Change as needed.
 SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
-SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Wpedantic")
 
 message(STATUS "Building with the following extra flags: ${CMAKE_CXX_FLAGS}")
 
@@ -90,9 +95,6 @@ endif()
 #                            Build!
 # --------------------------------------------------------------------------------
 if(${BUILD_EXAMPLES})
-    if (NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-		SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Wpedantic")
-	endif()
 	add_executable(combinations examples/combinations.cpp)
 	add_executable(combinations_reverse examples/combinations_reverse.cpp)
 	add_executable(combinations_tree examples/combinations_tree.cpp)
