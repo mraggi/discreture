@@ -115,7 +115,7 @@ public:
             return;
         }
 
-        assert(last + 1 == data.size());
+        assert(last + 1 == std::int64_t(data.size()));
 
         if (last > 0)
         {
@@ -169,7 +169,7 @@ public:
                                  size_type& hint,
                                  IntType last)
     {
-        assert(last == data.size() - 1);
+        assert(last + 1 == std::int64_t(data.size()));
         if (last < 0) // this means data is empty
             return false;
         next_combination(data, hint, last);

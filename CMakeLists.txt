@@ -7,7 +7,7 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-option(BUILD_EXAMPLES "Build examples" OFF)
+option(BUILD_EXAMPLES "Build examples" ON)
 option(BUILD_BENCHMARKS "Build benchmarks" OFF)
 option(BUILD_TESTS "Build unit tests" OFF)
 option(BUILD_OLD_TESTS "Build old unit tests" OFF)
@@ -47,7 +47,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 # Build-type specific flags. Change as needed.
 SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
-SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Wpedantic")
+SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Wpedantic -Wno-unused-parameter -Wno-sign-compare")
 
 message(STATUS "Building with the following extra flags: ${CMAKE_CXX_FLAGS}")
 
@@ -71,12 +71,31 @@ include_directories(
 
 
 if(${BUILD_TESTS})
+    find_package(GTest)
     find_package(Threads REQUIRED)
+    set(TEST_LIB googletest)
     file(GLOB TESTFILES "tests/*.cpp")
     set(TEST_MAIN unit_tests.x)
+	if (GTEST_FOUND)
+        include_directories(${GTEST_INCLUDE_DIRS})
+        set(TEST_LIB ${GTEST_BOTH_LIBRARIES})
+	else()
+		message("Google testing framework not found. Building our own!")
+        add_custom_target( git_update
+        COMMAND git submodule init
+        COMMAND git submodule update
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR} )
+        add_library(googletest
+            ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-all.cc
+            ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest_main.cc)
+        add_dependencies(googletest git_update)
+        set_source_files_properties(${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-all.cc  PROPERTIES GENERATED 1)
+        set_source_files_properties(${PROJECT_SOURCE_DIR}/external/googletest/src/gtest_main.cc PROPERTIES GENERATED 1)
+        add_dependencies(${TEST_MAIN} ${TEST_LIB})
+    endif()
+    
     add_executable(${TEST_MAIN} ${TESTFILES})
-    add_dependencies(${TEST_MAIN} googletest)
-    target_link_libraries(${TEST_MAIN} googletest Threads::Threads)
+    target_link_libraries(${TEST_MAIN} ${TEST_LIB} Threads::Threads)
     add_custom_target(gtest COMMAND "${PROJECT_BINARY_DIR}/${TEST_MAIN}" DEPENDS ${TEST_MAIN})
 
     # Add a standard make target 'test' that runs the tests under CTest (only as an alt. to gtest).
@@ -169,16 +188,7 @@ endif(DOXYGEN_FOUND)
 # --------------------------------------------------------------------------------
 # The following makes sure that an up-to-date version of googletest is available,
 # and built so that it may be used by your tests. 
-add_custom_target( git_update
-    COMMAND git submodule init
-    COMMAND git submodule update
-    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR} )
-add_library( googletest
-    ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-all.cc
-    ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest_main.cc )
-add_dependencies(googletest git_update)
-set_source_files_properties(${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-all.cc  PROPERTIES GENERATED 1)
-set_source_files_properties(${PROJECT_SOURCE_DIR}/external/googletest/src/gtest_main.cc PROPERTIES GENERATED 1)
+
 
 
 
