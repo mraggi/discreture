@@ -7,7 +7,7 @@
 namespace dscr
 {
 template <class IntType, class RAContainerInt = std::vector<IntType>>
-class basic_multisets
+class Multisets
 {
 public:
     using value_type = RAContainerInt;
@@ -116,7 +116,7 @@ public:
     ///		[ 1 0 3 1 ]
     ///
     ////////////////////////////////////////////////////////////
-    explicit basic_multisets(const multiset& set) : m_total(set), m_size(1)
+    explicit Multisets(const multiset& set) : m_total(set), m_size(1)
     {
         for (auto x : set)
         {
@@ -124,7 +124,7 @@ public:
         }
     }
 
-    explicit basic_multisets(IntType size, IntType n = 1)
+    explicit Multisets(IntType size, IntType n = 1)
         : m_total(size, n), m_size(std::pow(n + 1, size))
     {}
 
@@ -301,8 +301,8 @@ private:
         return sub[index] < total[index];
     }
 };
-using multisets = basic_multisets<int>;
-using multisets_fast =
-  basic_multisets<int, boost::container::static_vector<int, 48>>;
+using multisets = Multisets<int>;
+using multisets_stack =
+  Multisets<int, boost::container::static_vector<int, 48>>;
 
 } // namespace dscr

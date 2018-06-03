@@ -43,7 +43,7 @@ namespace dscr
 ///
 ////////////////////////////////////////////////////////////
 template <class IntType, class RAContainerInt = std::vector<IntType>>
-class basic_permutations
+class Permutations
 {
 public:
     using value_type = RAContainerInt;
@@ -109,7 +109,7 @@ public:
     /// \param n is an integer >= 0
     ///
     ////////////////////////////////////////////////////////////
-    explicit basic_permutations(IntType n) : m_n(n) {}
+    explicit Permutations(IntType n) : m_n(n) {}
 
     ////////////////////////////////////////////////////////////
     /// \brief The total number of permutations
@@ -181,7 +181,7 @@ public:
     /// Inverse of operator[]. If permutation x is the m-th permutation, then
     /// get_index(x) is m. If one has a permutations::iterator, then the member
     /// function ID() should return the same value. \return the index of
-    /// permutation comb, as if basic_permutations was a proper data structure
+    /// permutation comb, as if Permutations was a proper data structure
     /// \note This constructs the proper index from scratch. If an iterator is
     /// already known, calling ID() on the iterator is much more efficient.
     /////////////////////////////////////////////////////////////////////////////
@@ -343,7 +343,7 @@ public:
         void reset(IntType n)
         {
             m_ID = 0;
-            m_data = basic_integer_interval<IntType>(n);
+            m_data = IntegerInterval<IntType>(n);
             std::reverse(m_data.begin(), m_data.end());
         }
 
@@ -446,10 +446,9 @@ private:
           get_index(perm, firstdiffer + 1, last);
     }
 
-}; // end class basic_permutations
-using permutations = basic_permutations<int>;
-using permutations_fast =
-  basic_permutations<int, boost::container::static_vector<int, 16>>;
+}; // end class Permutations
+using permutations = Permutations<int>;
+using permutations_stack = Permutations<int, boost::container::static_vector<int, 16>>;
 
 template <class Container>
 auto compound_permutations(const Container& X)

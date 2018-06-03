@@ -3,8 +3,8 @@
 #include <numeric>
 
 #include "ArithmeticProgression.hpp"
-#include "CombinationsTree.hpp"
-#include "CombinationsTreePrunned.hpp"
+#include "CombinationTree.hpp"
+#include "CombinationTreePrunned.hpp"
 #include "CompoundContainer.hpp"
 #include "IntegerInterval.hpp"
 #include "Misc.hpp"
@@ -53,7 +53,7 @@ namespace dscr
 ///
 ////////////////////////////////////////////////////////////
 template <class IntType, class RAContainerInt = std::vector<IntType>>
-class basic_combinations
+class Combinations
 {
 public:
     using value_type = RAContainerInt;
@@ -256,7 +256,7 @@ public:
     /// Inverse of operator[]. If combination x is the m-th combination, then
     /// get_index(x) is m. If one has a combinations::iterator, then the member
     /// function ID() should return the same value. \return the index of
-    /// combination comb, as if basic_combinations was a proper data structure
+    /// combination comb, as if Combinations was a proper data structure
     /// \note This constructs the proper index from scratch. If an iterator is
     /// already known, calling ID on the iterator is much more efficient.
     /////////////////////////////////////////////////////////////////////////////
@@ -282,7 +282,7 @@ public:
     /// \param k is an integer with 0 <= k <= n
     ///
     ////////////////////////////////////////////////////////////
-    basic_combinations(IntType n, IntType k)
+    Combinations(IntType n, IntType k)
         : m_n(n), m_k(k), m_size(binomial<size_type>(n, k))
     {}
 
@@ -452,7 +452,7 @@ public:
         }
 
         friend class boost::iterator_core_access;
-        friend class basic_combinations;
+        friend class Combinations;
 
         size_type m_ID{0};
         IntType m_last{-1}; // should always be m_data.size()-1!!!
@@ -568,7 +568,7 @@ public:
         combination m_data{};
 
         friend class boost::iterator_core_access;
-        friend class basic_combinations;
+        friend class Combinations;
     }; // end class iterator
 
     ///////////////////////////////////////////////
@@ -690,7 +690,7 @@ public:
     template <class PartialPredicate>
     auto find_all(PartialPredicate pred)
     {
-        return basic_combinations_tree_prunned<IntType,
+        return CombinationTreePrunned<IntType,
                                                PartialPredicate,
                                                combination>(m_n, m_k, pred);
     }
@@ -865,17 +865,25 @@ private:
         return false;
     }
 
-}; // end class basic_combinations
+}; // end class Combinations
 
-using combinations = basic_combinations<int>;
-using combinations_fast =
-  basic_combinations<int, boost::container::static_vector<int, 32>>;
+template <class IntType>
+auto combinations(IntType n, IntType k)
+{
+    return Combinations<IntType>(n,k);
+}
 
 template <class Container, class IntType>
-auto compound_combinations(const Container& X, IntType k)
+auto combinations(const Container& X, IntType k)
 {
-    using comb = basic_combinations<IntType>;
+    using comb = Combinations<IntType>;
     return compound_container<Container, comb>(X, comb(X.size(), k));
+}
+
+template <class IntType, std::size_t MAX_SIZE = 32>
+auto combinations_stack(IntType n, IntType k)
+{
+    return Combinations<int, boost::container::static_vector<int, MAX_SIZE>>(n,k);
 }
 
 /**

@@ -11,11 +11,11 @@ namespace dscr
 ///
 /// class for (lazily) composing two containers "A" and "B", where the elements
 /// of B are integers between 0 and A.size(). The elements of
-/// aggregation_view(A,B) are {A[B[0]], A[B[1]], ...}, but aggregation_view is
+/// AggregationView(A,B) are {A[B[0]], A[B[1]], ...}, but AggregationView is
 /// lazy.
 ///////////////////////////////////////////////
 template <class RAContainer, class RAIndexContainer>
-class aggregation_view
+class AggregationView
 {
 public:
     using value_type = typename RAContainer::value_type;
@@ -24,7 +24,7 @@ public:
     class iterator;
     using const_iterator = iterator;
 
-    aggregation_view(const RAContainer& objects,
+    AggregationView(const RAContainer& objects,
                      const RAIndexContainer& indices)
         : m_objects(objects), m_indices(indices)
     {}
@@ -40,7 +40,7 @@ public:
         return m_objects[m_indices[m]];
     }
 
-    RAContainer bake() const { return RAContainer(begin(), end()); }
+    auto bake() const { return RAContainer(begin(), end()); }
 
     // ****************** start iterator
     class iterator
@@ -89,17 +89,17 @@ private:
 };
 
 template <class RAContainer, class RAIndexContainer>
-aggregation_view<RAContainer, RAIndexContainer>
-make_aggregation_view(const RAContainer& objects,
+AggregationView<RAContainer, RAIndexContainer>
+aggregation_view(const RAContainer& objects,
                       const RAIndexContainer& indices)
 {
-    return aggregation_view<RAContainer, RAIndexContainer>(objects, indices);
+    return AggregationView<RAContainer, RAIndexContainer>(objects, indices);
 }
 
 template <class RAContainer, class RAIndexContainer>
 std::ostream&
 operator<<(std::ostream& os,
-           const aggregation_view<RAContainer, RAIndexContainer>& A)
+           const AggregationView<RAContainer, RAIndexContainer>& A)
 {
     for (auto& a : A)
         os << a << ' ';

@@ -25,7 +25,7 @@ bool testPermutations()
     }
 
     std::cout << " Reverse use test: " << '\n';
-    basic_permutations<llint> Y(5);
+    Permutations<llint> Y(5);
     i = 0;
 
     for (auto it = Y.rbegin(); it != Y.rend(); ++it, ++i)
@@ -40,7 +40,7 @@ bool testPermutations()
     }
 
     std::cout << "Edge case test: " << '\n';
-    basic_permutations<unsigned char> Z(0);
+    Permutations<unsigned char> Z(0);
 
     for (const auto& z : Z)
     {

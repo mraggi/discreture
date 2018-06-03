@@ -31,33 +31,29 @@ int main()
     const int nmotzkin = 20;
     // 	const int nmultiset = 19;
 
-    dscr::combinations C(n, k);
-    dscr::basic_combinations<int, boost::container::static_vector<int, k>> CF(
-      n, k);
-    dscr::combinations_tree CT(n, k);
-    dscr::basic_combinations_tree<int, boost::container::static_vector<int, k>>
-      CTF(n, k);
+    auto C = dscr::combinations(n, k);
+    auto CF = dscr::combinations_stack(n, k);
+    
+    auto CT = dscr::combination_tree(n, k);
+    auto CTF = dscr::combination_tree_stack(n, k);
+    
+    auto P = dscr::permutations(nperm);
+    auto PF = dscr::permutations_stack(nperm);
 
-    dscr::permutations P(nperm);
-    dscr::basic_permutations<int, boost::container::static_vector<int, nperm>>
-      PF(nperm);
+    auto DP = dscr::dyck_paths(ndyck);
+    auto DPF = dscr::dyck_paths_stack(ndyck);
 
-    dscr::dyck_paths DP(ndyck);
-    dscr::basic_dyck_paths<int, boost::container::static_vector<int, 2*ndyck>>
-      DPF(ndyck);
-    dscr::motzkin_paths MP(nmotzkin);
-    dscr::basic_motzkin_paths<int,
-                              boost::container::static_vector<int, nmotzkin>>
-      MPF(nmotzkin);
+    auto MP = dscr::motzkin_paths(nmotzkin);
+    auto MPF = dscr::motzkin_paths_stack(nmotzkin);
 
-    dscr::partitions PT(npart);
-    dscr::basic_partitions<int, boost::container::static_vector<int, npart + 1>>
-      PTF(npart);
-    dscr::set_partitions SPT(nsetpart);
+    auto PT = dscr::partitions(npart);
+    auto PTF = dscr::partitions_stack(npart);
+    
+    auto SPT = dscr::set_partitions(nsetpart);
 
     auto ms = {4, 2, 3, 1, 0, 1, 5, 0, 5, 4, 0, 1, 1, 5, 2, 0, 2, 1};
-    dscr::multisets MS(dscr::multisets::multiset{ms});
-    dscr::multisets_fast MSF(dscr::multisets_fast::multiset{ms});
+    auto MS = dscr::multisets(dscr::multisets::multiset{ms});
+    auto MSF = dscr::multisets_stack(dscr::multisets_stack::multiset{ms});
 
     BenchRow::print_header(cout);
     BenchRow::print_line(cout);
@@ -79,7 +75,7 @@ int main()
     cout << ProduceRowReverse("Combinations Tree Stack", CTF);
 #ifdef TEST_GSL_COMBINATIONS
     cout << BenchRow("Combinations Tree GSL",
-                     Benchmark([]() { BM_CombinationsTreeGSL(n, k); }),
+                     Benchmark([]() { BM_CombinationTreeGSL(n, k); }),
                      binomial<std::int64_t>(n, k));
 #endif
     cout << ProduceRowConstruct("Combinations Tree", CT, construct);

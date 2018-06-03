@@ -139,7 +139,7 @@ bool testCombinations()
     for (int r = 0; r <= n; ++r)
     {
         std::cout << "Starting with r = " << r << std::endl;
-        basic_combinations<llint> Y(n, r);
+        Combinations<llint> Y(n, r);
         i = 0;
 
         for (auto it = Y.rbegin(); it != Y.rend(); ++it, ++i)
@@ -153,7 +153,7 @@ bool testCombinations()
     }
 
     std::cout << " Edge case test: " << std::endl;
-    basic_combinations<char> Z(5, 8);
+    Combinations<char> Z(5, 8);
 
     for (const auto& z : Z)
     {
@@ -267,7 +267,7 @@ std::vector<int> differences(const std::vector<int>& x)
     return toReturn;
 }
 
-bool testCombinationsTree()
+bool testCombinationTree()
 {
     std::cout << "========== Testing Combination TREE ==========" << std::endl;
 
@@ -277,7 +277,7 @@ bool testCombinationsTree()
     for (int r = 0; r <= n; ++r)
     {
         std::cout << " with r = " << r << std::endl;
-        combinations_tree X(n, r);
+        CombinationTree<int> X(n, r);
         size_t i = 0;
 
         for (const auto& x : X)
@@ -296,7 +296,7 @@ bool testCombinationsTree()
     }
 
     std::cout << "Large test" << std::endl;
-    combinations_tree X(10, 4);
+    CombinationTree<int> X(10, 4);
     size_t i = 0;
 
     for (const auto& x : X)
@@ -338,7 +338,7 @@ bool testCombinationsTree()
     for (int r = 0; r <= n; ++r)
     {
         std::cout << "Starting with r = " << r << std::endl;
-        basic_combinations_tree<llint> Y(n, r);
+        CombinationTree<llint> Y(n, r);
         i = 0;
 
         for (auto it = Y.rbegin(); it != Y.rend(); ++it, ++i)
@@ -352,7 +352,7 @@ bool testCombinationsTree()
     }
 
     std::cout << " Edge case test: " << std::endl;
-    basic_combinations_tree<unsigned char> Z(5, 8);
+    CombinationTree<unsigned char> Z(5, 8);
 
     for (const auto& z : Z)
     {

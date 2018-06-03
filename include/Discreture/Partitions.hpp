@@ -24,7 +24,7 @@ namespace dscr
 /// ] [ 2 2 2 ] [ 5 1 ] [ 4 2 ] [ 3 3 ] [ 6 ]
 ////////////////////////////////////////////////////////////
 template <class IntType, class RAContainerInt = std::vector<IntType>>
-class basic_partitions
+class Partitions
 {
 public:
     using value_type = RAContainerInt;
@@ -160,7 +160,7 @@ public:
     /// \param n is an integer >= 0
     ///
     ////////////////////////////////////////////////////////////
-    explicit basic_partitions(IntType n)
+    explicit Partitions(IntType n)
         : m_n(n), m_minnumparts(1), m_maxnumparts(n), m_size(calc_size(n))
     {}
 
@@ -171,7 +171,7 @@ public:
     /// \param numparts is an integer >= 1 and <= n
     ///
     ////////////////////////////////////////////////////////////
-    basic_partitions(IntType n, IntType numparts)
+    Partitions(IntType n, IntType numparts)
         : m_n(n)
         , m_minnumparts(numparts)
         , m_maxnumparts(numparts)
@@ -186,7 +186,7 @@ public:
     /// \param maxnumparts is an integer >= minnumparts and <= n
     ///
     ////////////////////////////////////////////////////////////
-    basic_partitions(IntType n, IntType minnumparts, IntType maxnumparts)
+    Partitions(IntType n, IntType minnumparts, IntType maxnumparts)
         : m_n(n)
         , m_minnumparts(minnumparts)
         , m_maxnumparts(maxnumparts)
@@ -408,10 +408,10 @@ private:
         }
     }
 
-}; // end class basic_partitions
+}; // end class Partitions
 
-using partitions = basic_partitions<int>;
-using partitions_fast =
-  basic_partitions<int, boost::container::static_vector<int, 128>>;
+using partitions = Partitions<int>;
+using partitions_stack =
+  Partitions<int, boost::container::static_vector<int, 128>>;
 
 } // namespace dscr

@@ -13,20 +13,20 @@ namespace dscr
 /// {0,1,2,...,n-1}, with 0 = {}.
 //////////////////////////////////////////
 template <class IntType>
-class basic_integer_interval
+class IntegerInterval
 {
 public:
     using value_type = IntType;
-    using difference_type = long long; // NOLINT
+    using difference_type = long long;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
 
 public:
-    explicit basic_integer_interval() {}
+    explicit IntegerInterval() {}
 
-    explicit basic_integer_interval(IntType n) : m_end(n) { assert(n >= 0); }
-    explicit basic_integer_interval(IntType from, IntType to)
+    explicit IntegerInterval(IntType n) : m_end(n) { assert(n >= 0); }
+    explicit IntegerInterval(IntType from, IntType to)
         : m_start(from), m_end(to)
     {
         assert(size() >= 0);
@@ -66,7 +66,7 @@ public:
         IntType m_ID{0};
 
         friend class boost::iterator_core_access;
-        friend class basic_integer_interval;
+        friend class IntegerInterval;
     }; // end class iterator
 
     iterator begin() const { return iterator(m_start); }
@@ -84,27 +84,27 @@ public:
 private:
     IntType m_start{0};
     IntType m_end{0};
-}; // end class basic_integer_interval
+}; // end class IntegerInterval
 
-using integer_interval = basic_integer_interval<int>;
-using big_integer_interval = basic_integer_interval<std::int64_t>;
+using integer_interval = IntegerInterval<int>;
+using big_integer_interval = IntegerInterval<std::int64_t>;
 
 template <class IntType>
 auto NN(IntType n)
 {
-    return basic_integer_interval<IntType>{n};
+    return IntegerInterval<IntType>{n};
 }
 
 template <class IntType>
 auto NN(IntType from, IntType to)
 {
-    return basic_integer_interval<IntType>{from, to};
+    return IntegerInterval<IntType>{from, to};
 }
 
 template <class Container, class T = typename Container::size_type>
 auto indices(const Container& C)
 {
-    return basic_integer_interval<T>(C.size());
+    return IntegerInterval<T>(C.size());
 }
 
 } // namespace dscr

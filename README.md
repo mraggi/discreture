@@ -110,21 +110,21 @@ To use the library, after compiling, just add `#include <discreture.hpp>` to you
 
 Within this library, one can construct a few combinatorial objects, such as:
   - **Combinations**: Subsets of a specific size:
-    - Example: {0,3,4}, {0,1,5} in combinations(6,3)
+    - Example: {0,3,4}, {0,1,5} in `combinations(6,3)`
   - **Permutations**: A permutation of a collection is a reordering of all the elements of *C*.
-    - Example: [0,1,2], [2,0,1] in permutations(3)
+    - Example: [0,1,2], [2,0,1] in `permutations(3)`
   - **Partitions**: Numbers that add up to a given number.
-    - Example: {6,4,1}, {3,3,3,1,1} in partitions(11)
+    - Example: {6,4,1}, {3,3,3,1,1} in `partitions(11)`
   - **Set Partitions**: Partitions of {0,...,n-1} into disjoint sets.
-    - Example: {[0,2], [1,3]} in set\_partitions(4)
+    - Example: {{0,2}, {1,3}} in `set_partitions(4)`
   - **Multisets**: How many to take of each index?
-    - Example: [2,1,3], [0,1,1] in multisets([3,1,3])
+    - Example: {2,1,3}, {0,1,1} in `multisets([3,1,3])`
   - **Dyck Paths**: From (0,0) to (2n,0) but y is never negative and always goes either up or down.
-    - Example: (1,1,-1,1,-1,-1) in dyck\_paths(3). Note no partial sum is less than 0.
-  - **Motzkin Paths**
-    - Example: Like dyck paths but allowing 0's.
+    - Example: [1,1,-1,1,-1,-1] in `dyck_paths(3)`. Note no partial sum is less than 0.
+  - **Motzkin Paths**: Like dyck paths but allowing 0's.
+    - Example: [1,0,-1,1,1,-1,0,-1] in `motzkin_paths(9)`
   - **Integer Intervals**: A (lazy) closed-open interval of integers.
-    - Example: integer_interval(4,8) = \{4,5,6,7\}
+    - Example: `integer_interval(4,8)` = {4,5,6,7}
 
 All follow the same design principle: The templated class is called `basic_SOMETHING<class T, class Container>`, and the simplest types for `T` and `Container` are instantiated as SOMETHING. For example, `combinations` is a typedef of `basic_combinations< int, vector<int> >`, and `partitions` is a typedef of `basic_partitions<int, vector<int>>`. T is usually an (signed) integer type, like `char`, `short`, `int`, `long`. Some tests show that on different machines different types produce faster code, so even if you don't need numbers bigger than 127 it might be a good idea to use `int` or `long` rather than `char`. 
 

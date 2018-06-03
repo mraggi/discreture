@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CombinationsTree.hpp"
+#include "CombinationTree.hpp"
 #include "Misc.hpp"
 #include "VectorHelpers.hpp"
 
@@ -9,7 +9,7 @@ namespace dscr
 template <class IntType,
           class Predicate,
           class RAContainerInt = std::vector<IntType>>
-class basic_combinations_tree_prunned
+class CombinationTreePrunned
 {
 public:
     using value_type = RAContainerInt;
@@ -29,7 +29,7 @@ public:
     /// as input a partial combination and returns either true or false.
     ///
     ////////////////////////////////////////////////////////////
-    basic_combinations_tree_prunned(IntType n, IntType k, Predicate p)
+    CombinationTreePrunned(IntType n, IntType k, Predicate p)
         : m_n(n), m_k(k), m_begin(m_n, m_k, p), m_end(p, true), m_pred(p)
     {
         // 			cout << "In constructor" << endl;
@@ -105,7 +105,7 @@ public:
         bool m_atEnd{true};
         Predicate m_pred;
 
-        friend class basic_combinations_tree_prunned;
+        friend class CombinationTreePrunned;
         friend class boost::iterator_core_access;
 
     }; // end class iterator
@@ -182,7 +182,6 @@ private:
         return false;
     }
 
-}; // end class basic_combinations_tree_prunned
+}; // end class CombinationTreePrunned
 
-// 	using combinations_tree_prunned = basic_combinations_tree_prunned<int>;
 } // namespace dscr

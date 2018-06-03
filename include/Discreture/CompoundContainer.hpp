@@ -7,19 +7,19 @@ namespace dscr
 {
 
 template <class Container, class IndexContainerOfContainers>
-class compound_container
+class CompoundContainer
 {
 public:
     using difference_type = long long;
     using size_type = difference_type; // yeah, signed!
     using indices = typename IndexContainerOfContainers::value_type;
     using index = typename indices::value_type;
-    using value_type = aggregation_view<Container, indices>;
+    using value_type = AggregationView<Container, indices>;
     class iterator;
     using const_iterator = iterator;
 
 public:
-    compound_container(const Container& objects,
+    CompoundContainer(const Container& objects,
                        const IndexContainerOfContainers& Indices)
         : m_container(objects), m_indices(Indices)
     {}
@@ -37,7 +37,7 @@ public:
         {
             it = m_cache.insert({i, m_indices[i]}).first;
         }
-        return make_aggregation_view(m_container, it->second);
+        return aggregation_view(m_container, it->second);
     }
 
     class iterator
@@ -68,7 +68,7 @@ public:
 
         value_type dereference() const
         {
-            return make_aggregation_view(*m_container, *m_index_container_iter);
+            return aggregation_view(*m_container, *m_index_container_iter);
         }
 
         difference_type distance_to(const iterator& other) const
@@ -85,7 +85,7 @@ public:
         Container const* m_container{nullptr};
         indexcontainer_iter m_index_container_iter;
         friend class boost::iterator_core_access;
-        friend class compound_container;
+        friend class CompoundContainer;
     };
 
 private:
@@ -96,13 +96,11 @@ private:
       m_cache;
 };
 
+// deprecated in C++17, but useful for C++14
 template <class Container, class IndexContainerOfContainers>
-compound_container<Container, IndexContainerOfContainers>
-make_compound_container(const Container& A,
-                        const IndexContainerOfContainers&
-                          I) // deprecated in C++17, but useful for C++14
+auto compound_container(const Container& A, const IndexContainerOfContainers& I)
 {
-    return compound_container<Container, IndexContainerOfContainers>(A, I);
+    return CompoundContainer<Container, IndexContainerOfContainers>(A, I);
 }
 
 } // namespace dscr

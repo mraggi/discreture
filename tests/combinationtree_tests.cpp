@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
-#include "CombinationsTree.hpp"
+#include "CombinationTree.hpp"
 
 using namespace std;
 using namespace dscr;
@@ -18,8 +18,8 @@ void check_combination_tree(const Combination& x, int n, int k)
     }
 }
 
-void check_combination_tree_index(const combinations_tree& X,
-                                  const combinations_tree::combination& x,
+void check_combination_tree_index(const CombinationTree<int>& X,
+                                  const CombinationTree<int>::combination& x,
                                   int i)
 {
     ASSERT_EQ(i, X.get_index(x));
@@ -27,18 +27,17 @@ void check_combination_tree_index(const combinations_tree& X,
     ASSERT_EQ(X.get_iterator(x), X.begin() + i);
 }
 
-TEST(CombinationsTree, ForwardIteration)
+TEST(CombinationTree, ForwardIteration)
 {
     for (int n = 0; n < 10; ++n)
     {
         long total = 0;
         for (int k = 0; k <= n + 1; ++k) // even k+1
         {
-            combinations_tree X(n, k);
+            auto X = combination_tree(n, k);
 
-            set<combinations_tree::combination> S(X.begin(), X.end());
-            ASSERT_EQ(X.size(),
-                      S.size()); // This checks everything is different.
+            set<decltype(X)::combination> S(X.begin(), X.end());
+            ASSERT_EQ(X.size(), S.size());
 
             long i = 0;
 
@@ -54,14 +53,14 @@ TEST(CombinationsTree, ForwardIteration)
     }
 }
 
-TEST(CombinationsTree, ReverseIteration)
+TEST(CombinationTree, ReverseIteration)
 {
     for (int n = 0; n < 10; ++n)
     {
         long total = 0;
         for (int k = 0; k <= n + 1; ++k) // even k+1
         {
-            combinations_tree X(n, k);
+            auto X = combination_tree(n, k);
             long i = 0;
 
             for (auto it = X.rbegin(); it != X.rend(); ++it)
@@ -78,12 +77,12 @@ TEST(CombinationsTree, ReverseIteration)
     }
 }
 
-TEST(CombinationsTree, RandomAccess)
+TEST(CombinationTree, RandomAccess)
 {
     // combined test
     int n = 10;
     int k = 5;
-    combinations_tree X(n, k);
+    auto X = combination_tree(n, k);
     int i = 25;
     auto it = X.begin() + i;
 
@@ -96,13 +95,13 @@ TEST(CombinationsTree, RandomAccess)
     } while (it != X.end());
 }
 
-TEST(CombinationsTree, Bidirectional)
+TEST(CombinationTree, Bidirectional)
 {
     long n = 38L;
     long k = 16L;
     long r = 10000000000L;
 
-    combinations_tree X(n, k);
+    auto X = combination_tree(n, k);
     ASSERT_EQ(X.size(), 22239974430LL);
 
     auto t = X.begin() + r;
@@ -129,15 +128,15 @@ TEST(CombinationsTree, Bidirectional)
     ASSERT_EQ(*t, *s);
 }
 
-TEST(CombinationsTree, ForEach)
+TEST(CombinationTree, ForEach)
 {
     for (int n = 0; n < 20; ++n)
     {
         for (int k = 0; k <= n; ++k)
         {
-            combinations_tree X(n, k);
+            auto X = combination_tree(n, k);
             auto it = X.begin();
-            X.for_each([&it](const combinations_tree::combination& x) {
+            X.for_each([&it](const decltype(X)::combination& x) {
                 ASSERT_EQ(x, *it);
                 ++it;
             });
@@ -145,13 +144,13 @@ TEST(CombinationsTree, ForEach)
     }
 }
 
-TEST(CombinationsTree, CorrectOrder)
+TEST(CombinationTree, CorrectOrder)
 {
     for (int n = 0; n < 10; ++n)
     {
         for (int k = 0; k <= n; ++k)
         {
-            combinations_tree X(n, k);
+            auto X = combination_tree(n, k);
             for (auto it = X.begin(); it != X.end(); ++it)
             {
                 auto itnext = it + 1;
@@ -165,9 +164,9 @@ TEST(CombinationsTree, CorrectOrder)
     }
 }
 
-TEST(CombinationsTree, EdgeCases)
+TEST(CombinationTree, EdgeCases)
 {
-    basic_combinations_tree<unsigned char> Z(5, 8);
+    CombinationTree<unsigned char> Z(5, 8);
 
     for (const auto& z : Z)
     {
@@ -176,11 +175,11 @@ TEST(CombinationsTree, EdgeCases)
     }
 }
 
-TEST(CombinationsTree, FindIf)
+TEST(CombinationTree, FindIf)
 {
-    combinations_tree W(20, 6);
+    auto W = combination_tree(20, 6);
 
-    auto predicate1 = [](const combinations_tree::combination& comb) -> bool {
+    auto predicate1 = [](const decltype(W)::combination& comb) -> bool {
         for (size_t i = 0; i < comb.size() - 1; ++i)
         {
             if (2*comb[i] + 1 > comb[i + 1])
@@ -190,7 +189,7 @@ TEST(CombinationsTree, FindIf)
         return true;
     };
 
-    auto predicate2 = [](const combinations_tree::combination& comb) -> bool {
+    auto predicate2 = [](const decltype(W)::combination& comb) -> bool {
         for (size_t i = 0; i < comb.size() - 1; ++i)
         {
             if (comb[i] + 3 < comb[i + 1])
@@ -246,11 +245,11 @@ TEST(CombinationsTree, FindIf)
     }
 }
 
-TEST(CombinationsTree, PartitionPoint)
+TEST(CombinationTree, PartitionPoint)
 {
     int n = 60;
     int k = 30;
-    combinations_tree X(n, k);
+    auto X = combination_tree(n, k);
     auto comb = *std::partition_point(
       X.begin(), X.end(), [](const auto& x) { return x.front() < 26; });
 

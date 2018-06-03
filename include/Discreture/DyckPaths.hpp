@@ -43,7 +43,7 @@ namespace dscr
 ///
 /////////////////////////////////////////////////////////////////////////////////////
 template <class IntType, class RAContainerInt = std::vector<IntType>>
-class basic_dyck_paths
+class DyckPaths
 {
 public:
     using value_type = RAContainerInt;
@@ -144,7 +144,7 @@ public:
     /// \param n is an integer >= 0
     ///
     ////////////////////////////////////////////////////////////
-    explicit basic_dyck_paths(IntType n) : m_n(n) {}
+    explicit DyckPaths(IntType n) : m_n(n) {}
 
     ////////////////////////////////////////////////////////////
     /// \brief The total number of dyck_paths
@@ -224,10 +224,10 @@ public:
 private:
     IntType m_n;
 
-}; // end class basic_dyck_paths
+}; // end class DyckPaths
 
-using dyck_paths = basic_dyck_paths<int>;
-using dyck_paths_fast =
-  basic_dyck_paths<int, boost::container::static_vector<int, 48>>;
+using dyck_paths = DyckPaths<int>;
+using dyck_paths_stack =
+  DyckPaths<int, boost::container::static_vector<int, 48>>;
 
 } // namespace dscr

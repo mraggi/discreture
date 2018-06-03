@@ -87,6 +87,8 @@ TEST(Sequences, PartitionNumbersWithSpecifiedParts)
     ASSERT_EQ(partition_number(37, 36), 1);
     ASSERT_EQ(partition_number(8, 4), 5);
     ASSERT_EQ(partition_number(0, 1), 0);
+    ASSERT_EQ(partition_number(0, 0), 1);
+    ASSERT_EQ(partition_number(4, 0), 0);
 }
 
 TEST(Sequences, StirlingCycle)

@@ -13,7 +13,7 @@ namespace dscr
 /// \brief Similar to python range(n) or range(n,m) or range(n,m,step).
 //////////////////////////////////////////
 template <class IntType>
-class basic_arithmetic_progression
+class ArithmeticProgression
 {
 public:
     using value_type = IntType;
@@ -33,7 +33,7 @@ public:
     /// {0,1,2,...,n-1}
     ///
     ////////////////////////////////////////////////////////////
-    explicit basic_arithmetic_progression(IntType n)
+    explicit ArithmeticProgression(IntType n)
         : m_from(0), m_to(n), m_step(1)
     {
         assert(n >= 0);
@@ -45,7 +45,7 @@ public:
     /// abstract random-access container whose elements are
     /// {n,n+step,n+2*step,...} up to (and not including) t_to.
     //////////////////////////////////////////
-    basic_arithmetic_progression(IntType from, IntType to, IntType step = 1)
+    ArithmeticProgression(IntType from, IntType to, IntType step = 1)
         : m_from(from), m_to(to), m_step(step)
     {
         assert(m_step != 0);
@@ -111,7 +111,7 @@ public:
         size_type m_step{1};
 
         friend class boost::iterator_core_access;
-        friend class basic_arithmetic_progression;
+        friend class ArithmeticProgression;
     }; // end class iterator
 
     iterator begin() const { return iterator(m_from, m_step); }
@@ -129,10 +129,9 @@ private:
     IntType m_from;
     IntType m_to;
     IntType m_step;
-}; // end class basic_arithmetic_progression
+}; // end class ArithmeticProgression
 
-using arithmetic_progression = basic_arithmetic_progression<int>;
-using big_arithmetic_progression =
-  basic_arithmetic_progression<std::int64_t>; // NOLINT
+using arithmetic_progression = ArithmeticProgression<int>;
+using big_arithmetic_progression = ArithmeticProgression<std::int64_t>;
 
 } // namespace dscr

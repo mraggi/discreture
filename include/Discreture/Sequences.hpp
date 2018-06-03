@@ -266,15 +266,18 @@ inline BigIntType partition_number(llint n, llint k)
                                                   {0, 1, 2, 2, 1, 1}};
 
     llint oldsize = PNK.size();
-
-    if (n < oldsize)
-        return PNK[n][k];
-
-    if (k == 0 || n == 0)
+    
+    if (k <= 0 || n <= 0)
+        return n == 0 && k == 0;
+    
+    if (k > n)
         return 0;
 
     if (k == n || k == 1)
         return 1;
+    
+    if (n < oldsize)
+        return PNK[n][k];
 
     for (llint m = oldsize; m <= n; ++m)
     {

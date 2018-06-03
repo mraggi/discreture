@@ -51,7 +51,7 @@ namespace dscr
 /////////////////////////////////////////////////////////////////////////////////////
 
 template <class IntType, class RAContainerInt = std::vector<IntType>>
-class basic_motzkin_paths
+class MotzkinPaths
 {
 public:
     using value_type = RAContainerInt;
@@ -59,8 +59,8 @@ public:
     using difference_type = long long; // NOLINT
     using size_type = difference_type;
     using comb_i =
-      typename basic_combinations<IntType, RAContainerInt>::iterator;
-    using dyck_i = typename basic_dyck_paths<IntType, RAContainerInt>::iterator;
+      typename Combinations<IntType, RAContainerInt>::iterator;
+    using dyck_i = typename DyckPaths<IntType, RAContainerInt>::iterator;
     class iterator;
     using const_iterator = iterator;
 
@@ -87,7 +87,7 @@ public:
     /// \param n is an integer >= 0
     ///
     ////////////////////////////////////////////////////////////
-    explicit basic_motzkin_paths(IntType n) : m_n(n) {}
+    explicit MotzkinPaths(IntType n) : m_n(n) {}
 
     ////////////////////////////////////////////////////////////
     /// \brief The total number of motzkin_paths
@@ -187,10 +187,10 @@ public:
 
 private:
     IntType m_n;
-}; // end class basic_motzkin_paths
+}; // end class MotzkinPaths
 
-using motzkin_paths = basic_motzkin_paths<int>;
-using motzkin_paths_fast =
-  basic_motzkin_paths<int, boost::container::static_vector<int, 48>>;
+using motzkin_paths = MotzkinPaths<int>;
+using motzkin_paths_stack =
+  MotzkinPaths<int, boost::container::static_vector<int, 48>>;
 
 } // namespace dscr

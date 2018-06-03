@@ -1,4 +1,4 @@
-#include "Discreture/CombinationsTree.hpp"
+#include "Discreture/CombinationTree.hpp"
 #include <cstdlib>
 #include <sstream>
 #include <string>
@@ -9,7 +9,7 @@ int k = 3;
 
 using std::cout;
 using std::endl;
-using dscr::combinations_tree;
+using dscr::CombinationTree;
 using dscr::operator<<;
 
 // Just sets global variables n and k.
@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 
     parse_command_line(argc, argv);
 
-    combinations_tree X(n, k);
+    CombinationTree<int> X(n, k);
 
     for (auto it = X.rbegin(); it != X.rend(); ++it)
         cout << *it << endl;

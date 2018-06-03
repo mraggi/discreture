@@ -1,25 +1,28 @@
 #pragma once
 
 #include "Combinations.hpp"
+#include "CombinationTree.hpp"
 #include "do_not_optimize.hpp"
 
-inline void BM_CombinationsTreeNAP(int n, int k)
+inline void BM_CombinationTreeNAP(int n, int k)
 {
-    dscr::combinations_tree_fast::combination comb(k);
+    using cts = dscr::CombinationTree<int, boost::container::static_vector<int, 32>>;
+    cts::combination comb(k);
     std::iota(comb.begin(), comb.end(), 0);
     int count = 0;
     auto size = dscr::binomial<std::int64_t>(n, k);
     for (; count < size; ++count)
     {
         DoNotOptimize(comb);
-        dscr::combinations_tree_fast::next_combination(comb, n);
+        cts::next_combination(comb, n);
     }
 }
 
-inline std::int64_t BM_CombinationsTreeFindAll(int n, int k)
+inline std::int64_t BM_CombinationTreeFindAll(int n, int k)
 {
-    dscr::combinations_tree_fast W(n, k);
-    auto T = W.find_all([](const dscr::combinations_tree_fast::combination& A) {
+    using cts = dscr::CombinationTree<int, boost::container::static_vector<int, 32>>;
+    auto W = dscr::combination_tree_stack(n, k);
+    auto T = W.find_all([](const cts::combination& A) {
         if (A.size() < 2)
             return true;
 
@@ -38,7 +41,7 @@ inline std::int64_t BM_CombinationsTreeFindAll(int n, int k)
 
 #include "external/euler314_combination_iterator.hpp"
 
-inline void BM_CombinationsTreeEuler314(int n, int k)
+inline void BM_CombinationTreeEuler314(int n, int k)
 {
     auto end = combination_iterator<std::int64_t>();
 
@@ -50,7 +53,7 @@ inline void BM_CombinationsTreeEuler314(int n, int k)
 
 #ifdef TEST_GSL_COMBINATIONS
 #include <gsl/gsl_combination.h>
-inline void BM_CombinationsTreeGSL(int n, int k)
+inline void BM_CombinationTreeGSL(int n, int k)
 {
     gsl_combination* c;
 

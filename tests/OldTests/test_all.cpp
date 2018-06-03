@@ -6,7 +6,7 @@ using namespace dscr;
 
 bool testCorrectness()
 {
-    if (testCombinations() && testCombinationsTree() && testPermutations() &&
+    if (testCombinations() && testCombinationTree() && testPermutations() &&
         testPartitions() && testMultiset() && testDyckPaths() &&
         testSetPartitions() && testMotzkin())
     {

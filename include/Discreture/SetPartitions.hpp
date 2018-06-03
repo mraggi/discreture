@@ -50,7 +50,7 @@ namespace dscr
 ///
 ////////////////////////////////////////////////////////////
 template <class IntType>
-class basic_set_partitions
+class SetPartitions
 {
 public:
     using number_partition = std::vector<IntType>;
@@ -137,7 +137,7 @@ public:
     /// \param n is an integer >= 0
     ///
     ////////////////////////////////////////////////////////////
-    explicit basic_set_partitions(IntType n)
+    explicit SetPartitions(IntType n)
         : m_n(n), m_minnumparts(1), m_maxnumparts(n), m_size(calc_size(n, 1, n))
     {}
 
@@ -148,7 +148,7 @@ public:
     /// \param numparts is an integer >= 1 and <= n
     ///
     ////////////////////////////////////////////////////////////
-    basic_set_partitions(IntType n, IntType numparts)
+    SetPartitions(IntType n, IntType numparts)
         : m_n(n)
         , m_minnumparts(numparts)
         , m_maxnumparts(numparts)
@@ -163,7 +163,7 @@ public:
     /// \param maxnumparts is an integer >= minnumparts and <= n
     ///
     ////////////////////////////////////////////////////////////
-    basic_set_partitions(IntType n, IntType minnumparts, IntType maxnumparts)
+    SetPartitions(IntType n, IntType minnumparts, IntType maxnumparts)
         : m_n(n)
         , m_minnumparts(minnumparts)
         , m_maxnumparts(maxnumparts)
@@ -203,7 +203,7 @@ public:
         explicit iterator(IntType n, IntType numparts)
             : m_ID(0), m_data(n), m_n(n), m_npartition()
         {
-            basic_partitions<IntType>::first_with_given_number_of_parts(
+            Partitions<IntType>::first_with_given_number_of_parts(
               m_npartition, n, numparts);
             fill_first_set_partition(m_data, m_npartition);
         }
@@ -224,7 +224,7 @@ public:
 
             if (!next_set_partition(m_data, m_npartition))
             {
-                basic_partitions<IntType>::next_partition(m_npartition, m_n);
+                Partitions<IntType>::next_partition(m_npartition, m_n);
                 fill_first_set_partition(m_data, m_npartition);
             }
         }
@@ -319,8 +319,8 @@ private:
         return false;
     }
 
-}; // end class basic_set_partitions
+}; // end class SetPartitions
 
-using set_partitions = basic_set_partitions<int>;
+using set_partitions = SetPartitions<int>;
 
 } // namespace dscr

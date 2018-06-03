@@ -17,8 +17,8 @@ void check_combination(const Combination& x, int n, int k)
     }
 }
 
-void check_combination_index(const combinations& X,
-                             const combinations::combination& x,
+void check_combination_index(const Combinations<int>& X,
+                             const Combinations<int>::combination& x,
                              int i)
 {
     ASSERT_EQ(i, X.get_index(x));
@@ -33,10 +33,9 @@ TEST(Combinations, ForwardIteration)
         long total = 0;
         for (int k = 0; k <= n + 1; ++k) // even k+1
         {
-            combinations X(n, k);
-            set<combinations::combination> S(X.begin(), X.end());
-            ASSERT_EQ(X.size(),
-                      S.size()); // This checks everything is different.
+            auto X = combinations(n, k);
+            set<decltype(X)::combination> S(X.begin(), X.end());
+            ASSERT_EQ(X.size(), S.size());
 
             long i = 0;
 
@@ -59,7 +58,7 @@ TEST(Combinations, ReverseIteration)
         long total = 0;
         for (int k = 0; k <= n + 1; ++k) // even k+1
         {
-            combinations X(n, k);
+            auto X = combinations(n, k);
             long i = 0;
 
             for (auto it = X.rbegin(); it != X.rend(); ++it, --it, ++it)
@@ -80,7 +79,7 @@ TEST(Combinations, RandomAccess)
     // combined test
     int n = 10;
     int k = 5;
-    combinations X(n, k);
+    auto X = combinations(n, k);
     int i = 25;
     auto it = X.begin() + i;
 
@@ -99,7 +98,7 @@ TEST(Combinations, Bidirectional)
     long k = 16L;
     long r = 10000000000L;
 
-    combinations X(n, k);
+    auto X = combinations(n, k);
     ASSERT_EQ(X.size(), 22239974430LL);
 
     auto t = X.begin() + r;
@@ -134,9 +133,9 @@ TEST(Combinations, ForEach)
     {
         for (int k = 0; k <= n; ++k)
         {
-            combinations X(n, k);
+            auto X = combinations(n, k);
             auto it = X.begin();
-            X.for_each([&it](const combinations::combination& x) {
+            X.for_each([&it](const decltype(X)::combination& x) {
                 ASSERT_EQ(x, *it);
                 ++it;
             });
@@ -150,7 +149,7 @@ TEST(Combinations, CorrectOrder)
     {
         for (int k = 0; k <= n; ++k)
         {
-            combinations X(n, k);
+            auto X = combinations(n, k);
             for (auto it = X.begin(); it != X.end(); ++it)
             {
                 auto itnext = it + 1;
@@ -167,7 +166,7 @@ TEST(Combinations, CorrectOrder)
 
 TEST(Combinations, EdgeCases)
 {
-    basic_combinations<char> Z(5, 8);
+    Combinations<char> Z(5, 8);
 
     for (const auto& z : Z)
     {
@@ -178,9 +177,9 @@ TEST(Combinations, EdgeCases)
 
 TEST(Combinations, FindIf)
 {
-    combinations W(20, 6);
+    auto W = combinations(20, 6);
 
-    auto predicate1 = [](const combinations::combination& comb) -> bool {
+    auto predicate1 = [](const decltype(W)::combination& comb) -> bool {
         for (size_t i = 0; i < comb.size() - 1; ++i)
         {
             if (2*comb[i] + 1 > comb[i + 1])
@@ -190,7 +189,7 @@ TEST(Combinations, FindIf)
         return true;
     };
 
-    auto predicate2 = [](const combinations::combination& comb) -> bool {
+    auto predicate2 = [](const decltype(W)::combination& comb) -> bool {
         for (size_t i = 0; i < comb.size() - 1; ++i)
         {
             if (comb[i] + 3 < comb[i + 1])
@@ -248,7 +247,7 @@ TEST(Combinations, PartitionPoint)
 {
     int n = 60;
     int k = 30;
-    combinations X(n, k);
+    auto X = combinations(n, k);
     auto comb = *std::partition_point(
       X.begin(), X.end(), [](const auto& x) { return x.back() < 56; });
 
@@ -283,11 +282,11 @@ TEST(Combinations, next_combination)
     {
         ASSERT_EQ(A, B);
         ASSERT_EQ(B, C);
-        dscr::combinations::next_combination(n, B, hintB);
-        dscr::combinations::next_combination(n, C, hintC, k - 1);
+        dscr::Combinations<int>::next_combination(n, B, hintB);
+        dscr::Combinations<int>::next_combination(n, C, hintC, k - 1);
 
-        dscr::combinations::iterator it(A);
+        dscr::Combinations<int>::iterator it(A);
         ASSERT_EQ(it.ID(), i);
         ++i;
-    } while (dscr::combinations::next_combination(n, A));
+    } while (dscr::Combinations<int>::next_combination(n, A));
 }

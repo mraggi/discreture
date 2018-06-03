@@ -11,6 +11,7 @@ using std::cout;
 using std::endl;
 using dscr::combinations;
 using dscr::operator<<;
+using dscr::Combinations;
 
 // Just sets global variables n and k.
 void parse_command_line(int argc, char* argv[]);
@@ -22,7 +23,7 @@ int main(int argc, char* argv[])
 
     parse_command_line(argc, argv);
 
-    combinations X(n, k);
+    Combinations<int> X(n, k);
 
     for (auto it = X.rbegin(); it != X.rend(); ++it)
         cout << *it << endl;

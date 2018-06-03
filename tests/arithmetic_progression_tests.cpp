@@ -27,7 +27,7 @@ TEST(ArithmeticProgression, ForwardIteration)
 
 TEST(ArithmeticProgression, RandomAccess)
 {
-    basic_arithmetic_progression<long> A(5, 16, 2);
+    ArithmeticProgression<long> A(5, 16, 2);
     ASSERT_EQ(A[0], 5);
     ASSERT_EQ(A[1], 7);
     ASSERT_EQ(A[2], 9);
@@ -36,7 +36,7 @@ TEST(ArithmeticProgression, RandomAccess)
     ASSERT_EQ(A[5], 15);
     ASSERT_EQ(A.size(), 6);
 
-    basic_arithmetic_progression<short> B(5, 11, 2);
+    ArithmeticProgression<short> B(5, 11, 2);
     ASSERT_EQ(B[0], 5);
     ASSERT_EQ(B[1], 7);
     ASSERT_EQ(B[2], 9);
@@ -45,7 +45,7 @@ TEST(ArithmeticProgression, RandomAccess)
 
 TEST(ArithmeticProgression, Empty)
 {
-    basic_arithmetic_progression<int> A(5, 3, 2);
+    ArithmeticProgression<int> A(5, 3, 2);
 
     ASSERT_EQ(A.size(), 0);
     for (auto a : A)
@@ -53,14 +53,14 @@ TEST(ArithmeticProgression, Empty)
         ASSERT_FALSE(true);
     }
 
-    basic_arithmetic_progression<int> B(5, 8, -2);
+    ArithmeticProgression<int> B(5, 8, -2);
     ASSERT_EQ(B.size(), 0);
     for (auto b : B)
     {
         ASSERT_FALSE(true);
     }
 
-    basic_arithmetic_progression<int> C(5, 5, 1);
+    ArithmeticProgression<int> C(5, 5, 1);
     ASSERT_EQ(C.size(), 0);
     for (auto c : C)
     {
@@ -86,7 +86,7 @@ TEST(ArithmeticProgression, PartitionPoint)
 
 TEST(ArithmeticProgression, NegativeStepTest)
 {
-    basic_arithmetic_progression<long> A(16, 9, -2);
+    ArithmeticProgression<long> A(16, 9, -2);
     auto it = A.begin();
     ASSERT_EQ(*it, 16);
     ++it;
@@ -99,7 +99,7 @@ TEST(ArithmeticProgression, NegativeStepTest)
     ASSERT_EQ(*A.end(), 8);
     ASSERT_EQ(A.size(), 4);
 
-    basic_arithmetic_progression<short> B(16, 10, -2);
+    ArithmeticProgression<short> B(16, 10, -2);
     auto it2 = B.begin();
     ASSERT_EQ(*it2, 16);
     ++it2;
@@ -113,7 +113,7 @@ TEST(ArithmeticProgression, NegativeStepTest)
 
 TEST(ArithmeticProgression, PositiveStepTest)
 {
-    basic_arithmetic_progression<long> A(5, 13, 3);
+    ArithmeticProgression<long> A(5, 13, 3);
     ASSERT_EQ(A.size(), 3);
     auto it = A.begin();
     ASSERT_EQ(*it, 5);
@@ -123,7 +123,7 @@ TEST(ArithmeticProgression, PositiveStepTest)
     ASSERT_EQ(*it, 11);
     ASSERT_EQ(*A.end(), 14);
 
-    basic_arithmetic_progression<short> B(5, 14, 3);
+    ArithmeticProgression<short> B(5, 14, 3);
     ASSERT_EQ(B.size(), 3);
     auto it2 = B.begin();
     ASSERT_EQ(*it2, 5);
