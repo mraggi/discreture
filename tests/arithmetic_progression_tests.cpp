@@ -1,18 +1,19 @@
-#include "NumberRange.hpp"
+#include "ArithmeticProgression.hpp"
+#include "IntegerInterval.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 
 using namespace std;
 using namespace dscr;
 
-TEST(NumberRange, ForwardIteration)
+TEST(ArithmeticProgression, ForwardIteration)
 {
     for (int n = 0; n < 10; ++n)
     {
         for (int m = 0; m < n; ++m)
         {
-            number_range R(n, m, -1);
-            set<number_range::value_type> S(R.begin(), R.end());
+            arithmetic_progression R(n, m, -1);
+            set<arithmetic_progression::value_type> S(R.begin(), R.end());
             ASSERT_EQ(R.size(),
                       S.size()); // This checks everything is different.
             ASSERT_EQ(R.size(), n - m);
@@ -21,24 +22,12 @@ TEST(NumberRange, ForwardIteration)
             ASSERT_EQ(*R.begin(), n);
             ASSERT_EQ(*(R.end() - 1), m + 1);
         }
-
-        for (int m = n; m < 15; ++m)
-        {
-            number_range R(n, m);
-            set<number_range::value_type> S(R.begin(), R.end());
-            ASSERT_EQ(R.size(),
-                      S.size()); // This checks everything is different.
-            ASSERT_EQ(R.size(), m - n);
-            ASSERT_TRUE(std::is_sorted(R.begin(), R.end()));
-            ASSERT_EQ(*R.begin(), n);
-            ASSERT_EQ(*(R.end() - 1), m - 1);
-        }
     }
 }
 
-TEST(NumberRange, RandomAccess)
+TEST(ArithmeticProgression, RandomAccess)
 {
-    basic_number_range<long> A(5, 16, 2);
+    basic_arithmetic_progression<long> A(5, 16, 2);
     ASSERT_EQ(A[0], 5);
     ASSERT_EQ(A[1], 7);
     ASSERT_EQ(A[2], 9);
@@ -47,23 +36,32 @@ TEST(NumberRange, RandomAccess)
     ASSERT_EQ(A[5], 15);
     ASSERT_EQ(A.size(), 6);
 
-    basic_number_range<short> B(5, 11, 2);
+    basic_arithmetic_progression<short> B(5, 11, 2);
     ASSERT_EQ(B[0], 5);
     ASSERT_EQ(B[1], 7);
     ASSERT_EQ(B[2], 9);
     ASSERT_EQ(B.size(), 3);
 }
 
-TEST(NumberRange, PartitionPoint)
+TEST(ArithmeticProgression, PartitionPoint)
 {
-    big_number_range A(-3700LL, 1000000000000LL);
+    big_arithmetic_progression A(-3700LL, 1000000000000LL, 5);
     auto n = A.partition_point([](auto t) { return t < 5000; });
     ASSERT_EQ(n, 5000);
+    
+    long first = 136;
+    long last = 1000000000000LL;
+    long step = 59;
+    
+    big_arithmetic_progression B(first, last, step);
+    auto m = B.partition_point([](auto t) { return t < 5000; });
+    ASSERT_GE(m, 5000);
+    ASSERT_TRUE(m%step == first%step);
 }
 
-TEST(NumberRange, NegativeStepTest)
+TEST(ArithmeticProgression, NegativeStepTest)
 {
-    basic_number_range<long> A(16, 9, -2);
+    basic_arithmetic_progression<long> A(16, 9, -2);
     auto it = A.begin();
     ASSERT_EQ(*it, 16);
     ++it;
@@ -76,7 +74,7 @@ TEST(NumberRange, NegativeStepTest)
     ASSERT_EQ(*A.end(), 8);
     ASSERT_EQ(A.size(), 4);
 
-    basic_number_range<short> B(16, 10, -2);
+    basic_arithmetic_progression<short> B(16, 10, -2);
     auto it2 = B.begin();
     ASSERT_EQ(*it2, 16);
     ++it2;
@@ -88,9 +86,9 @@ TEST(NumberRange, NegativeStepTest)
     ASSERT_EQ(B.size(), 3);
 }
 
-TEST(NumberRange, PositiveStepTest)
+TEST(ArithmeticProgression, PositiveStepTest)
 {
-    basic_number_range<long> A(5, 13, 3);
+    basic_arithmetic_progression<long> A(5, 13, 3);
     ASSERT_EQ(A.size(), 3);
     auto it = A.begin();
     ASSERT_EQ(*it, 5);
@@ -100,7 +98,7 @@ TEST(NumberRange, PositiveStepTest)
     ASSERT_EQ(*it, 11);
     ASSERT_EQ(*A.end(), 14);
 
-    basic_number_range<short> B(5, 14, 3);
+    basic_arithmetic_progression<short> B(5, 14, 3);
     ASSERT_EQ(B.size(), 3);
     auto it2 = B.begin();
     ASSERT_EQ(*it2, 5);

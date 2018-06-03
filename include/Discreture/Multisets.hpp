@@ -1,6 +1,6 @@
 #pragma once
+#include "IntegerInterval.hpp"
 #include "Misc.hpp"
-#include "NaturalNumber.hpp"
 #include "VectorHelpers.hpp"
 #include <boost/iterator/iterator_facade.hpp>
 
@@ -77,7 +77,7 @@ public:
         {
             size_type w = coeffs[i];
             auto t =
-              big_natural_number(total[i] + 1)
+              big_integer_interval(total[i] + 1)
                 .partition_point([m, w](size_type a) { return a*w <= m; }) -
               1;
             sub[i] = t;

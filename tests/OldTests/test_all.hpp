@@ -7,6 +7,5 @@
 #include "multisets_test.hpp"
 #include "partitions_test.hpp"
 #include "permutations_test.hpp"
-#include "range_test.hpp"
 #include "sequence_test.hpp"
 #include "set_partitions_test.hpp"

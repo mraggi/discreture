@@ -13,7 +13,7 @@ namespace dscr
 /// {0,1,2,...,n-1}, with 0 = {}.
 //////////////////////////////////////////
 template <class IntType>
-class basic_natural_number
+class basic_integer_interval
 {
 public:
     using value_type = IntType;
@@ -23,15 +23,16 @@ public:
     using const_iterator = iterator;
 
 public:
-    ////////////////////////////////////////////////////////////
-    /// \brief Constructor
-    ///
-    /// \param n is an integer >= 0
-    ///
-    ////////////////////////////////////////////////////////////
-    explicit basic_natural_number(IntType n) : m_n(n) { assert(n >= 0); }
+    explicit basic_integer_interval() {}
 
-    size_type size() const { return m_n; }
+    explicit basic_integer_interval(IntType n) : m_end(n) { assert(n >= 0); }
+    explicit basic_integer_interval(IntType from, IntType to)
+        : m_start(from), m_end(to)
+    {
+        assert(size() >= 0);
+    }
+
+    size_type size() const { return m_end - m_start; }
 
     ////////////////////////////////////////////////////////////
     /// \brief Random access iterator class.
@@ -65,34 +66,45 @@ public:
         IntType m_ID{0};
 
         friend class boost::iterator_core_access;
-        friend class basic_natural_number;
+        friend class basic_integer_interval;
     }; // end class iterator
 
-    iterator begin() const { return iterator(0); }
+    iterator begin() const { return iterator(m_start); }
+    iterator end() const { return iterator(m_end); }
 
-    iterator end() const { return iterator(m_n); }
+    IntType operator[](size_type m) const { return m_start + m; }
 
-    IntType operator[](size_type m) const { return m; }
-
-    template <class Pred>
-    IntType partition_point(Pred p)
+    // returns the first integer that does NOT satisfy Predicate
+    template <class Predicate>
+    IntType partition_point(Predicate p)
     {
         return *std::partition_point(begin(), end(), p);
     }
 
 private:
-    IntType m_n;
-}; // end class basic_natural_number
+    IntType m_start{0};
+    IntType m_end{0};
+}; // end class basic_integer_interval
 
-using natural_number = basic_natural_number<int>;
-using big_natural_number = basic_natural_number<long long>; // NOLINT
+using integer_interval = basic_integer_interval<int>;
+using big_integer_interval = basic_integer_interval<long long>; // NOLINT
 
-template <class Container, class T = typename Container::size_type>
-basic_natural_number<T> indices(const Container& C)
+template <class IntType>
+auto NN(IntType n)
 {
-    return basic_natural_number<T>(C.size());
+    return basic_integer_interval<IntType>{n};
 }
 
-// TODO(mraggi): zip and enumerate.
+template <class IntType>
+auto NN(IntType from, IntType to)
+{
+    return basic_integer_interval<IntType>{from, to};
+}
+
+template <class Container, class T = typename Container::size_type>
+auto indices(const Container& C)
+{
+    return basic_integer_interval<T>(C.size());
+}
 
 } // namespace dscr

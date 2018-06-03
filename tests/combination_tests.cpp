@@ -61,14 +61,14 @@ TEST(Combinations, ReverseIteration)
             combinations X(n, k);
             long i = 0;
 
-            for (auto it = X.rbegin(); it != X.rend(); ++it,--it,++it)
+            for (auto it = X.rbegin(); it != X.rend(); ++it, --it, ++it)
             {
                 auto x = *it;
                 check_combination(x, n, k);
                 check_combination_index(X, x, X.size() - i - 1);
                 ++i;
                 ++total;
-            }            
+            }
         }
         ASSERT_EQ(total, 1 << n);
     }
@@ -118,9 +118,9 @@ TEST(Combinations, Bidirectional)
     ASSERT_EQ(*t, *s);
 
     t -= 250;
-    std::advance(t,3);
-    std::advance(t,3);
-    std::advance(t,-3);
+    std::advance(t, 3);
+    std::advance(t, 3);
+    std::advance(t, -3);
     --t;
     s -= 248;
     check_combination(*t, n, k);
@@ -276,17 +276,17 @@ TEST(Combinations, next_combination)
     std::vector<int> C = A;
     long long hintB = k;
     long long hintC = k;
-    
+
     int i = 0;
     do
     {
-        ASSERT_EQ(A,B);
-        ASSERT_EQ(B,C);
-        dscr::combinations::next_combination(n,B,hintB);
-        dscr::combinations::next_combination(n,C,hintC,k-1);
-        
+        ASSERT_EQ(A, B);
+        ASSERT_EQ(B, C);
+        dscr::combinations::next_combination(n, B, hintB);
+        dscr::combinations::next_combination(n, C, hintC, k - 1);
+
         dscr::combinations::iterator it(A);
         ASSERT_EQ(it.ID(), i);
         ++i;
-    } while (dscr::combinations::next_combination(n,A));
+    } while (dscr::combinations::next_combination(n, A));
 }

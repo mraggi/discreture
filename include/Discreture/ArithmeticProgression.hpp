@@ -1,9 +1,11 @@
 #pragma once
+#include "IntegerInterval.hpp"
 #include "Misc.hpp"
 #include <algorithm>
 #include <boost/iterator/iterator_facade.hpp>
 #include <cassert>
 #include <vector>
+
 namespace dscr
 {
 
@@ -11,7 +13,7 @@ namespace dscr
 /// \brief Similar to python range(n) or range(n,m) or range(n,m,step).
 //////////////////////////////////////////
 template <class IntType>
-class basic_number_range
+class basic_arithmetic_progression
 {
 public:
     using value_type = IntType;
@@ -22,8 +24,8 @@ public:
 
 public:
     ////////////////////////////////////////////////////////////
-    /// \brief Constructor. It's usually better to use natural_number(n)
-    /// instead.
+    /// \brief Single integer constructor. It's usually better to use integer_interval(n)
+    /// instead (faster)
     ///
     /// \param n is an integer >= 0
     ///
@@ -31,7 +33,8 @@ public:
     /// {0,1,2,...,n-1}
     ///
     ////////////////////////////////////////////////////////////
-    explicit basic_number_range(IntType n) : m_from(0), m_to(n), m_step(1)
+    explicit basic_arithmetic_progression(IntType n)
+        : m_from(0), m_to(n), m_step(1)
     {
         assert(n >= 0);
     }
@@ -42,7 +45,7 @@ public:
     /// abstract random-access container whose elements are
     /// {n,n+step,n+2*step,...} up to (and not including) t_to.
     //////////////////////////////////////////
-    basic_number_range(IntType from, IntType to, IntType step = 1)
+    basic_arithmetic_progression(IntType from, IntType to, IntType step = 1)
         : m_from(from), m_to(to), m_step(step)
     {
         assert(m_step != 0);
@@ -108,11 +111,10 @@ public:
         size_type m_step{1};
 
         friend class boost::iterator_core_access;
-        friend class basic_number_range;
+        friend class basic_arithmetic_progression;
     }; // end class iterator
 
     iterator begin() const { return iterator(m_from, m_step); }
-
     iterator end() const { return iterator(m_to, m_step); }
 
     IntType operator[](size_type m) const { return m_from + m_step*m; }
@@ -127,9 +129,10 @@ private:
     IntType m_from;
     IntType m_to;
     IntType m_step;
-}; // end class basic_number_range
+}; // end class basic_arithmetic_progression
 
-using number_range = basic_number_range<int>;
-using big_number_range = basic_number_range<long long>; // NOLINT
+using arithmetic_progression = basic_arithmetic_progression<int>;
+using big_arithmetic_progression =
+  basic_arithmetic_progression<long long>; // NOLINT
 
 } // namespace dscr

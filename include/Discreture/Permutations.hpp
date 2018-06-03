@@ -1,7 +1,7 @@
 #pragma once
+#include "ArithmeticProgression.hpp"
 #include "CompoundContainer.hpp"
 #include "Misc.hpp"
-#include "NumberRange.hpp"
 #include "Probability.hpp"
 #include "Sequences.hpp"
 #include "VectorHelpers.hpp"
@@ -90,7 +90,8 @@ public:
                     auto temp = data[start];
                     data[start] = data[u + start];
                     data[u + start] = temp;
-                    // 							cout << "and setting m_data[" << start << "]
+                    // 							cout << "and setting m_data[" << start <<
+                    // "]
                     // =
                     // "
                     // << m_data[start] << endl;
@@ -341,7 +342,7 @@ public:
         void reset(IntType n)
         {
             m_ID = 0;
-            m_data = basic_number_range<IntType>(n);
+            m_data = basic_integer_interval<IntType>(n);
             std::reverse(m_data.begin(), m_data.end());
         }
 

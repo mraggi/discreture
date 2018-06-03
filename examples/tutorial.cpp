@@ -43,14 +43,14 @@ int main()
 
     /***
      *A few important notes:
-    *1. It works with any random-access container, such as std::vector
-    *2. It does not check for repeats! So if you do compound_combinations on
+     *1. It works with any random-access container, such as std::vector
+     *2. It does not check for repeats! So if you do compound_combinations on
      *"aaaaa", it will just produce many sets with "aaa".
-    *3. The std::string is necessary, because "abcde" is not a proper
+     *3. The std::string is necessary, because "abcde" is not a proper
      *container. It's an C-style char array.
-    *4. Note that auto& combination does NOT compile.
-     *	    This is because "combination" is of type dscr::arrangement, which
-     *vanishes.
+     *4. Note that auto& combination does NOT compile.
+     *	    This is because "combination" is of type dscr::aggregation_view,
+     *which vanishes.
      */
 
     cout << "\nNow in reverse!" << endl;

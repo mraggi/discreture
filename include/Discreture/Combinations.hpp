@@ -2,12 +2,12 @@
 #include <algorithm>
 #include <numeric>
 
+#include "ArithmeticProgression.hpp"
 #include "CombinationsTree.hpp"
 #include "CombinationsTreePrunned.hpp"
 #include "CompoundContainer.hpp"
+#include "IntegerInterval.hpp"
 #include "Misc.hpp"
-#include "NaturalNumber.hpp"
-#include "NumberRange.hpp"
 #include "Sequences.hpp"
 #include "VectorHelpers.hpp"
 #include "detail_combinations_bf.hpp" //Horrible. Do NOT read. Please. But I can't find another way. Sorry about that. If you think you can do better, please, tell me about it.
@@ -224,7 +224,7 @@ public:
         {
             IntType t;
 
-            big_number_range NR(r, upper);
+            big_integer_interval NR(r, upper);
 
             t = NR.partition_point(
                   [m, r](auto x) { return binomial<size_type>(x, r) <= m; }) -
@@ -245,7 +245,8 @@ public:
     static bool compare(const combination& lhs, const combination& rhs)
     {
         assert(lhs.size() == rhs.size());
-        return std::lexicographical_compare(lhs.rbegin(), lhs.rend(), rhs.rbegin(), rhs.rend());
+        return std::lexicographical_compare(
+          lhs.rbegin(), lhs.rend(), rhs.rbegin(), rhs.rend());
     }
 
     /////////////////////////////////////////////////////////////////////////////

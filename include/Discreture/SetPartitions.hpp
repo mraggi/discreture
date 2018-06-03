@@ -2,8 +2,8 @@
 
 #include <numeric>
 
+#include "ArithmeticProgression.hpp"
 #include "Misc.hpp"
-#include "NumberRange.hpp"
 #include "Partitions.hpp"
 #include "Sequences.hpp"
 #include "VectorHelpers.hpp"

@@ -1,5 +1,5 @@
 #pragma once
-#include "Arrangement.hpp"
+#include "AggregationView.hpp"
 #include "VectorHelpers.hpp"
 #include <unordered_map>
 
@@ -14,7 +14,7 @@ public:
     using size_type = difference_type; // yeah, signed!
     using indices = typename IndexContainerOfContainers::value_type;
     using index = typename indices::value_type;
-    using value_type = arrangement<Container, indices>;
+    using value_type = aggregation_view<Container, indices>;
     class iterator;
     using const_iterator = iterator;
 
@@ -37,7 +37,7 @@ public:
         {
             it = m_cache.insert({i, m_indices[i]}).first;
         }
-        return make_arrangement(m_container, it->second);
+        return make_aggregation_view(m_container, it->second);
     }
 
     class iterator
@@ -68,7 +68,7 @@ public:
 
         value_type dereference() const
         {
-            return make_arrangement(*m_container, *m_index_container_iter);
+            return make_aggregation_view(*m_container, *m_index_container_iter);
         }
 
         difference_type distance_to(const iterator& other) const

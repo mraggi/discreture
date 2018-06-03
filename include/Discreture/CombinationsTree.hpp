@@ -1,9 +1,9 @@
 #pragma once
 
+#include "ArithmeticProgression.hpp"
 #include "CombinationsTreePrunned.hpp"
 #include "CompoundContainer.hpp"
 #include "Misc.hpp"
-#include "NumberRange.hpp"
 #include "Sequences.hpp"
 #include "VectorHelpers.hpp"
 #include "detail_combinations_tree_bf.hpp"
@@ -115,7 +115,7 @@ public:
             IntType r = k - i;
 
             // i <= n-t-1 <= n-r implies that the range is this
-            big_number_range N(r, n - i);
+            big_integer_interval N(r, n - i);
             auto t = N.partition_point([m, r](auto t) {
                 return binomial<size_type>(t, r) <= m;
             }) -
@@ -377,7 +377,7 @@ public:
         {
             m_n = n;
             m_ID = 0;
-            m_data = basic_number_range<IntType>(n - r, n);
+            m_data = basic_integer_interval<IntType>(n - r, n);
         }
 
     private:

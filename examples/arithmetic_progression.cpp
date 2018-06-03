@@ -1,4 +1,4 @@
-#include "Discreture/NumberRange.hpp"
+#include "Discreture/ArithmeticProgression.hpp"
 #include "VectorHelpers.hpp"
 #include <cstdlib>
 #include <sstream>
@@ -7,7 +7,7 @@
 using std::cout;
 using std::endl;
 using std::stringstream;
-using dscr::number_range;
+using dscr::arithmetic_progression;
 
 int from = 2;
 int to = 15;
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 
     std::ios_base::sync_with_stdio(false);
     parse_command_line(argc, argv);
-    for (auto x : number_range(from, to, step))
+    for (auto x : arithmetic_progression{from, to, step})
         cout << x << ' ';
     cout << endl;
     return 0;
@@ -29,12 +29,14 @@ int main(int argc, char* argv[])
 void parse_command_line(int argc, char* argv[])
 {
     stringstream usage;
-    usage << "Usage: number_range a b step\n"
-          << "Print to STDOUT the set number_range from a to b with steps of "
+    usage << "Usage: arithmetic_progression a b step\n"
+          << "Print to STDOUT the set arithmetic_progression from a to b with "
+             "steps of "
              "size step\n"
           << "where a,b and step are integers. Step is 1 by default.\n"
           << "Example:\n"
-          << "./number_range " << from << ' ' << to << ' ' << step << '\n';
+          << "./arithmetic_progression " << from << ' ' << to << ' ' << step
+          << '\n';
 
     if (argc > 4 || argc < 3)
     {

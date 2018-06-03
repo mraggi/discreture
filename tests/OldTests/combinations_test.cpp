@@ -228,7 +228,10 @@ bool testCombinations()
 
     size_t numpred2 = 0;
     for (auto& t : T)
+    {
+        UNUSED(t);
         ++numpred2;
+    }
 
     size_t numpred = 0;
 

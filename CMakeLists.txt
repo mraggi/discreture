@@ -11,7 +11,7 @@ option(BUILD_EXAMPLES "Build examples" ON)
 option(BUILD_BENCHMARKS "Build benchmarks" OFF)
 option(BUILD_TESTS "Build unit tests" OFF)
 option(BUILD_OLD_TESTS "Build old unit tests" OFF)
-option(BUILD_OWN_GOOGLETEST "Build own google's unit testing framework, even if found" ON)
+option(BUILD_OWN_GOOGLETEST "Build own google's unit testing framework, even if found" OFF)
 
 string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_tolower)
 if (cmake_build_type_tolower STREQUAL "coverage")
@@ -24,7 +24,7 @@ find_package(Boost REQUIRED)
 # by including "exampleConfig.h" in the source. 
 # See exampleConfig.h.in for some more details.
 set(PROJECT_VERSION_MAJOR 1)
-set(PROJECT_VERSION_MINOR 2)
+set(PROJECT_VERSION_MINOR 4)
 
 
 # Include stuff. No change needed.
@@ -50,7 +50,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Wpedantic -Wno-unused-parameter -Wno-sign-compare")
 
-message(STATUS "Building with the following extra flags: ${CMAKE_CXX_FLAGS}")
+# message(STATUS "Building with the following extra flags: ${CMAKE_CXX_FLAGS}")
 
 # --------------------------------------------------------------------------------
 #                         Locate files
@@ -123,7 +123,7 @@ if(${BUILD_EXAMPLES})
 	add_executable(dyck examples/dyck.cpp)
 	add_executable(motzkin examples/motzkin.cpp)
 	add_executable(permutations examples/permutations.cpp)
-	add_executable(number_range examples/number_range.cpp)
+	add_executable(arithmetic_progression examples/arithmetic_progression.cpp)
 	add_executable(setpartitions examples/setpartitions.cpp)
 	add_executable(partitions examples/partitions.cpp)
 	add_executable(partitions_reverse examples/partitions_reverse.cpp)

@@ -1,7 +1,7 @@
 #pragma once
 
+#include "ArithmeticProgression.hpp"
 #include "Misc.hpp"
-#include "NumberRange.hpp"
 #include "Sequences.hpp"
 #include "VectorHelpers.hpp"
 #include <boost/iterator/iterator_facade.hpp>
