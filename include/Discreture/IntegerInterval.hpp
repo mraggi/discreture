@@ -12,7 +12,7 @@ namespace dscr
 /// \brief In set theory, a common way of defining a natural number is. n :=
 /// {0,1,2,...,n-1}, with 0 = {}.
 //////////////////////////////////////////
-template <class IntType>
+template <class IntType = int>
 class IntegerInterval
 {
 public:

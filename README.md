@@ -111,6 +111,7 @@ To use the library, after compiling, just add `#include <discreture.hpp>` to you
 Within this library, one can construct a few combinatorial objects, such as:
   - **Combinations**: Subsets of a specific size:
     - Example: {0,3,4}, {0,1,5} in `combinations(6,3)`
+    - Example2: {'a','b','c'}, {'a','c','d'} in `combinations("abcdef"s,3)`
   - **Permutations**: A permutation of a collection is a reordering of all the elements of *C*.
     - Example: [0,1,2], [2,0,1] in `permutations(3)`
   - **Partitions**: Numbers that add up to a given number.
@@ -125,17 +126,21 @@ Within this library, one can construct a few combinatorial objects, such as:
     - Example: [1,0,-1,1,1,-1,0,-1] in `motzkin_paths(9)`
   - **Integer Intervals**: A (lazy) closed-open interval of integers.
     - Example: `integer_interval(4,8)` = {4,5,6,7}
+  - **Arithmetic Progression**: A (lazy) set of the form {a,a+d,a+2d,...,a+kd}.
+    - Example: {1,4,7} in `arithmetic_progression()`
 
-All follow the same design principle: The templated class is called `basic_SOMETHING<class T, class Container>`, and the simplest types for `T` and `Container` are instantiated as SOMETHING. For example, `combinations` is a typedef of `basic_combinations< int, vector<int> >`, and `partitions` is a typedef of `basic_partitions<int, vector<int>>`. T is usually an (signed) integer type, like `char`, `short`, `int`, `long`. Some tests show that on different machines different types produce faster code, so even if you don't need numbers bigger than 127 it might be a good idea to use `int` or `long` rather than `char`. 
+All follow the same design principle: The templated class is called `SomethingOrOther<...>`, with CamelCase notation, and there is either a function or a typedef for the simplest template parameters. However, most of the time you'll be using the `small_case_notation` version, which either is a typedef or a function with sensible parameters.
 
-`Container` is defaulted to `vector<T>`, so you can just write `basic_combinations<short>` instead of `basic_combinations<short, vector<short>>`, but other container types with similar interfaces to vector are possible. A good example is boost's `static_vector`. See section "Getting that last drop of speed" for more.
+For example, `permutations` is a typedef of `Permutations< int, vector<int> >`, but `combinations` is a function with two versions, depending on the arguments. It returns either an object of type `Combinations<T, vector<T>>` or `CompoundCombinations</*some template parameters*/>`. 
+
+Some tests show that on different machines different types produce faster code, so even if you don't need numbers bigger than 127 it might be a good idea to use `int` or `long` rather than `char`. 
 
 # Basic usage
 
 Here is a quick preview.
 
 ```c++
-combinations X(30,10); //all subsets of size 10 of {0,1,2,...,29}
+auto X = combinations(30,10); //all subsets of size 10 of {0,1,2,...,29}
 for (auto& x : X) 
 { 
 	// x is of type const vector<int>&, so anything that works with 
@@ -145,7 +150,7 @@ for (auto& x : X)
 
 You can iterate in reverse too, in the same way you would reverse-iterate an STL container.
 ```c++
-combinations X(30,10);
+Combinations<short> X(30,10);
 for (auto it = X.rbegin(); it != X.rend(); ++it) 
 { 
 	auto& x = *it;
@@ -155,7 +160,7 @@ for (auto it = X.rbegin(); it != X.rend(); ++it)
 
 Combinations, permutations and multisets are a random-access container (although they are MUCH slower as such than forward or reverse iteration), so something like this works too:
 ```c++
-combinations X(30,10);
+auto X = combinations(30,10);
 auto comb = X[10000]; //produces the 10,000-th combination.
 ```
 
@@ -171,7 +176,7 @@ However, iterator arithmetic is implemented, so one could even do binary search 
 ```c++
 #include <algorithm>
 // ...
-combinations X(30,10);
+auto X = combinations(30,10);
 std::partition_point(X.begin(), X.end(), predicate);
 ```
 where `predicate` is a unary predicate that takes a `const combinations::combination&` as an argument and returns true or false, in a way that for all the first combinations it returns true and the last ones return false.
@@ -200,7 +205,7 @@ bool is_perfect_square(int n)
 int main()
 {
 	
-	dscr::partitions X(20,1,6);
+	auto X = dscr::partitions(20,1,6);
 	for (auto& x : X)
 	{
 		if (std::all_of(x.begin(), x.end(), is_perfect_square))
@@ -221,7 +226,7 @@ Then compile with the command `g++ -O2 -std=C++14 main.cpp -o out` and run `./ou
 
 
 ## Combinations find_if and find_all
-Combinations is the most mature part of the library, and the following functions have been implemented:
+Combinations is the most mature part of the library, and some backtracking functions to find a specific combination are implemented:
 
 ```c++
 #include <iostream>
@@ -232,7 +237,7 @@ int main()
 {
 	using namespace dscr;
 	using namespace std;
-	combinations X(10,3);
+	auto X = combinations(10,3);
 	
 	// T will be an iterable object whose elements are the combinations that satisfy the predicate specified by the lambda function.
 	// In this case, the lambda checks that the next to last element divides the last element.
@@ -267,9 +272,9 @@ These are all combinations for which every element is a divisor of the next elem
 
 ### Getting that last drop of speed
 
-By default, `basic_combinations<T>::combination` (and many others) is a typedef of `std::vector<T>`, which allocates memory on the free store. If you really need the utmost performance, this may be changed to any random access container with the same interface as vector. A good choice is `boost::containter::static_vector<T,K>` (or even `boost::containter::small_vector<T,K>`), where `K` is the biggest size you'll need.
+By default, `Combinations<T>::combination` (and many others) is a typedef of `std::vector<T>`, which allocates memory on the free store. If you really need the utmost performance, this may be changed to any random access container with the same interface as vector. A good choice is `boost::containter::static_vector<T,K>` (or even `boost::containter::small_vector<T,K>`), where `K` is the biggest size you'll need.
 
-Some sane defaults for `K` have been set in `combinations_fast`, `permutations_fast`, `dyck_paths_fast`, which are just typedef's of `basic_combinations<int,boost::containter::static_vector<int,K>>` and so on.
+Some sane defaults for `K` have been set in `combinations_stack`, `permutations_stack`, `dyck_paths_stack`, which are just typedef's of `basic_combinations<int,boost::containter::static_vector<int,K>>` and so on.
 
 So for example, the following code iterates over all combinations of size 3 of `{0,1,...,6}` in a slightly faster way than `dscr::combinations`.
 ```c++
@@ -277,7 +282,7 @@ So for example, the following code iterates over all combinations of size 3 of `
 
 int main()
 {
-	for (auto& x : dscr::combinations_fast(7,3))
+	for (auto& x : dscr::combinations_stack(7,3))
 	{
 		//do stuff with x
 	}
@@ -298,7 +303,7 @@ int main()
 }
 ```
 
-Each of `permutations`, `dyck_paths`, etc. has its corresponding "fast" version: `permutations_fast`, `dyck_paths_fast`, etc. with their own custom set limits. If you are going to need monstrous objects (like permutations of size 17 or more (why?!)), just typedef as in the previous example or use regular old fashioned `permutations`.
+Each of `permutations`, `dyck_paths`, etc. has its corresponding "stack memory" version: `permutations_stack`, `dyck_paths_stack`, etc. with their own custom set limits. If you are going to need monstrous objects (like permutations of size 17 or more (why?!)), just typedef as in the previous example or use regular old fashioned `permutations`.
 
 #### combinations::for_each
 
@@ -307,14 +312,14 @@ For combinations in particular, there is one last possible speedup: use for_each
 ```c++
 #include <Discreture/Combinations.hpp>
 
-void f(const dscr::combinations_fast::combination& x)
+void f(const dscr::combinations_stack::combination& x)
 {
 	// Do stuff to x
 }
 
 int main()
 {
-	dscr::combinations_fast X(34,17);
+	dscr::combinations_stack X(34,17);
 	X.for_each(f);
 }
 ```
@@ -397,7 +402,7 @@ The important column is speed. Higher is better. It means "how many (combination
 
 <img src="https://github.com/mraggi/discreture/blob/master/benchmarks.png" width="900" alt="discreture::benchmarks" title="discreture::benchmarks">
 
-<!--|Benchmark name                  |   Time     |   # processed     |           Speed (with _fast)    | Speed (w/o _fast) |
+<!--|Benchmark name                  |   Time     |   # processed     |           Speed (with _stack)    | Speed (w/o _stack) |
 |-----|------|-----:|:------:|:------:|
 |Combinations | | | | |
 |Combinations for_each           | 0.827s        | 847660528           |1.025e+09 #/sec|        8.846e+08 #/sec|
@@ -429,7 +434,7 @@ The important column is speed. Higher is better. It means "how many (combination
 |Set Partitions Forward          | 0.689s        |  27644437           |4.013e+07 #/sec|        4.395e+07 #/sec|-->
 
 
-**Noteworthy**: for_each can be really fast if using "stack" version for combinations (*i.e.* combinations_fast). Standard iteration was slower with _fast version on both combinations and combinations tree reverse for some unknown reason.
+**Noteworthy**: for_each can be really fast if using "stack" version for combinations (*i.e.* combinations_stack). Standard iteration was slower with _stack version on both combinations and combinations tree reverse for some unknown reason.
 
 Run your own benchmarks (with colors!) by building with `cmake -DBUILD_BENCHMARKS=ON` and running
 ```sh

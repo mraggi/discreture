@@ -49,7 +49,7 @@ namespace dscr
 ///
 ///
 ////////////////////////////////////////////////////////////
-template <class IntType>
+template <class IntType = int>
 class SetPartitions
 {
 public:

@@ -52,7 +52,7 @@ namespace dscr
 ///
 ///
 ////////////////////////////////////////////////////////////
-template <class IntType, class RAContainerInt = std::vector<IntType>>
+template <class IntType = int, class RAContainerInt = std::vector<IntType>>
 class Combinations
 {
 public:

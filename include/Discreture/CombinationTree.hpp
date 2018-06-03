@@ -34,7 +34,7 @@ namespace dscr
 /// ] [ 1 4 5 ] [ 2 3 4 ] [ 2 3 5 ] [ 2 4 5 ] [ 3 4 5 ]
 ///
 ////////////////////////////////////////////////////////////
-template <class IntType, class RAContainerInt = std::vector<IntType>>
+template <class IntType = int, class RAContainerInt = std::vector<IntType>>
 class CombinationTree
 {
 public:
