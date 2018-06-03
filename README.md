@@ -109,14 +109,15 @@ To use the library, after compiling, just add `#include <discreture.hpp>` to you
 # Combinatorial Objects
 
 Within this library, one can construct a few combinatorial objects, such as:
-  - Combinations
-  - Permutations
-  - Partitions
-  - Dyck Paths
-  - Motzkin Paths
-  - Set Partitions
-  - Multisets
-  - Number Ranges
+  - **Combinations**: A *k*-combination of a collection *C* is just a list with *k* elements in the same order as in *C*.
+    - Example: $\{0,3,4\}, \{0,1,5\}\in$ combinations(6,3)
+  - **Permutations**: A permutation of a collection is a reordering of all the elements of *C*.
+  - **Partitions**: Given a natural number *n*, a partition
+  - **Dyck Paths**
+  - **Motzkin Paths**
+  - **Set Partitions**
+  - **Multisets**
+  - **Number Ranges**
 
 All follow the same design principle: The templated class is called `basic_SOMETHING<class T, class Container>`, and the simplest types for `T` and `Container` are instantiated as SOMETHING. For example, `combinations` is a typedef of `basic_combinations< int, vector<int> >`, and `partitions` is a typedef of `basic_partitions<int, vector<int>>`. T is usually an (signed) integer type, like `char`, `short`, `int`, `long`. Some tests show that on different machines different types produce faster code, so even if you don't need numbers bigger than 127 it might be a good idea to use `int` or `long` rather than `char`. 
 
