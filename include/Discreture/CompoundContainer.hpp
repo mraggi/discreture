@@ -10,7 +10,7 @@ template <class Container, class IndexContainerOfContainers>
 class compound_container
 {
 public:
-    using difference_type = long long; // NOLINT
+    using difference_type = long long;
     using size_type = difference_type; // yeah, signed!
     using indices = typename IndexContainerOfContainers::value_type;
     using index = typename indices::value_type;

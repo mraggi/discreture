@@ -23,6 +23,7 @@ void check_combination_index(const combinations& X,
 {
     ASSERT_EQ(i, X.get_index(x));
     ASSERT_EQ(x, X[i]);
+    ASSERT_EQ(X.get_iterator(x), X.begin() + i);
 }
 
 TEST(Combinations, ForwardIteration)

@@ -21,14 +21,14 @@ TEST(IntegerInterval, ForwardIteration)
         {
             integer_interval R(n, m);
             set<integer_interval::value_type> S(R.begin(), R.end());
-            
+
             ASSERT_EQ(R.size(), S.size());
             ASSERT_EQ(R.size(), m - n);
-            
+
             ASSERT_TRUE(std::is_sorted(R.begin(), R.end()));
-            
+
             ASSERT_EQ(*R.begin(), n);
-            
+
             ASSERT_EQ(*(R.end() - 1), m - 1);
         }
     }

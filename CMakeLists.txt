@@ -4,6 +4,7 @@ project(discreture)
 enable_language(C CXX)
 
 if (NOT CMAKE_BUILD_TYPE)
+    message("CMAKE_BUILD_TYPE not specified, so setting to Release")
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 

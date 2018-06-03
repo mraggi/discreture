@@ -58,7 +58,7 @@ class basic_combinations
 public:
     using value_type = RAContainerInt;
     using combination = value_type;
-    using difference_type = long long; // NOLINT
+    using difference_type = long long;
     using size_type = difference_type; // yeah, signed.
     class iterator;
     using const_iterator = iterator;
@@ -327,7 +327,10 @@ public:
     /// \param comb the wanted combination
     /// \return An iterator currently pointing at comb.
     ////////////////////////////////////////////////////////////
-    iterator get_iterator(const combination& comb) { return iterator(comb); }
+    iterator get_iterator(const combination& comb) const
+    {
+        return iterator(comb);
+    }
 
     reverse_iterator rbegin() const { return reverse_iterator(m_n, m_k); }
 

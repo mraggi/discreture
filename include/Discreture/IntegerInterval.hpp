@@ -87,7 +87,7 @@ private:
 }; // end class basic_integer_interval
 
 using integer_interval = basic_integer_interval<int>;
-using big_integer_interval = basic_integer_interval<long long>; // NOLINT
+using big_integer_interval = basic_integer_interval<std::int64_t>;
 
 template <class IntType>
 auto NN(IntType n)

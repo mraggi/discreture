@@ -8,7 +8,7 @@ using namespace dscr;
 void check_permutation(permutations::permutation x)
 {
     std::sort(x.begin(), x.end());
-    for (size_t i = 0; i < x.size(); ++i)
+    for (auto i : indices(x))
     {
         ASSERT_EQ(x[i], i);
     }
@@ -90,7 +90,8 @@ TEST(Permutations, Bidirectional)
 
     t += 500;
     --t;
-    t -= 499;
+    std::advance(t, -489);
+    std::advance(t, -10);
 
     check_permutation(*t);
     ASSERT_EQ(*t, *s);

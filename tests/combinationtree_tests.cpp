@@ -24,11 +24,11 @@ void check_combination_tree_index(const combinations_tree& X,
 {
     ASSERT_EQ(i, X.get_index(x));
     ASSERT_EQ(x, X[i]);
+    ASSERT_EQ(X.get_iterator(x), X.begin() + i);
 }
 
 TEST(CombinationsTree, ForwardIteration)
 {
-
     for (int n = 0; n < 10; ++n)
     {
         long total = 0;
@@ -121,9 +121,9 @@ TEST(CombinationsTree, Bidirectional)
     check_combination_tree(*t, n, k);
     ASSERT_EQ(*t, *s);
 
-    t -= 250;
-    ++t;
-    ++t;
+    std::advance(t, -240);
+    std::advance(t, -10);
+    std::advance(t, 2);
     s -= 248;
     check_combination_tree(*t, n, k);
     ASSERT_EQ(*t, *s);

@@ -48,7 +48,7 @@ class basic_permutations
 public:
     using value_type = RAContainerInt;
     using permutation = value_type;
-    using difference_type = long long; // NOLINT
+    using difference_type = long long;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
@@ -90,7 +90,8 @@ public:
                     auto temp = data[start];
                     data[start] = data[u + start];
                     data[u + start] = temp;
-                    // 							cout << "and setting m_data[" << start <<
+                    // 							cout << "and setting m_data[" << start
+                    // <<
                     // "]
                     // =
                     // "

@@ -43,16 +43,41 @@ TEST(ArithmeticProgression, RandomAccess)
     ASSERT_EQ(B.size(), 3);
 }
 
+TEST(ArithmeticProgression, Empty)
+{
+    basic_arithmetic_progression<int> A(5, 3, 2);
+
+    ASSERT_EQ(A.size(), 0);
+    for (auto a : A)
+    {
+        ASSERT_FALSE(true);
+    }
+
+    basic_arithmetic_progression<int> B(5, 8, -2);
+    ASSERT_EQ(B.size(), 0);
+    for (auto b : B)
+    {
+        ASSERT_FALSE(true);
+    }
+
+    basic_arithmetic_progression<int> C(5, 5, 1);
+    ASSERT_EQ(C.size(), 0);
+    for (auto c : C)
+    {
+        ASSERT_FALSE(true);
+    }
+}
+
 TEST(ArithmeticProgression, PartitionPoint)
 {
     big_arithmetic_progression A(-3700LL, 1000000000000LL, 5);
     auto n = A.partition_point([](auto t) { return t < 5000; });
     ASSERT_EQ(n, 5000);
-    
+
     long first = 136;
     long last = 1000000000000LL;
     long step = 59;
-    
+
     big_arithmetic_progression B(first, last, step);
     auto m = B.partition_point([](auto t) { return t < 5000; });
     ASSERT_GE(m, 5000);

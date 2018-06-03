@@ -56,7 +56,7 @@ public:
     using number_partition = std::vector<IntType>;
     using value_type = std::vector<number_partition>;
     using set_partition = value_type;
-    using difference_type = long long; // NOLINT
+    using difference_type = long long;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;

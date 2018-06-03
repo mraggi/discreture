@@ -7,8 +7,8 @@
 #include <string>
 #include <vector>
 
-template <typename Arrangement, typename Container, typename IndexContainer>
-void check_aggregation_view(const Arrangement& A,
+template <typename AggView, typename Container, typename IndexContainer>
+void check_aggregation_view(const AggView& A,
                             const Container& T,
                             const IndexContainer& X)
 {
@@ -19,7 +19,7 @@ void check_aggregation_view(const Arrangement& A,
     }
 }
 
-TEST(Arrangements, CreationAndSanity)
+TEST(AggViews, CreationAndSanity)
 {
     std::vector<int> tonto = {0, 10, 20, 30, 40, 50, 60, 70};
     std::array<int, 5> indices = {{0, 1, 5, 2, 5}};
@@ -28,7 +28,7 @@ TEST(Arrangements, CreationAndSanity)
     check_aggregation_view(T, tonto, indices);
 }
 
-TEST(Arrangements, Combinations)
+TEST(AggViews, Combinations)
 {
     for (int n = 0; n < 10; ++n)
     {
@@ -44,7 +44,7 @@ TEST(Arrangements, Combinations)
     }
 }
 
-TEST(Arrangements, Permutations)
+TEST(AggViews, Permutations)
 {
     for (int n = 0; n < 9; ++n)
     {
