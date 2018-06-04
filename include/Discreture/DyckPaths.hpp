@@ -226,8 +226,9 @@ private:
 
 }; // end class DyckPaths
 
+using boost::container::static_vector;
+
 using dyck_paths = DyckPaths<int>;
-using dyck_paths_stack =
-  DyckPaths<int, boost::container::static_vector<int, 48>>;
+using dyck_paths_stack = DyckPaths<int, static_vector<int, 48>>;
 
 } // namespace dscr

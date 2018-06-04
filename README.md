@@ -101,6 +101,12 @@ After compiling the examples (with `cmake .. -DBUILD_EXAMPLES=ON`), try for exam
 ```
 will output all combinations of size 3 from the set {0,1,2,3,4}.
 
+Or
+```sh
+./combinations "abcde" 3
+```
+will output all subsets of size 3 of "abcde".
+
 There are many other programs there. Play with them.
 
 # How to start using the library
@@ -109,11 +115,12 @@ To use the library, after compiling, just add `#include <discreture.hpp>` to you
 # Combinatorial Objects
 
 Within this library, one can construct a few combinatorial objects, such as:
-  - **Combinations**: Subsets of a specific size:
+  - **Combinations**: Subsets of a specific size of either a given set or {0,1,...,n-1}:
     - Example: {0,3,4}, {0,1,5} in `combinations(6,3)`
     - Example2: {'a','b','c'}, {'a','c','d'} in `combinations("abcdef"s,3)`
   - **Permutations**: A permutation of a collection is a reordering of all the elements of *C*.
     - Example: [0,1,2], [2,0,1] in `permutations(3)`
+    - Example2 : ['a','b','c'], ['c','a','b'] in `permutations("abc"s)`
   - **Partitions**: Numbers that add up to a given number.
     - Example: {6,4,1}, {3,3,3,1,1} in `partitions(11)`
   - **Set Partitions**: Partitions of {0,...,n-1} into disjoint sets.
@@ -131,13 +138,11 @@ Within this library, one can construct a few combinatorial objects, such as:
 
 All follow the same design principle: The templated class is called `SomethingOrOther<...>`, with CamelCase notation, and there is either a function or a typedef for the simplest template parameters. However, most of the time you'll be using the `small_case_notation` version, which either is a typedef or a function with sensible parameters.
 
-For example, `permutations` is a typedef of `Permutations< int, vector<int> >`, but `combinations` is a function with two versions, depending on the arguments. It returns either an object of type `Combinations<T, vector<T>>` or `CompoundCombinations</*some template parameters*/>`. 
+For example, `partitions` is a typedef of `Partitions<int, vector<int>>`, but `combinations` is a function with two versions, depending on the arguments. It returns either an object of type `Combinations<T, vector<T>>` or `CompoundContainer</*some template parameters*/>`, depending on which arguments are passed. For example, 
 
 Some tests show that on different machines different types produce faster code, so even if you don't need numbers bigger than 127 it might be a good idea to use `int` or `long` rather than `char`. 
 
 # Basic usage
-
-Here is a quick preview.
 
 ```c++
 auto X = combinations(30,10); //all subsets of size 10 of {0,1,2,...,29}
@@ -181,10 +186,42 @@ std::partition_point(X.begin(), X.end(), predicate);
 ```
 where `predicate` is a unary predicate that takes a `const combinations::combination&` as an argument and returns true or false, in a way that for all the first combinations it returns true and the last ones return false.
 
-## Examples
+## Tutorial
 
-Check the files under `examples` for a tutorial on how to use the library. Here is a taste:
+Here is a quick mini-tutorial. See the examples for more on usage. Check the files under `examples` for a more complete tutorial on how to use the library.
 
+### Combinations example
+After installing, let's start by creating a file called "combinations.cpp" and adding the following content:
+```c++
+#include <iostream>
+#include <string>
+#include <discreture.hpp> // just include everything
+
+using namespace std; // don't do this in general!
+
+int main()
+{
+    for (auto x : dscr::combinations("abcde"s,3))
+    {
+        std::cout << x << std::endl;
+    }
+    return 0;
+}
+```
+
+This prints out:
+    a b c 
+    a b d 
+    a c d 
+    b c d 
+    a b e 
+    a c e 
+    b c e 
+    a d e 
+    b d e 
+    c d e
+
+### Partition example
 For example, suppose you wanted to see all ways to add up to 20 with at most 6 numbers so that all numbers are squares. You can do:
 
 ```c++
@@ -223,7 +260,6 @@ Then compile with the command `g++ -O2 -std=C++14 main.cpp -o out` and run `./ou
 	4 4 4 4 4
 	9 9 1 1
 	16 4
-
 
 ## Combinations find_if and find_all
 Combinations is the most mature part of the library, and some backtracking functions to find a specific combination are implemented:

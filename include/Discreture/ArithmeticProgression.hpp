@@ -33,8 +33,7 @@ public:
     /// {0,1,2,...,n-1}
     ///
     ////////////////////////////////////////////////////////////
-    explicit ArithmeticProgression(IntType n)
-        : m_from(0), m_to(n), m_step(1)
+    explicit ArithmeticProgression(IntType n) : m_from(0), m_to(n), m_step(1)
     {
         assert(n >= 0);
     }

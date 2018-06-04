@@ -33,10 +33,10 @@ int main()
 
     auto C = dscr::combinations(n, k);
     auto CF = dscr::combinations_stack(n, k);
-    
+
     auto CT = dscr::combination_tree(n, k);
     auto CTF = dscr::combination_tree_stack(n, k);
-    
+
     auto P = dscr::permutations(nperm);
     auto PF = dscr::permutations_stack(nperm);
 
@@ -48,7 +48,7 @@ int main()
 
     auto PT = dscr::partitions(npart);
     auto PTF = dscr::partitions_stack(npart);
-    
+
     auto SPT = dscr::set_partitions(nsetpart);
 
     auto ms = {4, 2, 3, 1, 0, 1, 5, 0, 5, 4, 0, 1, 1, 5, 2, 0, 2, 1};

@@ -301,8 +301,10 @@ private:
         return sub[index] < total[index];
     }
 };
+
+using boost::container::static_vector;
+
 using multisets = Multisets<int>;
-using multisets_stack =
-  Multisets<int, boost::container::static_vector<int, 48>>;
+using multisets_stack = Multisets<int, static_vector<int, 48>>;
 
 } // namespace dscr

@@ -24,8 +24,7 @@ public:
     class iterator;
     using const_iterator = iterator;
 
-    AggregationView(const RAContainer& objects,
-                     const RAIndexContainer& indices)
+    AggregationView(const RAContainer& objects, const RAIndexContainer& indices)
         : m_objects(objects), m_indices(indices)
     {}
 
@@ -90,8 +89,7 @@ private:
 
 template <class RAContainer, class RAIndexContainer>
 AggregationView<RAContainer, RAIndexContainer>
-aggregation_view(const RAContainer& objects,
-                      const RAIndexContainer& indices)
+aggregation_view(const RAContainer& objects, const RAIndexContainer& indices)
 {
     return AggregationView<RAContainer, RAIndexContainer>(objects, indices);
 }

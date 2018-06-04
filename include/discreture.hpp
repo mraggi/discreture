@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Discreture/AggregationView.hpp"
-#include "Discreture/Combinations.hpp"
 #include "Discreture/CombinationTree.hpp"
 #include "Discreture/CombinationTreePrunned.hpp"
+#include "Discreture/Combinations.hpp"
 #include "Discreture/CompoundContainer.hpp"
 // #include "Discreture/Derangements.hpp"
 #include "Discreture/ArithmeticProgression.hpp"

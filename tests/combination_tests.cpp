@@ -31,7 +31,7 @@ TEST(Combinations, ForwardIteration)
     for (int n = 0; n < 10; ++n)
     {
         long total = 0;
-        for (int k = 0; k <= n + 1; ++k) // even k+1
+        for (short k = 0; k <= n + 1; ++k) // even k+1
         {
             auto X = combinations(n, k);
             set<decltype(X)::combination> S(X.begin(), X.end());
@@ -56,7 +56,7 @@ TEST(Combinations, ReverseIteration)
     for (int n = 0; n < 10; ++n)
     {
         long total = 0;
-        for (int k = 0; k <= n + 1; ++k) // even k+1
+        for (char k = 0; k <= n + 1; ++k) // even k+1
         {
             auto X = combinations(n, k);
             long i = 0;

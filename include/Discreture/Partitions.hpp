@@ -410,8 +410,9 @@ private:
 
 }; // end class Partitions
 
+using boost::container::static_vector;
+
 using partitions = Partitions<int>;
-using partitions_stack =
-  Partitions<int, boost::container::static_vector<int, 128>>;
+using partitions_stack = Partitions<int, static_vector<int, 128>>;
 
 } // namespace dscr

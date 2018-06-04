@@ -49,7 +49,7 @@ TEST(AggViews, Permutations)
     for (int n = 0; n < 9; ++n)
     {
         auto total = generate_random_strings(n);
-        dscr::permutations P(n);
+        auto P = dscr::permutations(n);
         for (auto& p : P)
         {
             auto T = dscr::aggregation_view(total, p);

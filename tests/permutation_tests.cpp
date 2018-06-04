@@ -5,7 +5,7 @@
 using namespace std;
 using namespace dscr;
 
-void check_permutation(permutations::permutation x)
+void check_permutation(Permutations<int>::permutation x)
 {
     std::sort(x.begin(), x.end());
     for (auto i : indices(x))
@@ -14,8 +14,8 @@ void check_permutation(permutations::permutation x)
     }
 }
 
-void check_permutation_index(const permutations& X,
-                             const permutations::permutation& x,
+void check_permutation_index(const Permutations<int>& X,
+                             const Permutations<int>::permutation& x,
                              int i)
 {
     ASSERT_EQ(i, X.get_index(x));
@@ -26,7 +26,7 @@ TEST(Permutations, ForwardIteration)
 {
     for (int n = 0; n < 7; ++n)
     {
-        permutations X(n);
+        Permutations<int> X(n);
         long i = 0;
 
         for (const auto& x : X)
@@ -42,7 +42,7 @@ TEST(Permutations, ReverseIteration)
 {
     for (int n = 0; n < 7; ++n)
     {
-        permutations X(n);
+        Permutations<int> X(n);
         long i = 0;
 
         for (auto it = X.rbegin(); it != X.rend(); ++it)
@@ -58,7 +58,7 @@ TEST(Permutations, RandomAccess)
 {
     // combined test
     int n = 6;
-    permutations X(n);
+    Permutations<int> X(n);
     int i = 25;
     auto it = X.begin() + i;
 
@@ -76,7 +76,7 @@ TEST(Permutations, Bidirectional)
     long n = 16L;
     long r = 10000000000L;
 
-    permutations X(n);
+    Permutations<int> X(n);
     ASSERT_EQ(X.size(), 20922789888000LL);
 
     auto t = X.begin() + r;
@@ -107,9 +107,9 @@ TEST(Permutations, Bidirectional)
 TEST(Permutations, PartitionPoint)
 {
     int n = 20;
-    permutations X(n);
+    Permutations<int> X(n);
     auto perm = *std::partition_point(
-      X.begin(), X.end(), [](const permutations::permutation& x) {
+      X.begin(), X.end(), [](const Permutations<int>::permutation& x) {
           return x.front() < 17;
       });
 
@@ -120,7 +120,7 @@ TEST(Permutations, PartitionPoint)
     ASSERT_TRUE(std::is_sorted(perm.begin() + 1, perm.end()));
 
     auto rperm = *std::partition_point(
-      X.rbegin(), X.rend(), [](const permutations::permutation& x) {
+      X.rbegin(), X.rend(), [](const Permutations<int>::permutation& x) {
           return x.front() > 5;
       });
 

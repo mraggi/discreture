@@ -1,5 +1,5 @@
-#include "Combinations.hpp"
 #include "CombinationTree.hpp"
+#include "Combinations.hpp"
 #include "CompoundContainer.hpp"
 #include "Permutations.hpp"
 #include "generate_strings.hpp"
@@ -17,9 +17,9 @@ void check_compound_container(const CompundContainer& U,
                               const Indices& X)
 {
     ASSERT_EQ(U.size(), X.size());
-    for (size_t i = 0; i < X.size(); ++i)
+    for (auto i : indices(X))
     {
-        for (size_t j = 0; j < X[i].size(); ++j)
+        for (auto j : indices(X[i]))
         {
             ASSERT_EQ(U[i][j], A[X[i][j]]);
         }
@@ -63,7 +63,7 @@ TEST(CompoundContainer, CombinationTree)
 {
     std::vector<std::string> A = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
     int n = A.size();
-    for (int k = 0; k <= n; ++k)
+    for (auto k : NN(n))
     {
         using namespace dscr;
         auto U = dscr::combination_tree(A, k);
@@ -75,10 +75,7 @@ TEST(CompoundContainer, Permutations)
 {
     std::vector<std::string> A = {"a", "b", "c", "d", "e"};
     int n = A.size();
-    for (int k = 0; k <= n; ++k)
-    {
-        using namespace dscr;
-        auto U = dscr::compound_permutations(A);
-        check_compound_container(U, A, dscr::permutations(n));
-    }
+    using namespace dscr;
+    auto U = dscr::permutations(A);
+    check_compound_container(U, A, dscr::permutations(n));
 }

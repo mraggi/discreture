@@ -8,7 +8,7 @@
 
 #include <algorithm>
 #include <numeric>
-
+#include <type_traits>
 namespace dscr
 {
 ////////////////////////////////////////////////////////////
@@ -90,7 +90,8 @@ public:
                     auto temp = data[start];
                     data[start] = data[u + start];
                     data[u + start] = temp;
-                    // 							cout << "and setting m_data[" << start
+                    // 							cout << "and setting m_data[" <<
+                    // start
                     // <<
                     // "]
                     // =
@@ -447,14 +448,23 @@ private:
     }
 
 }; // end class Permutations
-using permutations = Permutations<int>;
-using permutations_stack = Permutations<int, boost::container::static_vector<int, 16>>;
 
-template <class Container>
-auto compound_permutations(const Container& X)
+using boost::container::static_vector;
+
+// using permutations = Permutations<int>;
+using permutations_stack = Permutations<int, static_vector<int, 16>>;
+
+template <class Container, typename = EnableIfNotIntegral<Container>>
+auto permutations(const Container& X)
 {
-    return compound_container<Container, permutations>(X,
-                                                       permutations(X.size()));
+    using index_permutations = Permutations<int>;
+    return compound_container<Container, index_permutations>(X, index_permutations(X.size()));
+}
+
+template<typename T, typename = EnableIfIntegral<T>>
+auto permutations(T X)
+{
+    return Permutations<T>(X);
 }
 
 } // namespace dscr

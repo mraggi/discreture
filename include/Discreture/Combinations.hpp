@@ -690,9 +690,8 @@ public:
     template <class PartialPredicate>
     auto find_all(PartialPredicate pred)
     {
-        return CombinationTreePrunned<IntType,
-                                               PartialPredicate,
-                                               combination>(m_n, m_k, pred);
+        return CombinationTreePrunned<IntType, PartialPredicate, combination>(
+          m_n, m_k, pred);
     }
 
     ////////////////////////////////////////////////////////////
@@ -867,23 +866,25 @@ private:
 
 }; // end class Combinations
 
-template <class IntType>
-auto combinations(IntType n, IntType k)
+template <class IntTypeN, class IntTypeK, typename = EnableIfIntegral<IntTypeN>>
+auto combinations(IntTypeN n, IntTypeK k)
 {
-    return Combinations<IntType>(n,k);
+    using IntType = std::common_type_t<IntTypeN, IntTypeK>;
+    return Combinations<IntType>(n, k);
 }
 
-template <class Container, class IntType>
+template <class Container, class IntType, typename = EnableIfNotIntegral<Container>>
 auto combinations(const Container& X, IntType k)
 {
     using comb = Combinations<IntType>;
     return compound_container<Container, comb>(X, comb(X.size(), k));
 }
 
-template <class IntType, std::size_t MAX_SIZE = 32>
+template <class IntType, std::size_t MAX_SIZE = 32, typename = EnableIfIntegral<IntType>>
 auto combinations_stack(IntType n, IntType k)
 {
-    return Combinations<int, boost::container::static_vector<int, MAX_SIZE>>(n,k);
+    using boost::container::static_vector;
+    return Combinations<int, static_vector<int, MAX_SIZE>>(n, k);
 }
 
 /**

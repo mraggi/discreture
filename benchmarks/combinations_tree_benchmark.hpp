@@ -1,12 +1,14 @@
 #pragma once
 
-#include "Combinations.hpp"
 #include "CombinationTree.hpp"
+#include "Combinations.hpp"
 #include "do_not_optimize.hpp"
+
+using boost::container::static_vector;
 
 inline void BM_CombinationTreeNAP(int n, int k)
 {
-    using cts = dscr::CombinationTree<int, boost::container::static_vector<int, 32>>;
+    using cts = dscr::CombinationTree<int, static_vector<int, 32>>;
     cts::combination comb(k);
     std::iota(comb.begin(), comb.end(), 0);
     int count = 0;
@@ -20,7 +22,7 @@ inline void BM_CombinationTreeNAP(int n, int k)
 
 inline std::int64_t BM_CombinationTreeFindAll(int n, int k)
 {
-    using cts = dscr::CombinationTree<int, boost::container::static_vector<int, 32>>;
+    using cts = dscr::CombinationTree<int, static_vector<int, 32>>;
     auto W = dscr::combination_tree_stack(n, k);
     auto T = W.find_all([](const cts::combination& A) {
         if (A.size() < 2)

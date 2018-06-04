@@ -238,8 +238,7 @@ public:
             , m_data() {} // empty initializer
 
         iterator(const combination& comb, IntType n)
-            : m_ID(CombinationTree<IntType, RAContainerInt>::get_index(
-                comb, n))
+            : m_ID(CombinationTree<IntType, RAContainerInt>::get_index(comb, n))
             , m_n(n)
             , m_k(comb.size())
             , m_s(n - comb.size())
@@ -575,8 +574,8 @@ public:
     auto find_all(PartialPredicate pred)
     {
         return CombinationTreePrunned<IntType,
-                                               PartialPredicate,
-                                               RAContainerInt>(m_n, m_k, pred);
+                                      PartialPredicate,
+                                      RAContainerInt>(m_n, m_k, pred);
     }
 
     template <class Func>
@@ -740,23 +739,24 @@ private:
 
 }; // end class CombinationTree
 
-template <class IntType>
+template <class IntType, typename = EnableIfIntegral<IntType>>
 auto combination_tree(IntType n, IntType k)
 {
-    return CombinationTree<IntType>(n,k);
+    return CombinationTree<IntType>(n, k);
 }
 
-template <class Container, class IntType>
+template <class Container, class IntType, typename = EnableIfNotIntegral<Container>>
 auto combination_tree(const Container& X, IntType k)
 {
     using comb = CombinationTree<IntType>;
     return compound_container<Container, comb>(X, comb(X.size(), k));
 }
 
-template <class IntType, int MAX_SIZE=32>
+template <class IntType, std::size_t MAX_SIZE = 32, typename = EnableIfIntegral<IntType>>
 auto combination_tree_stack(IntType n, IntType k)
 {
-    return CombinationTree<int, boost::container::static_vector<int, MAX_SIZE>>(n,k);
+    using boost::container::static_vector;
+    return CombinationTree<int, static_vector<int, MAX_SIZE>>(n, k);
 }
 
 } // namespace dscr

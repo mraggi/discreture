@@ -58,8 +58,7 @@ public:
     using motzkin_path = value_type;
     using difference_type = long long; // NOLINT
     using size_type = difference_type;
-    using comb_i =
-      typename Combinations<IntType, RAContainerInt>::iterator;
+    using comb_i = typename Combinations<IntType, RAContainerInt>::iterator;
     using dyck_i = typename DyckPaths<IntType, RAContainerInt>::iterator;
     class iterator;
     using const_iterator = iterator;
@@ -189,8 +188,9 @@ private:
     IntType m_n;
 }; // end class MotzkinPaths
 
+using boost::container::static_vector;
+
 using motzkin_paths = MotzkinPaths<int>;
-using motzkin_paths_stack =
-  MotzkinPaths<int, boost::container::static_vector<int, 48>>;
+using motzkin_paths_stack = MotzkinPaths<int, static_vector<int, 48>>;
 
 } // namespace dscr

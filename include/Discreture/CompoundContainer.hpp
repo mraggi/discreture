@@ -20,7 +20,7 @@ public:
 
 public:
     CompoundContainer(const Container& objects,
-                       const IndexContainerOfContainers& Indices)
+                      const IndexContainerOfContainers& Indices)
         : m_container(objects), m_indices(Indices)
     {}
 

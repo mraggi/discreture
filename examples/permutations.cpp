@@ -10,6 +10,7 @@ using dscr::permutations;
 using dscr::operator<<;
 
 int n = 3;
+std::string N;
 
 void parse_command_line(int argc, char* argv[]);
 
@@ -19,8 +20,15 @@ int main(int argc, char* argv[])
 
     parse_command_line(argc, argv);
 
-    for (auto& x : permutations(n))
-        cout << x << '\n';
+    if (N.empty())
+    {
+        for (auto& x : permutations(n))
+            cout << x << '\n';
+    } else
+    {
+        for (auto x : permutations(N))
+            cout << x << '\n';
+    }
 }
 
 void parse_command_line(int argc, char* argv[])
@@ -40,10 +48,7 @@ void parse_command_line(int argc, char* argv[])
         }
         catch (...)
         {
-            cout << "\nERROR: Argument must be a number\n\n";
-            cout << usage.str();
-            n = 3;
-            return;
+            N = arguments[0];
         }
         return;
     }
