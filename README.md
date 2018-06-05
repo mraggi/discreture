@@ -2,6 +2,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/mraggi/discreture/badge.svg?branch=master)](https://coveralls.io/github/mraggi/discreture?branch=master)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mraggi/discreture/blob/master/LICENSE)
 
+
+
 # Discreture
 
 This is a modern C++14 library designed to facilitate combinatorial research by providing fast and easy iterators to a few combinatorial objects, such as combinations, permutations, partitions, and others. The idea is to have discreture's lazy containers interface resemble the STL containers as much as possible, by providing the standard ways of iterating over them.
@@ -54,7 +56,7 @@ Nothing needs to be compiled. But if you wish to build examples, benchmarks and 
 - A C++ compiler (*i.e.* gcc or clang)
 - [boost](http://www.boost.org) (header files. Specifically: iterator_facade)
 - [cmake](https://cmake.org/)
-- [git](https://git-scm.com/) (only for downloading the directory. You can also download it directly from github)
+- [git](https://git-scm.com/) (only for downloading the directory. You can also download it directly from gitlab)
 - [Google's Test Framework](https://github.com/google/googletest) (for building unit tests only).
 
 ### Installing pre-requisites in Ubuntu Linux and derivatives
@@ -78,7 +80,7 @@ brew install gcc cmake git boost
 
 To do a system-wide install, do the standard cmake/make dance:
 ```sh
-git clone https://github.com/mraggi/discreture
+git clone https://gitlab.com/miguelraggi/discreture.git
 cd discreture
 mkdir build
 cd build
@@ -93,6 +95,8 @@ There are three options: BUILD_EXAMPLES, BUILD_TESTS and BUILD_BENCHMARKS. **To 
 ```sh
 cmake .. -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DBUILD_BENCHMARKS=ON
 ```
+
+By default, examples are built but tests and benchmarks are not. You may disable them with `-DBUILD_EXAMPLES=OFF`.
 
 ### Trying the examples
 After compiling the examples (with `cmake .. -DBUILD_EXAMPLES=ON`), try for example running:
@@ -149,7 +153,7 @@ auto X = combinations(30,10); //all subsets of size 10 of {0,1,2,...,29}
 for (auto& x : X) 
 { 
 	// x is of type const vector<int>&, so anything that works with 
-	// const vector references also works on x, such as calling x[3], etc.
+	// const vector references also works on x, such as indexing, iterating, etc. x[3], etc.
 }
 ```
 
@@ -374,7 +378,7 @@ Euler314's library (unnamed as far as I know) can be found [here](https://github
 
 Iterating over all combinations of size n/2 over a set of size n took the following time (lower is better):
 
-<img src="https://github.com/mraggi/discreture/blob/master/combvsgsl.png" width="600" alt="discreture::combinations vs GSL combinations" title="discreture::combinations vs GSL combinations">
+<img src="https://gitlab.com/miguelraggi/discreture/raw/master/combvsgsl.png" width="600" alt="discreture::combinations vs GSL combinations" title="discreture::combinations vs GSL combinations">
 
 
 The GSL code used was the following:
@@ -436,7 +440,7 @@ The following benchmarks were done on a i7-5820K CPU @ 3.30GHz, using Manjaro Li
 
 The important column is speed. Higher is better. It means "how many (combinations/permutations/etc) were generated in one second" (basically, # processed / Time). Note the exponents.
 
-<img src="https://github.com/mraggi/discreture/blob/master/benchmarks.png" width="900" alt="discreture::benchmarks" title="discreture::benchmarks">
+<img src="https://gitlab.com/miguelraggi/discreture/raw/master/benchmarks.png" width="900" alt="discreture::benchmarks" title="discreture::benchmarks">
 
 <!--|Benchmark name                  |   Time     |   # processed     |           Speed (with _stack)    | Speed (w/o _stack) |
 |-----|------|-----:|:------:|:------:|
