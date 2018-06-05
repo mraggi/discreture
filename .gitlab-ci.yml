@@ -22,4 +22,4 @@ build:
 test:
   stage: test
   script:
-    - ./build/unit_tests.x
+    - ./unit_tests.x
