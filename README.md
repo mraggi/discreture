@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/mraggi/discreture.svg?branch=master)](https://travis-ci.org/mraggi/discreture)
 [![Coverage Status](https://coveralls.io/repos/github/mraggi/discreture/badge.svg?branch=master)](https://coveralls.io/github/mraggi/discreture?branch=master)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mraggi/discreture/blob/master/LICENSE)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitlab.com/miguelraggi/discreture/raw/master/LICENSE)
 
 
 
