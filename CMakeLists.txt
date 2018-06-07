@@ -98,7 +98,7 @@ if(${BUILD_TESTS})
         add_dependencies(${TEST_MAIN} ${TEST_LIB})
     endif()
     
-    target_link_libraries(${TEST_MAIN} ${TEST_LIB} Threads::Threads)
+    target_link_libraries(${TEST_MAIN} ${TEST_LIB} ${CMAKE_THREAD_LIBS_INIT})
     add_custom_target(gtest COMMAND "${PROJECT_BINARY_DIR}/${TEST_MAIN}" DEPENDS ${TEST_MAIN})
 
     # Add a standard make target 'test' that runs the tests under CTest (only as an alt. to gtest).
