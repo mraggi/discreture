@@ -57,6 +57,9 @@ int main()
 
     BenchRow::print_header(cout);
     BenchRow::print_line(cout);
+    using namespace std;
+    using namespace dscr;
+    cout << ProduceRowForwardCopy("Combinations compund", combinations("ABCDEFGHIJKLMNOPQRSTUVWXYZab"s, 14));
     cout << ProduceRowForEach("Combinations", C);
     cout << ProduceRowForEach("Combinations Stack", CF);
     cout << ProduceRowForward("Combinations", C);
@@ -66,6 +69,7 @@ int main()
     cout << ProduceRowConstruct("Combinations", C, construct);
     cout << ProduceRowConstruct("Combinations Stack", CF, construct);
 
+    
     BenchRow::print_line(cout);
     cout << ProduceRowForEach("Combinations Tree", CT);
     cout << ProduceRowForEach("Combinations Tree Stack", CTF);

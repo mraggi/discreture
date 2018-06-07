@@ -139,6 +139,16 @@ BenchRow ProduceRowForward(std::string name, const Container& A)
 }
 
 template <class Container>
+BenchRow ProduceRowForwardCopy(std::string name, const Container& A)
+{
+    double t = FWIterationBenchmarkCopy(A);
+
+    name += " Forward";
+
+    return BenchRow(name, t, A.size());
+}
+
+template <class Container>
 BenchRow ProduceRowReverse(std::string name, const Container& A)
 {
     double t = ReverseIterationBenchmark(A);

@@ -34,6 +34,17 @@ double FWIterationBenchmark(const Container& A)
 }
 
 template <class Container>
+double FWIterationBenchmarkCopy(const Container& A)
+{
+    return Benchmark([&A]() {
+        for (auto a : A)
+        {
+            DoNotOptimize(a);
+        }
+    });
+}
+
+template <class Container>
 double ReverseIterationBenchmark(const Container& A)
 {
     return Benchmark([&A]() {
