@@ -33,7 +33,7 @@ public:
     /// {0,1,2,...,n-1}
     ///
     ////////////////////////////////////////////////////////////
-    explicit ArithmeticProgression(IntType n) : m_from(0), m_to(n), m_step(1)
+    explicit ArithmeticProgression(IntType n) : from_(0), to_(n), step_(1)
     {
         assert(n >= 0);
     }
@@ -45,30 +45,30 @@ public:
     /// {n,n+step,n+2*step,...} up to (and not including) t_to.
     //////////////////////////////////////////
     ArithmeticProgression(IntType from, IntType to, IntType step = 1)
-        : m_from(from), m_to(to), m_step(step)
+        : from_(from), to_(to), step_(step)
     {
-        assert(m_step != 0);
-        if (m_step > 0 && m_to < m_from)
-            m_to = m_from;
-        if (m_step < 0 && m_to > m_from)
-            m_to = m_from;
+        assert(step_ != 0);
+        if (step_ > 0 && to_ < from_)
+            to_ = from_;
+        if (step_ < 0 && to_ > from_)
+            to_ = from_;
 
-        auto d = modulo<IntType>(m_from - m_to, m_step);
+        auto d = modulo<IntType>(from_ - to_, step_);
 
-        if (m_step > 0)
-            m_to += d;
+        if (step_ > 0)
+            to_ += d;
         else
         {
-            m_to += d + m_step;
+            to_ += d + step_;
             if (d == 0)
-                m_to -= m_step;
+                to_ -= step_;
         }
     }
 
     size_type size() const
     {
-        auto t = m_to + modulo<difference_type>(m_from - m_to, m_step);
-        return (t - m_from)/m_step;
+        auto t = to_ + modulo<difference_type>(from_ - to_, step_);
+        return (t - from_)/step_;
     }
 
     ////////////////////////////////////////////////////////////
@@ -81,42 +81,42 @@ public:
     {
     public:
         explicit iterator(size_type t_from = 0, size_type t_step = 1)
-            : m_ID(t_from), m_step(t_step)
+            : m_ID(t_from), step_(t_step)
         {}
 
-        size_type step() const { return m_step; }
+        size_type step() const { return step_; }
 
     private:
-        void increment() { m_ID += m_step; }
+        void increment() { m_ID += step_; }
 
-        void decrement() { m_ID -= m_step; }
+        void decrement() { m_ID -= step_; }
 
         const IntType& dereference() const { return m_ID; }
 
-        void advance(difference_type n) { m_ID += n*m_step; }
+        void advance(difference_type n) { m_ID += n*step_; }
 
         bool equal(const iterator& it) const { return m_ID == it.m_ID; }
 
         difference_type distance_to(const iterator& it) const
         {
-            assert(m_step != 0);
+            assert(step_ != 0);
             return (static_cast<difference_type>(it.m_ID) -
                     static_cast<difference_type>(m_ID)) /
-              m_step;
+              step_;
         }
 
     private:
         IntType m_ID{0};
-        size_type m_step{1};
+        size_type step_{1};
 
         friend class boost::iterator_core_access;
         friend class ArithmeticProgression;
     }; // end class iterator
 
-    iterator begin() const { return iterator(m_from, m_step); }
-    iterator end() const { return iterator(m_to, m_step); }
+    iterator begin() const { return iterator(from_, step_); }
+    iterator end() const { return iterator(to_, step_); }
 
-    IntType operator[](size_type m) const { return m_from + m_step*m; }
+    IntType operator[](size_type m) const { return from_ + step_*m; }
 
     template <class Pred>
     IntType partition_point(Pred p)
@@ -125,9 +125,9 @@ public:
     }
 
 private:
-    IntType m_from;
-    IntType m_to;
-    IntType m_step;
+    IntType from_;
+    IntType to_;
+    IntType step_;
 }; // end class ArithmeticProgression
 
 using arithmetic_progression = ArithmeticProgression<int>;

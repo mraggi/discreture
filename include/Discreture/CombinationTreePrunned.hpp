@@ -30,13 +30,13 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     CombinationTreePrunned(IntType n, IntType k, Predicate p)
-        : m_n(n), m_k(k), m_begin(m_n, m_k, p), m_end(p, true), m_pred(p)
+        : n_(n), k_(k), begin_(n_, k_, p), end_(p, true), pred_(p)
     {
         // 			cout << "In constructor" << endl;
     }
 
-    IntType get_n() const { return m_n; }
-    IntType get_k() const { return m_k; }
+    IntType get_n() const { return n_; }
+    IntType get_k() const { return k_; }
 
     ////////////////////////////////////////////////////////////
     /// \brief Forward iterator for constructing combinations that satisfy a
@@ -49,87 +49,87 @@ public:
     {
     public:
         iterator(Predicate p, bool last)
-            : m_ID(0), m_data(), m_atEnd(last), m_pred(p)
+            : ID_(0), data_(), at_end_(last), pred_(p)
         {} // empty initializer
 
         iterator(IntType n, IntType k, Predicate p)
-            : m_ID(0), m_n(n), m_k(k), m_data(), m_atEnd(false), m_pred(p)
+            : ID_(0), n_(n), k_(k), data_(), at_end_(false), pred_(p)
         {
-            m_data.reserve(m_k);
+            data_.reserve(k_);
 
-            while (DFSUtil(m_data, m_pred, m_n, m_k))
+            while (DFSUtil(data_, pred_, n_, k_))
             {
-                if (m_data.size() == static_cast<size_t>(m_k))
+                if (data_.size() == static_cast<size_t>(k_))
                 {
                     return;
                 }
             }
 
-            m_atEnd = true;
+            at_end_ = true;
         }
 
-        inline bool is_at_end(IntType n) const { return m_atEnd; }
+        inline bool is_at_end(IntType n) const { return at_end_; }
 
     private:
         // prefix
         void increment()
         {
-            // 				cout << "size of pred: " << sizeof(m_pred) << endl;
-            while (DFSUtil(m_data, m_pred, m_n, m_k))
+            // 				cout << "size of pred: " << sizeof(pred_) << endl;
+            while (DFSUtil(data_, pred_, n_, k_))
             {
-                if (m_data.size() == static_cast<size_t>(m_k))
+                if (data_.size() == static_cast<size_t>(k_))
                     return;
             }
 
-            m_atEnd = true;
+            at_end_ = true;
         }
 
-        const combination& dereference() const { return m_data; }
+        const combination& dereference() const { return data_; }
 
         bool equal(const iterator& it) const
         {
-            if (m_atEnd != it.m_atEnd)
+            if (at_end_ != it.at_end_)
                 return false;
 
-            if (m_atEnd)
+            if (at_end_)
                 return true;
 
-            return m_data == it.m_data;
+            return data_ == it.data_;
         }
 
     private:
-        size_type m_ID{0};
-        IntType m_n{0};
-        IntType m_k{0};
-        combination m_data{};
-        bool m_atEnd{true};
-        Predicate m_pred;
+        size_type ID_{0};
+        IntType n_{0};
+        IntType k_{0};
+        combination data_{};
+        bool at_end_{true};
+        Predicate pred_;
 
         friend class CombinationTreePrunned;
         friend class boost::iterator_core_access;
 
     }; // end class iterator
 
-    const iterator& begin() const { return m_begin; }
+    const iterator& begin() const { return begin_; }
 
-    const iterator& end() const { return m_end; }
+    const iterator& end() const { return end_; }
 
 private:
-    IntType m_n;
-    IntType m_k;
-    iterator m_begin;
-    iterator m_end;
-    Predicate m_pred;
+    IntType n_;
+    IntType k_;
+    iterator begin_;
+    iterator end_;
+    Predicate pred_;
 
     static bool augment(combination& comb,
                         Predicate pred,
-                        IntType m_n,
-                        IntType m_k,
+                        IntType n_,
+                        IntType k_,
                         IntType start = 0)
     {
         if (comb.empty())
         {
-            if (start < m_n - m_k + 1)
+            if (start < n_ - k_ + 1)
             {
                 comb.push_back(start);
                 return true;
@@ -139,11 +139,11 @@ private:
         }
 
         auto last = comb.back();
-        auto guysleft = m_k - comb.size();
+        auto guysleft = k_ - comb.size();
 
         start = std::max(static_cast<IntType>(last + 1), start);
 
-        for (size_t i = start; i < m_n - guysleft + 1; ++i)
+        for (size_t i = start; i < n_ - guysleft + 1; ++i)
         {
             comb.push_back(i);
 
@@ -157,12 +157,12 @@ private:
     }
 
     static bool
-    DFSUtil(combination& comb, Predicate pred, IntType m_n, IntType m_k)
+    DFSUtil(combination& comb, Predicate pred, IntType n_, IntType k_)
     {
-        // 			cout << "n,k = " << m_n << " " << m_k << endl;
-        if (comb.size() < static_cast<size_t>(m_k))
+        // 			cout << "n,k = " << n_ << " " << k_ << endl;
+        if (comb.size() < static_cast<size_t>(k_))
         {
-            if (augment(comb, pred, m_n, m_k))
+            if (augment(comb, pred, n_, k_))
                 return true;
         }
 
@@ -175,7 +175,7 @@ private:
             last = comb.back();
             comb.pop_back();
 
-            if (augment(comb, pred, m_n, m_k, last + 1))
+            if (augment(comb, pred, n_, k_, last + 1))
                 return true;
         }
 

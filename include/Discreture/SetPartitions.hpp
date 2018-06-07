@@ -131,122 +131,90 @@ public:
     // **************** End static functions
 
 public:
-    ////////////////////////////////////////////////////////////
-    /// \brief Constructor
-    ///
-    /// \param n is an integer >= 0
-    ///
-    ////////////////////////////////////////////////////////////
     explicit SetPartitions(IntType n)
-        : m_n(n), m_minnumparts(1), m_maxnumparts(n), m_size(calc_size(n, 1, n))
+        : n_(n), min_num_parts_(1), max_num_parts_(n), size_(calc_size(n, 1, n))
     {}
 
-    ////////////////////////////////////////////////////////////
-    /// \brief Constructor
-    ///
-    /// \param n is an integer >= 0
-    /// \param numparts is an integer >= 1 and <= n
-    ///
-    ////////////////////////////////////////////////////////////
     SetPartitions(IntType n, IntType numparts)
-        : m_n(n)
-        , m_minnumparts(numparts)
-        , m_maxnumparts(numparts)
-        , m_size(calc_size(n, numparts, numparts))
+        : n_(n)
+        , min_num_parts_(numparts)
+        , max_num_parts_(numparts)
+        , size_(calc_size(n, numparts, numparts))
     {}
 
-    ////////////////////////////////////////////////////////////
-    /// \brief Constructor
-    ///
-    /// \param n is an integer >= 0
-    /// \param minnumparts is an integer >= 1 and <= n
-    /// \param maxnumparts is an integer >= minnumparts and <= n
-    ///
-    ////////////////////////////////////////////////////////////
     SetPartitions(IntType n, IntType minnumparts, IntType maxnumparts)
-        : m_n(n)
-        , m_minnumparts(minnumparts)
-        , m_maxnumparts(maxnumparts)
-        , m_size(calc_size(n, minnumparts, maxnumparts))
+        : n_(n)
+        , min_num_parts_(minnumparts)
+        , max_num_parts_(maxnumparts)
+        , size_(calc_size(n, minnumparts, maxnumparts))
     {}
 
-    ////////////////////////////////////////////////////////////
-    /// \brief The total number of set_partitions
-    ///
-    /// \return If the number of parts was not specified, then the bell number
-    /// B_n. If it was, then the sum of the appropiate stirling partition
-    /// numbers.
-    ///
-    ////////////////////////////////////////////////////////////
-    size_type size() const { return m_size; }
+    size_type size() const { return size_; }
 
-    IntType get_n() const { return m_n; }
+    IntType get_n() const { return n_; }
 
-    iterator begin() const { return iterator(m_n, m_maxnumparts); }
+    iterator begin() const { return iterator(n_, max_num_parts_); }
 
     const iterator end() const
     {
         return iterator::make_invalid_with_id(size());
     }
 
-    ////////////////////////////////////////////////////////////
-    /// \brief Forward iterator class.
-    ////////////////////////////////////////////////////////////
     class iterator
         : public boost::iterator_facade<iterator,
                                         const set_partition&,
                                         boost::forward_traversal_tag>
     {
     public:
-        iterator() : m_ID(0), m_data(), m_n(0) {}
+        iterator() : ID_(0), data_(), n_(0) {}
 
         explicit iterator(IntType n, IntType numparts)
-            : m_ID(0), m_data(n), m_n(n), m_npartition()
+            : ID_(0), data_(n), n_(n), num_partition()
         {
             Partitions<IntType>::first_with_given_number_of_parts(
-              m_npartition, n, numparts);
-            fill_first_set_partition(m_data, m_npartition);
+              num_partition, n, numparts);
+            fill_first_set_partition(data_, num_partition);
         }
 
-        inline size_type ID() const { return m_ID; }
+        inline size_type ID() const { return ID_; }
 
         static const iterator make_invalid_with_id(size_type id)
         {
             iterator it;
-            it.m_ID = id;
+            it.ID_ = id;
             return it;
         }
 
     private:
         void increment()
         {
-            ++m_ID;
+            ++ID_;
 
-            if (!next_set_partition(m_data, m_npartition))
+            if (!next_set_partition(data_, num_partition))
             {
-                Partitions<IntType>::next_partition(m_npartition, m_n);
-                fill_first_set_partition(m_data, m_npartition);
+                Partitions<IntType>::next_partition(num_partition, n_);
+                fill_first_set_partition(data_, num_partition);
             }
         }
 
-        const set_partition& dereference() const { return m_data; }
+        const set_partition& dereference() const { return data_; }
 
         bool equal(const iterator& it) const { return it.ID() == ID(); }
 
     private:
-        size_type m_ID{0};
-        set_partition m_data{};
-        IntType m_n{0};
-        number_partition m_npartition{};
+        size_type ID_{0};
+        set_partition data_{};
+        IntType n_{0};
+        number_partition num_partition{};
 
         friend class boost::iterator_core_access;
     }; // end class iterator
 
 private:
-    IntType m_n;
-    IntType m_minnumparts;
-    IntType m_maxnumparts;
-    size_type m_size;
+    IntType n_;
+    IntType min_num_parts_;
+    IntType max_num_parts_;
+    size_type size_;
 
 private:
     // Private static functions

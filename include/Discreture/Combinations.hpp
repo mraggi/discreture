@@ -36,7 +36,7 @@ namespace dscr
 /// # Example 2:
 ///
 ///	    string A = "abcde";
-///		for (auto x : compound_combinations(A,3))
+///		for (auto x : combinations(A,3))
 ///			cout << x << endl;
 ///		Prints out:
 ///			a b c
@@ -283,7 +283,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     Combinations(IntType n, IntType k)
-        : m_n(n), m_k(k), m_size(binomial<size_type>(n, k))
+        : n_(n), k_(k), size_(binomial<size_type>(n, k))
     {}
 
     ////////////////////////////////////////////////////////////
@@ -292,12 +292,12 @@ public:
     /// \return binomial(n,r)
     ///
     ////////////////////////////////////////////////////////////
-    size_type size() const { return m_size; }
+    size_type size() const { return size_; }
 
-    IntType get_n() const { return m_n; }
-    IntType get_k() const { return m_k; }
+    IntType get_n() const { return n_; }
+    IntType get_k() const { return k_; }
 
-    iterator begin() const { return iterator(m_n, m_k); }
+    iterator begin() const { return iterator(n_, k_); }
 
     const iterator end() const
     {
@@ -316,7 +316,7 @@ public:
     combination operator[](size_type m) const
     {
         assert(m >= 0 && m < size());
-        combination comb(m_k);
+        combination comb(k_);
         construct_combination(comb, m);
         return comb;
     }
@@ -332,7 +332,7 @@ public:
         return iterator(comb);
     }
 
-    reverse_iterator rbegin() const { return reverse_iterator(m_n, m_k); }
+    reverse_iterator rbegin() const { return reverse_iterator(n_, k_); }
 
     const reverse_iterator rend() const { return reverse_iterator(size()); }
 
@@ -346,36 +346,36 @@ public:
         iterator() = default;
 
         iterator(IntType n, IntType k)
-            : m_ID(0), m_last(k - 1), m_hint(k), m_data(k)
+            : ID_(0), last_(k - 1), hint_(k), data_(k)
         {
             UNUSED(n);
-            std::iota(m_data.begin(), m_data.end(), 0);
+            std::iota(data_.begin(), data_.end(), 0);
         }
 
         explicit iterator(const combination& data)
-            : m_ID(get_index(data))
-            , m_last(data.size() - 1)
-            , m_hint(0)
-            , m_data(data)
+            : ID_(get_index(data))
+            , last_(data.size() - 1)
+            , hint_(0)
+            , data_(data)
         {}
 
         inline bool is_at_end(IntType n) const
         {
 
-            return m_data.empty() || m_data.back() == n;
+            return data_.empty() || data_.back() == n;
         }
 
         void reset(IntType n, IntType k)
         {
             UNUSED(n);
-            m_ID = 0;
-            m_hint = k;
-            m_last = k - 1;
-            m_data.resize(k);
-            std::iota(m_data.begin(), m_data.end(), 0);
+            ID_ = 0;
+            hint_ = k;
+            last_ = k - 1;
+            data_.resize(k);
+            std::iota(data_.begin(), data_.end(), 0);
         }
 
-        size_type ID() const { return m_ID; }
+        size_type ID() const { return ID_; }
         // boost::iterator_facade provides all the public interface you need,
         // like ++, etc.
 
@@ -389,17 +389,17 @@ public:
         }
 
     private:
-        explicit iterator(size_type id) : m_ID(id) {}
+        explicit iterator(size_type id) : ID_(id) {}
 
         void increment()
         {
-            next_combination(m_data, m_hint, m_last);
-            ++m_ID;
+            next_combination(data_, hint_, last_);
+            ++ID_;
         }
 
-        bool equal(const iterator& other) const { return m_ID == other.m_ID; }
+        bool equal(const iterator& other) const { return ID_ == other.ID_; }
 
-        const combination& dereference() const { return m_data; }
+        const combination& dereference() const { return data_; }
 
         ////////////////////////////////////////
         ///
@@ -409,7 +409,7 @@ public:
         ////////////////////////////////////////
         void advance(difference_type n)
         {
-            assert(0 <= n + m_ID);
+            assert(0 <= n + ID_);
 
             // If n is small, it's actually more efficient to just advance to it
             // one by one. 40 was found empirically
@@ -430,34 +430,34 @@ public:
 
             // If n is large, then it's better to just construct it from
             // scratch.
-            m_ID += n;
-            construct_combination(m_data, m_ID);
-            m_hint = 0;
+            ID_ += n;
+            construct_combination(data_, ID_);
+            hint_ = 0;
         }
 
         difference_type distance_to(const iterator& other) const
         {
-            return other.m_ID - m_ID;
+            return other.ID_ - ID_;
         }
 
         void decrement()
         {
-            if (m_ID == 0)
+            if (ID_ == 0)
                 return;
 
-            --m_ID;
-            m_hint = 0;
+            --ID_;
+            hint_ = 0;
 
-            prev_combination(m_data, m_last);
+            prev_combination(data_, last_);
         }
 
         friend class boost::iterator_core_access;
         friend class Combinations;
 
-        size_type m_ID{0};
-        IntType m_last{-1}; // should always be m_data.size()-1!!!
-        size_type m_hint{0};
-        combination m_data{};
+        size_type ID_{0};
+        IntType last_{-1}; // should always be data_.size()-1!!!
+        size_type hint_{0};
+        combination data_{};
 
     }; // end class iterator
 
@@ -470,22 +470,22 @@ public:
         reverse_iterator() = default;
 
         reverse_iterator(IntType n, IntType k)
-            : m_n(n), m_ID(0), m_last(k - 1), m_data(k)
+            : n_(n), ID_(0), last_(k - 1), data_(k)
         {
-            std::iota(m_data.begin(), m_data.end(), n - k);
+            std::iota(data_.begin(), data_.end(), n - k);
         }
 
-        inline size_type ID() const { return m_ID; }
+        inline size_type ID() const { return ID_; }
 
-        inline bool is_at_end() const { return m_data.back() == m_data.size(); }
+        inline bool is_at_end() const { return data_.back() == data_.size(); }
 
         void reset(IntType n, IntType k)
         {
-            m_n = n;
-            m_ID = 0;
-            m_last = k - 1;
-            m_data.resize(k);
-            std::iota(m_data.begin(), m_data.end(), n - k);
+            n_ = n;
+            ID_ = 0;
+            last_ = k - 1;
+            data_.resize(k);
+            std::iota(data_.begin(), data_.end(), n - k);
         }
 
         //////////////////////////////////////
@@ -499,31 +499,31 @@ public:
 
     private:
         explicit reverse_iterator(size_type id)
-            : m_ID(id) {} // ending initializer: for id only. Do not use unless
-                          // you know what you are doing.
+            : ID_(id) {} // ending initializer: for id only. Do not use unless
+                         // you know what you are doing.
 
         void increment()
         {
-            ++m_ID;
+            ++ID_;
 
-            prev_combination(m_data, m_last);
+            prev_combination(data_, last_);
         }
 
         void decrement()
         {
-            assert(m_ID != 0);
+            assert(ID_ != 0);
 
-            --m_ID;
+            --ID_;
 
-            next_combination(m_data);
+            next_combination(data_);
         }
 
         difference_type distance_to(const reverse_iterator& other) const
         {
-            return other.m_ID - m_ID;
+            return other.ID_ - ID_;
         }
 
-        const combination& dereference() const { return m_data; }
+        const combination& dereference() const { return data_; }
 
         ////////////////////////////////////////
         ///
@@ -533,7 +533,7 @@ public:
         ////////////////////////////////////////
         void advance(difference_type m)
         {
-            assert(0 <= m + m_ID);
+            assert(0 <= m + ID_);
 
             if (std::abs(m) < 20)
             {
@@ -552,20 +552,20 @@ public:
                 return;
             }
 
-            m_ID += m;
-            auto num = binomial<size_type>(m_n, m_data.size()) - m_ID - 1;
+            ID_ += m;
+            auto num = binomial<size_type>(n_, data_.size()) - ID_ - 1;
             // If n is large, then it's better to just construct it from
             // scratch.
-            construct_combination(m_data, num);
+            construct_combination(data_, num);
         }
 
-        bool equal(const reverse_iterator& it) const { return it.m_ID == m_ID; }
+        bool equal(const reverse_iterator& it) const { return it.ID_ == ID_; }
 
     private:
-        IntType m_n{0};
-        size_type m_ID{0};
-        IntType m_last{-1}; // this should ALWAYS be m_data.size()-1!!!!
-        combination m_data{};
+        IntType n_{0};
+        size_type ID_{0};
+        IntType last_{-1}; // this should ALWAYS be data_.size()-1!!!!
+        combination data_{};
 
         friend class boost::iterator_core_access;
         friend class Combinations;
@@ -609,11 +609,11 @@ public:
     iterator find_if(PartialPredicate pred)
     {
         combination A;
-        A.reserve(m_k);
+        A.reserve(k_);
 
         while (DFSUtil(A, pred))
         {
-            if (A.size() == static_cast<size_t>(m_k))
+            if (A.size() == static_cast<size_t>(k_))
                 return get_iterator(A);
         }
 
@@ -691,7 +691,7 @@ public:
     auto find_all(PartialPredicate pred)
     {
         return CombinationTreePrunned<IntType, PartialPredicate, combination>(
-          m_n, m_k, pred);
+          n_, k_, pred);
     }
 
     ////////////////////////////////////////////////////////////
@@ -709,86 +709,86 @@ public:
     {
         // I'm really sorry about this. I don't know how to improve it. If you
         // do, by all means, tell me about it.
-        switch (m_k)
+        switch (k_)
         {
         case 0:
-            detail::combination_helper0<combination>(f, m_n);
+            detail::combination_helper0<combination>(f, n_);
             break;
 
         case 1:
-            detail::combination_helper1<combination>(f, m_n);
+            detail::combination_helper1<combination>(f, n_);
             break;
 
         case 2:
-            detail::combination_helper2<combination>(f, m_n);
+            detail::combination_helper2<combination>(f, n_);
             break;
 
         case 3:
-            detail::combination_helper3<combination>(f, m_n);
+            detail::combination_helper3<combination>(f, n_);
             break;
 
         case 4:
-            detail::combination_helper4<combination>(f, m_n);
+            detail::combination_helper4<combination>(f, n_);
             break;
 
         case 5:
-            detail::combination_helper5<combination>(f, m_n);
+            detail::combination_helper5<combination>(f, n_);
             break;
 
         case 6:
-            detail::combination_helper6<combination>(f, m_n);
+            detail::combination_helper6<combination>(f, n_);
             break;
 
         case 7:
-            detail::combination_helper7<combination>(f, m_n);
+            detail::combination_helper7<combination>(f, n_);
             break;
 
         case 8:
-            detail::combination_helper8<combination>(f, m_n);
+            detail::combination_helper8<combination>(f, n_);
             break;
 
         case 9:
-            detail::combination_helper9<combination>(f, m_n);
+            detail::combination_helper9<combination>(f, n_);
             break;
 
         case 10:
-            detail::combination_helper10<combination>(f, m_n);
+            detail::combination_helper10<combination>(f, n_);
             break;
 
         case 11:
-            detail::combination_helper11<combination>(f, m_n);
+            detail::combination_helper11<combination>(f, n_);
             break;
 
         case 12:
-            detail::combination_helper12<combination>(f, m_n);
+            detail::combination_helper12<combination>(f, n_);
             break;
 
         case 13:
-            detail::combination_helper13<combination>(f, m_n);
+            detail::combination_helper13<combination>(f, n_);
             break;
 
         case 14:
-            detail::combination_helper14<combination>(f, m_n);
+            detail::combination_helper14<combination>(f, n_);
             break;
 
         case 15:
-            detail::combination_helper15<combination>(f, m_n);
+            detail::combination_helper15<combination>(f, n_);
             break;
 
         case 16:
-            detail::combination_helper16<combination>(f, m_n);
+            detail::combination_helper16<combination>(f, n_);
             break;
 
         case 17:
-            detail::combination_helper17<combination>(f, m_n);
+            detail::combination_helper17<combination>(f, n_);
             break;
 
         case 18:
-            detail::combination_helper18<combination>(f, m_n);
+            detail::combination_helper18<combination>(f, n_);
             break;
 
         case 19:
-            detail::combination_helper19<combination>(f, m_n);
+            detail::combination_helper19<combination>(f, n_);
             break;
 
         default:
@@ -802,16 +802,16 @@ public:
     }
 
 private:
-    IntType m_n;
-    IntType m_k;
-    size_type m_size;
+    IntType n_;
+    IntType k_;
+    size_type size_;
 
     template <class P>
     bool augment(combination& comb, P pred, IntType start = 0)
     {
         if (comb.empty())
         {
-            if (start < m_n - m_k + 1)
+            if (start < n_ - k_ + 1)
             {
                 comb.push_back(start);
                 return true;
@@ -820,11 +820,11 @@ private:
         }
 
         auto last = comb.back();
-        auto guysleft = m_k - comb.size();
+        auto guysleft = k_ - comb.size();
 
         start = std::max(static_cast<IntType>(last + 1), start);
 
-        for (size_t i = start; i < m_n - guysleft + 1; ++i)
+        for (size_t i = start; i < n_ - guysleft + 1; ++i)
         {
             comb.push_back(i);
 
@@ -842,7 +842,7 @@ private:
     {
         // 			auto currsize = comb.size();
 
-        if (comb.size() < static_cast<size_t>(m_k))
+        if (comb.size() < static_cast<size_t>(k_))
         {
             if (augment(comb, pred))
                 return true;
@@ -873,14 +873,18 @@ auto combinations(IntTypeN n, IntTypeK k)
     return Combinations<IntType>(n, k);
 }
 
-template <class Container, class IntType, typename = EnableIfNotIntegral<Container>>
+template <class Container,
+          class IntType,
+          typename = EnableIfNotIntegral<Container>>
 auto combinations(const Container& X, IntType k)
 {
     using comb = Combinations<IntType>;
     return compound_container<Container, comb>(X, comb(X.size(), k));
 }
 
-template <class IntType, std::size_t MAX_SIZE = 32, typename = EnableIfIntegral<IntType>>
+template <class IntType,
+          std::size_t MAX_SIZE = 32,
+          typename = EnableIfIntegral<IntType>>
 auto combinations_stack(IntType n, IntType k)
 {
     using boost::container::static_vector;

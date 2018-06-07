@@ -116,28 +116,28 @@ public:
     ///		[ 1 0 3 1 ]
     ///
     ////////////////////////////////////////////////////////////
-    explicit Multisets(const multiset& set) : m_total(set), m_size(1)
+    explicit Multisets(const multiset& set) : total_(set), size_(1)
     {
         for (auto x : set)
         {
-            m_size *= (x + 1);
+            size_ *= (x + 1);
         }
     }
 
     explicit Multisets(IntType size, IntType n = 1)
-        : m_total(size, n), m_size(std::pow(n + 1, size))
+        : total_(size, n), size_(std::pow(n + 1, size))
     {}
 
-    size_type size() const { return m_size; }
+    size_type size() const { return size_; }
 
-    iterator begin() const { return iterator(m_total); }
+    iterator begin() const { return iterator(total_); }
 
     const iterator end() const
     {
         return iterator::make_invalid_with_id(size());
     }
 
-    reverse_iterator rbegin() const { return reverse_iterator(m_total); }
+    reverse_iterator rbegin() const { return reverse_iterator(total_); }
 
     const reverse_iterator rend() const
     {
@@ -151,8 +151,8 @@ public:
     multiset operator[](size_type m) const
     {
         assert(m >= 0 && m < size());
-        multiset sub(m_total.size());
-        construct_multiset(sub, m_total, m);
+        multiset sub(total_.size());
+        construct_multiset(sub, total_, m);
         return sub;
     }
 
@@ -162,13 +162,13 @@ public:
     //////////////////////////////
     size_type get_index(const multiset& sub) const
     {
-        assert(sub.size() == m_total.size());
+        assert(sub.size() == total_.size());
         size_type coeff = 1;
         size_type result = 0;
-        for (size_t i = 0; i < m_total.size(); ++i)
+        for (size_t i = 0; i < total_.size(); ++i)
         {
             result += coeff*sub[i];
-            coeff *= (m_total[i] + 1);
+            coeff *= (total_[i] + 1);
         }
         return result;
     }
@@ -183,13 +183,13 @@ public:
         iterator() = default;
 
         explicit iterator(const multiset& total)
-            : m_ID(0)
-            , m_n(total.size())
-            , m_submulti(total.size(), 0)
-            , m_total(&total)
+            : ID_(0)
+            , n_(total.size())
+            , submulti_(total.size(), 0)
+            , total_(&total)
         {}
 
-        size_type ID() const { return m_ID; }
+        size_type ID() const { return ID_; }
 
         static const iterator make_invalid_with_id(size_type id)
         {
@@ -197,29 +197,29 @@ public:
         }
 
     private:
-        explicit iterator(size_type id) : m_ID(id) {}
+        explicit iterator(size_type id) : ID_(id) {}
 
         void increment()
         {
-            ++m_ID;
-            next_multiset(m_submulti, *m_total, m_n);
+            ++ID_;
+            next_multiset(submulti_, *total_, n_);
         }
 
         void decrement()
         {
-            --m_ID;
-            prev_multiset(m_submulti, *m_total, m_n);
+            --ID_;
+            prev_multiset(submulti_, *total_, n_);
         }
 
-        const multiset& dereference() const { return m_submulti; }
+        const multiset& dereference() const { return submulti_; }
 
         // It only makes sense to compare iterators from the SAME multiset.
-        bool equal(const iterator& it) const { return m_ID == it.m_ID; }
+        bool equal(const iterator& it) const { return ID_ == it.ID_; }
 
         void advance(difference_type m)
         {
-            m_ID += m;
-            construct_multiset(m_submulti, *m_total, m_ID);
+            ID_ += m;
+            construct_multiset(submulti_, *total_, ID_);
         }
 
         difference_type distance_to(const iterator& it) const
@@ -228,10 +228,10 @@ public:
         }
 
     private:
-        size_type m_ID{0};
-        size_type m_n{0};
-        multiset m_submulti{};
-        multiset const* m_total{nullptr};
+        size_type ID_{0};
+        size_type n_{0};
+        multiset submulti_{};
+        multiset const* total_{nullptr};
 
         friend class boost::iterator_core_access;
     };
@@ -246,10 +246,10 @@ public:
         reverse_iterator() = default;
 
         explicit reverse_iterator(const multiset& total)
-            : m_ID(0), m_n(total.size()), m_submulti(total), m_total(&total)
+            : ID_(0), n_(total.size()), submulti_(total), total_(&total)
         {}
 
-        size_type ID() const { return m_ID; }
+        size_type ID() const { return ID_; }
 
         static const reverse_iterator make_invalid_with_id(size_type id)
         {
@@ -257,25 +257,25 @@ public:
         }
 
     private:
-        explicit reverse_iterator(size_type id) : m_ID(id) {}
+        explicit reverse_iterator(size_type id) : ID_(id) {}
 
         // prefix
         void increment()
         {
-            ++m_ID;
-            prev_multiset(m_submulti, *m_total, m_n);
+            ++ID_;
+            prev_multiset(submulti_, *total_, n_);
         }
 
         void decrement()
         {
-            --m_ID;
-            next_multiset(m_submulti, *m_total, m_n);
+            --ID_;
+            next_multiset(submulti_, *total_, n_);
         }
 
-        const multiset& dereference() const { return m_submulti; }
+        const multiset& dereference() const { return submulti_; }
 
         // It only makes sense to compare iterators from the SAME multiset.
-        bool equal(const reverse_iterator& it) const { return m_ID == it.m_ID; }
+        bool equal(const reverse_iterator& it) const { return ID_ == it.ID_; }
 
         difference_type distance_to(const reverse_iterator& other) const
         {
@@ -283,17 +283,17 @@ public:
         }
 
     private:
-        size_type m_ID{0};
-        size_type m_n{0}; // must have m_n = m_submulti.size() = m_total->size()
-        multiset m_submulti{};
-        multiset const* m_total{nullptr};
+        size_type ID_{0};
+        size_type n_{0}; // must have n_ = submulti_.size() = total_->size()
+        multiset submulti_{};
+        multiset const* total_{nullptr};
 
         friend class boost::iterator_core_access;
     };
 
 private:
-    multiset m_total;
-    size_type m_size;
+    multiset total_;
+    size_type size_;
 
     static bool
     can_increment(size_t index, const multiset& sub, const multiset& total)

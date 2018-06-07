@@ -56,9 +56,9 @@ public:
     // **************** Begin static functions
     static void next_dyck_path(dyck_path& data)
     {
-        size_t m_n = data.size()/2;
+        size_t n_ = data.size()/2;
 
-        if (m_n == 0)
+        if (n_ == 0)
             return;
 
         if (data[1] != -1)
@@ -77,7 +77,7 @@ public:
         size_t verif = 0;
         size_t i = 1;
 
-        while (i < m_n && verif == 0)
+        while (i < n_ && verif == 0)
         {
             if (data[(2*i) + 1] == 1)
                 verif = ((2*i) + 1);
@@ -144,7 +144,7 @@ public:
     /// \param n is an integer >= 0
     ///
     ////////////////////////////////////////////////////////////
-    explicit DyckPaths(IntType n) : m_n(n) {}
+    explicit DyckPaths(IntType n) : n_(n) {}
 
     ////////////////////////////////////////////////////////////
     /// \brief The total number of dyck_paths
@@ -152,9 +152,9 @@ public:
     /// \return binomial(2n,n)/(n+1)
     ///
     ////////////////////////////////////////////////////////////
-    size_type size() const { return catalan(m_n); }
+    size_type size() const { return catalan(n_); }
 
-    IntType get_n() const { return m_n; }
+    IntType get_n() const { return n_; }
 
     ////////////////////////////////////////////////////////////
     /// \brief Forward iterator class.
@@ -166,55 +166,55 @@ public:
     {
     public:
         iterator() = default; // empty initializer
-        explicit iterator(IntType n) : m_ID(0), m_data(2*n, 1)
+        explicit iterator(IntType n) : ID_(0), data_(2*n, 1)
         {
-            for (size_t i = n; i < m_data.size(); ++i)
-                m_data[i] = -1;
+            for (size_t i = n; i < data_.size(); ++i)
+                data_[i] = -1;
         }
 
-        size_type ID() const { return m_ID; }
+        size_type ID() const { return ID_; }
 
-        bool is_at_end(IntType n) const { return m_ID == catalan(n); }
+        bool is_at_end(IntType n) const { return ID_ == catalan(n); }
 
         void reset(IntType n)
         {
-            m_ID = 0;
-            m_data.resize(2*n);
+            ID_ = 0;
+            data_.resize(2*n);
             auto r = static_cast<size_t>(n);
             for (size_t i = 0; i < r; ++i)
-                m_data[i] = 1;
+                data_[i] = 1;
 
-            for (size_t i = r; i < m_data.size(); ++i)
-                m_data[i] = -1;
+            for (size_t i = r; i < data_.size(); ++i)
+                data_[i] = -1;
         }
 
         static const iterator make_invalid_with_id(size_type id)
         {
             iterator it;
-            it.m_ID = id;
+            it.ID_ = id;
             return it;
         }
 
     private:
         void increment()
         {
-            ++m_ID;
+            ++ID_;
 
-            next_dyck_path(m_data);
+            next_dyck_path(data_);
         }
 
-        const dyck_path& dereference() const { return m_data; }
+        const dyck_path& dereference() const { return data_; }
 
         bool equal(const iterator& it) const { return it.ID() == ID(); }
 
     private:
-        size_type m_ID{0};
-        dyck_path m_data{};
+        size_type ID_{0};
+        dyck_path data_{};
 
         friend class boost::iterator_core_access;
     }; // end class iterator
 
-    iterator begin() const { return iterator(m_n); }
+    iterator begin() const { return iterator(n_); }
 
     const iterator end() const
     {
@@ -222,7 +222,7 @@ public:
     }
 
 private:
-    IntType m_n;
+    IntType n_;
 
 }; // end class DyckPaths
 

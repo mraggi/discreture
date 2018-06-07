@@ -161,7 +161,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     explicit Partitions(IntType n)
-        : m_n(n), m_minnumparts(1), m_maxnumparts(n), m_size(calc_size(n))
+        : n_(n), min_num_parts_(1), max_num_parts_(n), size_(calc_size(n))
     {}
 
     ////////////////////////////////////////////////////////////
@@ -172,10 +172,10 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     Partitions(IntType n, IntType numparts)
-        : m_n(n)
-        , m_minnumparts(numparts)
-        , m_maxnumparts(numparts)
-        , m_size(calc_size(n, numparts))
+        : n_(n)
+        , min_num_parts_(numparts)
+        , max_num_parts_(numparts)
+        , size_(calc_size(n, numparts))
     {}
 
     ////////////////////////////////////////////////////////////
@@ -187,10 +187,10 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     Partitions(IntType n, IntType minnumparts, IntType maxnumparts)
-        : m_n(n)
-        , m_minnumparts(minnumparts)
-        , m_maxnumparts(maxnumparts)
-        , m_size(calc_size(n, minnumparts, maxnumparts))
+        : n_(n)
+        , min_num_parts_(minnumparts)
+        , max_num_parts_(maxnumparts)
+        , size_(calc_size(n, minnumparts, maxnumparts))
     {}
 
     ////////////////////////////////////////////////////////////
@@ -199,11 +199,11 @@ public:
     /// \return p_n
     ///
     ////////////////////////////////////////////////////////////
-    size_type size() const { return m_size; }
+    size_type size() const { return size_; }
 
-    IntType get_n() const { return m_n; }
+    IntType get_n() const { return n_; }
 
-    iterator begin() const { return iterator(m_n, m_maxnumparts); }
+    iterator begin() const { return iterator(n_, max_num_parts_); }
 
     const iterator end() const
     {
@@ -212,7 +212,7 @@ public:
 
     reverse_iterator rbegin() const
     {
-        return reverse_iterator(m_n, m_minnumparts);
+        return reverse_iterator(n_, min_num_parts_);
     }
 
     const reverse_iterator rend() const
@@ -229,16 +229,16 @@ public:
                                         boost::bidirectional_traversal_tag>
     {
     public:
-        iterator() : m_n(0), m_data() {}
+        iterator() : n_(0), data_() {}
 
         explicit iterator(IntType n, IntType numparts)
-            : m_n(n), m_data(numparts, 1)
+            : n_(n), data_(numparts, 1)
         {
             if (numparts > 0)
-                m_data[0] = n - numparts + 1;
+                data_[0] = n - numparts + 1;
         }
 
-        inline size_type ID() const { return m_ID; }
+        inline size_type ID() const { return ID_; }
 
         // boost::iterator_facade provides all the public interface you need,
         // like ++, etc.
@@ -246,26 +246,26 @@ public:
         static const iterator make_invalid_with_id(size_type id)
         {
             iterator it;
-            it.m_ID = id;
+            it.ID_ = id;
             return it;
         }
 
     private:
         void increment()
         {
-            ++m_ID;
+            ++ID_;
 
-            next_partition(m_data, m_n);
+            next_partition(data_, n_);
         }
 
         void decrement()
         {
-            --m_ID;
+            --ID_;
 
-            prev_partition(m_data, m_n);
+            prev_partition(data_, n_);
         }
 
-        const partition& dereference() const { return m_data; }
+        const partition& dereference() const { return data_; }
 
         bool equal(const iterator& it) const { return it.ID() == ID(); }
 
@@ -275,9 +275,9 @@ public:
         }
 
     private:
-        size_type m_ID{0};
-        IntType m_n;
-        partition m_data;
+        size_type ID_{0};
+        IntType n_;
+        partition data_;
 
         friend class boost::iterator_core_access;
     }; // end class iterator
@@ -291,15 +291,14 @@ public:
                                         boost::bidirectional_traversal_tag>
     {
     public:
-        reverse_iterator() : m_n(0), m_data() {}
+        reverse_iterator() : n_(0), data_() {}
 
-        explicit reverse_iterator(IntType n, IntType numparts)
-            : m_n(n), m_data()
+        explicit reverse_iterator(IntType n, IntType numparts) : n_(n), data_()
         {
-            last_with_given_number_of_parts(m_data, n, numparts);
+            last_with_given_number_of_parts(data_, n, numparts);
         }
 
-        inline size_type ID() const { return m_ID; }
+        inline size_type ID() const { return ID_; }
 
         // boost::iterator_facade provides all the public interface you need,
         // like ++, etc.
@@ -307,26 +306,26 @@ public:
         static const reverse_iterator make_invalid_with_id(size_type id)
         {
             reverse_iterator it;
-            it.m_ID = id;
+            it.ID_ = id;
             return it;
         }
 
     private:
         void increment()
         {
-            ++m_ID;
+            ++ID_;
 
-            prev_partition(m_data, m_n);
+            prev_partition(data_, n_);
         }
 
         void decrement()
         {
-            --m_ID;
+            --ID_;
 
-            next_partition(m_data, m_n);
+            next_partition(data_, n_);
         }
 
-        const partition& dereference() const { return m_data; }
+        const partition& dereference() const { return data_; }
 
         bool equal(const reverse_iterator& it) const { return it.ID() == ID(); }
 
@@ -336,18 +335,18 @@ public:
         }
 
     private:
-        size_type m_ID{0};
-        IntType m_n;
-        partition m_data;
+        size_type ID_{0};
+        IntType n_;
+        partition data_;
 
         friend class boost::iterator_core_access;
     }; // end class reverse_iterator
 
 private:
-    IntType m_n;
-    IntType m_minnumparts;
-    IntType m_maxnumparts;
-    size_type m_size;
+    IntType n_;
+    IntType min_num_parts_;
+    IntType max_num_parts_;
+    size_type size_;
 
     static size_type calc_size(IntType n) { return partition_number(n); }
 

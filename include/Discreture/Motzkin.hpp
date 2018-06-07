@@ -56,7 +56,7 @@ class MotzkinPaths
 public:
     using value_type = RAContainerInt;
     using motzkin_path = value_type;
-    using difference_type = long long; // NOLINT
+    using difference_type = long long;
     using size_type = difference_type;
     using comb_i = typename Combinations<IntType, RAContainerInt>::iterator;
     using dyck_i = typename DyckPaths<IntType, RAContainerInt>::iterator;
@@ -86,7 +86,7 @@ public:
     /// \param n is an integer >= 0
     ///
     ////////////////////////////////////////////////////////////
-    explicit MotzkinPaths(IntType n) : m_n(n) {}
+    explicit MotzkinPaths(IntType n) : n_(n) {}
 
     ////////////////////////////////////////////////////////////
     /// \brief The total number of motzkin_paths
@@ -94,11 +94,11 @@ public:
     /// \return M_n
     ///
     ////////////////////////////////////////////////////////////
-    size_type size() const { return motzkin(m_n); }
+    size_type size() const { return motzkin(n_); }
 
-    IntType get_n() const { return m_n; }
+    IntType get_n() const { return n_; }
 
-    iterator begin() const { return iterator(m_n); }
+    iterator begin() const { return iterator(n_); }
 
     iterator end() const { return iterator::make_invalid_with_id(size()); }
 
@@ -111,72 +111,72 @@ public:
                                         boost::forward_traversal_tag>
     {
     public:
-        iterator() : m_data(), m_comb(), m_dyck() {} // empty initializer
+        iterator() : data_(), comb_(), dyck_() {} // empty initializer
 
-        explicit iterator(IntType n) : m_data(n, 0), m_comb(n, 0), m_dyck(0) {}
+        explicit iterator(IntType n) : data_(n, 0), comb_(n, 0), dyck_(0) {}
 
-        size_type ID() const { return m_ID; }
+        size_type ID() const { return ID_; }
 
         static iterator make_invalid_with_id(size_type id)
         {
             iterator it;
-            it.m_ID = id;
+            it.ID_ = id;
             return it;
         }
 
     private:
         void increment()
         {
-            ++m_ID;
-            auto n = m_data.size();
+            ++ID_;
+            auto n = data_.size();
 
-            if (m_ID == motzkin(n))
+            if (ID_ == motzkin(n))
                 return;
 
-            ++m_comb;
-            if (m_comb.is_at_end(n))
+            ++comb_;
+            if (comb_.is_at_end(n))
             {
-                ++m_dyck;
+                ++dyck_;
 
-                if (m_dyck.is_at_end(m_numnonzerohalved))
+                if (dyck_.is_at_end(num_nonzero_halved_))
                 {
-                    m_numnonzerohalved += 1;
+                    num_nonzero_halved_ += 1;
 
-                    m_dyck.reset(m_numnonzerohalved);
+                    dyck_.reset(num_nonzero_halved_);
                 }
 
-                m_comb.reset(n, 2*m_numnonzerohalved);
+                comb_.reset(n, 2*num_nonzero_halved_);
             }
 
             ConvertToMotzkin(); // TODO(mraggi): do this laziliy
         }
 
-        const motzkin_path& dereference() const { return m_data; }
+        const motzkin_path& dereference() const { return data_; }
 
         bool equal(const iterator& it) const { return it.ID() == ID(); }
 
     private:
-        size_type m_ID{0};
-        motzkin_path m_data;
-        comb_i m_comb;
-        dyck_i m_dyck;
-        IntType m_numnonzerohalved{0};
+        size_type ID_{0};
+        motzkin_path data_;
+        comb_i comb_;
+        dyck_i dyck_;
+        IntType num_nonzero_halved_{0};
 
         void ConvertToMotzkin()
         {
-            // 				cout << "Converting: " << *m_comb << " and " <<
-            // *m_dyck
+            // 				cout << "Converting: " << *comb_ << " and " <<
+            // *dyck_
             // << endl;
-            for (size_t i = 0; i < m_data.size(); ++i)
+            for (size_t i = 0; i < data_.size(); ++i)
             {
-                m_data[i] = 0;
+                data_[i] = 0;
             }
 
             size_t count = 0;
 
-            for (auto x : (*m_comb))
+            for (auto x : (*comb_))
             {
-                m_data[x] = (*m_dyck)[count];
+                data_[x] = (*dyck_)[count];
                 ++count;
             }
         }
@@ -185,7 +185,7 @@ public:
     }; // end class iterator
 
 private:
-    IntType m_n;
+    IntType n_;
 }; // end class MotzkinPaths
 
 using boost::container::static_vector;

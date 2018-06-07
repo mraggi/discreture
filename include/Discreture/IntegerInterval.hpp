@@ -17,7 +17,7 @@ class IntegerInterval
 {
 public:
     using value_type = IntType;
-    using difference_type = long long;
+    using difference_type = std::make_signed_t<std::size_t>;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
@@ -25,14 +25,13 @@ public:
 public:
     explicit IntegerInterval() {}
 
-    explicit IntegerInterval(IntType n) : m_end(n) { assert(n >= 0); }
-    explicit IntegerInterval(IntType from, IntType to)
-        : m_start(from), m_end(to)
+    explicit IntegerInterval(IntType n) : last_(n) { assert(n >= 0); }
+    explicit IntegerInterval(IntType from, IntType to) : first_(from), last_(to)
     {
         assert(size() >= 0);
     }
 
-    size_type size() const { return m_end - m_start; }
+    size_type size() const { return last_ - first_; }
 
     ////////////////////////////////////////////////////////////
     /// \brief Random access iterator class.
@@ -43,36 +42,37 @@ public:
                                         boost::random_access_traversal_tag>
     {
     public:
-        explicit iterator(IntType t = 0) : m_ID(t) {}
+        explicit iterator(IntType t = 0) : value_(t) {}
 
     private:
-        void increment() { ++m_ID; }
+        void increment() { ++value_; }
 
-        void decrement() { --m_ID; }
+        void decrement() { --value_; }
 
-        const IntType& dereference() const { return m_ID; }
+        const IntType& dereference() const { return value_; }
 
-        void advance(difference_type n) { m_ID += n; }
+        void advance(difference_type n) { value_ += n; }
 
-        bool equal(const iterator& it) const { return m_ID == it.m_ID; }
-
-        difference_type distance_to(const iterator& it) const
+        bool equal(const iterator& other) const
         {
-            return (static_cast<difference_type>(it.m_ID) -
-                    static_cast<difference_type>(m_ID));
+            return value_ == other.value_;
+        }
+
+        difference_type distance_to(const iterator& other) const
+        {
+            return static_cast<difference_type>(other.value_) - value_;
         }
 
     private:
-        IntType m_ID{0};
+        IntType value_{0};
 
         friend class boost::iterator_core_access;
-        friend class IntegerInterval;
     }; // end class iterator
 
-    iterator begin() const { return iterator(m_start); }
-    iterator end() const { return iterator(m_end); }
+    iterator begin() const { return iterator(first_); }
+    iterator end() const { return iterator(last_); }
 
-    IntType operator[](size_type m) const { return m_start + m; }
+    IntType operator[](size_type i) const { return first_ + i; }
 
     // returns the first integer that does NOT satisfy Predicate
     template <class Predicate>
@@ -82,8 +82,8 @@ public:
     }
 
 private:
-    IntType m_start{0};
-    IntType m_end{0};
+    IntType first_{0};
+    IntType last_{0};
 }; // end class IntegerInterval
 
 using integer_interval = IntegerInterval<int>;

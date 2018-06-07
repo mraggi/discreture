@@ -95,11 +95,10 @@ T reduce_fraction(Container Numerator, Container Denominator)
 }
 
 // For some template metaprogramming...
-template<typename T>
+template <typename T>
 using EnableIfIntegral = std::enable_if_t<std::is_integral<T>::value>;
 
-template<typename T>
+template <typename T>
 using EnableIfNotIntegral = std::enable_if_t<!std::is_integral<T>::value>;
-
 
 } // namespace dscr

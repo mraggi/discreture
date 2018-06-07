@@ -38,13 +38,13 @@ int main()
     cout << "\nNow with letters!" << endl;
 
     std::string abcde = "abcde";
-    for (auto x : dscr::compound_combinations(abcde, 3))
+    for (auto x : dscr::combinations(abcde, 3))
         cout << x << endl;
 
     /***
      *A few important notes:
      *1. It works with any random-access container, such as std::vector
-     *2. It does not check for repeats! So if you do compound_combinations on
+     *2. It does not check for repeats! So if you do combinations on
      *"aaaaa", it will just produce many sets with "aaa".
      *3. The std::string is necessary, because "abcde" is not a proper
      *container. It's an C-style char array.
@@ -84,7 +84,7 @@ int main()
 
     cout << "\nOr permutations of a string" << endl;
     std::string abc = "abc";
-    for (auto p : dscr::compound_permutations(abc)) // remember: no &
+    for (auto p : dscr::permutations(abc)) // remember: no &
         cout << p << endl;
 
     cout << "\nOr dyck paths" << endl;
@@ -124,7 +124,7 @@ int main()
           partialcomb[k - 1]%partialcomb[k - 2] == 0;
     }; // This can be any function or lambda or functor.
 
-    dscr::combinations C(321, 8);
+    dscr::Combinations<int> C(321, 8);
 
     for (auto& c : C.find_all(divides))
     {
@@ -136,8 +136,9 @@ int main()
     // [1], [1 5], [1 5 10] and so on.
 
     cout << "If you need more speed, use the for_each method." << endl;
-    dscr::combinations U(10, 5); // for large 10 and 5
+    dscr::Combinations<int> U(10, 5); // for large 10 and 5
     U.for_each([](const auto& u) {
+        using dscr::operator<<;
         if (u.back() == 8)
             cout << u << endl;
     });

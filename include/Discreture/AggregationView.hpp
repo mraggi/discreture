@@ -19,29 +19,26 @@ class AggregationView
 {
 public:
     using value_type = typename RAContainer::value_type;
-    using size_type = std::make_signed_t<std::size_t>;
+    using size_type = long long;
     using difference_type = size_type;
     class iterator;
     using const_iterator = iterator;
 
-    AggregationView(const RAContainer& objects, const RAIndexContainer& indices)
-        : m_objects(objects), m_indices(indices)
+    AggregationView(const RAContainer& objects, RAIndexContainer indices)
+        : objects_(objects), indices_(std::move(indices))
     {}
 
-    iterator begin() const { return iterator(m_objects, m_indices.begin()); }
+    iterator begin() const { return iterator(objects_, indices_.begin()); }
 
-    iterator end() const { return iterator(m_objects, m_indices.end()); }
+    iterator end() const { return iterator(objects_, indices_.end()); }
 
-    size_type size() const { return m_indices.size(); }
+    size_type size() const { return indices_.size(); }
 
     const value_type& operator[](difference_type m) const
     {
-        return m_objects[m_indices[m]];
+        return objects_[indices_[m]];
     }
 
-    auto bake() const { return RAContainer(begin(), end()); }
-
-    // ****************** start iterator
     class iterator
         : public boost::iterator_facade<iterator,
                                         const value_type&,
@@ -51,45 +48,44 @@ public:
         using index_iter = typename RAIndexContainer::const_iterator;
 
         iterator(const RAContainer& objects, const index_iter& index)
-            : m_index_iter(index), m_objects(objects)
+            : index_iter_(index), objects_(objects)
         {}
 
     private:
-        void increment() { ++m_index_iter; }
+        void increment() { ++index_iter_; }
 
-        void decrement() { --m_index_iter; }
+        void decrement() { --index_iter_; }
 
-        void advance(difference_type m) { std::advance(m_index_iter, m); }
+        void advance(difference_type m) { std::advance(index_iter_, m); }
 
-        const value_type& dereference() const
-        {
-            return m_objects[*m_index_iter];
-        }
+        const value_type& dereference() const { return objects_[*index_iter_]; }
 
         bool equal(const iterator& other) const
         {
-            return m_index_iter == other.m_index_iter;
+            return index_iter_ == other.index_iter_;
         }
 
         difference_type distance_to(const iterator& other) const
         {
-            return other.m_index_iter - m_index_iter;
+            return other.index_iter_ - index_iter_;
         }
 
     private:
-        index_iter m_index_iter;
-        const RAContainer& m_objects;
+        index_iter index_iter_;
+        const RAContainer& objects_;
+
         friend class boost::iterator_core_access;
     };
-    // ********** end iterator
+
 private:
-    const RAContainer& m_objects;
-    const RAIndexContainer& m_indices;
+    const RAContainer& objects_;
+    RAIndexContainer indices_;
 };
 
+// Utility function for C++14 and below, like make_shared. Deprecated in C++17.
 template <class RAContainer, class RAIndexContainer>
-AggregationView<RAContainer, RAIndexContainer>
-aggregation_view(const RAContainer& objects, const RAIndexContainer& indices)
+auto aggregation_view(const RAContainer& objects,
+                      const RAIndexContainer& indices)
 {
     return AggregationView<RAContainer, RAIndexContainer>(objects, indices);
 }

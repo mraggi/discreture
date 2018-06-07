@@ -24,7 +24,8 @@ int main(int argc, char* argv[])
     {
         for (auto& x : permutations(n))
             cout << x << '\n';
-    } else
+    }
+    else
     {
         for (auto x : permutations(N))
             cout << x << '\n';
