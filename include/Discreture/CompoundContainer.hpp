@@ -6,6 +6,27 @@
 namespace dscr
 {
 
+////////////////////////////////////
+// A compound container is a lazy container whose elements are AggregationViews.
+// For example,
+//     std::vector<std::string> Objects = {"hello", "world", "goodbye"};
+//     for (auto permutation : compound_container(Objects,Permutations(3)))
+//     {
+//         for (auto word : permutation)
+//             std::cout << word << ' ';
+//         std::cout << '\n';
+//     }
+//
+// just prints out:
+//
+//     hello world goodbye
+//     hello goodbye world
+//     world hello goodbye
+//     world goodbye hello
+//     goodbye hello world
+//     goodbye world hello
+////////////////////////////////////
+
 template <class Container, class ContainerOfIndexContainers>
 class CompoundContainer
 {

@@ -4,7 +4,7 @@
 #include "Combinations.hpp"
 #include "do_not_optimize.hpp"
 
-using boost::container::static_vector; //NOLINT
+using boost::container::static_vector; // NOLINT
 
 inline void BM_CombinationTreeNAP(int n, int k)
 {

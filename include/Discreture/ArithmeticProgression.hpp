@@ -9,9 +9,9 @@
 namespace dscr
 {
 
-//////////////////////////////////////////
-/// \brief Similar to python range(n) or range(n,m) or range(n,m,step).
-//////////////////////////////////////////
+// An arithmetic progression is simply a set of the form
+// {a,a+d,a+2d,a+3d,...,a+kd}. Similar to python range(n) or range(n,m) or
+// range(n,m,step).
 template <class IntType>
 class ArithmeticProgression
 {

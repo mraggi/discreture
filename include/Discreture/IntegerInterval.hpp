@@ -8,10 +8,8 @@
 namespace dscr
 {
 
-//////////////////////////////////////////
-/// \brief In set theory, a common way of defining a natural number is. n :=
-/// {0,1,2,...,n-1}, with 0 = {}.
-//////////////////////////////////////////
+// An integer interval is a closed-open interval of integers. For example,
+// IntegerInterval(3,8) = {3,4,5,6,7}.
 template <class IntType = int>
 class IntegerInterval
 {
@@ -25,17 +23,20 @@ public:
 public:
     explicit IntegerInterval() = default;
 
-    explicit IntegerInterval(IntType n) : last_(n) { assert(n >= 0); }
+    explicit IntegerInterval(IntType n) : last_(n)
+    {
+        if (last_ < 0)
+            last_ = 0;
+    }
+
     explicit IntegerInterval(IntType from, IntType to) : first_(from), last_(to)
     {
-        assert(size() >= 0);
+        if (last_ < first_) // empty interval
+            last_ = first_;
     }
 
     size_type size() const { return last_ - first_; }
 
-    ////////////////////////////////////////////////////////////
-    /// \brief Random access iterator class.
-    ////////////////////////////////////////////////////////////
     class iterator
         : public boost::iterator_facade<iterator,
                                         const IntType&,
@@ -89,6 +90,7 @@ private:
 using integer_interval = IntegerInterval<int>;
 using big_integer_interval = IntegerInterval<std::int64_t>;
 
+// Think of NN as the set of natural numbers.
 template <class IntType>
 auto NN(IntType n)
 {
@@ -96,7 +98,7 @@ auto NN(IntType n)
 }
 
 template <class IntType>
-auto NN(IntType from, IntType to)
+auto II(IntType from, IntType to)
 {
     return IntegerInterval<IntType>{from, to};
 }
