@@ -47,8 +47,8 @@ public:
 
         iterator() = default;
 
-        iterator(const Container& objects, const indices_iterator& indices_iter)
-            : objects_(&objects), indices_(indices_iter)
+        iterator(const Container& objects, indices_iterator indices_iter)
+            : objects_(&objects), indices_(std::move(indices_iter))
         {}
 
     private:

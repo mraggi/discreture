@@ -9,7 +9,6 @@ int k = 3;
 
 using std::cout;
 using std::endl;
-using dscr::combinations;
 using dscr::operator<<;
 using dscr::Combinations;
 

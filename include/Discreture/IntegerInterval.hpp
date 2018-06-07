@@ -17,13 +17,13 @@ class IntegerInterval
 {
 public:
     using value_type = IntType;
-    using difference_type = std::make_signed_t<std::size_t>;
+    using difference_type = long long;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
 
 public:
-    explicit IntegerInterval() {}
+    explicit IntegerInterval() = default;
 
     explicit IntegerInterval(IntType n) : last_(n) { assert(n >= 0); }
     explicit IntegerInterval(IntType from, IntType to) : first_(from), last_(to)
