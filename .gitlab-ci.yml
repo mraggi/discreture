@@ -11,7 +11,7 @@ build:
     - apt update && apt install -y -qq make autoconf cmake build-essential libboost-dev
   script: 
     - mkdir build && cd build
-    - cmake .. -DBUILD_TESTS=ON -DBUILD_BENCHMARKS=ON -DBUILD_EXAMPLES=ON
+    - cmake .. -DBUILD_TESTS=ON -DBUILD_EXAMPLES=ON
     - make
     - make gtest
   # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
