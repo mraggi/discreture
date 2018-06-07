@@ -12,6 +12,7 @@ int main()
     using std::endl;
 
     using dscr::binomial;
+    using std::operator""s;
     std::ios_base::sync_with_stdio(false);
     dscr::Chronometer chrono;
 
@@ -57,8 +58,7 @@ int main()
 
     BenchRow::print_header(cout);
     BenchRow::print_line(cout);
-    using namespace std;
-    using namespace dscr;
+
     cout << ProduceRowForEach("Combinations", C);
     cout << ProduceRowForEach("Combinations Stack", CF);
     cout << ProduceRowForward("Combinations", C);
@@ -67,8 +67,10 @@ int main()
     cout << ProduceRowReverse("Combinations Stack", CF);
     cout << ProduceRowConstruct("Combinations", C, construct);
     cout << ProduceRowConstruct("Combinations Stack", CF, construct);
+    cout << ProduceRowForwardCopy(
+      "Combinations Compound",
+      dscr::combinations("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef"s, 10));
 
-    
     BenchRow::print_line(cout);
     cout << ProduceRowForEach("Combinations Tree", CT);
     cout << ProduceRowForEach("Combinations Tree Stack", CTF);

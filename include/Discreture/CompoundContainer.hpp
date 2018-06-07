@@ -35,7 +35,7 @@ public:
     using size_type = difference_type;
     using indices = typename ContainerOfIndexContainers::value_type;
     using index = typename indices::value_type;
-    using value_type = AggregationViewByRef<Container, indices>;
+    using value_type = AggregationView<Container, const indices&>;
     class iterator;
     using const_iterator = iterator;
 
@@ -86,7 +86,7 @@ public:
 
         value_type dereference() const
         {
-            return aggregation_view_by_ref(*objects_, *indices_);
+            return aggregation_view(*objects_, *indices_);
         }
 
         difference_type distance_to(const iterator& other) const

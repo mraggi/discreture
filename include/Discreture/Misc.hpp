@@ -101,4 +101,10 @@ using EnableIfIntegral = std::enable_if_t<std::is_integral<T>::value>;
 template <typename T>
 using EnableIfNotIntegral = std::enable_if_t<!std::is_integral<T>::value>;
 
+template <typename T>
+using EnableIfReference = std::enable_if_t<std::is_reference<T>::value>;
+
+template <typename T>
+using EnableIfNotReference = std::enable_if_t<!std::is_reference<T>::value>;
+
 } // namespace dscr
