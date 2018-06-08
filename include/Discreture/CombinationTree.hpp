@@ -6,12 +6,59 @@
 #include "Misc.hpp"
 #include "Sequences.hpp"
 #include "VectorHelpers.hpp"
-#include "detail_combinations_tree_bf.hpp"
 #include <algorithm>
 #include <numeric>
 
 namespace dscr
 {
+
+namespace detail
+{
+    template <class combination, int index>
+    struct for_each_combination_tree
+    {
+        using idx = typename combination::value_type;
+
+        template <class Func>
+        static void apply(idx n, Func&& f)
+        {
+            combination x(index + 1);
+            apply(x, 0, 0, n - index, std::forward<Func>(f));
+        }
+
+        template <class Func>
+        static void apply(combination& x, idx i, idx a, idx b, Func&& f)
+        {
+            for (x[i] = a; x[i] < b; ++x[i])
+            {
+                for_each_combination_tree<combination, index - 1>::apply(
+                  x, i + 1, x[i] + 1, b + 1, std::forward<Func>(f));
+            }
+        }
+    };
+
+    template <class combination>
+    struct for_each_combination_tree<combination, 0>
+    {
+        using idx = typename combination::value_type;
+
+        template <class Func>
+        static void apply(idx n, Func&& f)
+        {
+            combination x(1);
+            apply(x, 0, 0, n, std::forward<Func>(f));
+        }
+
+        template <class Func>
+        static void apply(combination& x, idx i, idx a, idx b, Func&& f)
+        {
+            for (x[i] = a; x[i] < b; ++x[i])
+            {
+                f(x);
+            }
+        }
+    };
+} // namespace detail
 
 ////////////////////////////////////////////////////////////
 /// \brief class of all n choose k combinations of size k of the set
@@ -580,86 +627,31 @@ public:
     template <class Func>
     void for_each(Func f) const
     {
-        // I'm really sorry about this. I don't know how to improve the
-        // readability without sacrificing speed. If you do, by all means, tell
-        // me about it.
         switch (k_)
         {
-        case 0:
-            detail::combination_tree_helper0<combination>(f, n_);
-            break;
-
-        case 1:
-            detail::combination_tree_helper1<combination>(f, n_);
-            break;
-
-        case 2:
-            detail::combination_tree_helper2<combination>(f, n_);
-            break;
-
-        case 3:
-            detail::combination_tree_helper3<combination>(f, n_);
-            break;
-
-        case 4:
-            detail::combination_tree_helper4<combination>(f, n_);
-            break;
-
-        case 5:
-            detail::combination_tree_helper5<combination>(f, n_);
-            break;
-
-        case 6:
-            detail::combination_tree_helper6<combination>(f, n_);
-            break;
-
-        case 7:
-            detail::combination_tree_helper7<combination>(f, n_);
-            break;
-
-        case 8:
-            detail::combination_tree_helper8<combination>(f, n_);
-            break;
-
-        case 9:
-            detail::combination_tree_helper9<combination>(f, n_);
-            break;
-
-        case 10:
-            detail::combination_tree_helper10<combination>(f, n_);
-            break;
-
-        case 11:
-            detail::combination_tree_helper11<combination>(f, n_);
-            break;
-
-        case 12:
-            detail::combination_tree_helper12<combination>(f, n_);
-            break;
-
-        case 13:
-            detail::combination_tree_helper13<combination>(f, n_);
-            break;
-
-        case 14:
-            detail::combination_tree_helper14<combination>(f, n_);
-            break;
-
-        case 15:
-            detail::combination_tree_helper15<combination>(f, n_);
-            break;
-
-        case 16:
-            detail::combination_tree_helper16<combination>(f, n_);
-            break;
-
-        case 17:
-            detail::combination_tree_helper17<combination>(f, n_);
-            break;
-
-        case 18:
-            detail::combination_tree_helper18<combination>(f, n_);
-            break;
+            // clang-format off
+        case 0: break;
+        case 1: detail::for_each_combination_tree<combination,0>::apply(n_,f); break;
+        case 2: detail::for_each_combination_tree<combination,1>::apply(n_,f); break;
+        case 3: detail::for_each_combination_tree<combination,2>::apply(n_,f); break;
+        case 4: detail::for_each_combination_tree<combination,3>::apply(n_,f); break;
+        case 5: detail::for_each_combination_tree<combination,4>::apply(n_,f); break;
+        case 6: detail::for_each_combination_tree<combination,5>::apply(n_,f); break;
+        case 7: detail::for_each_combination_tree<combination,6>::apply(n_,f); break;
+        case 8: detail::for_each_combination_tree<combination,7>::apply(n_,f); break;
+        case 9: detail::for_each_combination_tree<combination,8>::apply(n_,f); break;
+        case 10: detail::for_each_combination_tree<combination,9>::apply(n_,f); break;
+        case 11: detail::for_each_combination_tree<combination,10>::apply(n_,f); break;
+        case 12: detail::for_each_combination_tree<combination,11>::apply(n_,f); break;
+        case 13: detail::for_each_combination_tree<combination,12>::apply(n_,f); break;
+        case 14: detail::for_each_combination_tree<combination,13>::apply(n_,f); break;
+        case 15: detail::for_each_combination_tree<combination,14>::apply(n_,f); break;
+        case 16: detail::for_each_combination_tree<combination,15>::apply(n_,f); break;
+        case 17: detail::for_each_combination_tree<combination,16>::apply(n_,f); break;
+        case 18: detail::for_each_combination_tree<combination,17>::apply(n_,f); break;
+        case 19: detail::for_each_combination_tree<combination,18>::apply(n_,f); break;
+        case 20: detail::for_each_combination_tree<combination,19>::apply(n_,f); break;
+            // clang-format on
 
         default:
             for (auto& comb : (*this))

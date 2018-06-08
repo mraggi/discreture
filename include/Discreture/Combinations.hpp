@@ -10,10 +10,57 @@
 #include "Misc.hpp"
 #include "Sequences.hpp"
 #include "VectorHelpers.hpp"
-#include "detail_combinations_bf.hpp" //Horrible. Do NOT read. Please. But I can't find another way. Sorry about that. If you think you can do better, please, tell me about it.
 
 namespace dscr
 {
+
+namespace detail
+{
+    template <class combination, int index>
+    struct for_each_combination
+    {
+        using idx = typename combination::value_type;
+
+        template <class Func>
+        static void apply(idx n, Func&& f)
+        {
+            combination x(index + 1);
+            apply(x, n, std::forward<Func>(f));
+        }
+
+        template <class Func>
+        static void apply(combination& x, idx n, Func&& f)
+        {
+            for (x[index] = index; x[index] < n; ++x[index])
+            {
+                for_each_combination<combination, index - 1>::apply(
+                  x, x[index], std::forward<Func>(f));
+            }
+        }
+    };
+
+    template <class combination>
+    struct for_each_combination<combination, 0>
+    {
+        using idx = typename combination::value_type;
+
+        template <class Func>
+        static void apply(idx n, Func&& f)
+        {
+            combination x(1);
+            apply(x, n, std::forward<Func>(f));
+        }
+
+        template <class idx, class Func>
+        static void apply(combination& x, idx n, Func&& f)
+        {
+            for (x[0] = 0; x[0] < n; ++x[0])
+            {
+                f(x);
+            }
+        }
+    };
+} // namespace detail
 
 ////////////////////////////////////////////////////////////
 /// \brief class of all n choose k combinations of size k of the set
@@ -201,9 +248,7 @@ public:
             --i;
 
             for (; i >= 0; --i)
-            {
                 data[i] = data[i + 1] - 1;
-            }
 
             return;
         }
@@ -215,10 +260,10 @@ public:
     static inline void construct_combination(combination& data, size_type m)
     {
         IntType k = data.size();
-
-        size_type upper =
-          68; // this is the biggest for which binomial is still well defined.
-              // Hopefully it's enough for most use cases.
+        
+        // this is the biggest for which binomial is still well defined.
+        // Hopefully it's enough for most use cases.
+        size_type upper = 68;
 
         for (IntType r = k; r > 1; --r)
         {
@@ -302,7 +347,6 @@ public:
     const iterator end() const
     {
         return iterator(size());
-        // 		return iterator::make_invalid_with_id(size());
     }
 
     ////////////////////////////////////////////////////////////
@@ -709,95 +753,46 @@ public:
     {
         // I'm really sorry about this. I don't know how to improve it. If you
         // do, by all means, tell me about it.
+        combination comb(k_);
         switch (k_)
         {
         case 0:
-            detail::combination_helper0<combination>(f, n_);
             break;
 
-        case 1:
-            detail::combination_helper1<combination>(f, n_);
-            break;
+            // clang-format off
+        using comb = combination;
+        case 1: detail::for_each_combination<comb, 0>::apply(n_, f); break;
+        case 2: detail::for_each_combination<comb, 1>::apply(n_, f); break;
+        case 3: detail::for_each_combination<comb, 2>::apply(n_, f); break;
+        case 4: detail::for_each_combination<comb, 3>::apply(n_, f); break;
+        case 5: detail::for_each_combination<comb, 4>::apply(n_, f); break;
+        case 6: detail::for_each_combination<comb, 5>::apply(n_, f); break;
+        case 7: detail::for_each_combination<comb, 6>::apply(n_, f); break;
+        case 8: detail::for_each_combination<comb, 7>::apply(n_, f); break;
+        case 9: detail::for_each_combination<comb, 8>::apply(n_, f); break;
+        case 10: detail::for_each_combination<comb, 9>::apply(n_, f); break;
+        case 11: detail::for_each_combination<comb, 10>::apply(n_, f); break;
+        case 12: detail::for_each_combination<comb, 11>::apply(n_, f); break;
+        case 13: detail::for_each_combination<comb, 12>::apply(n_, f); break;
+        case 14: detail::for_each_combination<comb, 13>::apply(n_, f); break;
+        case 15: detail::for_each_combination<comb, 14>::apply(n_, f); break;
+        case 16: detail::for_each_combination<comb, 15>::apply(n_, f); break;
+        case 17: detail::for_each_combination<comb, 16>::apply(n_, f); break;
+        case 18: detail::for_each_combination<comb, 17>::apply(n_, f); break;
+        case 19: detail::for_each_combination<comb, 18>::apply(n_, f); break;
+        case 20: detail::for_each_combination<comb, 19>::apply(n_, f); break;
 
-        case 2:
-            detail::combination_helper2<combination>(f, n_);
-            break;
-
-        case 3:
-            detail::combination_helper3<combination>(f, n_);
-            break;
-
-        case 4:
-            detail::combination_helper4<combination>(f, n_);
-            break;
-
-        case 5:
-            detail::combination_helper5<combination>(f, n_);
-            break;
-
-        case 6:
-            detail::combination_helper6<combination>(f, n_);
-            break;
-
-        case 7:
-            detail::combination_helper7<combination>(f, n_);
-            break;
-
-        case 8:
-            detail::combination_helper8<combination>(f, n_);
-            break;
-
-        case 9:
-            detail::combination_helper9<combination>(f, n_);
-            break;
-
-        case 10:
-            detail::combination_helper10<combination>(f, n_);
-            break;
-
-        case 11:
-            detail::combination_helper11<combination>(f, n_);
-            break;
-
-        case 12:
-            detail::combination_helper12<combination>(f, n_);
-            break;
-
-        case 13:
-            detail::combination_helper13<combination>(f, n_);
-            break;
-
-        case 14:
-            detail::combination_helper14<combination>(f, n_);
-            break;
-
-        case 15:
-            detail::combination_helper15<combination>(f, n_);
-            break;
-
-        case 16:
-            detail::combination_helper16<combination>(f, n_);
-            break;
-
-        case 17:
-            detail::combination_helper17<combination>(f, n_);
-            break;
-
-        case 18:
-            detail::combination_helper18<combination>(f, n_);
-            break;
-
-        case 19:
-            detail::combination_helper19<combination>(f, n_);
-            break;
+            // clang-format on
 
         default:
+        {
             for (auto& comb : (*this))
             {
                 f(comb);
             }
 
             break;
+        }
         }
     }
 

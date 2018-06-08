@@ -422,10 +422,10 @@ private:
         RAContainerInt A(perm.begin() + first, perm.begin() + last);
         std::sort(A.begin(), A.end());
 
-        int n = last - first;
+        auto n = last - first;
 
         // 			size_type result = 0;
-        int firstdiffer = 0;
+        difference_type firstdiffer = 0;
 
         for (; firstdiffer + 1 < n; ++firstdiffer)
         {
