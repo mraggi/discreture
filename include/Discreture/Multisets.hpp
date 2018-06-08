@@ -239,9 +239,8 @@ public:
     class reverse_iterator
         : public boost::iterator_facade<reverse_iterator,
                                         const multiset&,
-                                        boost::bidirectional_traversal_tag>
+                                        boost::random_access_traversal_tag>
     {
-
     public:
         reverse_iterator() = default;
 
@@ -272,6 +271,15 @@ public:
             next_multiset(submulti_, *total_, n_);
         }
 
+        void advance(difference_type m)
+        {
+            size_type s = 1;
+            for (auto x : *total_)
+                s *= (x+1);
+            ID_ += m;
+            construct_multiset(submulti_, *total_, s - ID_ - 1);
+        }
+        
         const multiset& dereference() const { return submulti_; }
 
         // It only makes sense to compare iterators from the SAME multiset.

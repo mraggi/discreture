@@ -399,7 +399,7 @@ public:
 
                 while (m < 0)
                 {
-                    increment();
+                    decrement();
                     ++m;
                 }
                 return;

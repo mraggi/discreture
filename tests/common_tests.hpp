@@ -77,6 +77,24 @@ void test_bidirectional_iteration(const Container& C, CheckElement&& check_elem)
         current = target;
         check_elem(*it);
         ASSERT_EQ(*it,C[current]);
+        ASSERT_EQ(*it,*(C.begin() + current));
+    }
+    
+    auto rit = C.rbegin();
+    current = 0;
+    for (auto t : dscr::NN(num_times))
+    {
+        int target = dscr::random::random_int(0,n);
+        int distance = target - current;
+
+        if (dscr::random::probability_of_true(0.5))
+            std::advance(rit,distance); 
+        else
+            dumb_advance(rit,distance);
+        current = target;
+        check_elem(*rit);
+        ASSERT_EQ(*rit,C[C.size()-1-current]);
+        ASSERT_EQ(*rit,*(C.rbegin()+current));
     }
 }
 
