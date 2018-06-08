@@ -54,7 +54,7 @@ void dumb_advance(Iter& it, difference_type distance)
 }
 
 template <class Container, class CheckElement>
-void test_bidirectional_iteration(const Container& C, CheckElement&& check_elem)
+void test_advance_iterator(const Container& C, CheckElement&& check_elem)
 {
     int n = C.size();
     
@@ -79,9 +79,21 @@ void test_bidirectional_iteration(const Container& C, CheckElement&& check_elem)
         ASSERT_EQ(*it,C[current]);
         ASSERT_EQ(*it,*(C.begin() + current));
     }
+}
+
+template <class Container, class CheckElement>
+void test_advance_reverse_iterator(const Container& C, CheckElement&& check_elem)
+{
+    int n = C.size();
+    
+    if (n <= 0)
+        return;
+    
+    int num_times = 2*n;
     
     auto rit = C.rbegin();
-    current = 0;
+    int current = 0;
+
     for (auto t : dscr::NN(num_times))
     {
         int target = dscr::random::random_int(0,n);
@@ -98,6 +110,7 @@ void test_bidirectional_iteration(const Container& C, CheckElement&& check_elem)
     }
 }
 
+
 template <class Container, class CheckElement>
 void test_container_full(const Container& C, CheckElement&& check_elem)
 {
@@ -105,5 +118,6 @@ void test_container_full(const Container& C, CheckElement&& check_elem)
     
     test_reverse_iteration(C,std::forward<CheckElement>(check_elem));
     
-    test_bidirectional_iteration(C,std::forward<CheckElement>(check_elem));
+    test_advance_iterator(C,std::forward<CheckElement>(check_elem));
+    test_advance_reverse_iterator(C,std::forward<CheckElement>(check_elem));
 }
