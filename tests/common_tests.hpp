@@ -5,7 +5,7 @@
 #include "IntegerInterval.hpp"
 
 template <class Container, class CheckElement>
-void randomaccess_forward_test(const Container& C, CheckElement&& check_elem)
+void test_forward_iteration(const Container& C, CheckElement&& check_elem)
 {
     int i = 0;
     for (auto c : C)
@@ -22,7 +22,7 @@ void randomaccess_forward_test(const Container& C, CheckElement&& check_elem)
 }
 
 template <class Container, class CheckElement>
-void randomaccess_reverse_test(const Container& C, CheckElement&& check_elem)
+void test_reverse_iteration(const Container& C, CheckElement&& check_elem)
 {
     int i = C.size()-1;
     for (auto it = C.rbegin(); it != C.rend(); ++it)
@@ -54,7 +54,7 @@ void dumb_advance(Iter& it, difference_type distance)
 }
 
 template <class Container, class CheckElement>
-void randomaccess_bidir_test(const Container& C, CheckElement&& check_elem)
+void test_bidirectional_iteration(const Container& C, CheckElement&& check_elem)
 {
     int n = C.size();
     
@@ -81,11 +81,11 @@ void randomaccess_bidir_test(const Container& C, CheckElement&& check_elem)
 }
 
 template <class Container, class CheckElement>
-void randomaccess_full_test(const Container& C, CheckElement&& check_elem)
+void test_container_full(const Container& C, CheckElement&& check_elem)
 {
-    randomaccess_forward_test(C,std::forward<CheckElement>(check_elem));
+    test_forward_iteration(C,std::forward<CheckElement>(check_elem));
     
-    randomaccess_reverse_test(C,std::forward<CheckElement>(check_elem));
+    test_reverse_iteration(C,std::forward<CheckElement>(check_elem));
     
-    randomaccess_bidir_test(C,std::forward<CheckElement>(check_elem));
+    test_bidirectional_iteration(C,std::forward<CheckElement>(check_elem));
 }

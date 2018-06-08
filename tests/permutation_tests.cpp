@@ -34,7 +34,7 @@ TEST(Permutations, FullTests)
     for (int n = 0; n < 7; ++n)
     {
         auto P = permutations(n);
-        randomaccess_full_test(P,[&P](auto& p) 
+        test_container_full(P,[&P](auto& p) 
         {
             check_permutation(P,p);
         });

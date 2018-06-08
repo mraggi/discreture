@@ -33,7 +33,7 @@ TEST(CombinationTree, FullIterationTests)
         for (short k = 0; k <= n + 1; ++k) // even k+1
         {
             auto X = combination_tree(n, k);
-            randomaccess_full_test(X, [&X,n,k](const auto& x)
+            test_container_full(X, [&X,n,k](const auto& x)
             {
                 check_combination_tree(X,x,n,k);
             });
