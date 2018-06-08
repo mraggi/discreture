@@ -142,7 +142,7 @@ Within this library, one can construct a few combinatorial objects, such as:
 
 All follow the same design principle: The templated class is called `SomethingOrOther<...>`, with CamelCase notation, and there is either a function or a typedef for the simplest template parameters. However, most of the time you'll be using the `small_case_notation` version, which either is a typedef or a function with sensible parameters.
 
-For example, `partitions` is a typedef of `Partitions<int, vector<int>>`, but `combinations` is a function with two versions, depending on the arguments. It returns either an object of type `Combinations<T, vector<T>>` or `CompoundContainer</*some template parameters*/>`, depending on which arguments are passed. For example, 
+For example, `partitions` is a typedef of `Partitions<int, vector<int>>`, but `combinations` is a function with two versions, depending on the arguments. It returns either an object of type `Combinations<T, vector<T>>` or `CompoundContainer</*some template parameters*/>`, depending on which arguments are passed. Note that there is currently no support for detecting repeats. So `combinations("aabc"s,2)` has `ab` two times.
 
 Some tests show that on different machines different types produce faster code, so even if you don't need numbers bigger than 127 it might be a good idea to use `int` or `long` rather than `char`. 
 
