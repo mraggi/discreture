@@ -730,9 +730,10 @@ private:
 
 }; // end class CombinationTree
 
-template <class IntType, typename = EnableIfIntegral<IntType>>
-auto combination_tree(IntType n, IntType k)
+template <class IntTypeN, class IntTypeK, typename = EnableIfIntegral<IntTypeN>>
+auto combination_tree(IntTypeN n, IntTypeK k)
 {
+    using IntType = std::common_type_t<IntTypeN, IntTypeK>;
     return CombinationTree<IntType>(n, k);
 }
 

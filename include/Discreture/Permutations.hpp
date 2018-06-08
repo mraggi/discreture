@@ -176,7 +176,7 @@ public:
     /// \note This constructs the proper index from scratch. If an iterator is
     /// already known, calling ID() on the iterator is much more efficient.
     /////////////////////////////////////////////////////////////////////////////
-    size_type get_index(const permutation& perm, size_type start = 0) const
+    static size_type get_index(const permutation& perm, size_type start = 0)
     {
         size_type n = perm.size();
 
@@ -210,6 +210,17 @@ public:
     }
 
     ////////////////////////////////////////////////////////////
+    /// \brief Get an iterator whose current value is p
+    ///
+    /// \param p the wanted permutation
+    /// \return An iterator currently "pointing" at p.
+    ////////////////////////////////////////////////////////////
+    iterator get_iterator(const permutation& p) const
+    {
+        return iterator(p);
+    }
+    
+    ////////////////////////////////////////////////////////////
     /// \brief Random access iterator class. It's much more efficient as a
     /// bidirectional iterator than purely random access.
     ////////////////////////////////////////////////////////////
@@ -223,6 +234,9 @@ public:
         {
             std::iota(data_.begin(), data_.end(), 0);
         }
+        
+        explicit iterator(const permutation& p) : ID_(get_index(p)), last_(p.size() - 1), data_(p)
+        {}
 
         inline bool is_at_end() const { return ID_ == factorial(last_ + 1); }
 

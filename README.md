@@ -128,7 +128,7 @@ Within this library, one can construct a few combinatorial objects, such as:
   - **Partitions**: Numbers that add up to a given number.
     - Example: `{6,4,1}, {3,3,3,1,1}` in `partitions(11)`
   - **Set Partitions**: Partitions of {0,...,n-1} into disjoint sets.
-    - Example: `{{0,2}, {1,3}}` in `set_partitions(4)`
+    - Example: `{ {0,2}, {1,3} }` in `set_partitions(4)`
   - **Multisets**: How many to take of each index?
     - Example: `{2,1,3}, {0,1,1}` in `multisets([3,1,3])`
   - **Dyck Paths**: From (0,0) to (2n,0) but y is never negative and always goes either up or down.
