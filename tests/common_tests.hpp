@@ -5,7 +5,7 @@
 #include "Probability.hpp"
 
 template <class Container, class CheckElement>
-void test_forward_iteration(const Container& C, CheckElement&& check_elem)
+void test_forward_iteration(const Container& C, CheckElement check_elem)
 {
     int i = 0;
     for (auto c : C)
@@ -22,7 +22,7 @@ void test_forward_iteration(const Container& C, CheckElement&& check_elem)
 }
 
 template <class Container, class CheckElement>
-void test_reverse_iteration(const Container& C, CheckElement&& check_elem)
+void test_reverse_iteration(const Container& C, CheckElement check_elem)
 {
     int i = C.size() - 1;
     for (auto it = C.rbegin(); it != C.rend(); ++it)
@@ -54,7 +54,7 @@ void dumb_advance(Iter& it, difference_type distance)
 }
 
 template <class Container, class CheckElement>
-void test_advance_iterator(const Container& C, CheckElement&& check_elem)
+void test_advance_iterator(const Container& C, CheckElement check_elem)
 {
     int n = C.size();
 
@@ -82,8 +82,7 @@ void test_advance_iterator(const Container& C, CheckElement&& check_elem)
 }
 
 template <class Container, class CheckElement>
-void test_advance_reverse_iterator(const Container& C,
-                                   CheckElement&& check_elem)
+void test_advance_reverse_iterator(const Container& C, CheckElement check_elem)
 {
     int n = C.size();
 
@@ -112,12 +111,12 @@ void test_advance_reverse_iterator(const Container& C,
 }
 
 template <class Container, class CheckElement>
-void test_container_full(const Container& C, CheckElement&& check_elem)
+void test_container_full(const Container& C, CheckElement check_elem)
 {
-    test_forward_iteration(C, std::forward<CheckElement>(check_elem));
+    test_forward_iteration(C, check_elem);
 
-    test_reverse_iteration(C, std::forward<CheckElement>(check_elem));
+    test_reverse_iteration(C, check_elem);
 
-    test_advance_iterator(C, std::forward<CheckElement>(check_elem));
-    test_advance_reverse_iterator(C, std::forward<CheckElement>(check_elem));
+    test_advance_iterator(C, check_elem);
+    test_advance_reverse_iterator(C, check_elem);
 }
