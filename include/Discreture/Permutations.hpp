@@ -215,11 +215,8 @@ public:
     /// \param p the wanted permutation
     /// \return An iterator currently "pointing" at p.
     ////////////////////////////////////////////////////////////
-    iterator get_iterator(const permutation& p) const
-    {
-        return iterator(p);
-    }
-    
+    iterator get_iterator(const permutation& p) const { return iterator(p); }
+
     ////////////////////////////////////////////////////////////
     /// \brief Random access iterator class. It's much more efficient as a
     /// bidirectional iterator than purely random access.
@@ -234,8 +231,9 @@ public:
         {
             std::iota(data_.begin(), data_.end(), 0);
         }
-        
-        explicit iterator(const permutation& p) : ID_(get_index(p)), last_(p.size() - 1), data_(p)
+
+        explicit iterator(const permutation& p)
+            : ID_(get_index(p)), last_(p.size() - 1), data_(p)
         {}
 
         inline bool is_at_end() const { return ID_ == factorial(last_ + 1); }

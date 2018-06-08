@@ -36,16 +36,15 @@ TEST(IntegerInterval, ForwardIteration)
 
 TEST(IntegerInterval, Empty)
 {
-    auto I = integer_interval(5,4);
+    auto I = integer_interval(5, 4);
     ASSERT_EQ(I.size(), 0);
     for (auto i : I)
         ASSERT_FALSE(true);
-    
+
     auto J = integer_interval(-8);
     ASSERT_EQ(J.size(), 0);
     for (auto i : J)
         ASSERT_FALSE(true);
-    
 }
 
 TEST(IntegerInterval, PartitionPoint)

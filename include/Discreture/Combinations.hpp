@@ -260,7 +260,7 @@ public:
     static inline void construct_combination(combination& data, size_type m)
     {
         IntType k = data.size();
-        
+
         // this is the biggest for which binomial is still well defined.
         // Hopefully it's enough for most use cases.
         size_type upper = 68;
@@ -344,10 +344,7 @@ public:
 
     iterator begin() const { return iterator(n_, k_); }
 
-    const iterator end() const
-    {
-        return iterator(size());
-    }
+    const iterator end() const { return iterator(size()); }
 
     ////////////////////////////////////////////////////////////
     /// \brief Access to the m-th combination (slow for iteration)

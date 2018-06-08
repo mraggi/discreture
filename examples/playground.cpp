@@ -1,6 +1,5 @@
 // This file is my personal playground. I just use it to test stuff out
 
-
 #include "Combinations.hpp"
 
 using namespace std;

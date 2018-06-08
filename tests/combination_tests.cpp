@@ -1,6 +1,6 @@
 #include "Combinations.hpp"
-#include "common_tests.hpp"
 #include "IntegerInterval.hpp"
+#include "common_tests.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 
@@ -8,7 +8,10 @@ using namespace std;
 using namespace dscr;
 
 template <class combinations>
-void check_combination(const combinations& X, const typename combinations::combination& x, int n, int k)
+void check_combination(const combinations& X,
+                       const typename combinations::combination& x,
+                       int n,
+                       int k)
 {
     ASSERT_TRUE(std::is_sorted(x.begin(), x.end()));
     ASSERT_EQ(x.size(), k);
@@ -17,12 +20,11 @@ void check_combination(const combinations& X, const typename combinations::combi
         ASSERT_TRUE(x.front() >= 0);
         ASSERT_TRUE(x.back() < n);
     }
-    
+
     auto index = X.get_index(x);
-    ASSERT_EQ(x,X[index]);
-    ASSERT_EQ(X.get_iterator(x),X.begin()+index);
-    ASSERT_EQ(*X.get_iterator(x),x);
-    
+    ASSERT_EQ(x, X[index]);
+    ASSERT_EQ(X.get_iterator(x), X.begin() + index);
+    ASSERT_EQ(*X.get_iterator(x), x);
 }
 
 TEST(Combinations, FullIterationTests)
@@ -33,10 +35,8 @@ TEST(Combinations, FullIterationTests)
         for (short k = 0; k <= n + 1; ++k) // even k+1
         {
             auto X = combinations(n, k);
-            test_container_full(X, [&X,n,k](const auto& x)
-            {
-                check_combination(X,x,n,k);
-            });
+            test_container_full(
+              X, [&X, n, k](const auto& x) { check_combination(X, x, n, k); });
             total += X.size();
         }
         ASSERT_EQ(total, 1 << n);
@@ -57,10 +57,10 @@ TEST(Combinations, ForEach)
             });
         }
     }
-    
+
     for (int n = 10; n < 23; ++n)
     {
-        for (int k = n-3; k <= n; ++k)
+        for (int k = n - 3; k <= n; ++k)
         {
             auto X = combinations(n, k);
             auto it = X.begin();
@@ -184,13 +184,13 @@ TEST(Combinations, PartitionPoint)
 
     ASSERT_EQ(comb[k - 1], 56);
     ASSERT_EQ(comb[k - 2], k - 2);
-    check_combination(X,comb, n, k);
+    check_combination(X, comb, n, k);
 
     auto rcomb = *std::partition_point(
       X.rbegin(), X.rend(), [](const auto& x) { return x.back() > 47; });
 
     // rcomb should be == to {18, 19, ..., 46, 47}
-    check_combination(X,rcomb, n, k);
+    check_combination(X, rcomb, n, k);
     ASSERT_EQ(rcomb.back(), 47);
     ASSERT_EQ(rcomb.front(), 18);
 }

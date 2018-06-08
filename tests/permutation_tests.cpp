@@ -19,14 +19,15 @@ bool is_permutation(permutation x)
 }
 
 template <class permutations>
-void check_permutation(const permutations& P, typename permutations::permutation const& p)
+void check_permutation(const permutations& P,
+                       typename permutations::permutation const& p)
 {
     ASSERT_TRUE(is_permutation(p));
     int index = P.get_index(p);
     auto it = P.get_iterator(p);
-    ASSERT_EQ(*it,p);
+    ASSERT_EQ(*it, p);
     ASSERT_EQ(p, P[index]);
-    ASSERT_EQ(it,P.begin()+index);
+    ASSERT_EQ(it, P.begin() + index);
 }
 
 TEST(Permutations, FullTests)
@@ -34,10 +35,7 @@ TEST(Permutations, FullTests)
     for (int n = 0; n < 7; ++n)
     {
         auto P = permutations(n);
-        test_container_full(P,[&P](auto& p) 
-        {
-            check_permutation(P,p);
-        });
+        test_container_full(P, [&P](auto& p) { check_permutation(P, p); });
     }
 }
 
@@ -52,7 +50,7 @@ TEST(Permutations, PartitionPoint)
 
     // perm should be == to {17,0,1,2,...,16,18,19}
 
-//     check_permutation(perm);
+    //     check_permutation(perm);
     ASSERT_EQ(perm[0], 17);
     ASSERT_TRUE(std::is_sorted(perm.begin() + 1, perm.end()));
 
@@ -63,7 +61,7 @@ TEST(Permutations, PartitionPoint)
 
     // rperm should be == to {5,19,18,...,0}
 
-//     check_permutation(rperm);
+    //     check_permutation(rperm);
     ASSERT_EQ(rperm[0], 5);
     ASSERT_TRUE(
       std::is_sorted(rperm.begin() + 1, rperm.end(), std::greater<int>()));

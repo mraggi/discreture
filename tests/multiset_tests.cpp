@@ -35,7 +35,8 @@ TEST(Multisets, FullTests)
     {
         auto total = get_random_multiset(n);
         multisets X(total);
-        test_container_full(X,[&total](const auto& x){ check_multiset(x,total); });
+        test_container_full(
+          X, [&total](const auto& x) { check_multiset(x, total); });
     }
 }
 

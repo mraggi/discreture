@@ -8,7 +8,10 @@ using namespace std;
 using namespace dscr;
 
 template <class combinations>
-void check_combination_tree(const combinations& X, const typename combinations::combination& x, int n, int k)
+void check_combination_tree(const combinations& X,
+                            const typename combinations::combination& x,
+                            int n,
+                            int k)
 {
     ASSERT_TRUE(std::is_sorted(x.begin(), x.end()));
     ASSERT_EQ(x.size(), k);
@@ -17,12 +20,11 @@ void check_combination_tree(const combinations& X, const typename combinations::
         ASSERT_TRUE(x.front() >= 0);
         ASSERT_TRUE(x.back() < n);
     }
-    
+
     auto index = X.get_index(x);
-    ASSERT_EQ(x,X[index]);
-    ASSERT_EQ(X.get_iterator(x),X.begin()+index);
-    ASSERT_EQ(*X.get_iterator(x),x);
-    
+    ASSERT_EQ(x, X[index]);
+    ASSERT_EQ(X.get_iterator(x), X.begin() + index);
+    ASSERT_EQ(*X.get_iterator(x), x);
 }
 
 TEST(CombinationTree, FullIterationTests)
@@ -33,9 +35,8 @@ TEST(CombinationTree, FullIterationTests)
         for (short k = 0; k <= n + 1; ++k) // even k+1
         {
             auto X = combination_tree(n, k);
-            test_container_full(X, [&X,n,k](const auto& x)
-            {
-                check_combination_tree(X,x,n,k);
+            test_container_full(X, [&X, n, k](const auto& x) {
+                check_combination_tree(X, x, n, k);
             });
             total += X.size();
         }
@@ -57,10 +58,10 @@ TEST(CombinationTree, ForEach)
             });
         }
     }
-    
+
     for (int n = 10; n < 23; ++n)
     {
-        for (int k = n-3; k <= n; ++k)
+        for (int k = n - 3; k <= n; ++k)
         {
             auto X = combination_tree(n, k);
             auto it = X.begin();
@@ -184,14 +185,14 @@ TEST(CombinationTree, PartitionPoint)
 
     ASSERT_EQ(comb.back(), 55);
     ASSERT_EQ(comb.front(), 26);
-    check_combination_tree(X,comb, n, k);
+    check_combination_tree(X, comb, n, k);
 
     auto rcomb = *std::partition_point(
       X.rbegin(), X.rend(), [](const auto& x) { return x.front() > 0; });
 
     // rcomb should be {0, 31,... , 59}
 
-    check_combination_tree(X,rcomb, n, k);
+    check_combination_tree(X, rcomb, n, k);
     ASSERT_EQ(rcomb[0], 0);
     ASSERT_EQ(rcomb[1], 31);
     ASSERT_EQ(rcomb.back(), 59);

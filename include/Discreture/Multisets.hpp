@@ -275,11 +275,11 @@ public:
         {
             size_type s = 1;
             for (auto x : *total_)
-                s *= (x+1);
+                s *= (x + 1);
             ID_ += m;
             construct_multiset(submulti_, *total_, s - ID_ - 1);
         }
-        
+
         const multiset& dereference() const { return submulti_; }
 
         // It only makes sense to compare iterators from the SAME multiset.
