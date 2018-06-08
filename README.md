@@ -120,25 +120,25 @@ To use the library, after compiling, just add `#include <discreture.hpp>` to you
 
 Within this library, one can construct a few combinatorial objects, such as:
   - **Combinations**: Subsets of a specific size of either a given set or {0,1,...,n-1}:
-    - Example: {0,3,4}, {0,1,5} in `combinations(6,3)`
-    - Example2: {'a','b','c'}, {'a','c','d'} in `combinations("abcdef"s,3)`
+    - Example: `{0,3,4}, {0,1,5}` in `combinations(6,3)`
+    - Example2: `{'a','b','c'}, {'a','c','d'}` in `combinations("abcdef"s,3)`
   - **Permutations**: A permutation of a collection is a reordering of all the elements of *C*.
-    - Example: [0,1,2], [2,0,1] in `permutations(3)`
-    - Example2 : ['a','b','c'], ['c','a','b'] in `permutations("abc"s)`
+    - Example: `[0,1,2], [2,0,1]` in `permutations(3)`
+    - Example2 : `['a','b','c'], ['c','a','b']` in `permutations("abc"s)`
   - **Partitions**: Numbers that add up to a given number.
-    - Example: {6,4,1}, {3,3,3,1,1} in `partitions(11)`
+    - Example: `{6,4,1}, {3,3,3,1,1}` in `partitions(11)`
   - **Set Partitions**: Partitions of {0,...,n-1} into disjoint sets.
-    - Example: {{0,2}, {1,3}} in `set_partitions(4)`
+    - Example: `{{0,2}, {1,3}}` in `set_partitions(4)`
   - **Multisets**: How many to take of each index?
-    - Example: {2,1,3}, {0,1,1} in `multisets([3,1,3])`
+    - Example: `{2,1,3}, {0,1,1}` in `multisets([3,1,3])`
   - **Dyck Paths**: From (0,0) to (2n,0) but y is never negative and always goes either up or down.
-    - Example: [1,1,-1,1,-1,-1] in `dyck_paths(3)`. Note no partial sum is less than 0.
+    - Example: `[1,1,-1,1,-1,-1]` in `dyck_paths(3)`. Note no partial sum is less than 0.
   - **Motzkin Paths**: Like dyck paths but allowing 0's.
-    - Example: [1,0,-1,1,1,-1,0,-1] in `motzkin_paths(9)`
+    - Example: `[1,0,-1,1,1,-1,0,-1]` in `motzkin_paths(9)`
   - **Integer Intervals**: A (lazy) closed-open interval of integers.
     - Example: `integer_interval(4,8)` = {4,5,6,7}
   - **Arithmetic Progression**: A (lazy) set of the form {a,a+d,a+2d,...,a+kd}.
-    - Example: {1,4,7} in `arithmetic_progression()`
+    - Example: `{1,4,7}` in `arithmetic_progression()`
 
 All follow the same design principle: The templated class is called `SomethingOrOther<...>`, with CamelCase notation, and there is either a function or a typedef for the simplest template parameters. However, most of the time you'll be using the `small_case_notation` version, which either is a typedef or a function with sensible parameters.
 
