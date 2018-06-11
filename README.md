@@ -17,13 +17,13 @@ This library is provided as a header-only library and has been tested on Linux. 
 ```c++
 #include <iostream>
 #include <discreture.hpp>
+
+using dscr::operator<<;
+
 int main()
 {
-	using namespace std;
-	using namespace dscr; //for expository purposes.
-	
-	for (auto& x : combinations(5,3))
-		cout << x << endl;
+	for (auto& x : dscr::combinations(5,3))
+		std::cout << x << std::endl;
 	
 	return 0;
 }
@@ -149,7 +149,7 @@ Some tests show that on different machines different types produce faster code, 
 # Basic usage
 
 ```c++
-auto X = combinations(30,10); //all subsets of size 10 of {0,1,2,...,29}
+auto X = dscr::combinations(30,10); //all subsets of size 10 of {0,1,2,...,29}
 for (auto& x : X) 
 { 
 	// x is of type const vector<int>&, so anything that works with 
@@ -169,7 +169,7 @@ for (auto it = X.rbegin(); it != X.rend(); ++it)
 
 Combinations, permutations and multisets are a random-access container (although they are MUCH slower as such than forward or reverse iteration), so something like this works too:
 ```c++
-auto X = combinations(30,10);
+auto X = dscr::combinations(30,10);
 auto comb = X[10000]; //produces the 10,000-th combination.
 ```
 
@@ -185,7 +185,7 @@ However, iterator arithmetic is implemented, so one could even do binary search 
 ```c++
 #include <algorithm>
 // ...
-auto X = combinations(30,10);
+auto X = dscr::combinations(30,10);
 std::partition_point(X.begin(), X.end(), predicate);
 ```
 where `predicate` is a unary predicate that takes a `const combinations::combination&` as an argument and returns true or false, in a way that for all the first combinations it returns true and the last ones return false.
@@ -201,7 +201,8 @@ After installing, let's start by creating a file called "combinations.cpp" and a
 #include <string>
 #include <discreture.hpp> // just include everything
 
-using namespace std; // don't do this in general!
+using namespace std::string_literals;
+using dscr::operator<<;
 
 int main()
 {
@@ -233,7 +234,7 @@ For example, suppose you wanted to see all ways to add up to 20 with at most 6 n
 #include <Discreture/Partitions.hpp>
 #include <Discreture/VectorHelpers.hpp>
 
-using namespace dscr;
+using dscr::operator<<;
 
 bool is_perfect_square(int n) 
 {
@@ -245,7 +246,6 @@ bool is_perfect_square(int n)
 
 int main()
 {
-	
 	auto X = dscr::partitions(20,1,6);
 	for (auto& x : X)
 	{
@@ -273,11 +273,11 @@ Combinations is the most mature part of the library, and some backtracking funct
 #include <vector>
 #include <discreture.hpp>
 
+using dscr::operator<<;
+
 int main()
 {
-	using namespace dscr;
-	using namespace std;
-	auto X = combinations(10,3);
+	auto X = dscr::combinations(10,3);
 	
 	// T will be an iterable object whose elements are the combinations that satisfy the predicate specified by the lambda function.
 	// In this case, the lambda checks that the next to last element divides the last element.
@@ -293,7 +293,7 @@ int main()
 		return (comb[k-1]%comb[k-2] == 0);
 	});
 	for (auto& t : T)
-		cout << t << endl;
+		std::cout << t << std::endl;
 }
 ```
 
