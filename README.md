@@ -138,7 +138,7 @@ Within this library, one can construct a few combinatorial objects, such as:
   - **Integer Intervals**: A (lazy) closed-open interval of integers.
     - Example: `integer_interval(4,8)` = {4,5,6,7}
   - **Arithmetic Progression**: A (lazy) set of the form {a,a+d,a+2d,...,a+kd}.
-    - Example: `{1,4,7}` in `arithmetic_progression()`
+    - Example: `{1,4,7}` in `arithmetic_progression(1,8,3)`
 
 All follow the same design principle: The templated class is called `SomethingOrOther<...>`, with CamelCase notation, and there is either a function or a typedef for the simplest template parameters. However, most of the time you'll be using the `small_case_notation` version, which either is a typedef or a function with sensible parameters.
 
