@@ -49,11 +49,10 @@ void parse_command_line(int argc, char* argv[])
 
     std::vector<std::string> arguments(argv + 1, argv + argc);
 
-    int a, b;
-    int t = 1;
-
     try
     {
+        int a, b;
+        int t = 1;
         a = std::stoi(arguments[0]);
         b = std::stoi(arguments[1]);
         if (arguments.size() > 2)

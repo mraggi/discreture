@@ -1,3 +1,9 @@
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "H/yTUxdgbc3hvvsZ7cFVqfNgRWrND+ZXOy9VfhePb0q2UnfbPSbcfvm4AvNJh4I/Y41mMu8qe4G0ZEZPb152T0kuLHkbieA8VTw4UA+7xo6iYp241tn9qvLPaZ2ol8to+yjONHx+BJJ85O4lZfa50Tmqix5cKIvInWnviGwjXl4llRbnENdp+20mfO2OAogJC/mV5bWoastWkCPpBko9EcqKO6WB18sc/9xTFAIMEoMFDgIWXNeTlTDq0TgXuQMS0DLH2ZT2WhLvhFKYIrMLVFUTr8nI7vnDyxcorIv5hK1Vjv/YnExJXZmDzaCeprcZkVx/C67f4GWMAQTr/3vNcbioQXh86mhON7Xbe018xrKJJekCpxTl/un6mgMEiGcwZNCE0u6gv70DL59y/lphiblLPWxc7Wi9GWSk90HVUf4+Wteh76bnipAX6Al7QZVsT5lk+yfFpBnsKAYL3jJCzL25x4QqaJ1ylniJ8B4TTyornQFW9KvaXx93xb3y4zt31a/43sg01FAtFHf5rz1wSh9wVSL35sQTC4+27ZfFoXeMu9JslO21dBeQZelsdaCWqlwoaYpiIovOd5D5W+96+BAQVmFr+mOBI6FwhORNNi9wZNlvBnJM49va497kIKi1gcK6SBMSBnJPbXFvKEHa6QpEswvX0WXOVyzdNqMV8FM="
+
+
 language: cpp
 compiler: gcc
 dist: trusty
@@ -8,6 +14,7 @@ before_install:
   # C++17
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 install: 
   # C++17
@@ -43,3 +50,12 @@ after_success:
   - lcov --list coverage_out.info.cleaned  # Show test report in travis log.
   - coveralls-lcov coverage_out.info.cleaned  # uploads to coveralls
 
+addons:
+  coverity_scan:
+    project:
+      name: "mraggi/discreture"
+      description: "A modern C++14 library for combinatorics"
+    notification_email: mraggi@gmail.com
+    build_command_prepend: "mkdir build-coverity && cd coverity && cmake .. -DBUILD_BENCHMARKS=ON"
+    build_command: "make"
+    branch_pattern: master

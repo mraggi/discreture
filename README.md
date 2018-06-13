@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/mraggi/discreture.svg?branch=master)](https://travis-ci.org/mraggi/discreture)
 [![Coverage Status](https://coveralls.io/repos/github/mraggi/discreture/badge.svg?branch=master)](https://coveralls.io/github/mraggi/discreture?branch=master)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitlab.com/miguelraggi/discreture/raw/master/LICENSE)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d660abad682941f1a02518c6fff77c0f)](https://www.codacy.com/app/mraggi/discreture?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mraggi/discreture&amp;utm_campaign=Badge_Grade)
+
 
 
 
