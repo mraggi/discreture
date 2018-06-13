@@ -19,12 +19,12 @@ void check_multiset(const multisets::multiset& x,
     }
 }
 
-std::vector<int> get_random_multiset(int n)
+std::vector<int> get_random_multiset(int n, int max_num = 3)
 {
     std::vector<int> result(n);
 
-    std::generate(result.begin(), result.end(), []() {
-        return random::random_int(0, 3);
+    std::generate(result.begin(), result.end(), [max_num]() {
+        return random::random_int(0, max_num);
     });
 
     return result;
@@ -47,6 +47,13 @@ TEST(Multisets, ForEach)
     for (int n = 0; n < 12; ++n)
     {
         auto total = get_random_multiset(n);
+        multisets X(total);
+        test_container_foreach(X);
+    }
+    
+    for (int n = 12; n < 22; ++n)
+    {
+        auto total = get_random_multiset(n,2);
         multisets X(total);
         test_container_foreach(X);
     }
