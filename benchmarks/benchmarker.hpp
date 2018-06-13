@@ -4,6 +4,7 @@
 #include "TimeHelpers.hpp"
 #include "do_not_optimize.hpp"
 #include "external/rang.hpp"
+#include "Parallel.hpp"
 #include <iomanip>
 #include <iostream>
 #include <string>
@@ -30,6 +31,36 @@ double FWIterationBenchmark(const Container& A)
         {
             DoNotOptimize(a);
         }
+    });
+}
+
+template <class Container>
+double ParallelBenchmark(const Container& X, int num_processors)
+{
+    return Benchmark([&X,num_processors]() {
+        auto work = dscr::divide_work(X.begin(), X.end(), num_processors);
+
+        std::vector<std::thread> threads;
+        threads.reserve(num_processors);
+
+        for (size_t i = 0; i < num_processors; ++i)
+        {
+            threads.emplace_back(std::thread([&work, i]() {
+                auto local_first = work[i];
+                auto local_last = work[i + 1];
+                for (; local_first != local_last; ++local_first)
+                {
+                    // Do something with *local_first;
+                    DoNotOptimize(*local_first);
+                }
+            }));
+        }
+
+        for (auto& t : threads)
+        {
+            t.join();
+        }
+        
     });
 }
 

@@ -7,17 +7,14 @@
 using std::cout;
 using std::endl;
 
-using dscr::binomial;
-using std::operator""s;
+constexpr int n = 40;
+constexpr int k = 10;
+constexpr int construct = 1000000;
 
 void bench_combinations()
 {
-    constexpr int n = 40;
-    constexpr int k = 10;
-    constexpr int construct = 1000000;
-
-    auto CF = dscr::combinations_stack(n, k);
     auto C = dscr::combinations(n, k);
+    auto CF = dscr::combinations_stack(n, k);
 
     cout << ProduceRowForEach("Combinations", C);
     cout << ProduceRowForEach("Combinations Stack", CF);
@@ -31,10 +28,6 @@ void bench_combinations()
 
 void bench_comb_tree()
 {
-    constexpr int n = 40;
-    constexpr int k = 10;
-    constexpr int construct = 1000000;
-
     auto CT = dscr::combination_tree(n, k);
     auto CTF = dscr::combination_tree_stack(n, k);
 
@@ -47,7 +40,7 @@ void bench_comb_tree()
 #ifdef TEST_GSL_COMBINATIONS
     cout << BenchRow("Combinations Tree GSL",
                      Benchmark([]() { BM_CombinationTreeGSL(n, k); }),
-                     binomial<std::int64_t>(n, k));
+                     dscr::binomial<std::int64_t>(n, k));
 #endif
     cout << ProduceRowConstruct("Combinations Tree", CT, construct);
     cout << ProduceRowConstruct("Combinations Tree Stack", CTF, construct);

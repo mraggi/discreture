@@ -20,6 +20,7 @@ if (cmake_build_type_tolower STREQUAL "coverage")
 endif()
 
 find_package(Boost REQUIRED)
+find_package(Threads)
 
 # Set version number (change as needed). These definitions are available
 # by including "exampleConfig.h" in the source. 
@@ -131,7 +132,6 @@ if(${BUILD_EXAMPLES})
 	add_executable(multisets examples/multisets.cpp)
 	add_executable(playground examples/playground.cpp)
 	add_executable(tutorial examples/tutorial.cpp)
-    find_package(Threads)
     if (${CMAKE_USE_PTHREADS_INIT})
         add_executable(tutorial_parallel examples/tutorial_parallel.cpp)
         target_link_libraries(tutorial_parallel ${CMAKE_THREAD_LIBS_INIT})
@@ -154,9 +154,16 @@ if(BUILD_BENCHMARKS)
                                         benchmarks/dyckmotzkin.cpp
                                         benchmarks/partitions.cpp
                                         )
-	if (GSL_FOUND)
+    if (GSL_FOUND)
 		target_link_libraries(discreture_benchmark ${GSL_LIBRARIES})
 	endif()
+    
+    if (${CMAKE_USE_PTHREADS_INIT})
+        add_executable(parallel_benchmarks benchmarks/parallel/parallel_benchmarks.cpp)
+        target_link_libraries(parallel_benchmarks ${CMAKE_THREAD_LIBS_INIT})
+	endif()
+
+	
 endif()
 
 if(${BUILD_OLD_BENCHMARKS})
