@@ -65,8 +65,10 @@ public:
             if (data[i] - smallest > 1)
             {
                 --data[i];
-                distribute_unevenly(
-                  data.begin() + i + 1, data.end(), suffixSum + 1, data[i]);
+                distribute_unevenly(data.begin() + i + 1,
+                                    data.end(),
+                                    suffixSum + 1,
+                                    data[i]);
                 return;
             }
             suffixSum += data[i];
@@ -92,16 +94,18 @@ public:
             if (can_increase(data, i))
             {
                 ++data[i];
-                distribute_evenly(
-                  data.begin() + i + 1, data.end(), suffixSum - 1);
+                distribute_evenly(data.begin() + i + 1,
+                                  data.end(),
+                                  suffixSum - 1);
                 return;
             }
             suffixSum += data[i];
         }
     }
 
-    static void
-    first_with_given_number_of_parts(partition& data, IntType n, IntType k)
+    static void first_with_given_number_of_parts(partition& data,
+                                                 IntType n,
+                                                 IntType k)
     {
         if (n == 0)
         {
@@ -116,8 +120,9 @@ public:
         data[0] = n - k + 1;
     }
 
-    static void
-    last_with_given_number_of_parts(partition& data, IntType n, IntType k)
+    static void last_with_given_number_of_parts(partition& data,
+                                                IntType n,
+                                                IntType k)
     {
         if (n == 0)
         {
@@ -355,8 +360,9 @@ private:
         return partition_number(n, numparts);
     }
 
-    static size_type
-    calc_size(IntType n, IntType minnumparts, IntType maxnumparts)
+    static size_type calc_size(IntType n,
+                               IntType minnumparts,
+                               IntType maxnumparts)
     {
         size_type toReturn = 0;
         for (size_type k = minnumparts; k <= maxnumparts; ++k)
@@ -379,8 +385,7 @@ private:
     }
 
     template <class Iter>
-    static void
-    distribute_evenly(const Iter& first, const Iter& last, IntType n)
+    static void distribute_evenly(const Iter& first, const Iter& last, IntType n)
     {
         if (first == last)
             return;

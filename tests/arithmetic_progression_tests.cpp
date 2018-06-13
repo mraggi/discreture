@@ -1,5 +1,6 @@
 #include "ArithmeticProgression.hpp"
 #include "IntegerInterval.hpp"
+#include "Probability.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 
@@ -14,11 +15,10 @@ TEST(ArithmeticProgression, ForwardIteration)
         {
             arithmetic_progression R(n, m, -1);
             set<arithmetic_progression::value_type> S(R.begin(), R.end());
-            ASSERT_EQ(R.size(),
-                      S.size()); // This checks everything is different.
+            // This checks everything is different.
+            ASSERT_EQ(R.size(), S.size());
             ASSERT_EQ(R.size(), n - m);
-            ASSERT_TRUE(
-              std::is_sorted(R.begin(), R.end(), std::greater<int>()));
+            ASSERT_TRUE(std::is_sorted(R.begin(), R.end(), std::greater<int>()));
             ASSERT_EQ(*R.begin(), n);
             ASSERT_EQ(*(R.end() - 1), m + 1);
         }
@@ -45,26 +45,21 @@ TEST(ArithmeticProgression, RandomAccess)
 
 TEST(ArithmeticProgression, Empty)
 {
-    ArithmeticProgression<int> A(5, 3, 2);
-
-    ASSERT_EQ(A.size(), 0);
-    for (auto a : A)
+    for (int i = 0; i < 100; ++i)
     {
-        ASSERT_FALSE(true);
-    }
-
-    ArithmeticProgression<int> B(5, 8, -2);
-    ASSERT_EQ(B.size(), 0);
-    for (auto b : B)
-    {
-        ASSERT_FALSE(true);
-    }
-
-    ArithmeticProgression<int> C(5, 5, 1);
-    ASSERT_EQ(C.size(), 0);
-    for (auto c : C)
-    {
-        ASSERT_FALSE(true);
+        int a = dscr::random::random_int(0, 100);
+        int b = dscr::random::random_int(0, 100);
+        int t = dscr::random::random_int(-100, 100);
+        if (t == 0)
+            continue;
+        if (t > 0 && a < b)
+            continue;
+        if (t < 0 && a > b)
+            continue;
+        auto X = arithmetic_progression(a, b, t);
+        ASSERT_EQ(X.size(), 0);
+        for (auto x : X)
+            ASSERT_FALSE(true);
     }
 }
 

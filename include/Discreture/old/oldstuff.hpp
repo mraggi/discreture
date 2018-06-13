@@ -15,8 +15,10 @@ namespace deprecated
     //////////////////////////////////////////
     /// \brief Helper function to linearize tables
     //////////////////////////////////////////
-    inline size_t
-    twoD_to_oneD(unsigned x, unsigned y, unsigned width, unsigned height)
+    inline size_t twoD_to_oneD(unsigned x,
+                               unsigned y,
+                               unsigned width,
+                               unsigned height)
     {
         x %= width;
         y %= height;
@@ -58,8 +60,8 @@ namespace deprecated
     /// [u,v] (extended to all reals, of course). \return f(x), where
     /// f:[a,b]->[u,v] is the only linear, monotone, biyective function.
     //////////////////////////////////////////
-    inline double
-    linear_interpolate(double x, double a, double b, double u, double v)
+    inline double linear_interpolate(
+      double x, double a, double b, double u, double v)
     {
         return (v - u)*(x - a)/(b - a) + u;
     }
@@ -159,10 +161,11 @@ namespace deprecated
 
         long& operator[](long p)
         {
-            auto it = std::partition_point(
-              m_prime_factors.begin(),
-              m_prime_factors.end(),
-              [p](const prime_to_power& p_a) { return p_a.p < p; });
+            auto it = std::partition_point(m_prime_factors.begin(),
+                                           m_prime_factors.end(),
+                                           [p](const prime_to_power& p_a) {
+                                               return p_a.p < p;
+                                           });
 
             if (it == m_prime_factors.end())
             {
@@ -182,10 +185,11 @@ namespace deprecated
 
         long operator[](long p) const
         {
-            auto it = std::partition_point(
-              m_prime_factors.begin(),
-              m_prime_factors.end(),
-              [p](const prime_to_power& p_a) { return p_a.p < p; });
+            auto it = std::partition_point(m_prime_factors.begin(),
+                                           m_prime_factors.end(),
+                                           [p](const prime_to_power& p_a) {
+                                               return p_a.p < p;
+                                           });
             if (it == m_prime_factors.end() || it->p != p)
                 return 0;
             return it->a;

@@ -171,8 +171,9 @@ public:
         explicit iterator(IntType n, IntType numparts)
             : ID_(0), data_(n), n_(n), num_partition()
         {
-            Partitions<IntType>::first_with_given_number_of_parts(
-              num_partition, n, numparts);
+            Partitions<IntType>::first_with_given_number_of_parts(num_partition,
+                                                                  n,
+                                                                  numparts);
             fill_first_set_partition(data_, num_partition);
         }
 
@@ -218,8 +219,9 @@ private:
 
 private:
     // Private static functions
-    static size_type
-    calc_size(IntType n, IntType minnumparts, IntType maxnumparts)
+    static size_type calc_size(IntType n,
+                               IntType minnumparts,
+                               IntType maxnumparts)
     {
         size_type toReturn = 0;
 
@@ -245,10 +247,9 @@ private:
         return -1;
     }
 
-    static difference_type
-    NextAcceptablePlaceToAdd(const set_partition& data,
-                             const number_partition& part,
-                             difference_type oldpos = -1)
+    static difference_type NextAcceptablePlaceToAdd(const set_partition& data,
+                                                    const number_partition& part,
+                                                    difference_type oldpos = -1)
     {
         // 			cout << "Finding if I can put the next number where " <<
         // endl;

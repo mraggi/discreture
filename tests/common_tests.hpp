@@ -120,3 +120,16 @@ void test_container_full(const Container& C, CheckElement check_elem)
     test_advance_iterator(C, check_elem);
     test_advance_reverse_iterator(C, check_elem);
 }
+
+template <class Container>
+void test_container_foreach(const Container& X)
+{
+    auto it = X.begin();
+    size_t size = 0;
+    X.for_each([&it, &size](const auto& x) {
+        ASSERT_EQ(x, *it);
+        ++it;
+        ++size;
+    });
+    ASSERT_EQ(size, X.size());
+}

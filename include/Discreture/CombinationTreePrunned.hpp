@@ -6,9 +6,7 @@
 
 namespace dscr
 {
-template <class IntType,
-          class Predicate,
-          class RAContainerInt = std::vector<IntType>>
+template <class IntType, class Predicate, class RAContainerInt = std::vector<IntType>>
 class CombinationTreePrunned
 {
 public:
@@ -156,8 +154,7 @@ private:
         return false;
     }
 
-    static bool
-    DFSUtil(combination& comb, Predicate pred, IntType n_, IntType k_)
+    static bool DFSUtil(combination& comb, Predicate pred, IntType n_, IntType k_)
     {
         // 			cout << "n,k = " << n_ << " " << k_ << endl;
         if (comb.size() < static_cast<size_t>(k_))

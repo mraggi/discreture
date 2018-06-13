@@ -12,8 +12,7 @@ namespace dscr
 {
 
 template <class RAIter>
-std::vector<RAIter>
-divide_work(RAIter first, RAIter last, size_t num_processors)
+std::vector<RAIter> divide_work(RAIter first, RAIter last, size_t num_processors)
 {
     auto n = std::distance(first, last);
 

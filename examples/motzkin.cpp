@@ -16,8 +16,8 @@ std::string parse_command_line(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 {
-    std::ios_base::sync_with_stdio(
-      false); // this makes terminal output a bit faster.
+    std::ios_base::sync_with_stdio(false); // this makes terminal output a bit
+                                           // faster.
 
     auto replacement_string = parse_command_line(argc, argv);
 

@@ -93,9 +93,8 @@ auto aggregation_view(const RAContainer& objects, RAIndexContainer&& indices)
 }
 
 template <class RAContainer, class RAIndexContainer>
-std::ostream&
-operator<<(std::ostream& os,
-           const AggregationView<RAContainer, RAIndexContainer>& A)
+std::ostream& operator<<(std::ostream& os,
+                         const AggregationView<RAContainer, RAIndexContainer>& A)
 {
     for (auto& a : A)
         os << a << ' ';

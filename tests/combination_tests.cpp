@@ -35,8 +35,9 @@ TEST(Combinations, FullIterationTests)
         for (short k = 0; k <= n + 1; ++k) // even k+1
         {
             auto X = combinations(n, k);
-            test_container_full(
-              X, [&X, n, k](const auto& x) { check_combination(X, x, n, k); });
+            test_container_full(X, [&X, n, k](const auto& x) {
+                check_combination(X, x, n, k);
+            });
             total += X.size();
         }
         ASSERT_EQ(total, 1 << n);
@@ -50,11 +51,7 @@ TEST(Combinations, ForEach)
         for (int k = 0; k <= n; ++k)
         {
             auto X = combinations(n, k);
-            auto it = X.begin();
-            X.for_each([&it](const decltype(X)::combination& x) {
-                ASSERT_EQ(x, *it);
-                ++it;
-            });
+            test_container_foreach(X);
         }
     }
 
@@ -63,11 +60,7 @@ TEST(Combinations, ForEach)
         for (int k = n - 3; k <= n; ++k)
         {
             auto X = combinations(n, k);
-            auto it = X.begin();
-            X.for_each([&it](const decltype(X)::combination& x) {
-                ASSERT_EQ(x, *it);
-                ++it;
-            });
+            test_container_foreach(X);
         }
     }
 }
@@ -177,8 +170,9 @@ TEST(Combinations, PartitionPoint)
     int n = 60;
     int k = 30;
     auto X = combinations(n, k);
-    auto comb = *std::partition_point(
-      X.begin(), X.end(), [](const auto& x) { return x.back() < 56; });
+    auto comb = *std::partition_point(X.begin(), X.end(), [](const auto& x) {
+        return x.back() < 56;
+    });
 
     // comb should be == to {0,1,2,...,28,56}
 
@@ -186,8 +180,9 @@ TEST(Combinations, PartitionPoint)
     ASSERT_EQ(comb[k - 2], k - 2);
     check_combination(X, comb, n, k);
 
-    auto rcomb = *std::partition_point(
-      X.rbegin(), X.rend(), [](const auto& x) { return x.back() > 47; });
+    auto rcomb = *std::partition_point(X.rbegin(), X.rend(), [](const auto& x) {
+        return x.back() > 47;
+    });
 
     // rcomb should be == to {18, 19, ..., 46, 47}
     check_combination(X, rcomb, n, k);

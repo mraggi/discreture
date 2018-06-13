@@ -14,25 +14,25 @@ namespace dscr
 
 namespace detail
 {
-    template <class combination, int index>
+    template <class combination, int _size>
     struct for_each_combination_tree
     {
         using idx = typename combination::value_type;
 
         template <class Func>
-        static void apply(idx n, Func&& f)
+        static void apply(idx n, Func f)
         {
-            combination x(index + 1);
-            apply(x, 0, 0, n - index, std::forward<Func>(f));
+            combination x(_size);
+            for_loop(x, 0, 0, n - _size + 1, f);
         }
 
         template <class Func>
-        static void apply(combination& x, idx i, idx a, idx b, Func&& f)
+        static void for_loop(combination& x, idx i, idx a, idx b, Func f)
         {
             for (x[i] = a; x[i] < b; ++x[i])
             {
-                for_each_combination_tree<combination, index - 1>::apply(
-                  x, i + 1, x[i] + 1, b + 1, std::forward<Func>(f));
+                for_each_combination_tree<combination, _size - 1>::for_loop(
+                  x, i + 1, x[i] + 1, b + 1, f);
             }
         }
     };
@@ -43,19 +43,16 @@ namespace detail
         using idx = typename combination::value_type;
 
         template <class Func>
-        static void apply(idx n, Func&& f)
+        static void apply(idx n, Func f)
         {
-            combination x(1);
-            apply(x, 0, 0, n, std::forward<Func>(f));
+            combination x(0);
+            for_loop(x, 0, 0, n, f);
         }
 
         template <class Func>
-        static void apply(combination& x, idx i, idx a, idx b, Func&& f)
+        static void for_loop(combination& x, idx i, idx a, idx b, Func f)
         {
-            for (x[i] = a; x[i] < b; ++x[i])
-            {
-                f(x);
-            }
+            f(x);
         }
     };
 } // namespace detail
@@ -296,8 +293,9 @@ public:
 
         inline size_type ID() const { return ID_; }
 
-        inline bool is_at_end(IntType n = -1)
-          const // not using n, just for compatibility with the combinations
+        inline bool is_at_end(IntType n = -1) const // not using n, just for
+                                                    // compatibility with the
+                                                    // combinations
         {
             IntType k = data_.size();
             return data_.front() == n_ - k;
@@ -316,12 +314,10 @@ public:
 
     private:
         explicit iterator(size_type id)
-            : ID_(id)
-            , n_()
-            , k_()
-            , s_()
-            , data_() {} // ending initializer: for id only. Do not use unless
-                         // you know what you are doing.
+            : ID_(id), n_(), k_(), s_(), data_() {} // ending initializer: for
+                                                    // id only. Do not use
+                                                    // unless you know what you
+                                                    // are doing.
 
         // prefix
         void increment()
@@ -619,9 +615,8 @@ public:
     template <class PartialPredicate>
     auto find_all(PartialPredicate pred)
     {
-        return CombinationTreePrunned<IntType,
-                                      PartialPredicate,
-                                      RAContainerInt>(n_, k_, pred);
+        return CombinationTreePrunned<IntType, PartialPredicate, RAContainerInt>(
+          n_, k_, pred);
     }
 
     template <class Func>
@@ -630,27 +625,27 @@ public:
         switch (k_)
         {
             // clang-format off
-        case 0: break;
-        case 1: detail::for_each_combination_tree<combination,0>::apply(n_,f); break;
-        case 2: detail::for_each_combination_tree<combination,1>::apply(n_,f); break;
-        case 3: detail::for_each_combination_tree<combination,2>::apply(n_,f); break;
-        case 4: detail::for_each_combination_tree<combination,3>::apply(n_,f); break;
-        case 5: detail::for_each_combination_tree<combination,4>::apply(n_,f); break;
-        case 6: detail::for_each_combination_tree<combination,5>::apply(n_,f); break;
-        case 7: detail::for_each_combination_tree<combination,6>::apply(n_,f); break;
-        case 8: detail::for_each_combination_tree<combination,7>::apply(n_,f); break;
-        case 9: detail::for_each_combination_tree<combination,8>::apply(n_,f); break;
-        case 10: detail::for_each_combination_tree<combination,9>::apply(n_,f); break;
-        case 11: detail::for_each_combination_tree<combination,10>::apply(n_,f); break;
-        case 12: detail::for_each_combination_tree<combination,11>::apply(n_,f); break;
-        case 13: detail::for_each_combination_tree<combination,12>::apply(n_,f); break;
-        case 14: detail::for_each_combination_tree<combination,13>::apply(n_,f); break;
-        case 15: detail::for_each_combination_tree<combination,14>::apply(n_,f); break;
-        case 16: detail::for_each_combination_tree<combination,15>::apply(n_,f); break;
-        case 17: detail::for_each_combination_tree<combination,16>::apply(n_,f); break;
-        case 18: detail::for_each_combination_tree<combination,17>::apply(n_,f); break;
-        case 19: detail::for_each_combination_tree<combination,18>::apply(n_,f); break;
-        case 20: detail::for_each_combination_tree<combination,19>::apply(n_,f); break;
+        case 0: detail::for_each_combination_tree<combination,0>::apply(n_,f); break;
+        case 1: detail::for_each_combination_tree<combination,1>::apply(n_,f); break;
+        case 2: detail::for_each_combination_tree<combination,2>::apply(n_,f); break;
+        case 3: detail::for_each_combination_tree<combination,3>::apply(n_,f); break;
+        case 4: detail::for_each_combination_tree<combination,4>::apply(n_,f); break;
+        case 5: detail::for_each_combination_tree<combination,5>::apply(n_,f); break;
+        case 6: detail::for_each_combination_tree<combination,6>::apply(n_,f); break;
+        case 7: detail::for_each_combination_tree<combination,7>::apply(n_,f); break;
+        case 8: detail::for_each_combination_tree<combination,8>::apply(n_,f); break;
+        case 9: detail::for_each_combination_tree<combination,9>::apply(n_,f); break;
+        case 10: detail::for_each_combination_tree<combination,10>::apply(n_,f); break;
+        case 11: detail::for_each_combination_tree<combination,11>::apply(n_,f); break;
+        case 12: detail::for_each_combination_tree<combination,12>::apply(n_,f); break;
+        case 13: detail::for_each_combination_tree<combination,13>::apply(n_,f); break;
+        case 14: detail::for_each_combination_tree<combination,14>::apply(n_,f); break;
+        case 15: detail::for_each_combination_tree<combination,15>::apply(n_,f); break;
+        case 16: detail::for_each_combination_tree<combination,16>::apply(n_,f); break;
+        case 17: detail::for_each_combination_tree<combination,17>::apply(n_,f); break;
+        case 18: detail::for_each_combination_tree<combination,18>::apply(n_,f); break;
+        case 19: detail::for_each_combination_tree<combination,19>::apply(n_,f); break;
+        case 20: detail::for_each_combination_tree<combination,20>::apply(n_,f); break;
             // clang-format on
 
         default:
@@ -737,22 +732,21 @@ auto combination_tree(IntTypeN n, IntTypeK k)
     return CombinationTree<IntType>(n, k);
 }
 
-template <class Container,
-          class IntType,
-          typename = EnableIfNotIntegral<Container>>
+template <class Container, class IntType, typename = EnableIfNotIntegral<Container>>
 auto combination_tree(const Container& X, IntType k)
 {
     using comb = CombinationTree<IntType>;
     return compound_container<Container, comb>(X, comb(X.size(), k));
 }
 
-template <class IntType,
+template <class IntTypeN,
+          class IntTypeK,
           std::size_t MAX_SIZE = 32,
-          typename = EnableIfIntegral<IntType>>
-auto combination_tree_stack(IntType n, IntType k)
+          typename = EnableIfIntegral<IntTypeN>>
+auto combination_tree_stack(IntTypeN n, IntTypeK k)
 {
     using boost::container::static_vector;
-    return CombinationTree<int, static_vector<int, MAX_SIZE>>(n, k);
+    return CombinationTree<IntTypeN, static_vector<IntTypeN, MAX_SIZE>>(n, k);
 }
 
 } // namespace dscr

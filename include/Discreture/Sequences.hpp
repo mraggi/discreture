@@ -113,15 +113,15 @@ inline BigIntType binomial(llint n, llint k)
     if (k == 1)
         return n;
 
-    static std::vector<std::vector<BigIntType>> B = {
-      {1}, {1}, {1, 2}, {1, 3}, {1, 4, 6}, {1, 5, 10}, {1, 6, 15, 20}};
+    static std::vector<std::vector<BigIntType>> B =
+      {{1}, {1}, {1, 2}, {1, 3}, {1, 4, 6}, {1, 5, 10}, {1, 6, 15, 20}};
     llint m = B.size();
 
     if (n < m)
         return B[n][k];
 
-    const llint max_saved_size =
-      66; // this is the maximum n for which binomial(n,k) < 2^63 for any k.
+    const llint max_saved_size = 66; // this is the maximum n for which
+                                     // binomial(n,k) < 2^63 for any k.
     if (n > max_saved_size)
     {
         std::vector<llint> denominator(k - 1);
@@ -227,8 +227,8 @@ inline BigIntType generalized_pentagonal(llint n)
 template <class BigIntType>
 inline BigIntType partition_number(llint n)
 {
-    static std::vector<llint> P = {
-      1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77, 101};
+    static std::vector<llint> P =
+      {1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77, 101};
 
     llint oldsize = P.size();
 
@@ -298,8 +298,11 @@ inline BigIntType partition_number(llint n, llint k)
 template <class BigIntType>
 inline BigIntType stirling_cycle_number(llint n, llint k)
 {
-    static std::vector<std::vector<llint>> S1 = {
-      {1}, {0, 1}, {0, 1, 1}, {0, 2, 3, 1}, {0, 6, 11, 6, 1}};
+    static std::vector<std::vector<llint>> S1 = {{1},
+                                                 {0, 1},
+                                                 {0, 1, 1},
+                                                 {0, 2, 3, 1},
+                                                 {0, 6, 11, 6, 1}};
 
     if (k > n || k < 0)
         return 0;
@@ -326,8 +329,11 @@ inline BigIntType stirling_cycle_number(llint n, llint k)
 template <class BigIntType>
 inline BigIntType stirling_partition_number(llint n, llint k)
 {
-    static std::vector<std::vector<llint>> S2 = {
-      {1}, {0, 1}, {0, 1, 1}, {0, 1, 3, 1}, {0, 1, 7, 6, 1}};
+    static std::vector<std::vector<llint>> S2 = {{1},
+                                                 {0, 1},
+                                                 {0, 1, 1},
+                                                 {0, 1, 3, 1},
+                                                 {0, 1, 7, 6, 1}};
 
     llint oldsize = S2.size();
     if (n < oldsize)

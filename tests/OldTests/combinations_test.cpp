@@ -105,8 +105,7 @@ bool testCombinations()
         auto f = [&num](const combinations::combination& x) { ++num; };
 
         X.for_each(f);
-        std::cout << "binomial(" << n << "," << k << ") == " << num
-                  << std::endl;
+        std::cout << "binomial(" << n << "," << k << ") == " << num << std::endl;
         if (num != binomial(n, k))
             return false;
     }

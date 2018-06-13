@@ -43,10 +43,12 @@ TEST(Permutations, PartitionPoint)
 {
     int n = 20;
     Permutations<int> X(n);
-    auto perm = *std::partition_point(
-      X.begin(), X.end(), [](const Permutations<int>::permutation& x) {
-          return x.front() < 17;
-      });
+    auto perm =
+      *std::partition_point(X.begin(),
+                            X.end(),
+                            [](const Permutations<int>::permutation& x) {
+                                return x.front() < 17;
+                            });
 
     // perm should be == to {17,0,1,2,...,16,18,19}
 
@@ -54,10 +56,12 @@ TEST(Permutations, PartitionPoint)
     ASSERT_EQ(perm[0], 17);
     ASSERT_TRUE(std::is_sorted(perm.begin() + 1, perm.end()));
 
-    auto rperm = *std::partition_point(
-      X.rbegin(), X.rend(), [](const Permutations<int>::permutation& x) {
-          return x.front() > 5;
-      });
+    auto rperm =
+      *std::partition_point(X.rbegin(),
+                            X.rend(),
+                            [](const Permutations<int>::permutation& x) {
+                                return x.front() > 5;
+                            });
 
     // rperm should be == to {5,19,18,...,0}
 

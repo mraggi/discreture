@@ -16,25 +16,25 @@ namespace dscr
 
 namespace detail
 {
-    template <class combination, int index>
+    template <class combination, int _size>
     struct for_each_combination
     {
         using idx = typename combination::value_type;
 
         template <class Func>
-        static void apply(idx n, Func&& f)
+        static void apply(idx n, Func f)
         {
-            combination x(index + 1);
-            apply(x, n, std::forward<Func>(f));
+            combination x(_size);
+            for_loop(x, n, f);
         }
 
         template <class Func>
-        static void apply(combination& x, idx n, Func&& f)
+        static void for_loop(combination& x, idx n, Func f)
         {
-            for (x[index] = index; x[index] < n; ++x[index])
+            constexpr auto i = _size - 1;
+            for (x[i] = i; x[i] < n; ++x[i])
             {
-                for_each_combination<combination, index - 1>::apply(
-                  x, x[index], std::forward<Func>(f));
+                for_each_combination<combination, i>::for_loop(x, x[i], f);
             }
         }
     };
@@ -45,19 +45,16 @@ namespace detail
         using idx = typename combination::value_type;
 
         template <class Func>
-        static void apply(idx n, Func&& f)
+        static void apply(idx n, Func f)
         {
-            combination x(1);
-            apply(x, n, std::forward<Func>(f));
+            combination x(0);
+            for_loop(x, n, f);
         }
 
         template <class idx, class Func>
-        static void apply(combination& x, idx n, Func&& f)
+        static void for_loop(combination& x, idx n, Func f)
         {
-            for (x[0] = 0; x[0] < n; ++x[0])
-            {
-                f(x);
-            }
+            f(x);
         }
     };
 } // namespace detail
@@ -153,8 +150,7 @@ public:
     } // next_combination data, hint
 
     //* Use this one for best speed */
-    static void
-    next_combination(combination& data, size_type& hint, IntType last)
+    static void next_combination(combination& data, size_type& hint, IntType last)
     {
         if (hint > 0)
         {
@@ -290,8 +286,10 @@ public:
     static bool compare(const combination& lhs, const combination& rhs)
     {
         assert(lhs.size() == rhs.size());
-        return std::lexicographical_compare(
-          lhs.rbegin(), lhs.rend(), rhs.rbegin(), rhs.rend());
+        return std::lexicographical_compare(lhs.rbegin(),
+                                            lhs.rend(),
+                                            rhs.rbegin(),
+                                            rhs.rend());
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -394,10 +392,7 @@ public:
         }
 
         explicit iterator(const combination& data)
-            : ID_(get_index(data))
-            , last_(data.size() - 1)
-            , hint_(0)
-            , data_(data)
+            : ID_(get_index(data)), last_(data.size() - 1), hint_(0), data_(data)
         {}
 
         inline bool is_at_end(IntType n) const
@@ -753,31 +748,28 @@ public:
         combination comb(k_);
         switch (k_)
         {
-        case 0:
-            break;
-
             // clang-format off
         using comb = combination;
-        case 1: detail::for_each_combination<comb, 0>::apply(n_, f); break;
-        case 2: detail::for_each_combination<comb, 1>::apply(n_, f); break;
-        case 3: detail::for_each_combination<comb, 2>::apply(n_, f); break;
-        case 4: detail::for_each_combination<comb, 3>::apply(n_, f); break;
-        case 5: detail::for_each_combination<comb, 4>::apply(n_, f); break;
-        case 6: detail::for_each_combination<comb, 5>::apply(n_, f); break;
-        case 7: detail::for_each_combination<comb, 6>::apply(n_, f); break;
-        case 8: detail::for_each_combination<comb, 7>::apply(n_, f); break;
-        case 9: detail::for_each_combination<comb, 8>::apply(n_, f); break;
-        case 10: detail::for_each_combination<comb, 9>::apply(n_, f); break;
-        case 11: detail::for_each_combination<comb, 10>::apply(n_, f); break;
-        case 12: detail::for_each_combination<comb, 11>::apply(n_, f); break;
-        case 13: detail::for_each_combination<comb, 12>::apply(n_, f); break;
-        case 14: detail::for_each_combination<comb, 13>::apply(n_, f); break;
-        case 15: detail::for_each_combination<comb, 14>::apply(n_, f); break;
-        case 16: detail::for_each_combination<comb, 15>::apply(n_, f); break;
-        case 17: detail::for_each_combination<comb, 16>::apply(n_, f); break;
-        case 18: detail::for_each_combination<comb, 17>::apply(n_, f); break;
-        case 19: detail::for_each_combination<comb, 18>::apply(n_, f); break;
-        case 20: detail::for_each_combination<comb, 19>::apply(n_, f); break;
+        case 0: detail::for_each_combination<comb, 0>::apply(n_, f); break;
+        case 1: detail::for_each_combination<comb, 1>::apply(n_, f); break;
+        case 2: detail::for_each_combination<comb, 2>::apply(n_, f); break;
+        case 3: detail::for_each_combination<comb, 3>::apply(n_, f); break;
+        case 4: detail::for_each_combination<comb, 4>::apply(n_, f); break;
+        case 5: detail::for_each_combination<comb, 5>::apply(n_, f); break;
+        case 6: detail::for_each_combination<comb, 6>::apply(n_, f); break;
+        case 7: detail::for_each_combination<comb, 7>::apply(n_, f); break;
+        case 8: detail::for_each_combination<comb, 8>::apply(n_, f); break;
+        case 9: detail::for_each_combination<comb, 9>::apply(n_, f); break;
+        case 10: detail::for_each_combination<comb, 10>::apply(n_, f); break;
+        case 11: detail::for_each_combination<comb, 11>::apply(n_, f); break;
+        case 12: detail::for_each_combination<comb, 12>::apply(n_, f); break;
+        case 13: detail::for_each_combination<comb, 13>::apply(n_, f); break;
+        case 14: detail::for_each_combination<comb, 14>::apply(n_, f); break;
+        case 15: detail::for_each_combination<comb, 15>::apply(n_, f); break;
+        case 16: detail::for_each_combination<comb, 16>::apply(n_, f); break;
+        case 17: detail::for_each_combination<comb, 17>::apply(n_, f); break;
+        case 18: detail::for_each_combination<comb, 18>::apply(n_, f); break;
+        case 19: detail::for_each_combination<comb, 19>::apply(n_, f); break;
 
             // clang-format on
 
@@ -861,26 +853,26 @@ private:
 template <class IntTypeN, class IntTypeK, typename = EnableIfIntegral<IntTypeN>>
 auto combinations(IntTypeN n, IntTypeK k)
 {
-    using IntType = std::common_type_t<IntTypeN, IntTypeK>;
+    using IntType = int;
+    //     using IntType = std::common_type_t<IntTypeN, IntTypeK>;
     return Combinations<IntType>(n, k);
 }
 
-template <class Container,
-          class IntType,
-          typename = EnableIfNotIntegral<Container>>
+template <class Container, class IntType, typename = EnableIfNotIntegral<Container>>
 auto combinations(const Container& X, IntType k)
 {
     using comb = Combinations<IntType>;
     return compound_container<Container, comb>(X, comb(X.size(), k));
 }
 
-template <class IntType,
+template <class IntTypeN,
+          class IntTypeK,
           std::size_t MAX_SIZE = 32,
-          typename = EnableIfIntegral<IntType>>
-auto combinations_stack(IntType n, IntType k)
+          typename = EnableIfIntegral<IntTypeN>>
+auto combinations_stack(IntTypeN n, IntTypeK k)
 {
     using boost::container::static_vector;
-    return Combinations<int, static_vector<int, MAX_SIZE>>(n, k);
+    return Combinations<IntTypeN, static_vector<IntTypeN, MAX_SIZE>>(n, k);
 }
 
 /**

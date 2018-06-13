@@ -147,8 +147,13 @@ if(BUILD_BENCHMARKS)
 		add_definitions(-DTEST_GSL_COMBINATIONS)
 		include_directories(${GSL_INCLUDE_DIRS})
 	endif()
-	file(GLOB BENCHMARK_SRC_FILES ${PROJECT_SOURCE_DIR}/benchmarks/*.cpp)
-	add_executable(discreture_benchmark ${BENCHMARK_SRC_FILES})
+	add_executable(discreture_benchmark benchmarks/main.cpp
+                                        benchmarks/combs.cpp
+                                        benchmarks/perms.cpp
+                                        benchmarks/multisets.cpp
+                                        benchmarks/dyckmotzkin.cpp
+                                        benchmarks/partitions.cpp
+                                        )
 	if (GSL_FOUND)
 		target_link_libraries(discreture_benchmark ${GSL_LIBRARIES})
 	endif()

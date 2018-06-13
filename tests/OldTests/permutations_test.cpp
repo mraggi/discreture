@@ -13,8 +13,7 @@ bool testPermutations()
 
     for (const auto& x : X)
     {
-        std::cout << "\t" << i << " = " << X.get_index(x) << " -> " << x
-                  << '\n';
+        std::cout << "\t" << i << " = " << X.get_index(x) << " -> " << x << '\n';
 
         if (i != X.get_index(x))
         {

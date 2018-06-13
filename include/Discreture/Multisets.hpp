@@ -6,6 +6,53 @@
 
 namespace dscr
 {
+namespace detail
+{
+    template <class multiset, int _size>
+    struct for_each_multiset
+    {
+        using idx = typename multiset::value_type;
+
+        template <class Func>
+        static void apply(const multiset& total, Func f)
+        {
+            multiset x(_size);
+            for_loop(x, total, _size - 1, f);
+        }
+
+        template <class Func>
+        static void for_loop(multiset& x, const multiset& total, idx i, Func f)
+        {
+            for (x[i] = 0; x[i] <= total[i]; ++x[i])
+            {
+                for_each_multiset<multiset, _size - 1>::for_loop(x,
+                                                                 total,
+                                                                 i - 1,
+                                                                 f);
+            }
+        }
+    };
+
+    template <class multiset>
+    struct for_each_multiset<multiset, 0>
+    {
+        using idx = typename multiset::value_type;
+
+        template <class Func>
+        static void apply(const multiset& total, Func f)
+        {
+            multiset x(0);
+            for_loop(x, total, 0, f);
+        }
+
+        template <class Func>
+        static void for_loop(multiset& x, const multiset& total, idx i, Func f)
+        {
+            f(x);
+        }
+    };
+} // namespace detail
+
 template <class IntType = int, class RAContainerInt = std::vector<IntType>>
 class Multisets
 {
@@ -57,8 +104,9 @@ public:
         }
     }
 
-    static void
-    construct_multiset(multiset& sub, const multiset& total, size_type m)
+    static void construct_multiset(multiset& sub,
+                                   const multiset& total,
+                                   size_type m)
     {
         assert(sub.size() == total.size());
         size_type n = total.size();
@@ -299,12 +347,52 @@ public:
         friend class boost::iterator_core_access;
     };
 
+    template <class Func>
+    void for_each(Func f) const
+    {
+        switch (total_.size())
+        {
+            // clang-format off
+        case 0: detail::for_each_multiset<multiset,0>::apply(total_,f); break;
+        case 1: detail::for_each_multiset<multiset,1>::apply(total_,f); break;
+        case 2: detail::for_each_multiset<multiset,2>::apply(total_,f); break;
+        case 3: detail::for_each_multiset<multiset,3>::apply(total_,f); break;
+        case 4: detail::for_each_multiset<multiset,4>::apply(total_,f); break;
+        case 5: detail::for_each_multiset<multiset,5>::apply(total_,f); break;
+        case 6: detail::for_each_multiset<multiset,6>::apply(total_,f); break;
+        case 7: detail::for_each_multiset<multiset,7>::apply(total_,f); break;
+        case 8: detail::for_each_multiset<multiset,8>::apply(total_,f); break;
+        case 9: detail::for_each_multiset<multiset,9>::apply(total_,f); break;
+        case 10: detail::for_each_multiset<multiset,10>::apply(total_,f); break;
+        case 11: detail::for_each_multiset<multiset,11>::apply(total_,f); break;
+        case 12: detail::for_each_multiset<multiset,12>::apply(total_,f); break;
+        case 13: detail::for_each_multiset<multiset,13>::apply(total_,f); break;
+        case 14: detail::for_each_multiset<multiset,14>::apply(total_,f); break;
+        case 15: detail::for_each_multiset<multiset,15>::apply(total_,f); break;
+        case 16: detail::for_each_multiset<multiset,16>::apply(total_,f); break;
+        case 17: detail::for_each_multiset<multiset,17>::apply(total_,f); break;
+        case 18: detail::for_each_multiset<multiset,18>::apply(total_,f); break;
+        case 19: detail::for_each_multiset<multiset,19>::apply(total_,f); break;
+        case 20: detail::for_each_multiset<multiset,20>::apply(total_,f); break;
+            // clang-format on
+
+        default:
+            for (auto& x : (*this))
+            {
+                f(x);
+            }
+
+            break;
+        }
+    }
+
 private:
     multiset total_;
     size_type size_;
 
-    static bool
-    can_increment(size_t index, const multiset& sub, const multiset& total)
+    static bool can_increment(size_t index,
+                              const multiset& sub,
+                              const multiset& total)
     {
         return sub[index] < total[index];
     }

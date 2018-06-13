@@ -21,8 +21,7 @@ inline double diffclockt(clockt a, clockt b)
 {
 
     const double t = 0.000001;
-    return std::chrono::duration_cast<std::chrono::microseconds>(a - b)
-             .count() *
+    return std::chrono::duration_cast<std::chrono::microseconds>(a - b).count() *
       t;
 }
 

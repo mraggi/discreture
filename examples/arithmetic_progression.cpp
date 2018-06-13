@@ -17,12 +17,14 @@ void parse_command_line(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 {
-
     std::ios_base::sync_with_stdio(false);
+
     parse_command_line(argc, argv);
+
     for (auto x : arithmetic_progression{from, to, step})
         cout << x << ' ';
     cout << endl;
+
     return 0;
 }
 
@@ -59,10 +61,6 @@ void parse_command_line(int argc, char* argv[])
 
         if (t == 0)
             throw;
-        if (t > 0 && (a > b))
-            throw;
-        if (t < 0 && (a < b))
-            throw;
 
         from = a;
         to = b;
@@ -70,9 +68,9 @@ void parse_command_line(int argc, char* argv[])
     }
     catch (...)
     {
-        cout << "\nERROR: Arguments must be numbers, with t != 0. "
-                "Additionally, a < b if t > 0, or a > b if t < 0. \n\n";
-        cout << usage.str();
+        std::cerr << "\nERROR: Arguments must be numbers, with t != 0. "
+                     "Additionally, a < b if t > 0, or a > b if t < 0. \n\n";
+        std::cerr << usage.str();
         return;
     }
 }

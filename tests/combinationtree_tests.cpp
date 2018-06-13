@@ -51,11 +51,7 @@ TEST(CombinationTree, ForEach)
         for (int k = 0; k <= n; ++k)
         {
             auto X = combination_tree(n, k);
-            auto it = X.begin();
-            X.for_each([&it](const decltype(X)::combination& x) {
-                ASSERT_EQ(x, *it);
-                ++it;
-            });
+            test_container_foreach(X);
         }
     }
 
@@ -64,11 +60,7 @@ TEST(CombinationTree, ForEach)
         for (int k = n - 3; k <= n; ++k)
         {
             auto X = combination_tree(n, k);
-            auto it = X.begin();
-            X.for_each([&it](const decltype(X)::combination& x) {
-                ASSERT_EQ(x, *it);
-                ++it;
-            });
+            test_container_foreach(X);
         }
     }
 }
@@ -178,8 +170,9 @@ TEST(CombinationTree, PartitionPoint)
     int n = 60;
     int k = 30;
     auto X = combination_tree(n, k);
-    auto comb = *std::partition_point(
-      X.begin(), X.end(), [](const auto& x) { return x.front() < 26; });
+    auto comb = *std::partition_point(X.begin(), X.end(), [](const auto& x) {
+        return x.front() < 26;
+    });
 
     // comb should be == to {26,27,...,55}
 
@@ -187,8 +180,9 @@ TEST(CombinationTree, PartitionPoint)
     ASSERT_EQ(comb.front(), 26);
     check_combination_tree(X, comb, n, k);
 
-    auto rcomb = *std::partition_point(
-      X.rbegin(), X.rend(), [](const auto& x) { return x.front() > 0; });
+    auto rcomb = *std::partition_point(X.rbegin(), X.rend(), [](const auto& x) {
+        return x.front() > 0;
+    });
 
     // rcomb should be {0, 31,... , 59}
 

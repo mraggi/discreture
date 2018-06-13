@@ -151,8 +151,8 @@ namespace rang_implementation
             return false;
         }
 
-        static const bool result = std::any_of(
-          std::begin(Terms), std::end(Terms), [&](const char* term) {
+        static const bool result =
+          std::any_of(std::begin(Terms), std::end(Terms), [&](const char* term) {
               return std::strstr(env_p, term) != nullptr;
           });
 
