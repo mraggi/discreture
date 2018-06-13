@@ -11,7 +11,6 @@ endif()
 option(BUILD_EXAMPLES "Build examples" ON)
 option(BUILD_BENCHMARKS "Build benchmarks" OFF)
 option(BUILD_TESTS "Build unit tests" OFF)
-option(BUILD_OLD_TESTS "Build old unit tests" OFF)
 option(BUILD_OWN_GOOGLETEST "Build own google's unit testing framework, even if found" OFF)
 
 string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_tolower)
@@ -106,11 +105,6 @@ if(${BUILD_TESTS})
     include(CTest)
     enable_testing()
     add_test(unit_tests ${PROJECT_BINARY_DIR}/${TEST_MAIN})
-endif()
-
-if (${BUILD_OLD_TESTS})
-	file(GLOB OLD_TEST_SRC_FILES ${PROJECT_SOURCE_DIR}/tests/OldTests/*.cpp)
-	add_executable(discreture_test_old ${OLD_TEST_SRC_FILES})
 endif()
 
 
