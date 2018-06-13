@@ -2,8 +2,8 @@
 
 #include "discreture.hpp"
 
-using namespace std;
-using namespace dscr;
+using namespace std; // NOLINT
+using namespace dscr; // NOLINT
 
 int main()
 {
@@ -12,7 +12,7 @@ int main()
     A.for_each([](auto& a) { cout << a << endl; });
 
     cout << endl << "--------------" << endl;
-    for (auto a : A)
+    for (auto&& a : A)
         cout << a << endl;
 
     return 0;

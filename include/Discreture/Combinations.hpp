@@ -4,9 +4,9 @@
 
 #include "ArithmeticProgression.hpp"
 #include "CombinationTree.hpp"
-#include "CombinationTreePrunned.hpp"
 #include "CompoundContainer.hpp"
 #include "IntegerInterval.hpp"
+#include "LexCombinations.hpp"
 #include "Misc.hpp"
 #include "Sequences.hpp"
 #include "VectorHelpers.hpp"
@@ -64,9 +64,9 @@ namespace detail
 /// {0,1,...,n-1}. \param IntType should be an integral type with enough space
 /// to store n and k. It can be signed or unsigned. \param n the size of the set
 /// \param k the size of the combination (subset). Should be an integer such
-/// that n choose k is not bigger than the largest unsigned long int there is.
-/// For example, typically 50 choose 25 is already larger than the largest long
-/// unsigned int. # Example:
+/// that n choose k is not bigger than the largest 64-bit int there is.
+/// For example, 70 choose 35 is already larger than the largest long
+/// int. # Example:
 ///
 ///		for (auto& x : combinations(6,3))
 ///			cout << '[' << x << "] ";
@@ -726,8 +726,9 @@ public:
     template <class PartialPredicate>
     auto find_all(PartialPredicate pred)
     {
-        return CombinationTreePrunned<IntType, PartialPredicate, combination>(
-          n_, k_, pred);
+        return CombinationTree<IntType, PartialPredicate, combination>(n_,
+                                                                       k_,
+                                                                       pred);
     }
 
     ////////////////////////////////////////////////////////////

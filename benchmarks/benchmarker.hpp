@@ -1,10 +1,10 @@
 #pragma once
 
+#include "Parallel.hpp"
 #include "Probability.hpp"
 #include "TimeHelpers.hpp"
 #include "do_not_optimize.hpp"
 #include "external/rang.hpp"
-#include "Parallel.hpp"
 #include <iomanip>
 #include <iostream>
 #include <string>
@@ -37,7 +37,7 @@ double FWIterationBenchmark(const Container& A)
 template <class Container>
 double ParallelBenchmark(const Container& X, int num_processors)
 {
-    return Benchmark([&X,num_processors]() {
+    return Benchmark([&X, num_processors]() {
         auto work = dscr::divide_work(X.begin(), X.end(), num_processors);
 
         std::vector<std::thread> threads;
@@ -60,7 +60,6 @@ double ParallelBenchmark(const Container& X, int num_processors)
         {
             t.join();
         }
-        
     });
 }
 

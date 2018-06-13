@@ -266,7 +266,7 @@ std::vector<int> differences(const std::vector<int>& x)
     return toReturn;
 }
 
-bool testCombinationTree()
+bool testLexCombinations()
 {
     std::cout << "========== Testing Combination TREE ==========" << std::endl;
 
@@ -276,7 +276,7 @@ bool testCombinationTree()
     for (int r = 0; r <= n; ++r)
     {
         std::cout << " with r = " << r << std::endl;
-        CombinationTree<int> X(n, r);
+        LexCombinations<int> X(n, r);
         size_t i = 0;
 
         for (const auto& x : X)
@@ -295,7 +295,7 @@ bool testCombinationTree()
     }
 
     std::cout << "Large test" << std::endl;
-    CombinationTree<int> X(10, 4);
+    LexCombinations<int> X(10, 4);
     size_t i = 0;
 
     for (const auto& x : X)
@@ -337,7 +337,7 @@ bool testCombinationTree()
     for (int r = 0; r <= n; ++r)
     {
         std::cout << "Starting with r = " << r << std::endl;
-        CombinationTree<llint> Y(n, r);
+        LexCombinations<llint> Y(n, r);
         i = 0;
 
         for (auto it = Y.rbegin(); it != Y.rend(); ++it, ++i)
@@ -351,7 +351,7 @@ bool testCombinationTree()
     }
 
     std::cout << " Edge case test: " << std::endl;
-    CombinationTree<unsigned char> Z(5, 8);
+    LexCombinations<unsigned char> Z(5, 8);
 
     for (const auto& z : Z)
     {

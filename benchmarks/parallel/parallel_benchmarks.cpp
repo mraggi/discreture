@@ -16,10 +16,10 @@ void parallel_combinations(int num_processors)
     cout << ProduceRowParallelForward("Combs Stack", CF, num_processors);
 }
 
-void parallel_combination_tree(int num_processors)
+void parallel_lex_combinations(int num_processors)
 {
-    auto C = dscr::combination_tree(n, k);
-    auto CF = dscr::combination_tree_stack(n, k);
+    auto C = dscr::lex_combinations(n, k);
+    auto CF = dscr::lex_combinations_stack(n, k);
     cout << ProduceRowParallelForward("Combs Tree", C, num_processors);
     cout << ProduceRowParallelForward("Combs Tree Stack", CF, num_processors);
 }
@@ -44,20 +44,19 @@ int main()
          << endl;
 
     BenchRow::print_header(cout);
-    
+
     BenchRow::print_line(cout);
-    
+
     parallel_combinations(num_processors);
 
     BenchRow::print_line(cout);
-    
-    parallel_combination_tree(num_processors);
-    
+
+    parallel_lex_combinations(num_processors);
+
     BenchRow::print_line(cout);
 
-//     parallel_permutations(num_processors);
+    //     parallel_permutations(num_processors);
 
-    
     cout << std::defaultfloat;
     cout << "\nTotal Time taken = " << chrono.Peek() << "s" << endl;
 

@@ -10,7 +10,7 @@ void testSpeed()
 
     testCombinationsSpeed(32, 16);
     cout << flush;
-    testCombinationTreeSpeed(32, 16);
+    testLexCombinationsSpeed(32, 16);
     cout << flush;
     testPermutationsSpeed(11);
     cout << flush;

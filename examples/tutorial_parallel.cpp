@@ -19,9 +19,11 @@
 
 int main()
 {
-    using namespace dscr;
-    using namespace std;
+    using dscr::combinations;
+    using dscr::Chronometer;
 
+    using std::cout;
+    using std::endl;
     // Let's see all combinations of 40 choose 10 using 4 threads.
 
     int n = 40;

@@ -1,14 +1,14 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
-#include "CombinationTree.hpp"
+#include "LexCombinations.hpp"
 #include "common_tests.hpp"
 
 using namespace std;
 using namespace dscr;
 
 template <class combinations>
-void check_combination_tree(const combinations& X,
+void check_lex_combinations(const combinations& X,
                             const typename combinations::combination& x,
                             int n,
                             int k)
@@ -27,16 +27,16 @@ void check_combination_tree(const combinations& X,
     ASSERT_EQ(*X.get_iterator(x), x);
 }
 
-TEST(CombinationTree, FullIterationTests)
+TEST(LexCombinations, FullIterationTests)
 {
     for (int n = 0; n < 14; ++n)
     {
         long total = 0;
         for (short k = 0; k <= n + 1; ++k) // even k+1
         {
-            auto X = combination_tree(n, k);
+            auto X = lex_combinations(n, k);
             test_container_full(X, [&X, n, k](const auto& x) {
-                check_combination_tree(X, x, n, k);
+                check_lex_combinations(X, x, n, k);
             });
             total += X.size();
         }
@@ -44,13 +44,13 @@ TEST(CombinationTree, FullIterationTests)
     }
 }
 
-TEST(CombinationTree, ForEach)
+TEST(LexCombinations, ForEach)
 {
     for (int n = 0; n < 10; ++n)
     {
         for (int k = 0; k <= n; ++k)
         {
-            auto X = combination_tree(n, k);
+            auto X = lex_combinations(n, k);
             test_container_foreach(X);
         }
     }
@@ -59,19 +59,19 @@ TEST(CombinationTree, ForEach)
     {
         for (int k = n - 3; k <= n; ++k)
         {
-            auto X = combination_tree(n, k);
+            auto X = lex_combinations(n, k);
             test_container_foreach(X);
         }
     }
 }
 
-TEST(CombinationTree, CorrectOrder)
+TEST(LexCombinations, CorrectOrder)
 {
     for (int n = 0; n < 10; ++n)
     {
         for (int k = 0; k <= n; ++k)
         {
-            auto X = combination_tree(n, k);
+            auto X = lex_combinations(n, k);
             for (auto it = X.begin(); it != X.end(); ++it)
             {
                 auto itnext = it + 1;
@@ -85,9 +85,9 @@ TEST(CombinationTree, CorrectOrder)
     }
 }
 
-TEST(CombinationTree, EdgeCases)
+TEST(LexCombinations, EdgeCases)
 {
-    CombinationTree<unsigned char> Z(5, 8);
+    LexCombinations<unsigned char> Z(5, 8);
 
     for (const auto& z : Z)
     {
@@ -95,9 +95,9 @@ TEST(CombinationTree, EdgeCases)
     }
 }
 
-TEST(CombinationTree, FindIf)
+TEST(LexCombinations, FindIf)
 {
-    auto W = combination_tree(20, 6);
+    auto W = lex_combinations(20, 6);
 
     auto predicate1 = [](const decltype(W)::combination& comb) -> bool {
         for (size_t i = 0; i < comb.size() - 1; ++i)
@@ -165,11 +165,11 @@ TEST(CombinationTree, FindIf)
     }
 }
 
-TEST(CombinationTree, PartitionPoint)
+TEST(LexCombinations, PartitionPoint)
 {
     int n = 60;
     int k = 30;
-    auto X = combination_tree(n, k);
+    auto X = lex_combinations(n, k);
     auto comb = *std::partition_point(X.begin(), X.end(), [](const auto& x) {
         return x.front() < 26;
     });
@@ -178,7 +178,7 @@ TEST(CombinationTree, PartitionPoint)
 
     ASSERT_EQ(comb.back(), 55);
     ASSERT_EQ(comb.front(), 26);
-    check_combination_tree(X, comb, n, k);
+    check_lex_combinations(X, comb, n, k);
 
     auto rcomb = *std::partition_point(X.rbegin(), X.rend(), [](const auto& x) {
         return x.front() > 0;
@@ -186,7 +186,7 @@ TEST(CombinationTree, PartitionPoint)
 
     // rcomb should be {0, 31,... , 59}
 
-    check_combination_tree(X, rcomb, n, k);
+    check_lex_combinations(X, rcomb, n, k);
     ASSERT_EQ(rcomb[0], 0);
     ASSERT_EQ(rcomb[1], 31);
     ASSERT_EQ(rcomb.back(), 59);

@@ -1,4 +1,4 @@
-#include "Discreture/CombinationTree.hpp"
+#include "Discreture/LexCombinations.hpp"
 #include <cstdlib>
 #include <sstream>
 #include <string>
@@ -9,7 +9,7 @@ int k = 3;
 
 using std::cout;
 using std::endl;
-using dscr::combination_tree;
+using dscr::lex_combinations;
 using dscr::operator<<;
 
 // Just sets global variables n and k.
@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 
     parse_command_line(argc, argv);
 
-    for (auto& x : combination_tree(n, k))
+    for (auto& x : lex_combinations(n, k))
         cout << x << endl;
 
     return 0;
@@ -31,12 +31,12 @@ int main(int argc, char* argv[])
 void parse_command_line(int argc, char* argv[])
 {
     std::stringstream usage;
-    usage << "Usage: combination_tree n k\n"
+    usage << "Usage: lex_combinations n k\n"
           << "Print to STDOUT the set of combinations of size k of a subset of "
              "size n,\n"
           << "where n and k are integers, in lexicographic order.\n"
           << "Example:\n"
-          << "./combination_tree"
+          << "./lex_combinations"
           << " " << n << " " << k << "\n";
 
     if (argc != 3)

@@ -27,7 +27,7 @@ int main()
 
     BenchRow::print_line(cout);
 
-    bench_comb_tree();
+    bench_lex_combs();
 
     BenchRow::print_line(cout);
 

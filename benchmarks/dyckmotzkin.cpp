@@ -4,7 +4,6 @@
 #include "external_benches.hpp"
 
 using std::cout;
-using std::endl;
 
 void bench_dyck()
 {

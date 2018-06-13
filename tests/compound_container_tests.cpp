@@ -1,6 +1,6 @@
-#include "CombinationTree.hpp"
 #include "Combinations.hpp"
 #include "CompoundContainer.hpp"
+#include "LexCombinations.hpp"
 #include "Permutations.hpp"
 #include "generate_strings.hpp"
 #include <gtest/gtest.h>
@@ -59,15 +59,15 @@ TEST(CompoundContainer, Combinations)
     }
 }
 
-TEST(CompoundContainer, CombinationTree)
+TEST(CompoundContainer, LexCombinations)
 {
     std::vector<std::string> A = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
     int n = A.size();
     for (auto k : NN(n))
     {
         using namespace dscr;
-        auto U = dscr::combination_tree(A, k);
-        check_compound_container(U, A, dscr::combination_tree(n, k));
+        auto U = dscr::lex_combinations(A, k);
+        check_compound_container(U, A, dscr::lex_combinations(n, k));
     }
 }
 

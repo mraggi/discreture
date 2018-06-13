@@ -139,9 +139,11 @@ BenchRow ProduceRowForward(std::string name, const Container& A)
 }
 
 template <class Container>
-BenchRow ProduceRowParallelForward(std::string name, const Container& A, int num_processors = 4)
+BenchRow ProduceRowParallelForward(std::string name,
+                                   const Container& A,
+                                   int num_processors = 4)
 {
-    double t = ParallelBenchmark(A,num_processors);
+    double t = ParallelBenchmark(A, num_processors);
     using std::operator""s;
     name += " Parallel w/ "s + std::to_string(num_processors) + " threads"s;
 

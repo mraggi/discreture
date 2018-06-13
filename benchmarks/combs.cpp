@@ -1,11 +1,10 @@
-#include "CombinationTree.hpp"
 #include "Combinations.hpp"
+#include "LexCombinations.hpp"
 #include "benchmarker.hpp"
 #include "benchtable.hpp"
 #include "external_benches.hpp"
 
 using std::cout;
-using std::endl;
 
 constexpr int n = 40;
 constexpr int k = 10;
@@ -26,10 +25,10 @@ void bench_combinations()
     cout << ProduceRowConstruct("Combinations Stack", CF, construct);
 }
 
-void bench_comb_tree()
+void bench_lex_combs()
 {
-    auto CT = dscr::combination_tree(n, k);
-    auto CTF = dscr::combination_tree_stack(n, k);
+    auto CT = dscr::lex_combinations(n, k);
+    auto CTF = dscr::lex_combinations_stack(n, k);
 
     cout << ProduceRowForEach("Combinations Tree", CT);
     cout << ProduceRowForEach("Combinations Tree Stack", CTF);
@@ -39,7 +38,7 @@ void bench_comb_tree()
     cout << ProduceRowReverse("Combinations Tree Stack", CTF);
 #ifdef TEST_GSL_COMBINATIONS
     cout << BenchRow("Combinations Tree GSL",
-                     Benchmark([]() { BM_CombinationTreeGSL(n, k); }),
+                     Benchmark([]() { BM_LexCombinationsGSL(n, k); }),
                      dscr::binomial<std::int64_t>(n, k));
 #endif
     cout << ProduceRowConstruct("Combinations Tree", CT, construct);

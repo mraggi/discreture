@@ -86,7 +86,7 @@ void testGSLComb(int n, int k)
 void testCombinationsTreeSpeed(int n, int k)
 {
     Chronometer C;
-    combinations_tree X(n, k);
+    lex_combinations X(n, k);
 
     for (auto& x : X)
     {
@@ -177,14 +177,14 @@ void produceAllCombinationReverseData(int from, int to)
     std::cout << ']' << std::endl;
 }
 
-void produceAllCombinationTreeData(int from, int to)
+void produceAllLexCombinationsData(int from, int to)
 {
-    std::cout << "combinations_tree = [";
+    std::cout << "lex_combs = [";
     Chronometer C;
 
     for (int n = from; n < to; ++n)
     {
-        for (const auto& x : combinations_tree_fast(n, n/2))
+        for (const auto& x : lex_combinations_stack(n, n/2))
         {
             DoNotOptimize(x);
         }
@@ -195,14 +195,14 @@ void produceAllCombinationTreeData(int from, int to)
     std::cout << ']' << std::endl;
 }
 
-void produceAllCombinationTreeReverseData(int from, int to)
+void produceAllLexCombinationsReverseData(int from, int to)
 {
-    std::cout << "combinations_tree_reversed = [";
+    std::cout << "lex_combinations_reversed = [";
     Chronometer C;
 
     for (int n = from; n < to; ++n)
     {
-        combinations_tree_fast X(n, n/2);
+        lex_combinations_fast X(n, n/2);
 
         for (auto it = X.rbegin(); it != X.rend(); ++it)
         {
@@ -260,7 +260,7 @@ void produceAllCombinationBenchmarkData(int from, int to)
     produceAllCombinationData(from, to);
     produceAllEulerGuyData(from, to);
     produceAllCombinationReverseData(from, to);
-    produceAllCombinationTreeData(from, to);
-    produceAllCombinationTreeReverseData(from, to);
+    produceAllLexCombinationsData(from, to);
+    produceAllLexCombinationsReverseData(from, to);
     produceAllGSLData(from, to);
 }
