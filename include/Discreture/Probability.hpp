@@ -16,10 +16,9 @@ namespace random
     inline std::default_random_engine& random_engine()
     {
         using RE = std::default_random_engine;
-        using result_type = RE::result_type;
-        static std::default_random_engine e(
-          static_cast<result_type>(time(nullptr)));
-        return e;
+        using rt = RE::result_type;
+        static std::default_random_engine eng(static_cast<rt>(time(nullptr)));
+        return eng;
     }
 
     /**
@@ -29,7 +28,7 @@ namespace random
      */
     inline bool probability_of_true(double p)
     {
-        static std::bernoulli_distribution d(p);
+        std::bernoulli_distribution d(p);
         return d(random_engine());
     }
 
