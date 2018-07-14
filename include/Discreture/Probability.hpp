@@ -7,7 +7,7 @@ namespace dscr
 {
 namespace random
 {
-    // Who came up with the dumb C++11 way of getting random stuff?
+    // Who came up with C++11's weird way of getting random stuff?
     // It's obviously missing some utility functions. Here they are.
 
     /**
@@ -34,20 +34,20 @@ namespace random
 
     /**
      *@brief "I just wanted a random integer!
-     *@return A random integer in the range [from,thru), with uniform
+     *@return A random integer in the range [from,upto), with uniform
      *probability distribution
      */
     template <class IntType = int>
-    IntType random_int(IntType from, IntType thru)
+    IntType random_int(IntType from, IntType upto)
     {
         static std::uniform_int_distribution<IntType> d{};
         using parm_t = typename decltype(d)::param_type;
-        return d(random_engine(), parm_t{from, --thru});
+        return d(random_engine(), parm_t{from, --upto});
     }
 
     /**
      *@brief "I just wanted a random float!
-     *@return A random float number in the range [from,thru), with uniform
+     *@return A random float number in the range [from,upto), with uniform
      *probability distribution
      */
     template <class FloatType = double>

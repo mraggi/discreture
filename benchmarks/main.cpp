@@ -3,6 +3,11 @@
 #include "benchtable.hpp"
 #include "external_benches.hpp"
 
+// WARNING: I'm probably suffering from alignment issues, so I'm not sure how
+// valid these benchmarks are. That is: if I add or remove functions that have
+// nothing to do with the benchmarks, the benchmarks change considerably!! Very
+// strange!
+
 using std::cout;
 using std::endl;
 

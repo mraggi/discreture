@@ -8,10 +8,10 @@
 #include <iostream>
 #include <numeric>
 
-#define UNUSED(x) (void)(x) // To supress warnings;
-
 namespace dscr
 {
+
+#define UNUSED(x) (void)(x) // To supress warnings;
 
 //////////////////////////////////////////
 /// \brief This is what operator%should be but isn't (!).
@@ -93,18 +93,5 @@ T reduce_fraction(Container Numerator, Container Denominator)
         result *= a;
     return result;
 }
-
-// For some template metaprogramming...
-template <typename T>
-using EnableIfIntegral = std::enable_if_t<std::is_integral<T>::value>;
-
-template <typename T>
-using EnableIfNotIntegral = std::enable_if_t<!std::is_integral<T>::value>;
-
-template <typename T>
-using EnableIfReference = std::enable_if_t<std::is_reference<T>::value>;
-
-template <typename T>
-using EnableIfNotReference = std::enable_if_t<!std::is_reference<T>::value>;
 
 } // namespace dscr

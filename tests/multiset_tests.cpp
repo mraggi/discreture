@@ -50,10 +50,10 @@ TEST(Multisets, ForEach)
         multisets X(total);
         test_container_foreach(X);
     }
-    
+
     for (int n = 12; n < 22; ++n)
     {
-        auto total = get_random_multiset(n,2);
+        auto total = get_random_multiset(n, 2);
         multisets X(total);
         test_container_foreach(X);
     }

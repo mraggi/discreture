@@ -49,7 +49,7 @@ int main()
      *3. The std::string is necessary, because "abcde" is not a proper
      *container. It's an C-style char array.
      *4. Note that auto& combination does NOT compile.
-     *	    This is because "combination" is of type dscr::aggregation_view,
+     *	    This is because "combination" is of type dscr::indexed_view,
      *which vanishes.
      */
 

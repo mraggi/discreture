@@ -1,21 +1,18 @@
 #pragma once
 #include "Misc.hpp"
-#include <type_traits>
+#include "TemplateHelpers.hpp"
 
 namespace dscr
 {
 
 ///////////////////////////////////////////////
-/// An aggregation is a cluster of things that have come or been brought
-/// together.
-///
-/// class for (lazily) composing two containers "A" and "B", where the elements
-/// of B are integers between 0 and A.size(). The elements of
-/// AggregationView(A,B) are {A[B[0]], A[B[1]], ...}, but AggregationView is
-/// lazy.
+/// IndexedView is a class for (lazily) composing two containers "A" and "B",
+/// where the elements of B are indices of A (integers between 0 and A.size()).
+/// The elements of IndexedView(A,B) are {A[B[0]], A[B[1]], ...}, but
+/// IndexedView is lazy (hence the name "view").
 ///////////////////////////////////////////////
 template <class RAContainer, class RAIndexContainer>
-class AggregationView
+class IndexedView
 {
 public:
     using value_type = typename RAContainer::value_type;
@@ -24,9 +21,8 @@ public:
     class iterator;
     using const_iterator = iterator;
 
-    template <typename RAI_>
-    AggregationView(const RAContainer& objects, RAI_&& indices)
-        : objects_(objects), indices_{std::forward<RAI_>(indices)}
+    IndexedView(const RAContainer& objects, RAIndexContainer&& indices)
+        : objects_(objects), indices_{std::forward<RAIndexContainer>(indices)}
     {}
 
     iterator begin() const { return iterator(objects_, indices_.begin()); }
@@ -81,20 +77,26 @@ public:
 
 private:
     const RAContainer& objects_;
-    RAIndexContainer indices_;
+    add_const_to_value_t<RAIndexContainer> indices_;
 };
+
+#if __cplusplus > 201703L
+// deduction guide only for c++17 :(
+template <class RAContainer, class T>
+IndexedView(const RAContainer&, T &&)->IndexedView<RAContainer, T>;
+#endif
 
 // Utility function for C++14 and below, like make_shared. Deprecated in C++17.
 template <class RAContainer, class RAIndexContainer>
-auto aggregation_view(const RAContainer& objects, RAIndexContainer&& indices)
-  -> AggregationView<RAContainer, RAIndexContainer>
+auto indexed_view(const RAContainer& objects, RAIndexContainer&& indices)
+  -> IndexedView<RAContainer, RAIndexContainer>
 {
     return {objects, std::forward<RAIndexContainer>(indices)};
 }
 
 template <class RAContainer, class RAIndexContainer>
 std::ostream& operator<<(std::ostream& os,
-                         const AggregationView<RAContainer, RAIndexContainer>& A)
+                         const IndexedView<RAContainer, RAIndexContainer>& A)
 {
     for (auto& a : A)
         os << a << ' ';

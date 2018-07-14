@@ -1,5 +1,5 @@
 #pragma once
-#include "AggregationView.hpp"
+#include "IndexedView.hpp"
 #include "VectorHelpers.hpp"
 #include <unordered_map>
 
@@ -7,7 +7,7 @@ namespace dscr
 {
 
 ////////////////////////////////////
-// A compound container is a lazy container whose elements are AggregationViews.
+// A compound container is a lazy container whose elements are IndexedViews.
 // For example,
 //     std::vector<std::string> Objects = {"hello", "world", "goodbye"};
 //     for (auto permutation : compound_container(Objects,Permutations(3)))
@@ -35,7 +35,7 @@ public:
     using size_type = difference_type;
     using indices = typename ContainerOfIndexContainers::value_type;
     using index = typename indices::value_type;
-    using value_type = AggregationView<Container, const indices&>;
+    using value_type = IndexedView<Container, const indices&>;
     class iterator;
     using const_iterator = iterator;
 
@@ -53,7 +53,7 @@ public:
 
     auto operator[](size_type i) const
     {
-        return aggregation_view(objects_, indices_[i]);
+        return indexed_view(objects_, indices_[i]);
     }
 
     class iterator
@@ -86,7 +86,7 @@ public:
 
         value_type dereference() const
         {
-            return aggregation_view(*objects_, *indices_);
+            return indexed_view(*objects_, *indices_);
         }
 
         difference_type distance_to(const iterator& other) const
