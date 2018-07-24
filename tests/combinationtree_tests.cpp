@@ -5,7 +5,7 @@
 #include "common_tests.hpp"
 
 using namespace std;
-using namespace dscr;
+using namespace discreture;
 
 template <class combinations>
 void check_lex_combinations(const combinations& X,
@@ -87,7 +87,7 @@ TEST(LexCombinations, CorrectOrder)
 
 TEST(LexCombinations, EdgeCases)
 {
-    LexCombinations<unsigned char> Z(5, 8);
+    LexCombinations<char> Z(5, 8);
 
     for (const auto& z : Z)
     {

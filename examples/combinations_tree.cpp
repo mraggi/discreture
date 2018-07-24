@@ -9,8 +9,8 @@ int k = 3;
 
 using std::cout;
 using std::endl;
-using dscr::lex_combinations;
-using dscr::operator<<;
+using discreture::lex_combinations;
+using discreture::operator<<;
 
 // Just sets global variables n and k.
 void parse_command_line(int argc, char* argv[]);

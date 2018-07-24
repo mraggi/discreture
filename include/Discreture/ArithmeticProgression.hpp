@@ -6,18 +6,21 @@
 #include <cassert>
 #include <vector>
 
-namespace dscr
+namespace discreture
 {
 
 // An arithmetic progression is simply a set of the form
-// {a,a+d,a+2d,a+3d,...,a+kd}. Similar to python range(n) or range(n,m) or
-// range(n,m,step).
+// {a,a+d,a+2d,a+3d,...,a+kd}. Similar to python range(n,m,step).
 template <class IntType>
 class ArithmeticProgression
 {
 public:
+    static_assert(std::is_integral<IntType>::value,
+                  "Template parameter IntType must be integral");
+    static_assert(std::is_signed<IntType>::value,
+                  "Template parameter IntType must be signed");
     using value_type = IntType;
-    using difference_type = long long;
+    using difference_type = std::ptrdiff_t;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
@@ -133,4 +136,4 @@ private:
 using arithmetic_progression = ArithmeticProgression<int>;
 using big_arithmetic_progression = ArithmeticProgression<std::int64_t>;
 
-} // namespace dscr
+} // namespace discreture

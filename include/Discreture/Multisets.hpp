@@ -4,7 +4,7 @@
 #include "VectorHelpers.hpp"
 #include <boost/iterator/iterator_facade.hpp>
 
-namespace dscr
+namespace discreture
 {
 namespace detail
 {
@@ -49,6 +49,8 @@ namespace detail
         static void for_loop(multiset& x, const multiset& total, idx i, Func f)
         {
             f(x);
+            UNUSED(total);
+            UNUSED(i);
         }
     };
 } // namespace detail
@@ -57,9 +59,13 @@ template <class IntType = int, class RAContainerInt = std::vector<IntType>>
 class Multisets
 {
 public:
+    static_assert(std::is_integral<IntType>::value,
+                  "Template parameter IntType must be integral");
+    static_assert(std::is_signed<IntType>::value,
+                  "Template parameter IntType must be signed");
     using value_type = RAContainerInt;
     using multiset = value_type;
-    using difference_type = long long;
+    using difference_type = std::ptrdiff_t;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
@@ -403,4 +409,4 @@ using boost::container::static_vector;
 using multisets = Multisets<int>;
 using multisets_stack = Multisets<int, static_vector<int, 48>>;
 
-} // namespace dscr
+} // namespace discreture

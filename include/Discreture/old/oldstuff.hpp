@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace dscr
+namespace discreture
 {
 namespace deprecated
 {
@@ -155,7 +155,7 @@ namespace deprecated
         {
             long t = 1;
             for (auto& pa : m_prime_factors)
-                t *= dscr::pow(pa.p, pa.a);
+                t *= discreture::pow(pa.p, pa.a);
             return t;
         }
 
@@ -684,4 +684,4 @@ namespace deprecated
     }
 
 } // namespace deprecated
-} // namespace dscr
+} // namespace discreture

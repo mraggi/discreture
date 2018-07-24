@@ -23,22 +23,22 @@
 
 int main()
 {
-    // Everything in discreture is in the "dscr" namespace.
+    // Everything in discreture is in the "discreture" namespace.
 
-    using dscr::operator<<; // just to print stuff
+    using discreture::operator<<; // just to print stuff
     using std::cout;
     using std::endl;
 
     // Let's iterate over combinations of 5,3 in a few different ways.
     cout << "We iterate over all subsets of size 3 of {0,1,2,3,4}" << endl;
 
-    for (auto& x : dscr::combinations(5, 3))
+    for (auto& x : discreture::combinations(5, 3))
         cout << x << endl; // simply prints out to the screen the combinations.
 
     cout << "\nNow with letters!" << endl;
 
     std::string abcde = "abcde";
-    for (auto x : dscr::combinations(abcde, 3))
+    for (auto x : discreture::combinations(abcde, 3))
         cout << x << endl;
 
     /***
@@ -49,13 +49,13 @@ int main()
      *3. The std::string is necessary, because "abcde" is not a proper
      *container. It's an C-style char array.
      *4. Note that auto& combination does NOT compile.
-     *	    This is because "combination" is of type dscr::indexed_view,
+     *	    This is because "combination" is of type discreture::indexed_view,
      *which vanishes.
      */
 
     cout << "\nNow in reverse!" << endl;
 
-    auto X = dscr::combinations(5, 3);
+    auto X = discreture::combinations(5, 3);
     for (auto i = X.rbegin(); i != X.rend(); ++i)
         cout << *i << endl;
 
@@ -74,33 +74,33 @@ int main()
             "number."
          << endl;
 
-    for (auto& p : dscr::partitions(6))
+    for (auto& p : discreture::partitions(6))
         cout << p << endl;
 
     cout << "\nOr permutations" << endl;
 
-    for (auto& p : dscr::permutations(3))
+    for (auto& p : discreture::permutations(3))
         cout << p << endl;
 
     cout << "\nOr permutations of a string" << endl;
     std::string abc = "abc";
-    for (auto p : dscr::permutations(abc)) // remember: no &
+    for (auto p : discreture::permutations(abc)) // remember: no &
         cout << p << endl;
 
     cout << "\nOr dyck paths" << endl;
-    for (auto& dyckpath : dscr::dyck_paths(3))
+    for (auto& dyckpath : discreture::dyck_paths(3))
         cout << dyckpath << endl;
 
     cout << "\nMotzkin paths" << endl;
-    for (auto& motz : dscr::motzkin_paths(3))
+    for (auto& motz : discreture::motzkin_paths(3))
         cout << motz << endl;
 
     cout << "\nMultisets of {2,2,1}" << endl;
-    for (auto& submulti : dscr::multisets({2, 2, 1}))
+    for (auto& submulti : discreture::multisets({2, 2, 1}))
         cout << submulti << endl;
 
     cout << "\nSet partions" << endl;
-    for (auto& setpartition : dscr::set_partitions(4))
+    for (auto& setpartition : discreture::set_partitions(4))
     {
         cout << '|';
         for (auto& part : setpartition)
@@ -124,7 +124,7 @@ int main()
           partialcomb[k - 1]%partialcomb[k - 2] == 0;
     }; // This can be any function or lambda or functor.
 
-    dscr::Combinations<int> C(321, 8);
+    discreture::Combinations<int> C(321, 8);
 
     for (auto& c : C.find_all(divides))
     {
@@ -136,9 +136,9 @@ int main()
     // [1], [1 5], [1 5 10] and so on.
 
     cout << "If you need more speed, use the for_each method." << endl;
-    dscr::Combinations<int> U(10, 5); // for large 10 and 5
+    discreture::Combinations<int> U(10, 5); // for large 10 and 5
     U.for_each([](const auto& u) {
-        using dscr::operator<<;
+        using discreture::operator<<;
         if (u.back() == 8)
             cout << u << endl;
     });

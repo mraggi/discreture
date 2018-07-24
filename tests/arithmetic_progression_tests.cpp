@@ -5,7 +5,7 @@
 #include <iostream>
 
 using namespace std;
-using namespace dscr;
+using namespace discreture;
 
 TEST(ArithmeticProgression, ForwardIteration)
 {
@@ -47,9 +47,9 @@ TEST(ArithmeticProgression, Empty)
 {
     for (int i = 0; i < 100; ++i)
     {
-        int a = dscr::random::random_int(0, 100);
-        int b = dscr::random::random_int(0, 100);
-        int t = dscr::random::random_int(-100, 100);
+        int a = discreture::random::random_int(0, 100);
+        int b = discreture::random::random_int(0, 100);
+        int t = discreture::random::random_int(-100, 100);
         if (t == 0)
             continue;
         if (t > 0 && a < b)

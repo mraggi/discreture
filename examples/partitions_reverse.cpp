@@ -6,8 +6,8 @@
 using std::cout;
 using std::endl;
 using std::stringstream;
-using dscr::partitions;
-using dscr::operator<<;
+using discreture::partitions;
+using discreture::operator<<;
 
 int n = 6;
 int min_parts = 1;

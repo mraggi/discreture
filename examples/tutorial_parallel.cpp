@@ -19,8 +19,8 @@
 
 int main()
 {
-    using dscr::combinations;
-    using dscr::Chronometer;
+    using discreture::combinations;
+    using discreture::Chronometer;
 
     using std::cout;
     using std::endl;

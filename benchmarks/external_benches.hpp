@@ -8,11 +8,11 @@ using boost::container::static_vector; // NOLINT
 
 inline void BM_LexCombinationsNAP(int n, int k)
 {
-    using cts = dscr::LexCombinations<int, static_vector<int, 32>>;
+    using cts = discreture::LexCombinations<int, static_vector<int, 32>>;
     cts::combination comb(k);
     std::iota(comb.begin(), comb.end(), 0);
     int count = 0;
-    auto size = dscr::binomial<std::int64_t>(n, k);
+    auto size = discreture::binomial<std::int64_t>(n, k);
     for (; count < size; ++count)
     {
         DoNotOptimize(comb);
@@ -22,8 +22,8 @@ inline void BM_LexCombinationsNAP(int n, int k)
 
 inline std::int64_t BM_LexCombinationsFindAll(int n, int k)
 {
-    using cts = dscr::LexCombinations<int, static_vector<int, 32>>;
-    auto W = dscr::lex_combinations_stack(n, k);
+    using cts = discreture::LexCombinations<int, static_vector<int, 32>>;
+    auto W = discreture::lex_combinations_stack(n, k);
     auto T = W.find_all([](const cts::combination& A) {
         if (A.size() < 2)
             return true;

@@ -5,7 +5,7 @@
 #include <set>
 
 using namespace std;
-using namespace dscr;
+using namespace discreture;
 
 TEST(Sequences, Binomial)
 {

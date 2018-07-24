@@ -6,7 +6,7 @@
 #include <set>
 
 using namespace std;
-using namespace dscr;
+using namespace discreture;
 
 void check_multiset(const multisets::multiset& x,
                     const multisets::multiset& total)

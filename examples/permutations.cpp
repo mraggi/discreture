@@ -6,8 +6,8 @@
 
 using std::cout;
 using std::stringstream;
-using dscr::permutations;
-using dscr::operator<<;
+using discreture::permutations;
+using discreture::operator<<;
 
 int n = 3;
 std::string N;

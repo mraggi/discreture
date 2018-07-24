@@ -5,7 +5,7 @@
 #include <iostream>
 
 using namespace std;
-using namespace dscr;
+using namespace discreture;
 
 template <class combinations>
 void check_combination(const combinations& X,
@@ -198,19 +198,19 @@ TEST(Combinations, next_combination)
     std::iota(A.begin(), A.end(), 0);
     std::vector<int> B = A;
     std::vector<int> C = A;
-    long long hintB = k;
-    long long hintC = k;
+    std::ptrdiff_t hintB = k;
+    std::ptrdiff_t hintC = k;
 
     int i = 0;
     do
     {
         ASSERT_EQ(A, B);
         ASSERT_EQ(B, C);
-        dscr::Combinations<int>::next_combination(n, B, hintB);
-        dscr::Combinations<int>::next_combination(n, C, hintC, k - 1);
+        discreture::Combinations<int>::next_combination(n, B, hintB);
+        discreture::Combinations<int>::next_combination(n, C, hintC, k - 1);
 
-        dscr::Combinations<int>::iterator it(A);
+        discreture::Combinations<int>::iterator it(A);
         ASSERT_EQ(it.ID(), i);
         ++i;
-    } while (dscr::Combinations<int>::next_combination(n, A));
+    } while (discreture::Combinations<int>::next_combination(n, A));
 }

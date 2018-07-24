@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <numeric>
 #include <type_traits>
-namespace dscr
+namespace discreture
 {
 ////////////////////////////////////////////////////////////
 /// \brief class of all n! permutation of size n of the set {0,1,...,n-1}.
@@ -46,9 +46,13 @@ template <class IntType = int, class RAContainerInt = std::vector<IntType>>
 class Permutations
 {
 public:
+    static_assert(std::is_integral<IntType>::value,
+                  "Template parameter IntType must be integral");
+    static_assert(std::is_signed<IntType>::value,
+                  "Template parameter IntType must be signed");
     using value_type = RAContainerInt;
     using permutation = value_type;
-    using difference_type = long long;
+    using difference_type = std::ptrdiff_t;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
@@ -469,4 +473,4 @@ auto permutations(T X)
     return Permutations<T>(X);
 }
 
-} // namespace dscr
+} // namespace discreture

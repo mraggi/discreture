@@ -5,7 +5,7 @@
 #include <cassert>
 #include <vector>
 
-namespace dscr
+namespace discreture
 {
 
 // An integer interval is a closed-open interval of integers. For example,
@@ -15,7 +15,7 @@ class IntegerInterval
 {
 public:
     using value_type = IntType;
-    using difference_type = long long;
+    using difference_type = std::ptrdiff_t;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
@@ -103,10 +103,10 @@ auto II(IntType from, IntType to)
     return IntegerInterval<IntType>{from, to};
 }
 
-template <class Container, class T = typename Container::size_type>
+template <class Container, class Index = std::ptrdiff_t>
 auto indices(const Container& C)
 {
-    return IntegerInterval<T>(C.size());
+    return IntegerInterval<Index>(C.size());
 }
 
-} // namespace dscr
+} // namespace discreture

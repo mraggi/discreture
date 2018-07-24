@@ -1,3 +1,4 @@
+
 #ifndef RANG_DOT_HPP
 #define RANG_DOT_HPP
 
@@ -12,24 +13,43 @@
 #endif
 
 #if defined(OS_LINUX) || defined(OS_MAC)
-#include <cstring>
 #include <unistd.h>
+
 #elif defined(OS_WIN)
-#include <VersionHelpers.h>
+
+#if defined(_WIN32_WINNT) && (_WIN32_WINNT < 0x0600)
+#error                                                                         \
+  "Please include rang.hpp before any windows system headers or set _WIN32_WINNT at least to _WIN32_WINNT_VISTA"
+#elif !defined(_WIN32_WINNT)
+#define _WIN32_WINNT _WIN32_WINNT_VISTA
+#endif
+
 #include <io.h>
+#include <memory>
 #include <windows.h>
+
+// Only defined in windows 10 onwards, redefining in lower windows since it
+// doesn't gets used in lower versions
+// https://docs.microsoft.com/en-us/windows/console/getconsolemode
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
+
 #endif
 
 #include <algorithm>
+#include <atomic>
 #include <cstdlib>
-#include <ios>
+#include <cstring>
 #include <iostream>
-#include <iterator>
-#include <type_traits>
 
 namespace rang
 {
 
+/* For better compability with most of terminals do not use any style settings
+ *except of reset, bold and reversed.
+ *Note that on Windows terminals bold style is same as fgB color.
+ */
 enum class style
 {
     reset = 0,
@@ -95,92 +115,170 @@ enum class bgB
 };
 
 enum class control
-{
-    autoColor = 0,
-    forceColor = 1
+{ // Behaviour of rang function calls
+    Off = 0, // toggle off rang style/color calls
+    Auto = 1, // (Default) autodect terminal and colorize if needed
+    Force = 2 // force ansi color output to non terminal streams
 };
+// Use rang::setControlMode to set rang control mode
+
+enum class winTerm
+{ // Windows Terminal Mode
+    Auto = 0, // (Default) automatically detects wheter Ansi or Native API
+    Ansi = 1, // Force use Ansi API
+    Native = 2 // Force use Native API
+};
+// Use rang::setWinTermMode to explicitly set terminal API for Windows
+// Calling rang::setWinTermMode have no effect on other OS
 
 namespace rang_implementation
 {
 
-    inline std::streambuf const*& RANG_coutbuf()
+    inline std::atomic<control>& controlMode() noexcept
     {
-        static std::streambuf const* pOutbuff = std::cout.rdbuf();
-        return pOutbuff;
+        static std::atomic<control> value(control::Auto);
+        return value;
     }
 
-    inline std::streambuf const*& RANG_cerrbuf()
+    inline std::atomic<winTerm>& winTermMode() noexcept
     {
-        static std::streambuf const* pErrbuff = std::cerr.rdbuf();
-        return pErrbuff;
+        static std::atomic<winTerm> termMode(winTerm::Auto);
+        return termMode;
     }
 
-    inline std::streambuf const*& RANG_clogbuf()
-    {
-        static std::streambuf const* pLogbuff = std::clog.rdbuf();
-        return pLogbuff;
-    }
-
-    inline int getIword()
-    {
-        static int i = std::ios_base::xalloc();
-        return i;
-    }
-
-    inline bool supportsColor()
+    inline bool supportsColor() noexcept
     {
 #if defined(OS_LINUX) || defined(OS_MAC)
-        static constexpr const char* Terms[] = {"ansi",
-                                                "color",
-                                                "console",
-                                                "cygwin",
-                                                "gnome",
-                                                "konsole",
-                                                "kterm",
-                                                "linux",
-                                                "msys",
-                                                "putty",
-                                                "rxvt",
-                                                "screen",
-                                                "vt100",
-                                                "xterm"};
 
-        const char* env_p = std::getenv("TERM");
-        if (env_p == nullptr)
-        {
-            return false;
-        }
+        static const bool result = [] {
+            const char* Terms[] = {"ansi",
+                                   "color",
+                                   "console",
+                                   "cygwin",
+                                   "gnome",
+                                   "konsole",
+                                   "kterm",
+                                   "linux",
+                                   "msys",
+                                   "putty",
+                                   "rxvt",
+                                   "screen",
+                                   "vt100",
+                                   "xterm"};
 
-        static const bool result =
-          std::any_of(std::begin(Terms), std::end(Terms), [&](const char* term) {
-              return std::strstr(env_p, term) != nullptr;
-          });
+            const char* env_p = std::getenv("TERM");
+            if (env_p == nullptr)
+            {
+                return false;
+            }
+            return std::any_of(std::begin(Terms),
+                               std::end(Terms),
+                               [&](const char* term) {
+                                   return std::strstr(env_p, term) != nullptr;
+                               });
+        }();
 
 #elif defined(OS_WIN)
+        // All windows versions support colors through native console methods
         static constexpr bool result = true;
 #endif
         return result;
     }
 
-    inline bool isTerminal(const std::streambuf* osbuf)
+#ifdef OS_WIN
+
+    inline bool isMsysPty(int fd) noexcept
     {
-        if (osbuf == RANG_coutbuf())
+        // Dynamic load for binary compability with old Windows
+        const auto ptrGetFileInformationByHandleEx =
+          reinterpret_cast<decltype(&GetFileInformationByHandleEx)>(
+            GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")),
+                           "GetFileInformationByHandleEx"));
+        if (!ptrGetFileInformationByHandleEx)
         {
-#if defined(OS_LINUX) || defined(OS_MAC)
-            return isatty(fileno(stdout)) != 0 ? true : false;
-#elif defined(OS_WIN)
-            return _isatty(_fileno(stdout)) ? true : false;
-#endif
+            return false;
         }
 
-        if (osbuf == RANG_cerrbuf() || osbuf == RANG_clogbuf())
+        HANDLE h = reinterpret_cast<HANDLE>(_get_osfhandle(fd));
+        if (h == INVALID_HANDLE_VALUE)
         {
-#if defined(OS_LINUX) || defined(OS_MAC)
-            return isatty(fileno(stderr)) != 0 ? true : false;
-#elif defined(OS_WIN)
-            return _isatty(_fileno(stderr)) ? true : false;
-#endif
+            return false;
         }
+
+        // Check that it's a pipe:
+        if (GetFileType(h) != FILE_TYPE_PIPE)
+        {
+            return false;
+        }
+
+        // POD type is binary compatible with FILE_NAME_INFO from WinBase.h
+        // It have the same alignment and used to avoid UB in caller code
+        struct MY_FILE_NAME_INFO
+        {
+            DWORD FileNameLength;
+            WCHAR FileName[MAX_PATH];
+        };
+
+        auto pNameInfo = std::unique_ptr<MY_FILE_NAME_INFO>(
+          new (std::nothrow) MY_FILE_NAME_INFO());
+        if (!pNameInfo)
+        {
+            return false;
+        }
+
+        // Check pipe name is template of
+        // {"cygwin-","msys-"}XXXXXXXXXXXXXXX-ptyX-XX
+        if (!ptrGetFileInformationByHandleEx(h,
+                                             FileNameInfo,
+                                             pNameInfo.get(),
+                                             sizeof(MY_FILE_NAME_INFO)))
+        {
+            return false;
+        }
+        std::wstring name(pNameInfo->FileName,
+                          pNameInfo->FileNameLength/sizeof(WCHAR));
+        if ((name.find(L"msys-") == std::wstring::npos &&
+             name.find(L"cygwin-") == std::wstring::npos) ||
+            name.find(L"-pty") == std::wstring::npos)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+#endif
+
+    inline bool isTerminal(const std::streambuf* osbuf) noexcept
+    {
+        using std::cerr;
+        using std::clog;
+        using std::cout;
+#if defined(OS_LINUX) || defined(OS_MAC)
+        if (osbuf == cout.rdbuf())
+        {
+            static const bool cout_term = isatty(fileno(stdout)) != 0;
+            return cout_term;
+        }
+        if (osbuf == cerr.rdbuf() || osbuf == clog.rdbuf())
+        {
+            static const bool cerr_term = isatty(fileno(stderr)) != 0;
+            return cerr_term;
+        }
+#elif defined(OS_WIN)
+        if (osbuf == cout.rdbuf())
+        {
+            static const bool cout_term =
+              (_isatty(_fileno(stdout)) || isMsysPty(_fileno(stdout)));
+            return cout_term;
+        }
+        if (osbuf == cerr.rdbuf() || osbuf == clog.rdbuf())
+        {
+            static const bool cerr_term =
+              (_isatty(_fileno(stderr)) || isMsysPty(_fileno(stderr)));
+            return cerr_term;
+        }
+#endif
         return false;
     }
 
@@ -192,75 +290,260 @@ namespace rang_implementation
       std::ostream&>::type;
 
 #ifdef OS_WIN
-    inline HANDLE getVersionDependentHandle()
-    {
-        if (IsWindowsVersionOrGreater(10, 0, 0))
-            return nullptr;
-        return GetStdHandle(STD_OUTPUT_HANDLE);
-    }
 
-    inline HANDLE getConsoleHandle()
-    {
-        static HANDLE h = getVersionDependentHandle();
-        return h;
-    }
+    struct SGR
+    { // Select Graphic Rendition parameters for Windows console
+        BYTE fgColor; // foreground color (0-15) lower 3 rgb bits + intense bit
+        BYTE bgColor; // background color (0-15) lower 3 rgb bits + intense bit
+        BYTE bold; // emulated as FOREGROUND_INTENSITY bit
+        BYTE underline; // emulated as BACKGROUND_INTENSITY bit
+        BOOLEAN inverse; // swap foreground/bold & background/underline
+        BOOLEAN conceal; // set foreground/bold to background/underline
+    };
 
-    inline WORD reverseRGB(WORD rgb)
-    {
-        static const WORD rev[8] = {0, 4, 2, 6, 1, 5, 3, 7};
-        return rev[rgb];
-    }
+    enum class AttrColor : BYTE
+    { // Color attributes for console screen buffer
+        black = 0,
+        red = 4,
+        green = 2,
+        yellow = 6,
+        blue = 1,
+        magenta = 5,
+        cyan = 3,
+        gray = 7
+    };
 
-    inline void setWinAttribute(rang::bg col, WORD& state)
+    inline HANDLE getConsoleHandle(const std::streambuf* osbuf) noexcept
     {
-        state &= 0xFF0F;
-        state |= reverseRGB(static_cast<WORD>(col) - 40) << 4;
-    }
-
-    inline void setWinAttribute(rang::fg col, WORD& state)
-    {
-        state &= 0xFFF0;
-        state |= reverseRGB(static_cast<WORD>(col) - 30);
-    }
-
-    inline void setWinAttribute(rang::bgB col, WORD& state)
-    {
-        state &= 0xFF0F;
-        state |= (0x8 | reverseRGB(static_cast<WORD>(col) - 100)) << 4;
-    }
-
-    inline void setWinAttribute(rang::fgB col, WORD& state)
-    {
-        state &= 0xFFF0;
-        state |= (0x8 | reverseRGB(static_cast<WORD>(col) - 90));
-    }
-
-    inline void setWinAttribute(rang::style style, WORD& state)
-    {
-        if (style == rang::style::reset)
+        if (osbuf == std::cout.rdbuf())
         {
-            state = (FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+            static const HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+            return hStdout;
+        }
+        else if (osbuf == std::cerr.rdbuf() || osbuf == std::clog.rdbuf())
+        {
+            static const HANDLE hStderr = GetStdHandle(STD_ERROR_HANDLE);
+            return hStderr;
+        }
+        return INVALID_HANDLE_VALUE;
+    }
+
+    inline bool setWinTermAnsiColors(const std::streambuf* osbuf) noexcept
+    {
+        HANDLE h = getConsoleHandle(osbuf);
+        if (h == INVALID_HANDLE_VALUE)
+        {
+            return false;
+        }
+        DWORD dwMode = 0;
+        if (!GetConsoleMode(h, &dwMode))
+        {
+            return false;
+        }
+        dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+        if (!SetConsoleMode(h, dwMode))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    inline bool supportsAnsi(const std::streambuf* osbuf) noexcept
+    {
+        using std::cerr;
+        using std::clog;
+        using std::cout;
+        if (osbuf == cout.rdbuf())
+        {
+            static const bool cout_ansi =
+              (isMsysPty(_fileno(stdout)) || setWinTermAnsiColors(osbuf));
+            return cout_ansi;
+        }
+        else if (osbuf == cerr.rdbuf() || osbuf == clog.rdbuf())
+        {
+            static const bool cerr_ansi =
+              (isMsysPty(_fileno(stderr)) || setWinTermAnsiColors(osbuf));
+            return cerr_ansi;
+        }
+        return false;
+    }
+
+    inline const SGR& defaultState() noexcept
+    {
+        static const SGR defaultSgr = []() -> SGR {
+            CONSOLE_SCREEN_BUFFER_INFO info;
+            WORD attrib = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+            if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),
+                                           &info) ||
+                GetConsoleScreenBufferInfo(GetStdHandle(STD_ERROR_HANDLE),
+                                           &info))
+            {
+                attrib = info.wAttributes;
+            }
+            SGR sgr = {0, 0, 0, 0, FALSE, FALSE};
+            sgr.fgColor = attrib & 0x0F;
+            sgr.bgColor = (attrib & 0xF0) >> 4;
+            return sgr;
+        }();
+        return defaultSgr;
+    }
+
+    inline BYTE ansi2attr(BYTE rgb) noexcept
+    {
+        static const AttrColor rev[8] = {AttrColor::black,
+                                         AttrColor::red,
+                                         AttrColor::green,
+                                         AttrColor::yellow,
+                                         AttrColor::blue,
+                                         AttrColor::magenta,
+                                         AttrColor::cyan,
+                                         AttrColor::gray};
+        return static_cast<BYTE>(rev[rgb]);
+    }
+
+    inline void setWinSGR(rang::bg col, SGR& state) noexcept
+    {
+        if (col != rang::bg::reset)
+        {
+            state.bgColor = ansi2attr(static_cast<BYTE>(col) - 40);
+        }
+        else
+        {
+            state.bgColor = defaultState().bgColor;
         }
     }
 
-    inline WORD& current_state()
+    inline void setWinSGR(rang::fg col, SGR& state) noexcept
     {
-        static WORD state =
-          (FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+        if (col != rang::fg::reset)
+        {
+            state.fgColor = ansi2attr(static_cast<BYTE>(col) - 30);
+        }
+        else
+        {
+            state.fgColor = defaultState().fgColor;
+        }
+    }
+
+    inline void setWinSGR(rang::bgB col, SGR& state) noexcept
+    {
+        state.bgColor = (BACKGROUND_INTENSITY >> 4) |
+          ansi2attr(static_cast<BYTE>(col) - 100);
+    }
+
+    inline void setWinSGR(rang::fgB col, SGR& state) noexcept
+    {
+        state.fgColor = FOREGROUND_INTENSITY |
+          ansi2attr(static_cast<BYTE>(col) - 90);
+    }
+
+    inline void setWinSGR(rang::style style, SGR& state) noexcept
+    {
+        switch (style)
+        {
+        case rang::style::reset:
+            state = defaultState();
+            break;
+        case rang::style::bold:
+            state.bold = FOREGROUND_INTENSITY;
+            break;
+        case rang::style::underline:
+        case rang::style::blink:
+            state.underline = BACKGROUND_INTENSITY;
+            break;
+        case rang::style::reversed:
+            state.inverse = TRUE;
+            break;
+        case rang::style::conceal:
+            state.conceal = TRUE;
+            break;
+        default:
+            break;
+        }
+    }
+
+    inline SGR& current_state() noexcept
+    {
+        static SGR state = defaultState();
         return state;
+    }
+
+    inline WORD SGR2Attr(const SGR& state) noexcept
+    {
+        WORD attrib = 0;
+        if (state.conceal)
+        {
+            if (state.inverse)
+            {
+                attrib = (state.fgColor << 4) | state.fgColor;
+                if (state.bold)
+                    attrib |= FOREGROUND_INTENSITY | BACKGROUND_INTENSITY;
+            }
+            else
+            {
+                attrib = (state.bgColor << 4) | state.bgColor;
+                if (state.underline)
+                    attrib |= FOREGROUND_INTENSITY | BACKGROUND_INTENSITY;
+            }
+        }
+        else if (state.inverse)
+        {
+            attrib = (state.fgColor << 4) | state.bgColor;
+            if (state.bold)
+                attrib |= BACKGROUND_INTENSITY;
+            if (state.underline)
+                attrib |= FOREGROUND_INTENSITY;
+        }
+        else
+        {
+            attrib = state.fgColor | (state.bgColor << 4) | state.bold |
+              state.underline;
+        }
+        return attrib;
+    }
+
+    template <typename T>
+    inline void setWinColorAnsi(std::ostream& os, T const value)
+    {
+        os << "\033[" << static_cast<int>(value) << "m";
+    }
+
+    template <typename T>
+    inline void setWinColorNative(std::ostream& os, T const value)
+    {
+        const HANDLE h = getConsoleHandle(os.rdbuf());
+        if (h != INVALID_HANDLE_VALUE)
+        {
+            setWinSGR(value, current_state());
+            // Out all buffered text to console with previous settings:
+            os.flush();
+            SetConsoleTextAttribute(h, SGR2Attr(current_state()));
+        }
     }
 
     template <typename T>
     inline enableStd<T> setColor(std::ostream& os, T const value)
     {
-        HANDLE h = getConsoleHandle();
-        if (h && isTerminal(os.rdbuf()))
+        if (winTermMode() == winTerm::Auto)
         {
-            setWinAttribute(value, current_state());
-            SetConsoleTextAttribute(h, current_state());
-            return os;
+            if (supportsAnsi(os.rdbuf()))
+            {
+                setWinColorAnsi(os, value);
+            }
+            else
+            {
+                setWinColorNative(os, value);
+            }
         }
-        return os << "\033[" << static_cast<int>(value) << "m";
+        else if (winTermMode() == winTerm::Ansi)
+        {
+            setWinColorAnsi(os, value);
+        }
+        else
+        {
+            setWinColorNative(os, value);
+        }
+        return os;
     }
 #else
     template <typename T>
@@ -269,46 +552,37 @@ namespace rang_implementation
         return os << "\033[" << static_cast<int>(value) << "m";
     }
 #endif
-
-    template <typename T>
-    using enableControl =
-      typename std::enable_if<std::is_same<T, rang::control>::value,
-                              std::ostream&>::type;
 } // namespace rang_implementation
-
-inline void init()
-{
-    rang_implementation::RANG_coutbuf();
-    rang_implementation::RANG_cerrbuf();
-    rang_implementation::RANG_clogbuf();
-}
 
 template <typename T>
 inline rang_implementation::enableStd<T> operator<<(std::ostream& os,
-                                                    T const value)
+                                                    const T value)
 {
-    std::streambuf const* osbuf = os.rdbuf();
-    return (os.iword(rang_implementation::getIword()) ||
-            ((rang_implementation::supportsColor()) &&
-             (rang_implementation::isTerminal(osbuf))))
-      ? rang_implementation::setColor(os, value)
-      : os;
+    const control option = rang_implementation::controlMode();
+    switch (option)
+    {
+    case control::Auto:
+        return rang_implementation::supportsColor() &&
+            rang_implementation::isTerminal(os.rdbuf())
+          ? rang_implementation::setColor(os, value)
+          : os;
+    case control::Force:
+        return rang_implementation::setColor(os, value);
+    default:
+        return os;
+    }
 }
 
-template <typename T>
-inline rang_implementation::enableControl<T> operator<<(std::ostream& os,
-                                                        T const value)
+inline void setWinTermMode(const rang::winTerm value) noexcept
 {
-    if (value == rang::control::forceColor)
-    {
-        os.iword(rang_implementation::getIword()) = 1;
-    }
-    else if (value == rang::control::autoColor)
-    {
-        os.iword(rang_implementation::getIword()) = 0;
-    }
-    return os;
+    rang_implementation::winTermMode() = value;
 }
+
+inline void setControlMode(const control value) noexcept
+{
+    rang_implementation::controlMode() = value;
+}
+
 } // namespace rang
 
 #undef OS_LINUX

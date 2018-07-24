@@ -9,8 +9,8 @@ using std::cout;
 void bench_partitions()
 {
     constexpr int npart = 75;
-    auto PT = dscr::partitions(npart);
-    auto PTF = dscr::partitions_stack(npart);
+    auto PT = discreture::partitions(npart);
+    auto PTF = discreture::partitions_stack(npart);
 
     cout << ProduceRowForward("Partitions", PT);
     cout << ProduceRowForward("Partitions Stack", PTF);
@@ -21,6 +21,6 @@ void bench_partitions()
 void bench_set_partitions()
 {
     const int nsetpart = 13;
-    auto SPT = dscr::set_partitions(nsetpart);
+    auto SPT = discreture::set_partitions(nsetpart);
     cout << ProduceRowForward("Set Partitions", SPT);
 }

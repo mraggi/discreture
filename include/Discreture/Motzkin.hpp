@@ -4,7 +4,7 @@
 #include "DyckPaths.hpp"
 #include <boost/iterator/iterator_facade.hpp>
 
-namespace dscr
+namespace discreture
 {
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -54,9 +54,13 @@ template <class IntType = int, class RAContainerInt = std::vector<IntType>>
 class MotzkinPaths
 {
 public:
+    static_assert(std::is_integral<IntType>::value,
+                  "Template parameter IntType must be integral");
+    static_assert(std::is_signed<IntType>::value,
+                  "Template parameter IntType must be signed");
     using value_type = RAContainerInt;
     using motzkin_path = value_type;
-    using difference_type = long long;
+    using difference_type = std::ptrdiff_t;
     using size_type = difference_type;
     using comb_i = typename Combinations<IntType, RAContainerInt>::iterator;
     using dyck_i = typename DyckPaths<IntType, RAContainerInt>::iterator;
@@ -193,4 +197,4 @@ using boost::container::static_vector;
 using motzkin_paths = MotzkinPaths<int>;
 using motzkin_paths_stack = MotzkinPaths<int, static_vector<int, 48>>;
 
-} // namespace dscr
+} // namespace discreture

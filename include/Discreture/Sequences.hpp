@@ -3,7 +3,7 @@
 #include "VectorHelpers.hpp"
 #include <iostream>
 #include <vector>
-namespace dscr
+namespace discreture
 {
 using llint = long long int; // NOLINT : I want this to be as big as possible,
                              // not restricted to 64 bits. If in the future
@@ -354,4 +354,4 @@ inline BigIntType stirling_partition_number(llint n, llint k)
     return S2[n][k];
 }
 
-} // namespace dscr
+} // namespace discreture

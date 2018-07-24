@@ -10,34 +10,42 @@ constexpr int k = 10;
 
 void parallel_combinations(int num_processors)
 {
-    auto C = dscr::combinations(n, k);
-    auto CF = dscr::combinations_stack(n, k);
+    auto C = discreture::combinations(n, k);
     cout << ProduceRowParallelForward("Combs", C, num_processors);
-    cout << ProduceRowParallelForward("Combs Stack", CF, num_processors);
 }
 
 void parallel_lex_combinations(int num_processors)
 {
-    auto C = dscr::lex_combinations(n, k);
-    auto CF = dscr::lex_combinations_stack(n, k);
-    cout << ProduceRowParallelForward("Combs Tree", C, num_processors);
-    cout << ProduceRowParallelForward("Combs Tree Stack", CF, num_processors);
+    auto C = discreture::lex_combinations(n, k);
+    cout << ProduceRowParallelForward("Lex Combs", C, num_processors);
+}
+
+void parallel_permutations(int num_processors)
+{
+    auto C = discreture::permutations(12);
+    cout << ProduceRowParallelForward("Perms", C, num_processors);
+}
+
+void parallel_multisets(int num_processors)
+{
+    auto C = discreture::multisets(31, 1);
+    cout << ProduceRowParallelForward("Multisets", C, num_processors);
 }
 
 // void parallel_permutations(int num_processors)
 // {
-//     auto P = dscr::permutations(14);
+//     auto P = discreture::permutations(14);
 //     cout << ProduceRowParallelForward("Permutations", P, num_processors);
 // }
 
 int main()
 {
-    int num_processors = 8;
+    constexpr int num_processors = 8;
     using std::cout;
     using std::endl;
 
     std::ios_base::sync_with_stdio(false);
-    dscr::Chronometer chrono;
+    discreture::Chronometer chrono;
 
     cout << "|================================ Starting Speed Tests "
             "===============================|"
@@ -49,16 +57,18 @@ int main()
 
     parallel_combinations(num_processors);
 
-    BenchRow::print_line(cout);
-
     parallel_lex_combinations(num_processors);
+
+    parallel_permutations(num_processors);
+
+    parallel_multisets(num_processors);
 
     BenchRow::print_line(cout);
 
     //     parallel_permutations(num_processors);
 
     cout << std::defaultfloat;
-    cout << "\nTotal Time taken = " << chrono.Peek() << "s" << endl;
+    cout << "\nTotal Time taken = " << chrono.Peek() << "s\n";
 
     return 0;
 }

@@ -9,7 +9,7 @@
 #include "VectorHelpers.hpp"
 #include <boost/iterator/iterator_facade.hpp>
 
-namespace dscr
+namespace discreture
 {
 
 ////////////////////////////////////////////////////////////
@@ -53,10 +53,14 @@ template <class IntType = int>
 class SetPartitions
 {
 public:
+    static_assert(std::is_integral<IntType>::value,
+                  "Template parameter IntType must be integral");
+    static_assert(std::is_signed<IntType>::value,
+                  "Template parameter IntType must be signed");
     using number_partition = std::vector<IntType>;
     using value_type = std::vector<number_partition>;
     using set_partition = value_type;
-    using difference_type = long long;
+    using difference_type = std::ptrdiff_t;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
@@ -292,4 +296,4 @@ private:
 
 using set_partitions = SetPartitions<int>;
 
-} // namespace dscr
+} // namespace discreture

@@ -2,7 +2,7 @@
 #include "Misc.hpp"
 #include "TemplateHelpers.hpp"
 
-namespace dscr
+namespace discreture
 {
 
 ///////////////////////////////////////////////
@@ -16,7 +16,7 @@ class IndexedView
 {
 public:
     using value_type = typename RAContainer::value_type;
-    using size_type = long long;
+    using size_type = std::ptrdiff_t;
     using difference_type = size_type;
     class iterator;
     using const_iterator = iterator;
@@ -103,4 +103,4 @@ std::ostream& operator<<(std::ostream& os,
     return os;
 }
 
-} // namespace dscr
+} // namespace discreture

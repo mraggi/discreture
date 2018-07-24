@@ -7,7 +7,7 @@
 using std::cout;
 using std::endl;
 using std::stringstream;
-using dscr::arithmetic_progression;
+using discreture::arithmetic_progression;
 
 int from = 2;
 int to = 15;

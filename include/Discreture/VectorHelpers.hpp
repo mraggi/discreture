@@ -8,7 +8,7 @@
 
 #include "Misc.hpp"
 
-namespace dscr
+namespace discreture
 {
 
 ////////////////////////////////////
@@ -76,4 +76,4 @@ vecT compose(const vecT& f, const std::vector<IntType>& g)
     return toReturn;
 }
 
-} // namespace dscr
+} // namespace discreture

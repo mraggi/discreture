@@ -6,8 +6,8 @@
 using std::cout;
 using std::endl;
 using std::stringstream;
-using dscr::set_partitions;
-using dscr::operator<<;
+using discreture::set_partitions;
+using discreture::operator<<;
 
 const int default_num = 4;
 int n = default_num;

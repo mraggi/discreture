@@ -4,7 +4,7 @@
 #include <set>
 
 using namespace std;
-using namespace dscr;
+using namespace discreture;
 
 void check_motzkin_path(const motzkin_paths::motzkin_path& x)
 {

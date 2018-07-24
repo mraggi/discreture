@@ -10,8 +10,8 @@ void bench_permutations()
     constexpr int nperm = 12;
     constexpr int construct = 1000000;
 
-    auto P = dscr::permutations(nperm);
-    auto PF = dscr::permutations_stack(nperm);
+    auto P = discreture::permutations(nperm);
+    auto PF = discreture::permutations_stack(nperm);
 
     cout << ProduceRowForward("Permutations", P);
     cout << ProduceRowForward("Permutations Stack", PF);

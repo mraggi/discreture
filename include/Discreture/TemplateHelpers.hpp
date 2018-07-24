@@ -1,7 +1,7 @@
 #pragma once
 #include <type_traits>
 
-namespace dscr
+namespace discreture
 {
 
 template <typename T>
@@ -37,4 +37,4 @@ struct add_const_to_value
 template <class T>
 using add_const_to_value_t = typename add_const_to_value<T>::type;
 
-} // namespace dscr
+} // namespace discreture

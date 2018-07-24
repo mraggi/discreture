@@ -3,7 +3,7 @@
 #include "Misc.hpp"
 #include <ctime>
 #include <random>
-namespace dscr
+namespace discreture
 {
 namespace random
 {
@@ -59,4 +59,4 @@ namespace random
     }
 
 } // namespace random
-} // namespace dscr
+} // namespace discreture

@@ -6,7 +6,7 @@
 
 inline void BM_PermutationsRandom(int n, int numtimes)
 {
-    auto X = dscr::permutations(n);
+    auto X = discreture::permutations(n);
 
     for (int i = 0; i < numtimes; ++i)
     {

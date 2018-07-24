@@ -160,19 +160,6 @@ if(BUILD_BENCHMARKS)
 	
 endif()
 
-if(${BUILD_OLD_BENCHMARKS})
-	find_package(GSL)
-	if (${GSL_FOUND})
-		add_definitions(-DTEST_GSL_COMBINATIONS)
-		include_directories(${GSL_INCLUDE_DIRS})
-	endif(${GSL_FOUND})
-	file(GLOB OLD_BENCHMARK_SRC_FILES ${PROJECT_SOURCE_DIR}/Benchmarks/old/*.cpp)
-	add_executable(discreture_benchmark_old ${OLD_BENCHMARK_SRC_FILES})
-	if (GSL_FOUND)
-		target_link_libraries(discreture_benchmark_old ${GSL_LIBRARIES})
-	endif(GSL_FOUND)
-endif()
-
 include(CodeCoverage)
 
 set( CMAKE_EXPORT_COMPILE_COMMANDS 1 )

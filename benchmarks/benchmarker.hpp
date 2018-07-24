@@ -13,7 +13,7 @@ template <class Func>
 double Benchmark(Func f, int numtimes = 1)
 {
     // 	f(); //warm up
-    dscr::Chronometer C;
+    discreture::Chronometer C;
     for (int i = 0; i < numtimes; ++i)
     {
         f();
@@ -38,7 +38,7 @@ template <class Container>
 double ParallelBenchmark(const Container& X, int num_processors)
 {
     return Benchmark([&X, num_processors]() {
-        auto work = dscr::divide_work(X.begin(), X.end(), num_processors);
+        auto work = discreture::divide_work(X.begin(), X.end(), num_processors);
 
         std::vector<std::thread> threads;
         threads.reserve(num_processors);
@@ -87,7 +87,7 @@ double ConstructionBenchmark(const Container& A, int numtimes)
     return Benchmark([&A, numtimes]() {
         for (int i = 0; i < numtimes; ++i)
         {
-            auto t = dscr::random::random_int<std::int64_t>(0, A.size());
+            auto t = discreture::random::random_int<std::int64_t>(0, A.size());
             DoNotOptimize(A[t]);
         }
     });

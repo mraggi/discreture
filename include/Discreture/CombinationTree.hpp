@@ -19,15 +19,19 @@
 */
 // clang-format on
 
-namespace dscr
+namespace discreture
 {
 template <class IntType, class Predicate, class RAContainerInt = std::vector<IntType>>
 class CombinationTree
 {
 public:
+    static_assert(std::is_integral<IntType>::value,
+                  "Template parameter IntType must be integral");
+    static_assert(std::is_signed<IntType>::value,
+                  "Template parameter IntType must be signed");
     using value_type = RAContainerInt;
     using combination = value_type;
-    using difference_type = long long;
+    using difference_type = std::ptrdiff_t;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
@@ -81,7 +85,11 @@ public:
             at_end_ = true;
         }
 
-        inline bool is_at_end(IntType n) const { return at_end_; }
+        inline bool is_at_end(IntType n) const
+        {
+            UNUSED(n);
+            return at_end_;
+        }
 
     private:
         // prefix
@@ -196,4 +204,4 @@ private:
 
 }; // end class CombinationTree
 
-} // namespace dscr
+} // namespace discreture

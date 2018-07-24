@@ -4,7 +4,7 @@
 #include <set>
 
 using namespace std;
-using namespace dscr;
+using namespace discreture;
 
 void check_set_partition(const set_partitions::set_partition& x, int n)
 {

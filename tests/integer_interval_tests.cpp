@@ -3,7 +3,7 @@
 #include <iostream>
 
 using namespace std;
-using namespace dscr;
+using namespace discreture;
 
 TEST(IntegerInterval, ForwardIteration)
 {

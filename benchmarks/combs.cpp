@@ -12,8 +12,8 @@ constexpr int construct = 1000000;
 
 void bench_combinations()
 {
-    auto C = dscr::combinations(n, k);
-    auto CF = dscr::combinations_stack(n, k);
+    auto C = discreture::combinations(n, k);
+    auto CF = discreture::combinations_stack(n, k);
 
     cout << ProduceRowForEach("Combinations", C);
     cout << ProduceRowForEach("Combinations Stack", CF);
@@ -27,8 +27,8 @@ void bench_combinations()
 
 void bench_lex_combs()
 {
-    auto CT = dscr::lex_combinations(n, k);
-    auto CTF = dscr::lex_combinations_stack(n, k);
+    auto CT = discreture::lex_combinations(n, k);
+    auto CTF = discreture::lex_combinations_stack(n, k);
 
     cout << ProduceRowForEach("Combinations Tree", CT);
     cout << ProduceRowForEach("Combinations Tree Stack", CTF);
@@ -39,7 +39,7 @@ void bench_lex_combs()
 #ifdef TEST_GSL_COMBINATIONS
     cout << BenchRow("Combinations Tree GSL",
                      Benchmark([]() { BM_LexCombinationsGSL(n, k); }),
-                     dscr::binomial<std::int64_t>(n, k));
+                     discreture::binomial<std::int64_t>(n, k));
 #endif
     cout << ProduceRowConstruct("Combinations Tree", CT, construct);
     cout << ProduceRowConstruct("Combinations Tree Stack", CTF, construct);

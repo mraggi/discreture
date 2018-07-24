@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <numeric>
 
-namespace dscr
+namespace discreture
 {
 
 namespace detail
@@ -52,6 +52,9 @@ namespace detail
         template <class Func>
         static void for_loop(combination& x, idx i, idx a, idx b, Func f)
         {
+            UNUSED(i);
+            UNUSED(a);
+            UNUSED(b);
             f(x);
         }
     };
@@ -82,9 +85,13 @@ template <class IntType = int, class RAContainerInt = std::vector<IntType>>
 class LexCombinations
 {
 public:
+    static_assert(std::is_integral<IntType>::value,
+                  "Template parameter IntType must be integral");
+    static_assert(std::is_signed<IntType>::value,
+                  "Template parameter IntType must be signed");
     using value_type = RAContainerInt;
     using combination = value_type;
-    using difference_type = long long;
+    using difference_type = std::ptrdiff_t;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
@@ -293,31 +300,22 @@ public:
 
         inline size_type ID() const { return ID_; }
 
-        inline bool is_at_end(IntType n = -1) const // not using n, just for
-                                                    // compatibility with the
-                                                    // combinations
+        inline bool is_at_end(IntType n = -1) const
         {
+            UNUSED(n);
             IntType k = data_.size();
             return data_.front() == n_ - k;
         }
 
-        // 		void reset(IntType n, IntType k)
-        // 		{
-        // 			ID_ = 0;
-        // 			data_.resize(k);
-        // 			std::iota(data_.begin(),data_.end(),0);
-        // 		}
         static iterator make_invalid_with_id(size_type id)
         {
             return iterator(id);
         }
 
     private:
-        explicit iterator(size_type id)
-            : ID_(id), n_(), k_(), s_(), data_() {} // ending initializer: for
-                                                    // id only. Do not use
-                                                    // unless you know what you
-                                                    // are doing.
+        // ending initializer: for id only. Do not use unless you know what you
+        // are doing.
+        explicit iterator(size_type id) : ID_(id), n_(), k_(), s_(), data_() {}
 
         // prefix
         void increment()
@@ -750,4 +748,4 @@ auto lex_combinations_stack(IntTypeN n, IntTypeK k)
     return LexCombinations<IntTypeN, static_vector<IntTypeN, MAX_SIZE>>(n, k);
 }
 
-} // namespace dscr
+} // namespace discreture

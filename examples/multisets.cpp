@@ -6,8 +6,8 @@
 using std::cout;
 using std::endl;
 using std::stringstream;
-using dscr::multisets;
-using dscr::operator<<;
+using discreture::multisets;
+using discreture::operator<<;
 
 std::vector<int> total;
 

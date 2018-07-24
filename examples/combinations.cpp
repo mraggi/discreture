@@ -6,8 +6,8 @@
 using std::string;
 using std::cout;
 using std::endl;
-using dscr::combinations;
-using dscr::operator<<;
+using discreture::combinations;
+using discreture::operator<<;
 
 int n = 5; // Global variable for exposition purposes. Do not use global
            // variables in real code.

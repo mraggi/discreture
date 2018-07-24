@@ -16,10 +16,10 @@ int main()
     using std::cout;
     using std::endl;
 
-    using dscr::binomial;
+    using discreture::binomial;
     using std::operator""s;
     std::ios_base::sync_with_stdio(false);
-    dscr::Chronometer chrono;
+    discreture::Chronometer chrono;
 
     cout << "|================================ Starting Speed Tests "
             "===============================|"

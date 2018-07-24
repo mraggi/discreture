@@ -11,7 +11,10 @@
 #include "Sequences.hpp"
 #include "VectorHelpers.hpp"
 
-namespace dscr
+// This file contains class "Combinations" (if you want to read the code, start
+// with the class definition, not the utility functions ahead)
+
+namespace discreture
 {
 
 namespace detail
@@ -54,21 +57,25 @@ namespace detail
         template <class idx, class Func>
         static void for_loop(combination& x, idx n, Func f)
         {
+            UNUSED(n); // for the 0 specialization
             f(x);
         }
     };
 } // namespace detail
 
 ////////////////////////////////////////////////////////////
-/// \brief class of all n choose k combinations of size k of the set
+/// \brief class of all (n choose k) combinations of size k of the set
 /// {0,1,...,n-1}. \param IntType should be an integral type with enough space
-/// to store n and k. It can be signed or unsigned. \param n the size of the set
+/// to store n and k.
+/// \param n the size of the set
 /// \param k the size of the combination (subset). Should be an integer such
 /// that n choose k is not bigger than the largest 64-bit int there is.
 /// For example, 70 choose 35 is already larger than the largest long
-/// int. # Example:
+/// int.
 ///
-///		for (auto& x : combinations(6,3))
+/// # Example:
+///
+///		for (auto&& x : combinations(6,3))
 ///			cout << '[' << x << "] ";
 ///
 /// Prints out:
@@ -79,8 +86,8 @@ namespace detail
 ///
 /// # Example 2:
 ///
-///	    string A = "abcde";
-///		for (auto x : combinations(A,3))
+///	    std::string A = "abcde";
+///		for (auto&& x : combinations(A,3))
 ///			cout << x << endl;
 ///		Prints out:
 ///			a b c
@@ -94,15 +101,18 @@ namespace detail
 ///			b d e
 ///			c d e
 ///
-///
 ////////////////////////////////////////////////////////////
 template <class IntType = int, class RAContainerInt = std::vector<IntType>>
 class Combinations
 {
 public:
+    static_assert(std::is_integral<IntType>::value,
+                  "Template parameter IntType must be integral");
+    static_assert(std::is_signed<IntType>::value,
+                  "Template parameter IntType must be signed");
     using value_type = RAContainerInt;
     using combination = value_type;
-    using difference_type = long long;
+    using difference_type = std::ptrdiff_t;
     using size_type = difference_type; // yeah, signed.
     class iterator;
     using const_iterator = iterator;
@@ -113,8 +123,8 @@ public:
 
     /** @name next_combination
      *@brief next_combination, which has a few different overloads (depending
-     *on how much information you have about the current combination in order
-     *to make it faster)
+     *on how much information you have about the current combination, for
+     *performance reasons)
      *@param data is the current combination
      *@param hint is an integer value that holds which index was last modified
      *(in a previous call to next_combination).
@@ -133,7 +143,7 @@ public:
      *is the "last" one.
      */
     ///@{
-    //* Assumes hint = 0 and last=data.size()-1. If you don't need the utmost
+    //* Assumes hint = 0 and last = data.size()-1. If you don't need the utmost
     // performance, just use this one. */
     static void next_combination(combination& data)
     {
@@ -354,7 +364,7 @@ public:
     ////////////////////////////////////////////////////////////
     combination operator[](size_type m) const
     {
-        assert(m >= 0 && m < size());
+        assert(m >= 0);
         combination comb(k_);
         construct_combination(comb, m);
         return comb;
@@ -926,4 +936,4 @@ bool next_combination(ForwardIt in_first,
     return next_combination(in_first, in_last, out_first, out_last, hint);
 }
 
-} // namespace dscr
+} // namespace discreture

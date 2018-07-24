@@ -8,8 +8,8 @@ int n = 0; // Global variable for exposition purposes. Do not use global
 
 using std::cout;
 using std::endl;
-using dscr::motzkin_paths;
-using dscr::operator<<;
+using discreture::motzkin_paths;
+using discreture::operator<<;
 
 // Just sets global variables n and k.
 std::string parse_command_line(int argc, char* argv[]);

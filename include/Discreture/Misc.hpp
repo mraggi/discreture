@@ -8,16 +8,19 @@
 #include <iostream>
 #include <numeric>
 
-namespace dscr
+namespace discreture
 {
 
-#define UNUSED(x) (void)(x) // To supress warnings;
+template <typename T>
+void UNUSED(T&& /*unused*/)
+{}
 
 //////////////////////////////////////////
-/// \brief This is what operator%should be but isn't (!).
+/// \brief This is what operator% should be but isn't (!).
 ///
 /// C++ modulo operator%is dumb for negative integers: (-7)%3 returns -1,
-/// instead of 2. This fixes it. \return an integer in [0,b)
+/// instead of 2. This fixes it.
+/// \return an integer in [0,b)
 //////////////////////////////////////////
 template <class IntType>
 inline IntType modulo(IntType a, IntType b)
@@ -94,4 +97,4 @@ T reduce_fraction(Container Numerator, Container Denominator)
     return result;
 }
 
-} // namespace dscr
+} // namespace discreture

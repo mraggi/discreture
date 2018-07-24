@@ -8,7 +8,7 @@
 
 #include "TimeHelpers.hpp"
 
-namespace dscr
+namespace discreture
 {
 
 template <class RAIter>
@@ -73,4 +73,4 @@ void parallel_for_each(Container& C, Function f, size_t num_processors)
     parallel_for_each(C.begin(), C.end(), f, num_processors);
 }
 
-} // namespace dscr
+} // namespace discreture

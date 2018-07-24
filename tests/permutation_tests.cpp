@@ -4,7 +4,7 @@
 #include <iostream>
 
 using namespace std;
-using namespace dscr;
+using namespace discreture;
 
 template <class permutation>
 bool is_permutation(permutation x)

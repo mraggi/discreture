@@ -4,7 +4,7 @@
 #include <set>
 
 using namespace std;
-using namespace dscr;
+using namespace discreture;
 
 void check_dyck_path(const dyck_paths::dyck_path& x)
 {

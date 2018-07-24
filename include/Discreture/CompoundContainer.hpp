@@ -3,7 +3,7 @@
 #include "VectorHelpers.hpp"
 #include <unordered_map>
 
-namespace dscr
+namespace discreture
 {
 
 ////////////////////////////////////
@@ -31,7 +31,7 @@ template <class Container, class ContainerOfIndexContainers>
 class CompoundContainer
 {
 public:
-    using difference_type = long long;
+    using difference_type = std::ptrdiff_t;
     using size_type = difference_type;
     using indices = typename ContainerOfIndexContainers::value_type;
     using index = typename indices::value_type;
@@ -115,4 +115,4 @@ auto compound_container(const Container& A, const ContainerOfIndexContainers& I)
     return CompoundContainer<Container, ContainerOfIndexContainers>(A, I);
 }
 
-} // namespace dscr
+} // namespace discreture

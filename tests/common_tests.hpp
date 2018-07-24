@@ -65,12 +65,12 @@ void test_advance_iterator(const Container& C, CheckElement check_elem)
 
     auto it = C.begin();
     int current = 0;
-    for (auto t : dscr::NN(num_times))
+    for (auto t : discreture::NN(num_times))
     {
-        int target = dscr::random::random_int(0, n);
+        int target = discreture::random::random_int(0, n);
         int distance = target - current;
 
-        if (dscr::random::probability_of_true(0.5))
+        if (discreture::random::probability_of_true(0.5))
             std::advance(it, distance);
         else
             dumb_advance(it, distance);
@@ -94,12 +94,12 @@ void test_advance_reverse_iterator(const Container& C, CheckElement check_elem)
     auto rit = C.rbegin();
     int current = 0;
 
-    for (auto t : dscr::NN(num_times))
+    for (auto t : discreture::NN(num_times))
     {
-        int target = dscr::random::random_int(0, n);
+        int target = discreture::random::random_int(0, n);
         int distance = target - current;
 
-        if (dscr::random::probability_of_true(0.5))
+        if (discreture::random::probability_of_true(0.5))
             std::advance(rit, distance);
         else
             dumb_advance(rit, distance);

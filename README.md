@@ -20,11 +20,11 @@ This library is provided as a header-only library and has been tested on Linux. 
 #include <iostream>
 #include <discreture.hpp>
 
-using dscr::operator<<;
+using discreture::operator<<;
 
 int main()
 {
-	for (auto& x : dscr::combinations(5,3))
+	for (auto& x : discreture::combinations(5,3))
 		std::cout << x << std::endl;
 	
 	return 0;
@@ -58,7 +58,7 @@ Nothing needs to be compiled. But if you wish to build examples, benchmarks and 
 - A C++ compiler (*i.e.* gcc or clang)
 - [boost](http://www.boost.org) (header files. Specifically: iterator_facade)
 - [cmake](https://cmake.org/)
-- [git](https://git-scm.com/) (only for downloading the directory. You can also download it directly from gitlab)
+- [git](https://git-scm.com/) (only for downloading the directory. You can also download it directly from gitlab/github)
 - [Google's Test Framework](https://github.com/google/googletest) (for building unit tests only).
 
 ### Installing pre-requisites in Ubuntu Linux and derivatives
@@ -151,7 +151,7 @@ Some tests show that on different machines different types produce faster code, 
 # Basic usage
 
 ```c++
-auto X = dscr::combinations(30,10); //all subsets of size 10 of {0,1,2,...,29}
+auto X = discreture::combinations(30,10); //all subsets of size 10 of {0,1,2,...,29}
 for (auto& x : X) 
 { 
 	// x is of type const vector<int>&, so anything that works with 
@@ -171,7 +171,7 @@ for (auto it = X.rbegin(); it != X.rend(); ++it)
 
 Combinations, permutations and multisets are a random-access container (although they are MUCH slower as such than forward or reverse iteration), so something like this works too:
 ```c++
-auto X = dscr::combinations(30,10);
+auto X = discreture::combinations(30,10);
 auto comb = X[10000]; //produces the 10,000-th combination.
 ```
 
@@ -187,7 +187,7 @@ However, iterator arithmetic is implemented, so one could even do binary search 
 ```c++
 #include <algorithm>
 // ...
-auto X = dscr::combinations(30,10);
+auto X = discreture::combinations(30,10);
 std::partition_point(X.begin(), X.end(), predicate);
 ```
 where `predicate` is a unary predicate that takes a `const combinations::combination&` as an argument and returns true or false, in a way that for all the first combinations it returns true and the last ones return false.
@@ -204,11 +204,11 @@ After installing, let's start by creating a file called "combinations.cpp" and a
 #include <discreture.hpp> // just include everything
 
 using namespace std::string_literals;
-using dscr::operator<<;
+using discreture::operator<<;
 
 int main()
 {
-    for (auto x : dscr::combinations("abcde"s,3))
+    for (auto x : discreture::combinations("abcde"s,3))
     {
         std::cout << x << std::endl;
     }
@@ -236,7 +236,7 @@ For example, suppose you wanted to see all ways to add up to 20 with at most 6 n
 #include <Discreture/Partitions.hpp>
 #include <Discreture/VectorHelpers.hpp>
 
-using dscr::operator<<;
+using discreture::operator<<;
 
 bool is_perfect_square(int n) 
 {
@@ -248,7 +248,7 @@ bool is_perfect_square(int n)
 
 int main()
 {
-	auto X = dscr::partitions(20,1,6);
+	auto X = discreture::partitions(20,1,6);
 	for (auto& x : X)
 	{
 		if (std::all_of(x.begin(), x.end(), is_perfect_square))
@@ -275,11 +275,11 @@ Combinations is the most mature part of the library, and some backtracking funct
 #include <vector>
 #include <discreture.hpp>
 
-using dscr::operator<<;
+using discreture::operator<<;
 
 int main()
 {
-	auto X = dscr::combinations(10,3);
+	auto X = discreture::combinations(10,3);
 	
 	// T will be an iterable object whose elements are the combinations that satisfy the predicate specified by the lambda function.
 	// In this case, the lambda checks that the next to last element divides the last element.
@@ -318,13 +318,13 @@ By default, `Combinations<T>::combination` (and many others) is a typedef of `st
 
 Some sane defaults for `K` have been set in `combinations_stack`, `permutations_stack`, `dyck_paths_stack`, which are just typedef's of `basic_combinations<int,boost::containter::static_vector<int,K>>` and so on.
 
-So for example, the following code iterates over all combinations of size 3 of `{0,1,...,6}` in a slightly faster way than `dscr::combinations`.
+So for example, the following code iterates over all combinations of size 3 of `{0,1,...,6}` in a slightly faster way than `discreture::combinations`.
 ```c++
 #include <Discreture/Combinations.hpp>
 
 int main()
 {
-	for (auto& x : dscr::combinations_stack(7,3))
+	for (auto& x : discreture::combinations_stack(7,3))
 	{
 		//do stuff with x
 	}
@@ -337,7 +337,7 @@ This only works if combination size (*e.g.* 3) is less than 32. If for some reas
 
 int main()
 {
-	using my_fast_big_combinations = dscr::basic_combinations<int,boost::containter::static_vector<int,50>>;
+	using my_fast_big_combinations = discreture::basic_combinations<int,boost::containter::static_vector<int,50>>;
 	for (auto& x : my_fast_big_combinations(52,50))
 	{
 		//do stuff with x
@@ -354,14 +354,14 @@ For combinations in particular, there is one last possible speedup: use for_each
 ```c++
 #include <Discreture/Combinations.hpp>
 
-void f(const dscr::combinations_stack::combination& x)
+void f(const discreture::combinations_stack::combination& x)
 {
 	// Do stuff to x
 }
 
 int main()
 {
-	dscr::combinations_stack X(34,17);
+	discreture::combinations_stack X(34,17);
 	X.for_each(f);
 }
 ```

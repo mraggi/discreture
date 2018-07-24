@@ -9,7 +9,7 @@
 #include <vector>
 
 using namespace std;
-using namespace dscr;
+using namespace discreture;
 
 template <class CompundContainer, class Objects, class Indices>
 void check_compound_container(const CompundContainer& U,
@@ -42,7 +42,7 @@ TEST(CompoundContainer, CreationAndSanity)
 {
     std::vector<std::string> A = {"hola", "adios", "uch", "bla"};
     std::vector<std::vector<int>> X = {{0, 1}, {1, 3}, {0, 1, 2}};
-    auto U = dscr::compound_container(A, X);
+    auto U = discreture::compound_container(A, X);
 
     check_compound_container(U, A, X);
 }
@@ -53,9 +53,9 @@ TEST(CompoundContainer, Combinations)
     int n = A.size();
     for (int k = 0; k <= n; ++k)
     {
-        using namespace dscr;
+        using namespace discreture;
         auto U = combinations(A, k);
-        check_compound_container(U, A, dscr::combinations(n, k));
+        check_compound_container(U, A, discreture::combinations(n, k));
     }
 }
 
@@ -65,9 +65,9 @@ TEST(CompoundContainer, LexCombinations)
     int n = A.size();
     for (auto k : NN(n))
     {
-        using namespace dscr;
-        auto U = dscr::lex_combinations(A, k);
-        check_compound_container(U, A, dscr::lex_combinations(n, k));
+        using namespace discreture;
+        auto U = discreture::lex_combinations(A, k);
+        check_compound_container(U, A, discreture::lex_combinations(n, k));
     }
 }
 
@@ -75,7 +75,7 @@ TEST(CompoundContainer, Permutations)
 {
     std::vector<std::string> A = {"a", "b", "c", "d", "e"};
     int n = A.size();
-    using namespace dscr;
-    auto U = dscr::permutations(A);
-    check_compound_container(U, A, dscr::permutations(n));
+    using namespace discreture;
+    auto U = discreture::permutations(A);
+    check_compound_container(U, A, discreture::permutations(n));
 }
