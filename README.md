@@ -463,13 +463,13 @@ The important column is speed. Higher is better. It means "how many (combination
 |Combinations Forward            | 1.550s        | 847660528           |5.470e+08 #/sec|        8.470e+08 #/sec|
 |Combinations Reverse            | 1.717s        | 847660528           |4.937e+08 #/sec|        4.878e+08 #/sec|
 |Combinations Construct          | 0.104s        |    100000           |9.652e+05 #/sec|        1.021e+06 #/sec|
-|Combinations Tree  | | | | |
-|Combinations Tree for_each      | 0.934s        | 847660528           |9.079e+08 #/sec|        8.273e+08 #/sec|
-|Combinations Tree (No iterator) | 1.607s        | 847660528           |5.274e+08 #/sec|        5.320e+08 #/sec|
-|Combinations Tree Forward       | 1.979s        | 847660528           |4.283e+08 #/sec|        4.558e+08 #/sec|
-|Combinations Tree Reverse       | 1.854s        | 847660528           |4.572e+08 #/sec|        4.666e+08 #/sec|
-|Combinations Tree GSL           | 3.245s        | 847660528           |2.612e+08 #/sec|        2.377e+08 #/sec|
-|Combinations Tree Construct     | 0.105s        |    100000           |9.552e+05 #/sec|        9.504e+05 #/sec|
+|Lex Combinations   | | | | |
+|Lex Combinations for_each      | 0.934s        | 847660528           |9.079e+08 #/sec|        8.273e+08 #/sec|
+|Lex Combinations (No iterator) | 1.607s        | 847660528           |5.274e+08 #/sec|        5.320e+08 #/sec|
+|Lex Combinations Forward       | 1.979s        | 847660528           |4.283e+08 #/sec|        4.558e+08 #/sec|
+|Lex Combinations Reverse       | 1.854s        | 847660528           |4.572e+08 #/sec|        4.666e+08 #/sec|
+|Lex Combinations GSL           | 3.245s        | 847660528           |2.612e+08 #/sec|        2.377e+08 #/sec|
+|Lex Combinations Construct     | 0.105s        |    100000           |9.552e+05 #/sec|        9.504e+05 #/sec|
 |Permutations  | | | | |
 |Permutations Forward            | 1.242s        | 479001600           |3.856e+08 #/sec|        3.438e+08 #/sec|
 |Permutations Reverse            | 4.814s        | 479001600           |9.950e+07 #/sec|        9.956e+07 #/sec|
