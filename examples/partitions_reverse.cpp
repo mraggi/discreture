@@ -1,4 +1,5 @@
 #include "Discreture/Partitions.hpp"
+#include "Discreture/Reversed.hpp"
 #include <cstdlib>
 #include <sstream>
 #include <string>
@@ -20,11 +21,11 @@ int main(int argc, char* argv[])
     std::ios_base::sync_with_stdio(false);
     parse_command_line(argc, argv);
 
-    partitions X(n, min_parts, max_parts);
+    auto X = partitions(n, min_parts, max_parts);
 
-    for (auto it = X.rbegin(); it != X.rend(); ++it)
+    for (auto&& x : reversed(X))
     {
-        cout << *it << endl;
+        cout << x << endl;
     }
 
     return 0;

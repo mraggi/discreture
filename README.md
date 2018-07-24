@@ -159,29 +159,38 @@ for (auto& x : X)
 }
 ```
 
-You can iterate in reverse too, in the same way you would reverse-iterate an STL container.
+Reverse iterators are defined too.
 ```c++
-Combinations<short> X(30,10);
+discreture::Combinations<short> X(30,10);
 for (auto it = X.rbegin(); it != X.rend(); ++it) 
 { 
 	auto& x = *it;
-	// x is of type const vector<int>&, so anything that works with vectors works on x
 }
 ```
 
-Combinations, permutations and multisets are a random-access container (although they are MUCH slower as such than forward or reverse iteration), so something like this works too:
+But of course there is a simpler way:
+```c++
+auto X = permutations(10);
+for (auto&& x : reversed(permutations)) 
+{ 
+    // do stuff to x.
+}
+```
+
+Combinations, Permutations and Multisets are random-access containers so something like this works too:
 ```c++
 auto X = discreture::combinations(30,10);
 auto comb = X[10000]; //produces the 10,000-th combination.
 ```
 
-This is much slower if one plans to actually iterate over all of them *à la* 
+**Warning:** Please note that it is *much* slower if one plans to actually iterate over all of them *à la* 
 ```c++
 for (int i = 0; i < X.size(); ++i)
 { 
 	// use X[i] 
 }
 ```
+so don't do that.
 
 However, iterator arithmetic is implemented, so one could even do binary search on `X` with the following code:
 ```c++
@@ -192,9 +201,11 @@ std::partition_point(X.begin(), X.end(), predicate);
 ```
 where `predicate` is a unary predicate that takes a `const combinations::combination&` as an argument and returns true or false, in a way that for all the first combinations it returns true and the last ones return false.
 
+This is also useful to use many processors at once. See tutorial_parallel.cpp under "examples" on how to do this.
+
 ## Tutorial
 
-Here is a quick mini-tutorial. See the examples for more on usage. Check the files under `examples` for a more complete tutorial on how to use the library.
+Here is a quick mini-tutorial. See the examples for more on usage. Check the files under `examples` for a more complete tutorial on how to use the library. Maybe start with the file called "tutorial.cpp" and then read the others in any order.
 
 ### Combinations example
 After installing, let's start by creating a file called "combinations.cpp" and adding the following content:

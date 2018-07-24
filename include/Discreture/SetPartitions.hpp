@@ -18,7 +18,7 @@ namespace discreture
 /// k. It can be signed or unsigned. # Example:
 ///
 ///	 set_partitions X(3);
-///		for (auto& x : X)
+///		for (auto&& x : X)
 ///			cout << x << endl;
 ///
 /// Prints out all set partitions of {0,1,2}:
@@ -34,7 +34,7 @@ namespace discreture
 ///	One can specify the number of parts:
 ///
 ///		set_partitions X(4,2);
-///		for (auto& x : X)
+///		for (auto&& x : X)
 ///			cout << x << endl;
 ///
 /// Prints out all set partitions of {0,1,2,3,4} with exactly 2 parts:

@@ -98,7 +98,7 @@ template <class RAContainer, class RAIndexContainer>
 std::ostream& operator<<(std::ostream& os,
                          const IndexedView<RAContainer, RAIndexContainer>& A)
 {
-    for (auto& a : A)
+    for (auto&& a : A)
         os << a << ' ';
     return os;
 }

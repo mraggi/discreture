@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 
     parse_command_line(argc, argv);
 
-    for (auto& x : lex_combinations(n, k))
+    for (auto&& x : lex_combinations(n, k))
         cout << x << endl;
 
     return 0;

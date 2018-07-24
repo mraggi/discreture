@@ -23,12 +23,12 @@ int main(int argc, char* argv[])
 
     if (replacement_string.size() == 2)
     {
-        for (auto& x : dyck_paths(n))
+        for (auto&& x : dyck_paths(n))
             cout << dyck_paths::to_string(x, replacement_string) << endl;
     }
     else
     {
-        for (auto& x : dyck_paths(n))
+        for (auto&& x : dyck_paths(n))
             cout << x << endl;
     }
     return 0;

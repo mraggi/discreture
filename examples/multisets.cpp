@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     parse_command_line(argc, argv);
 
     multisets X(total);
-    for (auto& x : X)
+    for (auto&& x : X)
         cout << x << endl;
 
     return 0;
@@ -38,7 +38,7 @@ void parse_command_line(int argc, char* argv[])
     std::vector<std::string> arguments(argv + 1, argv + argc);
     try
     {
-        for (auto& arg : arguments)
+        for (auto&& arg : arguments)
         {
             total.emplace_back(std::stoi(arg));
         }

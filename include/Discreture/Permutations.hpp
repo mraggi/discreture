@@ -18,7 +18,7 @@ namespace discreture
 /// 20! already exceeds the numeric limits of a 64-bit int # Example 1:
 ///
 ///		permutations X(3);
-///		for (auto& x : X)
+///		for (auto&& x : X)
 ///			cout << "[" << x << "] ";
 ///
 ///		Prints out:
@@ -28,7 +28,7 @@ namespace discreture
 ///
 ///		string A = "abc";
 ///
-///		for (const auto& x : compound_permutations(A))
+///		for (auto&& x : permutations(A))
 ///		{
 ///			cout << b << endl;
 ///		}

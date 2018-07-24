@@ -118,7 +118,7 @@ public:
         size_type n = total.size();
         if (n == 0)
             return;
-        for (auto& s : sub)
+        for (auto&& s : sub)
             s = 0;
         std::vector<size_type> coeffs(n);
         coeffs[0] = 1;
@@ -147,7 +147,7 @@ public:
     /// short, etc. # Example:
     ///
     ///	 multisets X({1,0,3,1});
-    ///		for (const auto& x : X)
+    ///		for (auto&& x : X)
     ///			std::cout << x << " ";
     ///
     /// Prints out:

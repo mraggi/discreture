@@ -683,7 +683,7 @@ public:
     ///			if (comb[k-2] == 0) return false;
     ///			return (comb[k-1]%comb[k-2] == 0);
     ///		});
-    /// 	for (auto& v : vall)
+    /// 	for (auto&& v : vall)
     /// 		cout << v << endl;
     ///
     ///

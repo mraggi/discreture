@@ -29,7 +29,7 @@ TEST(DyckPaths, ForwardIteration)
         set<dyck_paths::dyck_path> S(X.begin(), X.end());
         ASSERT_EQ(X.size(), S.size()); // check if all dyck paths are different
 
-        for (const auto& x : X)
+        for (auto&& x : X)
         {
             check_dyck_path(x);
         }

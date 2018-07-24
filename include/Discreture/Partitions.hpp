@@ -15,7 +15,7 @@ namespace discreture
 /// k. It can be signed or unsigned. # Example:
 ///
 ///	 partitions X(6);
-///		for (auto& x : X)
+///		for (auto&& x : X)
 ///			cout << x << ' ';
 ///
 /// Prints out:

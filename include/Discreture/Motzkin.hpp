@@ -17,7 +17,7 @@ namespace discreture
 /// #Example Usage:
 ///
 ///		motzkin_paths X(4)
-///		for (const auto& x : X)
+///		for (auto&& x : X)
 ///			cout << x << endl;
 /// Prints out:
 ///		[ 0 0 0 0 ]
@@ -34,7 +34,7 @@ namespace discreture
 /// # Example: Parenthesis
 ///
 /// 	motzkin_paths X(4)
-/// 	for (const auto& x : X)
+/// 	for (auto&& x : X)
 /// 		cout << motzkin_paths::to_string(x, "(-)") << endl;
 ///
 /// Prints out:

@@ -10,7 +10,7 @@ namespace discreture
 // A compound container is a lazy container whose elements are IndexedViews.
 // For example,
 //     std::vector<std::string> Objects = {"hello", "world", "goodbye"};
-//     for (auto permutation : compound_container(Objects,Permutations(3)))
+//     for (auto&& permutation : compound_container(Objects,Permutations(3)))
 //     {
 //         for (auto word : permutation)
 //             std::cout << word << ' ';

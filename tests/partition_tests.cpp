@@ -43,7 +43,7 @@ TEST(Partitions, ReverseIteration)
         std::reverse(R.begin(), R.end());
         ASSERT_EQ(X.size(), R.size());
         long i = 0;
-        for (auto& x : X)
+        for (auto&& x : X)
         {
             ASSERT_EQ(x, R[i]);
             ++i;
@@ -58,7 +58,7 @@ TEST(Partitions, ReverseIteration)
                 std::reverse(R.begin(), R.end());
                 ASSERT_EQ(X.size(), R.size());
                 long i = 0;
-                for (auto& x : X)
+                for (auto&& x : X)
                 {
                     ASSERT_EQ(x, R[i]);
                     ++i;

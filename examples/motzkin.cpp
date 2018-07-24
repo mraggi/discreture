@@ -23,12 +23,12 @@ int main(int argc, char* argv[])
 
     if (replacement_string.size() == 3)
     {
-        for (auto& x : motzkin_paths(n))
+        for (auto&& x : motzkin_paths(n))
             cout << motzkin_paths::to_string(x, replacement_string) << endl;
     }
     else
     {
-        for (auto& x : motzkin_paths(n))
+        for (auto&& x : motzkin_paths(n))
             cout << x << endl;
     }
     return 0;

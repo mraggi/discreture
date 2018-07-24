@@ -19,7 +19,7 @@ void check_indexed_view(const AggView& A,
     }
 }
 
-TEST(AggViews, CreationAndSanity)
+TEST(IdxViews, CreationAndSanity)
 {
     std::vector<int> tonto = {0, 10, 20, 30, 40, 50, 60, 70};
     std::array<int, 5> indices = {{0, 1, 5, 2, 5}};
@@ -28,14 +28,13 @@ TEST(AggViews, CreationAndSanity)
     check_indexed_view(T, tonto, indices);
 }
 
-TEST(AggViews, Combinations)
+TEST(IdxViews, Combinations)
 {
     for (int n = 0; n < 10; ++n)
     {
         std::vector<std::string> total = generate_random_strings(n);
-        auto X = discreture::combinations(n, n/2);
 
-        for (auto& x : X)
+        for (auto&& x : discreture::combinations(n, n/2))
         {
             auto T = discreture::indexed_view(total, x);
 
@@ -44,13 +43,12 @@ TEST(AggViews, Combinations)
     }
 }
 
-TEST(AggViews, Permutations)
+TEST(IdxViews, Permutations)
 {
     for (int n = 0; n < 9; ++n)
     {
         auto total = generate_random_strings(n);
-        auto P = discreture::permutations(n);
-        for (auto& p : P)
+        for (auto&& p : discreture::permutations(n))
         {
             auto T = discreture::indexed_view(total, p);
 

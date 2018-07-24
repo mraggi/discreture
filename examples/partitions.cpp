@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 
     partitions X(n, min_parts, max_parts);
 
-    for (auto& x : X)
+    for (auto&& x : X)
     {
         cout << x << endl;
     }

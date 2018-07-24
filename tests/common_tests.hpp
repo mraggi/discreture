@@ -3,6 +3,7 @@
 
 #include "IntegerInterval.hpp"
 #include "Probability.hpp"
+#include "Reversed.hpp"
 
 template <class Container, class CheckElement>
 void test_forward_iteration(const Container& C, CheckElement check_elem)
@@ -25,10 +26,10 @@ template <class Container, class CheckElement>
 void test_reverse_iteration(const Container& C, CheckElement check_elem)
 {
     int i = C.size() - 1;
-    for (auto it = C.rbegin(); it != C.rend(); ++it)
+    for (auto&& c : reversed(C))
     {
-        check_elem(*it);
-        ASSERT_EQ(*it, C[i]);
+        check_elem(c);
+        ASSERT_EQ(c, C[i]);
         --i;
     }
     ASSERT_EQ(i, -1);
@@ -65,7 +66,7 @@ void test_advance_iterator(const Container& C, CheckElement check_elem)
 
     auto it = C.begin();
     int current = 0;
-    for (auto t : discreture::NN(num_times))
+    for (auto _ : discreture::NN(num_times))
     {
         int target = discreture::random::random_int(0, n);
         int distance = target - current;
@@ -94,7 +95,7 @@ void test_advance_reverse_iterator(const Container& C, CheckElement check_elem)
     auto rit = C.rbegin();
     int current = 0;
 
-    for (auto t : discreture::NN(num_times))
+    for (auto _ : discreture::NN(num_times))
     {
         int target = discreture::random::random_int(0, n);
         int distance = target - current;

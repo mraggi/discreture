@@ -71,7 +71,7 @@ namespace detail
 /// int. # Example:
 ///
 ///		lex_combinations X(6,3);
-///		for (const auto& x : X)
+///		for (auto&& x : X)
 ///			cout << x << " ";
 ///
 /// Prints out:
@@ -561,7 +561,7 @@ public:
     ///			if (comb[k-2] == 0) return false;
     ///			return (comb[k-1]%comb[k-2] == 0);
     ///		});
-    /// 	for (auto& v : vall)
+    /// 	for (auto&& v : vall)
     /// 		cout << v << endl;
     ///
     ///
@@ -648,7 +648,7 @@ public:
             // clang-format on
 
         default:
-            for (auto& comb : (*this))
+            for (auto&& comb : (*this))
             {
                 f(comb);
             }

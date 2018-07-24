@@ -33,7 +33,7 @@ inline std::int64_t BM_LexCombinationsFindAll(int n, int k)
     });
 
     std::int64_t size = 0;
-    for (auto& t : T)
+    for (auto&& t : T)
     {
         DoNotOptimize(t);
         ++size;

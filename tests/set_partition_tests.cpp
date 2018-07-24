@@ -9,7 +9,7 @@ using namespace discreture;
 void check_set_partition(const set_partitions::set_partition& x, int n)
 {
     vector<int> all;
-    for (auto& u : x)
+    for (auto&& u : x)
     {
         all.insert(all.end(), u.begin(), u.end());
     }

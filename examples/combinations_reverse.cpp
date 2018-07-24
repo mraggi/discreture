@@ -1,4 +1,5 @@
 #include "Discreture/Combinations.hpp"
+#include "Discreture/Reversed.hpp"
 #include <cstdlib>
 #include <sstream>
 #include <string>
@@ -24,8 +25,8 @@ int main(int argc, char* argv[])
 
     Combinations<int> X(n, k);
 
-    for (auto it = X.rbegin(); it != X.rend(); ++it)
-        cout << *it << endl;
+    for (auto&& x : reversed(X))
+        cout << x << endl;
 
     return 0;
 }

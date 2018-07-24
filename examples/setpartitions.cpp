@@ -23,9 +23,9 @@ int main(int argc, char* argv[])
 
     set_partitions X(n, min_parts, max_parts);
 
-    for (auto& x : X)
+    for (auto&& x : X)
     {
-        for (auto& part : x)
+        for (auto&& part : x)
         {
             cout << "[" << part << "]";
         }

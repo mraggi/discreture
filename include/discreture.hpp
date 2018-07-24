@@ -16,6 +16,7 @@
 #include "Discreture/Partitions.hpp"
 #include "Discreture/Permutations.hpp"
 #include "Discreture/Probability.hpp"
+#include "Discreture/Reversed.hpp"
 #include "Discreture/SetPartitions.hpp"
 #include "Discreture/TimeHelpers.hpp"
 #include "Discreture/VectorHelpers.hpp"

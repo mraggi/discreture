@@ -26,12 +26,12 @@ int main(int argc, char* argv[])
 
     if (N.empty())
     {
-        for (auto& x : combinations(n, k))
+        for (auto&& x : combinations(n, k))
             cout << x << endl;
     }
     else
     {
-        for (auto x : combinations(N, k))
+        for (auto&& x : combinations(N, k))
             cout << x << endl;
     }
     return 0;

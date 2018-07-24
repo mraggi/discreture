@@ -22,12 +22,12 @@ int main(int argc, char* argv[])
 
     if (N.empty())
     {
-        for (auto& x : permutations(n))
+        for (auto&& x : permutations(n))
             cout << x << '\n';
     }
     else
     {
-        for (auto x : permutations(N))
+        for (auto&& x : permutations(N))
             cout << x << '\n';
     }
 }

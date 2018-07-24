@@ -32,7 +32,7 @@ int main()
     // Let's iterate over combinations of 5,3 in a few different ways.
     cout << "We iterate over all subsets of size 3 of {0,1,2,3,4}" << endl;
 
-    for (auto& x : discreture::combinations(5, 3))
+    for (auto&& x : discreture::combinations(5, 3))
         cout << x << endl; // simply prints out to the screen the combinations.
 
     cout << "\nNow with letters!" << endl;
@@ -48,16 +48,13 @@ int main()
      *"aaaaa", it will just produce many sets with "aaa".
      *3. The std::string is necessary, because "abcde" is not a proper
      *container. It's an C-style char array.
-     *4. Note that auto& combination does NOT compile.
-     *	    This is because "combination" is of type discreture::indexed_view,
-     *which vanishes.
      */
 
     cout << "\nNow in reverse!" << endl;
 
     auto X = discreture::combinations(5, 3);
-    for (auto i = X.rbegin(); i != X.rend(); ++i)
-        cout << *i << endl;
+    for (auto&& x : reversed(X))
+        cout << x << endl;
 
     cout << "\nNow, we'll do it with direct access. Note this is much slower "
             "than standard iteration."
@@ -74,12 +71,12 @@ int main()
             "number."
          << endl;
 
-    for (auto& p : discreture::partitions(6))
+    for (auto&& p : discreture::partitions(6))
         cout << p << endl;
 
     cout << "\nOr permutations" << endl;
 
-    for (auto& p : discreture::permutations(3))
+    for (auto&& p : discreture::permutations(3))
         cout << p << endl;
 
     cout << "\nOr permutations of a string" << endl;
@@ -88,22 +85,22 @@ int main()
         cout << p << endl;
 
     cout << "\nOr dyck paths" << endl;
-    for (auto& dyckpath : discreture::dyck_paths(3))
+    for (auto&& dyckpath : discreture::dyck_paths(3))
         cout << dyckpath << endl;
 
     cout << "\nMotzkin paths" << endl;
-    for (auto& motz : discreture::motzkin_paths(3))
+    for (auto&& motz : discreture::motzkin_paths(3))
         cout << motz << endl;
 
     cout << "\nMultisets of {2,2,1}" << endl;
-    for (auto& submulti : discreture::multisets({2, 2, 1}))
+    for (auto&& submulti : discreture::multisets({2, 2, 1}))
         cout << submulti << endl;
 
     cout << "\nSet partions" << endl;
-    for (auto& setpartition : discreture::set_partitions(4))
+    for (auto&& setpartition : discreture::set_partitions(4))
     {
         cout << '|';
-        for (auto& part : setpartition)
+        for (auto&& part : setpartition)
             cout << part << '|';
         cout << endl;
     }
@@ -126,7 +123,7 @@ int main()
 
     discreture::Combinations<int> C(321, 8);
 
-    for (auto& c : C.find_all(divides))
+    for (auto&& c : C.find_all(divides))
     {
         cout << c << endl;
     }

@@ -19,7 +19,7 @@ namespace discreture
 /// Usage:
 ///
 ///     dyck_paths X(3)
-///     for (const auto& x : X)
+///     for (auto&& x : X)
 ///         cout << x << endl;
 /// Prints out:
 ///     [ 1 1 1 -1 -1 -1 ]
@@ -31,7 +31,7 @@ namespace discreture
 /// # Example: Parenthesis
 ///
 ///     dyck_paths X(3)
-///     for (const auto& x : X)
+///     for (auto&& x : X)
 ///         cout << dyck_paths::to_string(x, "()") << endl;
 ///
 /// Prints out:

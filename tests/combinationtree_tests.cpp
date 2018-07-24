@@ -89,8 +89,9 @@ TEST(LexCombinations, EdgeCases)
 {
     LexCombinations<char> Z(5, 8);
 
-    for (const auto& z : Z)
+    for (auto&& z : Z)
     {
+        UNUSED(z);
         ASSERT_TRUE(false);
     }
 }
@@ -133,7 +134,7 @@ TEST(LexCombinations, FindIf)
         // verify that indeed no combination satisfies the predicate
         if (W.get_n() < 30)
         {
-            for (const auto& w : W)
+            for (auto&& w : W)
             {
                 ASSERT_FALSE(predicate1(w));
             }
@@ -145,7 +146,7 @@ TEST(LexCombinations, FindIf)
     auto T = W.find_all(predicate2);
 
     size_t numpred2 = 0;
-    for (auto& t : T)
+    for (auto&& t : T)
     {
         ASSERT_TRUE(predicate2(t));
         ++numpred2;
@@ -154,7 +155,7 @@ TEST(LexCombinations, FindIf)
     if (W.get_n() < 30)
     {
         size_t numpred = 0;
-        for (const auto& w : W)
+        for (auto&& w : W)
         {
             if (predicate2(w))
             {

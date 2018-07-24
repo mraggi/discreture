@@ -37,7 +37,7 @@ template <class T>
 std::ostream& operator<<(std::ostream& os, const std::vector<std::vector<T>>& V)
 {
     os << std::endl;
-    for (auto& v : V)
+    for (auto&& v : V)
         os << v << std::endl;
 
     return os;

@@ -2,6 +2,7 @@
 
 #include "Parallel.hpp"
 #include "Probability.hpp"
+#include "Reversed.hpp"
 #include "TimeHelpers.hpp"
 #include "do_not_optimize.hpp"
 #include "external/rang.hpp"
@@ -56,7 +57,7 @@ double ParallelBenchmark(const Container& X, int num_processors)
             }));
         }
 
-        for (auto& t : threads)
+        for (auto&& t : threads)
         {
             t.join();
         }
@@ -67,9 +68,9 @@ template <class Container>
 double ReverseIterationBenchmark(const Container& A)
 {
     return Benchmark([&A]() {
-        for (auto it = A.rbegin(); it != A.rend(); ++it)
+        for (auto&& a : reversed(A))
         {
-            DoNotOptimize(*it);
+            DoNotOptimize(a);
         }
     });
 }
