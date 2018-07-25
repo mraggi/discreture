@@ -29,16 +29,23 @@ int main()
     using std::cout;
     using std::endl;
 
-    // Let's iterate over combinations of 5,3 in a few different ways.
     cout << "We iterate over all subsets of size 3 of {0,1,2,3,4}" << endl;
 
     for (auto&& x : discreture::combinations(5, 3))
-        cout << x << endl; // simply prints out to the screen the combinations.
+        cout << x << endl;
+
+    // The auto&& is the "correct" way of iterating over any container, unless
+    // you know what you are doing (and generally you don't want to think about
+    // it, so just use auto&&)
+
+    // Read on forwarding references to see why. It moves if the container
+    // returns rvalues and references if it returns lvalues, so it's always
+    // efficient and always correct.
 
     cout << "\nNow with letters!" << endl;
 
     std::string abcde = "abcde";
-    for (auto x : discreture::combinations(abcde, 3))
+    for (auto&& x : discreture::combinations(abcde, 3))
         cout << x << endl;
 
     /***
@@ -63,8 +70,9 @@ int main()
     for (int i : indices(X))
         cout << X[i] << endl;
     // indices just gives the container with elements
-    // {0,1,2,...,Combinations.size()-1}. It works with any container that
-    // provides the "size()" method.
+    // {0,1,2,...,X.size()-1}. It works with any container that
+    // provides the "size()" method. The type of the indices is std::ptrdiff_t
+    // (usually long long).
 
     cout << "\nAll of discreture's containers work the same way.\n\nHere we "
             "iterate over partitions, which are all the ways of adding up to a "
@@ -74,17 +82,17 @@ int main()
     for (auto&& p : discreture::partitions(6))
         cout << p << endl;
 
-    cout << "\nOr permutations" << endl;
+    cout << "\nNow let's iterate over a few others.\n\nPermutations" << endl;
 
     for (auto&& p : discreture::permutations(3))
         cout << p << endl;
 
-    cout << "\nOr permutations of a string" << endl;
+    cout << "\nPermutations of a string" << endl;
     std::string abc = "abc";
-    for (auto p : discreture::permutations(abc)) // remember: no &
+    for (auto&& p : discreture::permutations(abc))
         cout << p << endl;
 
-    cout << "\nOr dyck paths" << endl;
+    cout << "\nDyck paths" << endl;
     for (auto&& dyckpath : discreture::dyck_paths(3))
         cout << dyckpath << endl;
 
@@ -139,6 +147,10 @@ int main()
         if (u.back() == 8)
             cout << u << endl;
     });
+
+    cout << "Thank you for reading this tutorial! If you wish to use "
+            "discreture in parallel, see tutorial_parallel.cpp"
+         << endl;
 
     return 0;
 }

@@ -36,10 +36,10 @@ void test_reverse_iteration(const Container& C, CheckElement check_elem)
     i = 0;
     for (auto&& c : reversed(reversed(C)))
     {
-        ASSERT_EQ(c,C[i]);
+        ASSERT_EQ(c, C[i]);
         ++i;
     }
-    ASSERT_EQ(i,C.size());
+    ASSERT_EQ(i, C.size());
 
     using elem_type = typename Container::value_type;
     std::set<elem_type> S(C.rbegin(), C.rend());
