@@ -24,7 +24,7 @@ using discreture::operator<<;
 
 int main()
 {
-	for (auto& x : discreture::combinations(5,3))
+	for (auto&& x : discreture::combinations(5,3))
 		std::cout << x << std::endl;
 	
 	return 0;
@@ -152,7 +152,7 @@ Some tests show that on different machines different types produce faster code, 
 
 ```c++
 auto X = discreture::combinations(30,10); //all subsets of size 10 of {0,1,2,...,29}
-for (auto& x : X) 
+for (auto&& x : X) 
 { 
 	// x is of type const vector<int>&, so anything that works with 
 	// const vector references also works on x, such as indexing, iterating, etc. x[3], etc.
@@ -219,7 +219,7 @@ using discreture::operator<<;
 
 int main()
 {
-    for (auto x : discreture::combinations("abcde"s,3))
+    for (auto&& x : discreture::combinations("abcde"s,3))
     {
         std::cout << x << std::endl;
     }
@@ -260,7 +260,7 @@ bool is_perfect_square(int n)
 int main()
 {
 	auto X = discreture::partitions(20,1,6);
-	for (auto& x : X)
+	for (auto&& x : X)
 	{
 		if (std::all_of(x.begin(), x.end(), is_perfect_square))
 			std::cout << x << std::endl;
@@ -305,7 +305,7 @@ int main()
 	
 		return (comb[k-1]%comb[k-2] == 0);
 	});
-	for (auto& t : T)
+	for (auto&& t : T)
 		std::cout << t << std::endl;
 }
 ```
@@ -335,7 +335,7 @@ So for example, the following code iterates over all combinations of size 3 of `
 
 int main()
 {
-	for (auto& x : discreture::combinations_stack(7,3))
+	for (auto&& x : discreture::combinations_stack(7,3))
 	{
 		//do stuff with x
 	}
@@ -421,7 +421,7 @@ for (auto it = combination_iterator<int>(n, n/2); it != end; ++it)
 
 Compare to the following (beautiful) code, using discreture:
 ```c++
-for (auto& x : combinations(n,n/2))
+for (auto&& x : combinations(n,n/2))
 {
 	DoNotOptimize(x);
 }
@@ -449,43 +449,11 @@ This comparison isn't very fair (C++ vs python). On the same system, iterating o
 
 ## Benchmarks
 
-The following benchmarks were done on a i7-5820K CPU @ 3.30GHz, using Manjaro Linux with gcc 7.2.1.
+The following benchmarks were done on a i7-5820K CPU @ 3.30GHz, using Manjaro Linux with gcc 8.1.1.
 
 The important column is speed. Higher is better. It means "how many (combinations/permutations/etc) were generated in one second" (basically, # processed / Time). Note the exponents.
 
 <img src="https://gitlab.com/miguelraggi/discreture/raw/master/benchmarks.png" width="900" alt="discreture::benchmarks" title="discreture::benchmarks">
-
-<!--|Benchmark name                  |   Time     |   # processed     |           Speed (with _stack)    | Speed (w/o _stack) |
-|-----|------|-----:|:------:|:------:|
-|Combinations | | | | |
-|Combinations for_each           | 0.827s        | 847660528           |1.025e+09 #/sec|        8.846e+08 #/sec|
-|Combinations (No iterator)      | 1.007s        | 847660528           |8.418e+08 #/sec|        7.444e+08 #/sec|
-|Combinations Forward            | 1.550s        | 847660528           |5.470e+08 #/sec|        8.470e+08 #/sec|
-|Combinations Reverse            | 1.717s        | 847660528           |4.937e+08 #/sec|        4.878e+08 #/sec|
-|Combinations Construct          | 0.104s        |    100000           |9.652e+05 #/sec|        1.021e+06 #/sec|
-|Lex Combinations   | | | | |
-|Lex Combinations for_each      | 0.934s        | 847660528           |9.079e+08 #/sec|        8.273e+08 #/sec|
-|Lex Combinations (No iterator) | 1.607s        | 847660528           |5.274e+08 #/sec|        5.320e+08 #/sec|
-|Lex Combinations Forward       | 1.979s        | 847660528           |4.283e+08 #/sec|        4.558e+08 #/sec|
-|Lex Combinations Reverse       | 1.854s        | 847660528           |4.572e+08 #/sec|        4.666e+08 #/sec|
-|Lex Combinations GSL           | 3.245s        | 847660528           |2.612e+08 #/sec|        2.377e+08 #/sec|
-|Lex Combinations Construct     | 0.105s        |    100000           |9.552e+05 #/sec|        9.504e+05 #/sec|
-|Permutations  | | | | |
-|Permutations Forward            | 1.242s        | 479001600           |3.856e+08 #/sec|        3.438e+08 #/sec|
-|Permutations Reverse            | 4.814s        | 479001600           |9.950e+07 #/sec|        9.956e+07 #/sec|
-|Permutations Construct          | 0.038s        |    100000           |2.651e+06 #/sec|        2.608e+06 #/sec|
-|Multisets  | | | | |
-|Multisets Forward               | 0.017s        |   9331200           |5.392e+08 #/sec|        7.906e+08 #/sec|
-|Multisets Reverse               | 0.020s        |   9331200           |4.563e+08 #/sec|        5.396e+08 #/sec|
-|Dyck Paths  | | | | |
-|Dyck Paths Forward              | 2.027s        | 477638700           |2.357e+08 #/sec|        2.222e+08 #/sec|
-|Motzkin Paths  | | | | |
-|Motzkin Paths Forward           | 0.925s        |  50852019           |5.500e+07 #/sec|        6.055e+07 #/sec|
-| Partitions  | | | | |
-|Partitions Forward              | 0.024s        |    966467           |4.034e+07 #/sec|        3.805e+07 #/sec|
-| Set Partitions  | | | | |
-|Set Partitions Forward          | 0.689s        |  27644437           |4.013e+07 #/sec|        4.395e+07 #/sec|-->
-
 
 **Noteworthy**: for_each can be really fast if using "stack" version for combinations (*i.e.* combinations_stack). Standard iteration was slower with _stack version on both combinations and combinations tree reverse for some unknown reason.
 
@@ -494,10 +462,26 @@ Run your own benchmarks (with colors!) by building with `cmake -DBUILD_BENCHMARK
 ./discreture_benchmarks
 ```
 
+### Parallel benchmarks
+
+Random access containers (currently: combinations, lex combinations, permutations and multisets) can be used easily in a multithreaded environment. Here are some benchmarks.
+
+<img src="https://gitlab.com/miguelraggi/discreture/raw/master/benchmarks_parallel.png" width="900" alt="discreture::benchmarks_parallel" title="discreture::benchmarks_parallel">
+
+Run your own benchmarks with 
+```sh
+./parallel_benchmarks
+```
+
+By default, this runs on all available CPUs. Optionally specify the number of threads like so:
+```sh
+./parallel_benchmarks 4
+```
+
 # Acknowledgements
  - Manuel Alejandro Romo de Vivar (manolo) for his work on dyck paths, motzkin paths, and his contribution to partition numbers.
 
- - Juho Lauri for suggestions on improving "tree" combination iterator and many interesting discussions on combinations. 
+ - Juho Lauri for suggestions on improving lexicographic combinations and many interesting discussions on combinations. 
 
  - César Benjamín García for suggesting the name "discreture".
  

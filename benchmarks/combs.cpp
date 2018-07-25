@@ -30,17 +30,17 @@ void bench_lex_combs()
     auto CT = discreture::lex_combinations(n, k);
     auto CTF = discreture::lex_combinations_stack(n, k);
 
-    cout << ProduceRowForEach("Combinations Tree", CT);
-    cout << ProduceRowForEach("Combinations Tree Stack", CTF);
-    cout << ProduceRowForward("Combinations Tree", CT);
-    cout << ProduceRowForward("Combinations Tree Stack", CTF);
-    cout << ProduceRowReverse("Combinations Tree", CT);
-    cout << ProduceRowReverse("Combinations Tree Stack", CTF);
+    cout << ProduceRowForEach("Lex Combinations", CT);
+    cout << ProduceRowForEach("Lex Combinations Stack", CTF);
+    cout << ProduceRowForward("Lex Combinations", CT);
+    cout << ProduceRowForward("Lex Combinations Stack", CTF);
+    cout << ProduceRowReverse("Lex Combinations", CT);
+    cout << ProduceRowReverse("Lex Combinations Stack", CTF);
 #ifdef TEST_GSL_COMBINATIONS
-    cout << BenchRow("Combinations Tree GSL",
+    cout << BenchRow("Lex Combinations GSL",
                      Benchmark([]() { BM_LexCombinationsGSL(n, k); }),
                      discreture::binomial<std::int64_t>(n, k));
 #endif
-    cout << ProduceRowConstruct("Combinations Tree", CT, construct);
-    cout << ProduceRowConstruct("Combinations Tree Stack", CTF, construct);
+    cout << ProduceRowConstruct("Lex Combinations", CT, construct);
+    cout << ProduceRowConstruct("Lex Combinations Stack", CTF, construct);
 }

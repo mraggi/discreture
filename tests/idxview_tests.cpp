@@ -7,13 +7,13 @@
 #include <string>
 #include <vector>
 
-template <typename AggView, typename Container, typename IndexContainer>
-void check_indexed_view(const AggView& A,
+template <typename IdxView, typename Container, typename IndexContainer>
+void check_indexed_view(const IdxView& A,
                         const Container& T,
                         const IndexContainer& X)
 {
     ASSERT_EQ(A.size(), X.size());
-    for (int i = 0; i < A.size(); ++i)
+    for (auto i : indices(A))
     {
         ASSERT_EQ(A[i], T[X[i]]);
     }

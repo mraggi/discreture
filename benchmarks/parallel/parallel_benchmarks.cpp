@@ -38,9 +38,21 @@ void parallel_multisets(int num_processors)
 //     cout << ProduceRowParallelForward("Permutations", P, num_processors);
 // }
 
-int main()
+int main(int argc, char *argv[])
 {
-    constexpr int num_processors = 8;
+    int num_processors = std::thread::hardware_concurrency();
+    if (argc > 1)
+    {
+        try
+        {
+            std::string np = argv[1];
+            num_processors = std::stoi(np);
+        } catch(...)
+        {
+            std::cerr << "Incorrect format for number of processors." << std::endl;
+            return 1;
+        }
+    }
     using std::cout;
     using std::endl;
 

@@ -76,12 +76,26 @@ if(${BUILD_TESTS})
     find_package(GTest)
     find_package(Threads REQUIRED)
     set(TEST_LIB googletest)
-    file(GLOB TESTFILES "tests/*.cpp")
+    set(TEST_FILES   tests/main.cpp
+                    tests/sequence_tests.cpp
+                    tests/integer_interval_tests.cpp
+                    tests/arithmetic_progression_tests.cpp
+                    tests/combination_tests.cpp
+                    tests/lex_combinations_tests.cpp
+                    tests/permutation_tests.cpp
+                    tests/multiset_tests.cpp
+                    tests/dyck_tests.cpp
+                    tests/motzkin_tests.cpp
+                    tests/partition_tests.cpp
+                    tests/set_partition_tests.cpp
+                    tests/idxview_tests.cpp
+                    tests/compound_container_tests.cpp
+        )
     set(TEST_MAIN unit_tests.x)
 	if (${GTEST_FOUND} AND NOT ${BUILD_OWN_GOOGLETEST})
         include_directories(${GTEST_INCLUDE_DIRS})
         set(TEST_LIB ${GTEST_BOTH_LIBRARIES})
-        add_executable(${TEST_MAIN} ${TESTFILES})
+        add_executable(${TEST_MAIN} ${TEST_FILES})
 	else()
 		message("Google testing framework not found. Building our own!")
         add_custom_target( git_update
@@ -94,7 +108,7 @@ if(${BUILD_TESTS})
         add_dependencies(googletest git_update)
         set_source_files_properties(${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-all.cc  PROPERTIES GENERATED 1)
         set_source_files_properties(${PROJECT_SOURCE_DIR}/external/googletest/src/gtest_main.cc PROPERTIES GENERATED 1)
-        add_executable(${TEST_MAIN} ${TESTFILES})
+        add_executable(${TEST_MAIN} ${TEST_FILES})
         add_dependencies(${TEST_MAIN} ${TEST_LIB})
     endif()
     
