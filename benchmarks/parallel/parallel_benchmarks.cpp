@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
     {
         try
         {
-            std::string np = argv[1];
+            std::string np = argv[1]; //NOLINT: I know argv has at least size 2
             num_processors = std::stoi(np);
         }
         catch (...)
