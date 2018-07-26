@@ -14,16 +14,16 @@ template <class IntType = int>
 class IntegerInterval
 {
 public:
-	static_assert(std::is_integral<IntType>::value,
+    static_assert(std::is_integral<IntType>::value,
                   "Template parameter IntType must be integral");
     using value_type = IntType;
     using difference_type = std::ptrdiff_t;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
-	class reverse_iterator;
+    class reverse_iterator;
     using const_reverse_iterator = reverse_iterator;
-	
+
 public:
     explicit IntegerInterval() = default;
 
@@ -78,7 +78,6 @@ public:
     iterator begin() const { return iterator(first_); }
     iterator end() const { return iterator(last_); }
 
-
     class reverse_iterator
         : public boost::iterator_facade<reverse_iterator,
                                         const IntType&,
@@ -112,9 +111,9 @@ public:
         friend class boost::iterator_core_access;
     }; // end class iterator
 
-    reverse_iterator rbegin() const { return reverse_iterator(last_-1); }
-    reverse_iterator rend() const { return reverse_iterator(first_-1); }    
-    
+    reverse_iterator rbegin() const { return reverse_iterator(last_ - 1); }
+    reverse_iterator rend() const { return reverse_iterator(first_ - 1); }
+
     // returns the first integer that does NOT satisfy Predicate
     template <class Predicate>
     IntType partition_point(Predicate p)
@@ -140,7 +139,7 @@ auto NN(IntType n)
 template <class IntTypeFrom, class IntTypeTo>
 auto II(IntTypeFrom from, IntTypeTo to)
 {
-	using intt = std::common_type_t<IntTypeFrom, IntTypeTo>;
+    using intt = std::common_type_t<IntTypeFrom, IntTypeTo>;
     return IntegerInterval<intt>{from, to};
 }
 

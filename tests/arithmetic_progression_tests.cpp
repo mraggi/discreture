@@ -15,7 +15,7 @@ TEST(ArithmeticProgression, ForwardIteration)
         for (int m = 0; m < n; ++m)
         {
             arithmetic_progression R(n, m, -1);
-			test_container_full(R, [n,m](int i) { return i <= n && i > m; } );
+            test_container_full(R, [n, m](int i) { return i <= n && i > m; });
             set<arithmetic_progression::value_type> S(R.begin(), R.end());
             // This checks everything is different.
             ASSERT_EQ(R.size(), S.size());

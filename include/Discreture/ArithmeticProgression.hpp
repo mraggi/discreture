@@ -24,8 +24,9 @@ public:
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
-	using reverse_iterator = iterator;
-	using const_reverse_iterator = reverse_iterator;
+    using reverse_iterator = iterator;
+    using const_reverse_iterator = reverse_iterator;
+
 public:
     ////////////////////////////////////////////////////////////
     /// \brief Single integer constructor. It's usually better to use
@@ -119,9 +120,9 @@ public:
 
     iterator begin() const { return iterator(from_, step_); }
     iterator end() const { return iterator(to_, step_); }
-    
-    iterator rbegin() const { return iterator(to_-step_, -step_); }
-    iterator rend() const { return iterator(from_-step_, -step_); }
+
+    iterator rbegin() const { return iterator(to_ - step_, -step_); }
+    iterator rend() const { return iterator(from_ - step_, -step_); }
 
     IntType operator[](size_type m) const { return from_ + step_*m; }
 
