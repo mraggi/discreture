@@ -35,7 +35,7 @@ int main()
     {
         Chronometer C;
         auto X = combinations(n, k);
-        auto work = divide_work(X.begin(), X.end(), num_processors);
+        auto work = divide_work_in_equal_parts(X.begin(), X.end(), num_processors);
 
         std::vector<std::thread> threads;
         threads.reserve(num_processors);

@@ -12,7 +12,7 @@ namespace discreture
 {
 
 template <class RAIter>
-std::vector<RAIter> divide_work(RAIter first, RAIter last, size_t num_processors)
+std::vector<RAIter> divide_work_in_equal_parts(RAIter first, RAIter last, size_t num_processors)
 {
     auto n = std::distance(first, last);
 
@@ -31,10 +31,10 @@ std::vector<RAIter> divide_work(RAIter first, RAIter last, size_t num_processors
 }
 
 template <class Container>
-auto divide_work(const Container& C, size_t num_processors)
+auto divide_work_in_equal_parts(const Container& C, size_t num_processors)
   -> std::vector<typename Container::iterator>
 {
-    return divide_work(C.begin(), C.end(), num_processors);
+    return divide_work_in_equal_parts(C.begin(), C.end(), num_processors);
 }
 
 template <class RAIter, class Function>
@@ -44,7 +44,7 @@ void parallel_for_each(RAIter first,
                        size_t num_processors)
 {
     Chronometer C;
-    auto work = divide_work(first, last, num_processors);
+    auto work = divide_work_in_equal_parts(first, last, num_processors);
 
     std::vector<std::thread> threads;
     threads.reserve(num_processors);
