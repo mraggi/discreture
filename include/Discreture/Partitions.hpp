@@ -38,7 +38,7 @@ public:
     class iterator;
     using const_iterator = iterator;
     class reverse_iterator;
-    using const_reverse_iterator = iterator;
+    using const_reverse_iterator = reverse_iterator;
 
     // **************** Begin static functions
     static void next_partition(partition& data, IntType n)

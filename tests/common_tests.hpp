@@ -9,7 +9,7 @@ template <class Container, class CheckElement>
 void test_forward_iteration(const Container& C, CheckElement check_elem)
 {
     int i = 0;
-    for (auto c : C)
+    for (auto&& c : C)
     {
         check_elem(c);
         ASSERT_EQ(c, C[i]);

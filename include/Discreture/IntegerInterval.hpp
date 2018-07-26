@@ -14,12 +14,16 @@ template <class IntType = int>
 class IntegerInterval
 {
 public:
+	static_assert(std::is_integral<IntType>::value,
+                  "Template parameter IntType must be integral");
     using value_type = IntType;
     using difference_type = std::ptrdiff_t;
     using size_type = difference_type;
     class iterator;
     using const_iterator = iterator;
-
+	class reverse_iterator;
+    using const_reverse_iterator = reverse_iterator;
+	
 public:
     explicit IntegerInterval() = default;
 
@@ -36,6 +40,7 @@ public:
     }
 
     size_type size() const { return last_ - first_; }
+    IntType operator[](size_type i) const { return first_ + i; }
 
     class iterator
         : public boost::iterator_facade<iterator,
@@ -73,8 +78,43 @@ public:
     iterator begin() const { return iterator(first_); }
     iterator end() const { return iterator(last_); }
 
-    IntType operator[](size_type i) const { return first_ + i; }
 
+    class reverse_iterator
+        : public boost::iterator_facade<reverse_iterator,
+                                        const IntType&,
+                                        boost::random_access_traversal_tag>
+    {
+    public:
+        explicit reverse_iterator(IntType t = 0) : value_(t) {}
+
+    private:
+        void increment() { --value_; }
+
+        void decrement() { ++value_; }
+
+        const IntType& dereference() const { return value_; }
+
+        void advance(difference_type n) { value_ -= n; }
+
+        bool equal(const reverse_iterator& other) const
+        {
+            return value_ == other.value_;
+        }
+
+        difference_type distance_to(const reverse_iterator& other) const
+        {
+            return value_ - other.value_;
+        }
+
+    private:
+        IntType value_{0};
+
+        friend class boost::iterator_core_access;
+    }; // end class iterator
+
+    reverse_iterator rbegin() const { return reverse_iterator(last_-1); }
+    reverse_iterator rend() const { return reverse_iterator(first_-1); }    
+    
     // returns the first integer that does NOT satisfy Predicate
     template <class Predicate>
     IntType partition_point(Predicate p)
@@ -97,10 +137,11 @@ auto NN(IntType n)
     return IntegerInterval<IntType>{n};
 }
 
-template <class IntType>
-auto II(IntType from, IntType to)
+template <class IntTypeFrom, class IntTypeTo>
+auto II(IntTypeFrom from, IntTypeTo to)
 {
-    return IntegerInterval<IntType>{from, to};
+	using intt = std::common_type_t<IntTypeFrom, IntTypeTo>;
+    return IntegerInterval<intt>{from, to};
 }
 
 template <class Container, class Index = std::ptrdiff_t>

@@ -55,6 +55,43 @@ namespace detail
     };
 } // namespace detail
 
+/**
+ * @brief Multisets is a container to iterate over all subsets of a multiset.
+ * 
+ * For example, let's suppose you have the multiset {0,0,0,1,1,2,2,2,2,3,3,5}. 
+ * First, we encode this as [3,2,4,2,0,1], meaning we take three 0's, two 1's, etc. 
+ * Then, the set of submultisets of this can be encoded as lists of length 6 where
+ * the first element is less than 3, the second less than 2, the third less than 4,
+ * and so on. So for example, [1,0,0,2,0,1], representing {0,3,3,5}, is in 
+ * multisets([3,2,4,2,0,1])
+ * 
+ * # Example usage:
+ * 
+ *	multisets X({1,0,3,1});
+ *	for (auto&& x : X)
+ *		std::cout << x << " ";
+ *
+ * Prints out:
+ *
+ *	[ 0 0 0 0 ]
+ *	[ 1 0 0 0 ]
+ *	[ 0 0 1 0 ]
+ *	[ 1 0 1 0 ]
+ *	[ 0 0 2 0 ]
+ *	[ 1 0 2 0 ]
+ *	[ 0 0 3 0 ]
+ *	[ 1 0 3 0 ]
+ *	[ 0 0 0 1 ]
+ *	[ 1 0 0 1 ]
+ *	[ 0 0 1 1 ]
+ *	[ 1 0 1 1 ]
+ *	[ 0 0 2 1 ]
+ *	[ 1 0 2 1 ]
+ *	[ 0 0 3 1 ]
+ *	[ 1 0 3 1 ]
+ * 
+ */
+
 template <class IntType = int, class RAContainerInt = std::vector<IntType>>
 class Multisets
 {
@@ -78,11 +115,11 @@ public:
         next_multiset(sub, total, total.size());
     }
 
-    static void next_multiset(multiset& sub, const multiset& total, size_t n)
+    static void next_multiset(multiset& sub, const multiset& total, size_type n)
     {
         assert(n == sub.size());
         assert(n == total.size());
-        for (size_t i = 0; i < n; ++i)
+        for (auto i : NN(n))
         {
             if (can_increment(i, sub, total))
             {
@@ -99,7 +136,7 @@ public:
         assert(n == sub.size());
         assert(n == total.size());
 
-        for (size_t i = 0; i < n; ++i)
+        for (auto i : NN(n))
         {
             if (sub[i] != 0)
             {
@@ -122,7 +159,7 @@ public:
             s = 0;
         std::vector<size_type> coeffs(n);
         coeffs[0] = 1;
-        for (size_type i = 1; i < n; ++i)
+        for (auto i : II(1,n))
         {
             coeffs[i] = coeffs[i - 1]*(total[i - 1] + 1);
         }
@@ -141,35 +178,6 @@ public:
         }
     }
 
-    ////////////////////////////////////////////////////////////
-    /// \brief class of all submultisets of a given multiset, expressed as
-    /// incidence vectors with multiplicities \param IntType can be an int,
-    /// short, etc. # Example:
-    ///
-    ///	 multisets X({1,0,3,1});
-    ///		for (auto&& x : X)
-    ///			std::cout << x << " ";
-    ///
-    /// Prints out:
-    ///
-    /// 	[ 0 0 0 0 ]
-    ///		[ 1 0 0 0 ]
-    ///		[ 0 0 1 0 ]
-    ///		[ 1 0 1 0 ]
-    ///		[ 0 0 2 0 ]
-    ///		[ 1 0 2 0 ]
-    ///		[ 0 0 3 0 ]
-    ///		[ 1 0 3 0 ]
-    ///		[ 0 0 0 1 ]
-    ///		[ 1 0 0 1 ]
-    ///		[ 0 0 1 1 ]
-    ///		[ 1 0 1 1 ]
-    ///		[ 0 0 2 1 ]
-    ///		[ 1 0 2 1 ]
-    ///		[ 0 0 3 1 ]
-    ///		[ 1 0 3 1 ]
-    ///
-    ////////////////////////////////////////////////////////////
     explicit Multisets(const multiset& set) : total_(set), size_(1)
     {
         for (auto x : set)
