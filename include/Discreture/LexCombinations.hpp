@@ -2,7 +2,7 @@
 
 #include "ArithmeticProgression.hpp"
 #include "CombinationTree.hpp"
-#include "CompoundContainer.hpp"
+#include "IndexedViewContainer.hpp"
 #include "Misc.hpp"
 #include "Sequences.hpp"
 #include "VectorHelpers.hpp"
@@ -735,7 +735,7 @@ template <class Container, class IntType, typename = EnableIfNotIntegral<Contain
 auto lex_combinations(const Container& X, IntType k)
 {
     using comb = LexCombinations<IntType>;
-    return compound_container<Container, comb>(X, comb(X.size(), k));
+    return indexed_view_container<Container, comb>(X, comb(X.size(), k));
 }
 
 template <class IntTypeN,

@@ -1,6 +1,6 @@
 #pragma once
 #include "ArithmeticProgression.hpp"
-#include "CompoundContainer.hpp"
+#include "IndexedViewContainer.hpp"
 #include "Misc.hpp"
 #include "Probability.hpp"
 #include "Sequences.hpp"
@@ -464,7 +464,7 @@ template <class Container, typename = EnableIfNotIntegral<Container>>
 auto permutations(const Container& X)
 {
     using index_permutations = Permutations<int>;
-    return compound_container(X, index_permutations(X.size()));
+    return indexed_view_container(X, index_permutations(X.size()));
 }
 
 template <typename T, typename = EnableIfIntegral<T>>

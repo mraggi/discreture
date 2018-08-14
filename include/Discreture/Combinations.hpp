@@ -4,7 +4,7 @@
 
 #include "ArithmeticProgression.hpp"
 #include "CombinationTree.hpp"
-#include "CompoundContainer.hpp"
+#include "IndexedViewContainer.hpp"
 #include "IntegerInterval.hpp"
 #include "LexCombinations.hpp"
 #include "Misc.hpp"
@@ -873,7 +873,7 @@ template <class Container, class IntType, typename = EnableIfNotIntegral<Contain
 auto combinations(const Container& X, IntType k)
 {
     using comb = Combinations<IntType>;
-    return compound_container<Container, comb>(X, comb(X.size(), k));
+    return indexed_view_container<Container, comb>(X, comb(X.size(), k));
 }
 
 template <class IntTypeN,

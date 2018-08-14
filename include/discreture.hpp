@@ -2,8 +2,8 @@
 
 #include "Discreture/CombinationTree.hpp"
 #include "Discreture/Combinations.hpp"
-#include "Discreture/CompoundContainer.hpp"
 #include "Discreture/IndexedView.hpp"
+#include "Discreture/IndexedViewContainer.hpp"
 #include "Discreture/LexCombinations.hpp"
 // #include "Discreture/Derangements.hpp"
 #include "Discreture/ArithmeticProgression.hpp"

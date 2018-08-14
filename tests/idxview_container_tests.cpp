@@ -1,5 +1,5 @@
 #include "Combinations.hpp"
-#include "CompoundContainer.hpp"
+#include "IndexedViewContainer.hpp"
 #include "LexCombinations.hpp"
 #include "Permutations.hpp"
 #include "generate_strings.hpp"
@@ -12,9 +12,9 @@ using namespace std;
 using namespace discreture;
 
 template <class CompundContainer, class Objects, class Indices>
-void check_compound_container(const CompundContainer& U,
-                              const Objects& A,
-                              const Indices& X)
+void check_indexed_view_container(const CompundContainer& U,
+                                  const Objects& A,
+                                  const Indices& X)
 {
     ASSERT_EQ(U.size(), X.size());
     for (auto i : indices(X))
@@ -38,16 +38,16 @@ void check_compound_container(const CompundContainer& U,
     }
 }
 
-TEST(CompoundContainer, CreationAndSanity)
+TEST(IndexedViewContainer, CreationAndSanity)
 {
     std::vector<std::string> A = {"hola", "adios", "uch", "bla"};
     std::vector<std::vector<int>> X = {{0, 1}, {1, 3}, {0, 1, 2}};
-    auto U = discreture::compound_container(A, X);
+    auto U = discreture::indexed_view_container(A, X);
 
-    check_compound_container(U, A, X);
+    check_indexed_view_container(U, A, X);
 }
 
-TEST(CompoundContainer, Combinations)
+TEST(IndexedViewContainer, Combinations)
 {
     std::vector<std::string> A = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
     int n = A.size();
@@ -55,11 +55,11 @@ TEST(CompoundContainer, Combinations)
     {
         using namespace discreture;
         auto U = combinations(A, k);
-        check_compound_container(U, A, discreture::combinations(n, k));
+        check_indexed_view_container(U, A, discreture::combinations(n, k));
     }
 }
 
-TEST(CompoundContainer, LexCombinations)
+TEST(IndexedViewContainer, LexCombinations)
 {
     std::vector<std::string> A = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
     int n = A.size();
@@ -67,15 +67,15 @@ TEST(CompoundContainer, LexCombinations)
     {
         using namespace discreture;
         auto U = discreture::lex_combinations(A, k);
-        check_compound_container(U, A, discreture::lex_combinations(n, k));
+        check_indexed_view_container(U, A, discreture::lex_combinations(n, k));
     }
 }
 
-TEST(CompoundContainer, Permutations)
+TEST(IndexedViewContainer, Permutations)
 {
     std::vector<std::string> A = {"a", "b", "c", "d", "e"};
     int n = A.size();
     using namespace discreture;
     auto U = discreture::permutations(A);
-    check_compound_container(U, A, discreture::permutations(n));
+    check_indexed_view_container(U, A, discreture::permutations(n));
 }

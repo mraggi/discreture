@@ -56,22 +56,22 @@ namespace detail
 } // namespace detail
 
 /**
-*@brief Multisets is a container to iterate over all subsets of a multiset.
+ *@brief Multisets is a container to iterate over all subsets of a multiset.
  *
-*For example, let's suppose you have the multiset {0,0,0,1,1,2,2,2,2,3,3,5}.
-*First, we encode this as [3,2,4,2,0,1], meaning we take three 0's, two 1's,
+ *For example, let's suppose you have the multiset {0,0,0,1,1,2,2,2,2,3,3,5}.
+ *First, we encode this as [3,2,4,2,0,1], meaning we take three 0's, two 1's,
  *etc. Then, the set of submultisets of this can be encoded as lists of length 6
  *where the first element is less than 3, the second less than 2, the third less
  *than 4, and so on. So for example, [1,0,0,2,0,1], representing {0,3,3,5}, is
  *in multisets([3,2,4,2,0,1])
  *
-*# Example usage:
+ *# Example usage:
  *
  *	multisets X({1,0,3,1});
  *	for (auto&& x : X)
  *		std::cout << x << " ";
  *
-*Prints out:
+ *Prints out:
  *
  *	[ 0 0 0 0 ]
  *	[ 1 0 0 0 ]

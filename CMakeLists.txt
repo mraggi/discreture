@@ -89,7 +89,7 @@ if(${BUILD_TESTS})
                     tests/partition_tests.cpp
                     tests/set_partition_tests.cpp
                     tests/idxview_tests.cpp
-                    tests/compound_container_tests.cpp
+                    tests/idxview_container_tests.cpp
                     tests/reversed_tests.cpp
         )
     set(TEST_MAIN unit_tests.x)

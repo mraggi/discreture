@@ -12,7 +12,9 @@ namespace discreture
 {
 
 template <class RAIter>
-std::vector<RAIter> divide_work_in_equal_parts(RAIter first, RAIter last, size_t num_processors)
+std::vector<RAIter> divide_work_in_equal_parts(RAIter first,
+                                               RAIter last,
+                                               size_t num_processors)
 {
     auto n = std::distance(first, last);
 

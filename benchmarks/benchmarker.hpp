@@ -39,7 +39,9 @@ template <class Container>
 double ParallelBenchmark(const Container& X, int num_processors)
 {
     return Benchmark([&X, num_processors]() {
-        auto work = discreture::divide_work_in_equal_parts(X.begin(), X.end(), num_processors);
+        auto work = discreture::divide_work_in_equal_parts(X.begin(),
+                                                           X.end(),
+                                                           num_processors);
 
         std::vector<std::thread> threads;
         threads.reserve(num_processors);

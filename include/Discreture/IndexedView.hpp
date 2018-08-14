@@ -15,14 +15,17 @@ template <class RAContainer, class RAIndexContainer>
 class IndexedView
 {
 public:
-    using value_type = typename RAContainer::value_type;
+    using ContainerUnderlying = std::remove_reference_t<RAContainer>;
+    using IndexContainerUnderlying = std::remove_reference_t<RAIndexContainer>;
+    using value_type = typename ContainerUnderlying::value_type;
     using size_type = std::ptrdiff_t;
     using difference_type = size_type;
     class iterator;
     using const_iterator = iterator;
 
-    IndexedView(const RAContainer& objects, RAIndexContainer&& indices)
-        : objects_(objects), indices_{std::forward<RAIndexContainer>(indices)}
+    IndexedView(RAContainer&& objects, RAIndexContainer&& indices)
+        : objects_(std::forward<RAContainer>(objects))
+        , indices_{std::forward<RAIndexContainer>(indices)}
     {}
 
     iterator begin() const { return iterator(objects_, indices_.begin()); }
@@ -76,22 +79,24 @@ public:
     };
 
 private:
-    const RAContainer& objects_;
+    add_const_to_value_t<RAContainer> objects_;
     add_const_to_value_t<RAIndexContainer> indices_;
 };
 
-#if __cplusplus > 201703L
+#if __cplusplus >= 201703L
 // deduction guide only for c++17 :(
-template <class RAContainer, class T>
-IndexedView(const RAContainer&, T &&)->IndexedView<RAContainer, T>;
+template <class RAContainer, class RAIndexContainer>
+IndexedView(RAContainer&&, RAIndexContainer &&)
+  ->IndexedView<RAContainer, RAIndexContainer>;
 #endif
 
 // Utility function for C++14 and below, like make_shared. Deprecated in C++17.
 template <class RAContainer, class RAIndexContainer>
-auto indexed_view(const RAContainer& objects, RAIndexContainer&& indices)
+auto indexed_view(RAContainer&& objects, RAIndexContainer&& indices)
   -> IndexedView<RAContainer, RAIndexContainer>
 {
-    return {objects, std::forward<RAIndexContainer>(indices)};
+    return {std::forward<RAContainer>(objects),
+            std::forward<RAIndexContainer>(indices)};
 }
 
 template <class RAContainer, class RAIndexContainer>
