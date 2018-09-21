@@ -1,4 +1,4 @@
-#include "Permutations.hpp"
+#include "Discreture/Permutations.hpp"
 #include "common_tests.hpp"
 #include <gtest/gtest.h>
 #include <iostream>

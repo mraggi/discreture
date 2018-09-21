@@ -1,7 +1,7 @@
-#include "Combinations.hpp"
-#include "IndexedViewContainer.hpp"
-#include "LexCombinations.hpp"
-#include "Permutations.hpp"
+#include "Discreture/Combinations.hpp"
+#include "Discreture/IndexedViewContainer.hpp"
+#include "Discreture/LexCombinations.hpp"
+#include "Discreture/Permutations.hpp"
 #include "generate_strings.hpp"
 #include <gtest/gtest.h>
 #include <iostream>

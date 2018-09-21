@@ -1,5 +1,5 @@
-#include "Multisets.hpp"
-#include "Probability.hpp"
+#include "Discreture/Multisets.hpp"
+#include "Discreture/Probability.hpp"
 #include "common_tests.hpp"
 #include <gtest/gtest.h>
 #include <iostream>

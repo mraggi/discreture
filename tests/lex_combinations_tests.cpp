@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
-#include "LexCombinations.hpp"
+#include "Discreture/LexCombinations.hpp"
 #include "common_tests.hpp"
 
 using namespace std;

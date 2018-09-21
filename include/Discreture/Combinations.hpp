@@ -864,16 +864,20 @@ private:
 template <class IntTypeN, class IntTypeK, typename = EnableIfIntegral<IntTypeN>>
 auto combinations(IntTypeN n, IntTypeK k)
 {
-    using IntType = int;
+    static_assert(std::is_integral<IntTypeK>::value &&
+                  std::is_integral<IntTypeN>::value);
+    using IntType = IntTypeN;
+    using SignedInt = std::make_signed_t<IntType>;
     //     using IntType = std::common_type_t<IntTypeN, IntTypeK>;
-    return Combinations<IntType>(n, k);
+    return Combinations<SignedInt>(n, k);
 }
 
 template <class Container, class IntType, typename = EnableIfNotIntegral<Container>>
 auto combinations(const Container& X, IntType k)
 {
-    using comb = Combinations<IntType>;
-    return indexed_view_container<Container, comb>(X, comb(X.size(), k));
+    using SignedInt = std::make_signed_t<IntType>;
+    using Comb = Combinations<SignedInt>;
+    return indexed_view_container<Container, Comb>(X, Comb(X.size(), k));
 }
 
 template <class IntTypeN,

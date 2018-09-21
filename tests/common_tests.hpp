@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
-#include "IntegerInterval.hpp"
-#include "Probability.hpp"
-#include "Reversed.hpp"
+#include "Discreture/IntegerInterval.hpp"
+#include "Discreture/Probability.hpp"
+#include "Discreture/Reversed.hpp"
 
 template <class Container, class CheckElement>
 void test_forward_iteration(const Container& C, CheckElement check_elem)

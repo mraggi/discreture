@@ -1,5 +1,5 @@
-#include "Probability.hpp"
-#include "Sequences.hpp"
+#include "Discreture/Probability.hpp"
+#include "Discreture/Sequences.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 #include <set>

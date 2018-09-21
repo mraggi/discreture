@@ -1,6 +1,6 @@
 #pragma once
-#include "Probability.hpp"
-#include "VectorHelpers.hpp"
+#include "Discreture/Probability.hpp"
+#include "Discreture/VectorHelpers.hpp"
 #include <algorithm>
 #include <string>
 #include <vector>

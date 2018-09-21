@@ -1,6 +1,6 @@
-#include "Combinations.hpp"
-#include "IndexedView.hpp"
-#include "Permutations.hpp"
+#include "Discreture/Combinations.hpp"
+#include "Discreture/IndexedView.hpp"
+#include "Discreture/Permutations.hpp"
 #include "generate_strings.hpp"
 #include <gtest/gtest.h>
 #include <iostream>

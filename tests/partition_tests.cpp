@@ -1,4 +1,4 @@
-#include "Partitions.hpp"
+#include "Discreture/Partitions.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 #include <numeric>

@@ -209,8 +209,8 @@ inline BigIntType motzkin(llint n)
     M.resize(n + 1);
     for (llint m = oldsize; m <= n; ++m)
     {
-        M[m] = ((2*m + 1)*M[m - 1] + (3*m - 3)*M[m - 2]) /
-          (m + 2); // quite likely overflow if using llint
+        // quite likely overflow if using llint
+        M[m] = ((2*m + 1)*M[m - 1] + (3*m - 3)*M[m - 2])/(m + 2);
     }
 
     return M[n];

@@ -59,7 +59,6 @@ SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Wpedantic -Wno-unused-parameter
 # We make sure that CMake sees all the files.
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
-    ${PROJECT_SOURCE_DIR}/include/Discreture
     ${PROJECT_SOURCE_DIR}/external/googletest
     ${PROJECT_SOURCE_DIR}/external/googletest/include)
 

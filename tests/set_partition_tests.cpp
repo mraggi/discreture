@@ -1,4 +1,4 @@
-#include "SetPartitions.hpp"
+#include "Discreture/SetPartitions.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 #include <set>

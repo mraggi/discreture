@@ -1,4 +1,4 @@
-#include "IntegerInterval.hpp"
+#include "Discreture/IntegerInterval.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 

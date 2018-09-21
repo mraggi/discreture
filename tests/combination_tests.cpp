@@ -1,5 +1,5 @@
-#include "Combinations.hpp"
-#include "IntegerInterval.hpp"
+#include "Discreture/Combinations.hpp"
+#include "Discreture/IntegerInterval.hpp"
 #include "common_tests.hpp"
 #include <gtest/gtest.h>
 #include <iostream>

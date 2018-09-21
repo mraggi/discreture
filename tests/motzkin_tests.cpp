@@ -1,4 +1,4 @@
-#include "Motzkin.hpp"
+#include "Discreture/Motzkin.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 #include <set>

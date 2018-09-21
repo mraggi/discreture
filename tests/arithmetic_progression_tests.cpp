@@ -1,6 +1,6 @@
-#include "ArithmeticProgression.hpp"
-#include "IntegerInterval.hpp"
-#include "Probability.hpp"
+#include "Discreture/ArithmeticProgression.hpp"
+#include "Discreture/IntegerInterval.hpp"
+#include "Discreture/Probability.hpp"
 #include "common_tests.hpp"
 #include <gtest/gtest.h>
 #include <iostream>

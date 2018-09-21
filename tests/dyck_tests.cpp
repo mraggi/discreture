@@ -1,4 +1,4 @@
-#include "DyckPaths.hpp"
+#include "Discreture/DyckPaths.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 #include <set>
