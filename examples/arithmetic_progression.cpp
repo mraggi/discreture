@@ -1,5 +1,5 @@
 #include "Discreture/ArithmeticProgression.hpp"
-#include "VectorHelpers.hpp"
+#include "Discreture/VectorHelpers.hpp"
 #include <cstdlib>
 #include <sstream>
 #include <string>

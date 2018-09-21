@@ -7,6 +7,7 @@ build*
 *CMakeFiles*
 Makefile
 *include/Discreture/old*
+.project
 
 # Prerequisites
 *.d
