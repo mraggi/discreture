@@ -1,7 +1,10 @@
+#pragma once
+
 #include <gtest/gtest.h>
 #include <iostream>
 
 #include "Discreture/IntegerInterval.hpp"
+#include "Discreture/Misc.hpp"
 #include "Discreture/Probability.hpp"
 #include "Discreture/Reversed.hpp"
 
@@ -75,6 +78,7 @@ void test_advance_iterator(const Container& C, CheckElement check_elem)
     int current = 0;
     for (auto _ : discreture::NN(num_times))
     {
+        discreture::UNUSED(_);
         int target = discreture::random::random_int(0, n);
         int distance = target - current;
 
@@ -104,6 +108,7 @@ void test_advance_reverse_iterator(const Container& C, CheckElement check_elem)
 
     for (auto _ : discreture::NN(num_times))
     {
+        discreture::UNUSED(_);
         int target = discreture::random::random_int(0, n);
         int distance = target - current;
 

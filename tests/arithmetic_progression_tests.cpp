@@ -61,7 +61,10 @@ TEST(ArithmeticProgression, Empty)
         auto X = arithmetic_progression(a, b, t);
         ASSERT_EQ(X.size(), 0);
         for (auto x : X)
+        {
+            discreture::UNUSED(x);
             ASSERT_FALSE(true);
+        }
     }
 }
 

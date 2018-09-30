@@ -865,7 +865,8 @@ template <class IntTypeN, class IntTypeK, typename = EnableIfIntegral<IntTypeN>>
 auto combinations(IntTypeN n, IntTypeK k)
 {
     static_assert(std::is_integral<IntTypeK>::value &&
-                  std::is_integral<IntTypeN>::value);
+                    std::is_integral<IntTypeN>::value,
+                  "Template parameter IntTypeK must be integral");
     using IntType = IntTypeN;
     using SignedInt = std::make_signed_t<IntType>;
     //     using IntType = std::common_type_t<IntTypeN, IntTypeK>;

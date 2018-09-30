@@ -21,11 +21,8 @@ endif()
 find_package(Boost REQUIRED)
 find_package(Threads)
 
-# Set version number (change as needed). These definitions are available
-# by including "exampleConfig.h" in the source. 
-# See exampleConfig.h.in for some more details.
 set(PROJECT_VERSION_MAJOR 1)
-set(PROJECT_VERSION_MINOR 4)
+set(PROJECT_VERSION_MINOR 7)
 
 
 # Include stuff. No change needed.
@@ -33,30 +30,25 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 include(ConfigSafeGuards)
 include(Colors)
 
-
-# --------------------------------------------------------------------------------
-#                          Compile flags (change as needed).
-# --------------------------------------------------------------------------------
-# Set the C++ standard you wish to use (will apply to all files).
-# If you do not use any features that limits the standard required,
-# you could omit this line.
 set(CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
-# Things to always include as flags. Change as needed.
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wpedantic")  
-
 # Build-type specific flags. Change as needed.
-SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
-SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Wpedantic -Wno-unused-parameter -Wno-sign-compare")
+message("Compiler used: " ${CMAKE_CXX_COMPILER_ID})
+if (MSVC)
+# 	message("Using msvc")
+else()
+# 	message("Not using MSVC")
+	SET(CMAKE_CXX_FLAGS_RELEASE "-Ofast -DNDEBUG -ffast-math")
+	SET(CMAKE_CXX_FLAGS_DEBUG "-g -O1 -Wall -Wextra -Wpedantic -Wno-unused -Wno-sign-compare")
+	if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
+		message("Extra flags for RELEASE: " ${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE})
+	else()
+		message("Extra flags for DEBUG: "  ${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG})		
+	endif()
+endif() # Help wanted: what to do if MSVC? Does it compile? I have no idea and no way to test!
 
-# message(STATUS "Building with the following extra flags: ${CMAKE_CXX_FLAGS}")
-
-# --------------------------------------------------------------------------------
-#                         Locate files
-# --------------------------------------------------------------------------------
-# We make sure that CMake sees all the files.
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_SOURCE_DIR}/external/googletest
@@ -64,18 +56,11 @@ include_directories(
 
 
 
-# --------------------------------------------------------------------------------
-#                         Make Tests (no change needed).
-# --------------------------------------------------------------------------------
-# Add a make target 'gtest', that runs the tests (and builds all dependencies).
-# The setup of Google Test is done at the very end of this file.
-
-
 if(${BUILD_TESTS})
     find_package(GTest)
     find_package(Threads REQUIRED)
     set(TEST_LIB googletest)
-    set(TEST_FILES   tests/main.cpp
+    set(TEST_FILES  tests/main.cpp
                     tests/sequence_tests.cpp
                     tests/integer_interval_tests.cpp
                     tests/arithmetic_progression_tests.cpp
@@ -155,7 +140,7 @@ if(BUILD_BENCHMARKS)
 		add_definitions(-DTEST_GSL_COMBINATIONS)
 		include_directories(${GSL_INCLUDE_DIRS})
 	endif()
-	add_executable(discreture_benchmark benchmarks/main.cpp
+	add_executable(benchmark_discreture benchmarks/main.cpp
                                         benchmarks/combs.cpp
                                         benchmarks/perms.cpp
                                         benchmarks/multisets.cpp
@@ -163,12 +148,12 @@ if(BUILD_BENCHMARKS)
                                         benchmarks/partitions.cpp
                                         )
     if (GSL_FOUND)
-		target_link_libraries(discreture_benchmark ${GSL_LIBRARIES})
+		target_link_libraries(benchmark_discreture ${GSL_LIBRARIES})
 	endif()
     
     if (${CMAKE_USE_PTHREADS_INIT})
-        add_executable(parallel_benchmarks benchmarks/parallel/parallel_benchmarks.cpp)
-        target_link_libraries(parallel_benchmarks ${CMAKE_THREAD_LIBS_INIT})
+        add_executable(benchmark_parallel benchmarks/parallel/parallel_benchmarks.cpp)
+        target_link_libraries(benchmark_parallel ${CMAKE_THREAD_LIBS_INIT})
 	endif()
 
 	

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Parallel.hpp"
-#include "Probability.hpp"
-#include "Reversed.hpp"
-#include "TimeHelpers.hpp"
+#include "Discreture/Parallel.hpp"
+#include "Discreture/Probability.hpp"
+#include "Discreture/Reversed.hpp"
+#include "Discreture/TimeHelpers.hpp"
 #include "do_not_optimize.hpp"
 #include "external/rang.hpp"
 #include <iomanip>

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Combinations.hpp"
-#include "LexCombinations.hpp"
+#include "Discreture/Combinations.hpp"
+#include "Discreture/LexCombinations.hpp"
 #include "do_not_optimize.hpp"
 
 using boost::container::static_vector; // NOLINT
