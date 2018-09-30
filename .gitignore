@@ -8,7 +8,6 @@ build*
 Makefile
 *include/Discreture/old*
 .project
-external
 
 # Prerequisites
 *.d
