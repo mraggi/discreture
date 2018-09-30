@@ -144,7 +144,7 @@ BenchRow ProduceRowParallelForward(std::string name,
                                    int num_processors = 4)
 {
     double t = ParallelBenchmark(A, num_processors);
-    using std::operator""s;
+    using namespace std::string_literals;
     name += " Parallel w/ "s + std::to_string(num_processors) + " threads"s;
 
     return BenchRow(name, t, A.size());
