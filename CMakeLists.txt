@@ -49,10 +49,7 @@ else()
 	endif()
 endif() # Help wanted: what to do if MSVC? Does it compile? I have no idea and no way to test!
 
-include_directories(
-    ${PROJECT_SOURCE_DIR}/include
-    ${PROJECT_SOURCE_DIR}/external/googletest
-    ${PROJECT_SOURCE_DIR}/external/googletest/include)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
 
 
@@ -87,12 +84,15 @@ if(${BUILD_TESTS})
         COMMAND git submodule init
         COMMAND git submodule update
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR} )
+		include_directories(
+							${PROJECT_SOURCE_DIR}/external/googletest/googletest/
+							${PROJECT_SOURCE_DIR}/external/googletest/googletest/include)
         add_library(googletest
-            ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-all.cc
-            ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest_main.cc)
+            ${PROJECT_SOURCE_DIR}/external/googletest/googletest/src/gtest-all.cc
+            ${PROJECT_SOURCE_DIR}/external/googletest/googletest/src/gtest_main.cc)
         add_dependencies(googletest git_update)
-        set_source_files_properties(${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-all.cc  PROPERTIES GENERATED 1)
-        set_source_files_properties(${PROJECT_SOURCE_DIR}/external/googletest/src/gtest_main.cc PROPERTIES GENERATED 1)
+        set_source_files_properties(${PROJECT_SOURCE_DIR}/external/googletest/googletest/src/gtest-all.cc  PROPERTIES GENERATED 1)
+        set_source_files_properties(${PROJECT_SOURCE_DIR}/external/googletest/googletest/src/gtest_main.cc PROPERTIES GENERATED 1)
         add_executable(${TEST_MAIN} ${TEST_FILES})
         add_dependencies(${TEST_MAIN} ${TEST_LIB})
     endif()
