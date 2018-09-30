@@ -18,7 +18,7 @@ if (cmake_build_type_tolower STREQUAL "coverage")
     set(BUILD_TESTS ON)
 endif()
 
-find_package(Boost REQUIRED 1.57)
+find_package(Boost REQUIRED)
 find_package(Threads)
 
 set(PROJECT_VERSION_MAJOR 1)
