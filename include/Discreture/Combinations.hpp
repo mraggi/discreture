@@ -10,58 +10,10 @@
 #include "Misc.hpp"
 #include "Sequences.hpp"
 #include "VectorHelpers.hpp"
-
-// This file contains class "Combinations" (if you want to read the code, start
-// with the class definition, not the utility functions ahead)
+#include "detail/CombinationsDetail.hpp"
 
 namespace discreture
 {
-
-namespace detail
-{
-    template <class combination, int _size>
-    struct for_each_combination
-    {
-        using idx = typename combination::value_type;
-
-        template <class Func>
-        static void apply(idx n, Func f)
-        {
-            combination x(_size);
-            for_loop(x, n, f);
-        }
-
-        template <class Func>
-        static void for_loop(combination& x, idx n, Func f)
-        {
-            constexpr auto i = _size - 1;
-            for (x[i] = i; x[i] < n; ++x[i])
-            {
-                for_each_combination<combination, i>::for_loop(x, x[i], f);
-            }
-        }
-    };
-
-    template <class combination>
-    struct for_each_combination<combination, 0>
-    {
-        using idx = typename combination::value_type;
-
-        template <class Func>
-        static void apply(idx n, Func f)
-        {
-            combination x(0);
-            for_loop(x, n, f);
-        }
-
-        template <class idx, class Func>
-        static void for_loop(combination& x, idx n, Func f)
-        {
-            UNUSED(n); // for the 0 specialization
-            f(x);
-        }
-    };
-} // namespace detail
 
 ////////////////////////////////////////////////////////////
 /// \brief class of all (n choose k) combinations of size k of the set
@@ -119,215 +71,6 @@ public:
     class reverse_iterator;
     using const_reverse_iterator = reverse_iterator;
 
-    // **************** Begin static functions
-
-    /** @name next_combination
-     *@brief next_combination, which has a few different overloads (depending
-     *on how much information you have about the current combination, for
-     *performance reasons)
-     *@param data is the current combination
-     *@param hint is an integer value that holds which index was last modified
-     *(in a previous call to next_combination).
-     *It serves to speed things up. If unsure, use 0.
-     *The overload which only takes data automatically does this.
-     *@param last is data.size()-1. Tests show precomputing this value
-     *is highly beneficial to performance. Contrary to what you might be
-     *thinking, this is *NOT* premature optimization, since we've
-     *carefully measured the impact.
-     *@param n denotes that combinations should be taken from the set
-     *{0,1,...,n-1}
-     *@retval void is returned if starting with data, and a bool is
-     *returned if starting with n, depending on whether or not we
-     *are at the last possible combination.
-     *Note that n is not needed if you don't need to know if this combination
-     *is the "last" one.
-     */
-    ///@{
-    //* Assumes hint = 0 and last = data.size()-1. If you don't need the utmost
-    // performance, just use this one. */
-    static void next_combination(combination& data)
-    {
-        size_type hint = 0;
-        size_type last = data.size() - 1;
-        next_combination(data, hint, last);
-    } // next_combination data only
-
-    //* Calculates last as data.size()-1 automatically */
-    static void next_combination(combination& data, size_type& hint)
-    {
-        size_type last = data.size() - 1;
-        next_combination(data, hint, last);
-    } // next_combination data, hint
-
-    //* Use this one for best speed */
-    static void next_combination(combination& data, size_type& hint, IntType last)
-    {
-        if (hint > 0)
-        {
-            ++data[--hint];
-            return;
-        }
-
-        assert(last + 1 == std::int64_t(data.size()));
-
-        if (last > 0)
-        {
-            if (data[0] + 1 != data[1])
-            {
-                ++data[0];
-                return;
-            }
-            data[0] = 0;
-            IntType i = 1;
-
-            // 			IntType i = 0;
-
-            for (; i < last && (data[i] + 1 == data[i + 1]); ++i)
-            {
-                data[i] = i;
-            }
-
-            ++data[hint = i];
-            return;
-        }
-
-        if (last == 0)
-            ++data[0];
-    } // next_combination data, hint, last
-
-    //* This overload returns false if data is the last combination, true
-    // otherwise. */
-    static bool next_combination(IntType n, combination& data)
-    {
-        if (data.empty())
-            return false;
-        next_combination(data);
-        return data.back() != n;
-    } // next_combination n, data
-
-    //* This overload returns false if data is the last combination, true
-    // otherwise. */
-    static bool next_combination(IntType n, combination& data, size_type& hint)
-    {
-        if (data.empty())
-            return false;
-        next_combination(data, hint);
-        return data.back() != n;
-    } // next_combination n, data hint
-
-    //* This overload returns false if data is the last combination, true
-    // otherwise. */
-    static bool next_combination(IntType n,
-                                 combination& data,
-                                 size_type& hint,
-                                 IntType last)
-    {
-        assert(last + 1 == std::int64_t(data.size()));
-        if (last < 0) // this means data is empty
-            return false;
-        next_combination(data, hint, last);
-        return data.back() != n;
-    } // next_combination n data hint last
-    ///@}
-
-    static void prev_combination(combination& data)
-    {
-        prev_combination(data, data.size() - 1);
-    }
-
-    static void prev_combination(combination& data, IntType last)
-    {
-        if (last > 0)
-        {
-            if (data[0] != 0)
-            {
-                --data[0];
-                return;
-            }
-
-            IntType i = 1;
-
-            // Advance i until the first that can decrease: data[i] != i
-            for (; i < last && (data[i] == i); ++i) {}
-
-            --data[i];
-            --i;
-
-            for (; i >= 0; --i)
-                data[i] = data[i + 1] - 1;
-
-            return;
-        }
-
-        if (last == 0)
-            --data[0];
-    }
-
-    static inline void construct_combination(combination& data, size_type m)
-    {
-        IntType k = data.size();
-
-        // this is the biggest for which binomial is still well defined.
-        // Hopefully it's enough for most use cases.
-        size_type upper = 68;
-
-        for (IntType r = k; r > 1; --r)
-        {
-            IntType t;
-
-            big_integer_interval NR(r, upper);
-
-            t = NR.partition_point(
-                  [m, r](auto x) { return binomial<size_type>(x, r) <= m; }) -
-              1;
-            data[r - 1] = t;
-            upper = t;
-            m -= binomial<size_type>(t, r);
-        }
-        if (k > 0)
-            data[0] = m;
-    }
-
-    ///////////////////////////////////////
-    /// \brief Combination comparison "less than" operator. Assumes lhs and rhs
-    /// have the same size. \return true if lhs would appear before rhs in the
-    /// normal iteration order, false otherwise
-    ///////////////////////////////////////
-    static bool compare(const combination& lhs, const combination& rhs)
-    {
-        assert(lhs.size() == rhs.size());
-        return std::lexicographical_compare(lhs.rbegin(),
-                                            lhs.rend(),
-                                            rhs.rbegin(),
-                                            rhs.rend());
-    }
-
-    /////////////////////////////////////////////////////////////////////////////
-    /// \brief Returns the ID of the iterator whose value is comb. That is, the
-    /// index of combination comb in the lexicographic order.
-    ///
-    /// Inverse of operator[]. If combination x is the m-th combination, then
-    /// get_index(x) is m. If one has a combinations::iterator, then the member
-    /// function ID() should return the same value. \return the index of
-    /// combination comb, as if Combinations was a proper data structure
-    /// \note This constructs the proper index from scratch. If an iterator is
-    /// already known, calling ID on the iterator is much more efficient.
-    /////////////////////////////////////////////////////////////////////////////
-    static size_type get_index(const combination& comb)
-    {
-        const size_type k = comb.size();
-
-        size_type result = 0;
-
-        for (difference_type i = 0; i < k; ++i)
-            result += binomial<size_type>(comb[i], i + 1);
-
-        return result;
-    }
-
-    // **************** End static functions
-
-public:
     ////////////////////////////////////////////////////////////
     /// \brief Constructor
     ///
@@ -756,7 +499,6 @@ public:
     {
         // I'm really sorry about this. I don't know how to improve it. If you
         // do, by all means, tell me about it.
-        combination comb(k_);
         switch (k_)
         {
             // clang-format off
@@ -786,15 +528,223 @@ public:
 
         default:
         {
-            for (auto& comb : (*this))
+            for (auto&& x : (*this))
             {
-                f(comb);
+                f(x);
             }
 
             break;
         }
         }
     }
+
+    // **************** Begin static functions
+
+    /** @name next_combination
+     *@brief next_combination, which has a few different overloads (depending
+     *on how much information you have about the current combination, for
+     *performance reasons)
+     *@param data is the current combination
+     *@param hint is an integer value that holds which index was last modified
+     *(in a previous call to next_combination).
+     *It serves to speed things up. If unsure, use 0.
+     *The overload which only takes data automatically does this.
+     *@param last is data.size()-1. Tests show precomputing this value
+     *is highly beneficial to performance. Contrary to what you might be
+     *thinking, this is *NOT* premature optimization, since we've
+     *carefully measured the impact.
+     *@param n denotes that combinations should be taken from the set
+     *{0,1,...,n-1}
+     *@retval void is returned if starting with data, and a bool is
+     *returned if starting with n, depending on whether or not we
+     *are at the last possible combination.
+     *Note that n is not needed if you don't need to know if this combination
+     *is the "last" one.
+     */
+    ///@{
+    //* Assumes hint = 0 and last = data.size()-1. If you don't need the utmost
+    // performance, just use this one. */
+    static void next_combination(combination& data)
+    {
+        size_type hint = 0;
+        size_type last = data.size() - 1;
+        next_combination(data, hint, last);
+    } // next_combination data only
+
+    //* Calculates last as data.size()-1 automatically */
+    static void next_combination(combination& data, size_type& hint)
+    {
+        size_type last = data.size() - 1;
+        next_combination(data, hint, last);
+    } // next_combination data, hint
+
+    //* Use this one for best speed */
+    static void next_combination(combination& data, size_type& hint, IntType last)
+    {
+        if (hint > 0)
+        {
+            ++data[--hint];
+            return;
+        }
+
+        assert(last + 1 == std::int64_t(data.size()));
+
+        if (last > 0)
+        {
+            if (data[0] + 1 != data[1])
+            {
+                ++data[0];
+                return;
+            }
+            data[0] = 0;
+            IntType i = 1;
+
+            // 			IntType i = 0;
+
+            for (; i < last && (data[i] + 1 == data[i + 1]); ++i)
+            {
+                data[i] = i;
+            }
+
+            ++data[hint = i];
+            return;
+        }
+
+        if (last == 0)
+            ++data[0];
+    } // next_combination data, hint, last
+
+    //* This overload returns false if data is the last combination, true
+    // otherwise. */
+    static bool next_combination(IntType n, combination& data)
+    {
+        if (data.empty())
+            return false;
+        next_combination(data);
+        return data.back() != n;
+    } // next_combination n, data
+
+    //* This overload returns false if data is the last combination, true
+    // otherwise. */
+    static bool next_combination(IntType n, combination& data, size_type& hint)
+    {
+        if (data.empty())
+            return false;
+        next_combination(data, hint);
+        return data.back() != n;
+    } // next_combination n, data hint
+
+    //* This overload returns false if data is the last combination, true
+    // otherwise. */
+    static bool next_combination(IntType n,
+                                 combination& data,
+                                 size_type& hint,
+                                 IntType last)
+    {
+        assert(last + 1 == std::int64_t(data.size()));
+        if (last < 0) // this means data is empty
+            return false;
+        next_combination(data, hint, last);
+        return data.back() != n;
+    } // next_combination n data hint last
+    ///@}
+
+    static void prev_combination(combination& data)
+    {
+        prev_combination(data, data.size() - 1);
+    }
+
+    static void prev_combination(combination& data, IntType last)
+    {
+        if (last > 0)
+        {
+            if (data[0] != 0)
+            {
+                --data[0];
+                return;
+            }
+
+            IntType i = 1;
+
+            // Advance i until the first that can decrease: data[i] != i
+            for (; i < last && (data[i] == i); ++i) {}
+
+            --data[i];
+            --i;
+
+            for (; i >= 0; --i)
+                data[i] = data[i + 1] - 1;
+
+            return;
+        }
+
+        if (last == 0)
+            --data[0];
+    }
+
+    static inline void construct_combination(combination& data, size_type m)
+    {
+        IntType k = data.size();
+
+        // this is the biggest for which binomial is still well defined.
+        // Hopefully it's enough for most use cases.
+        size_type upper = 68;
+
+        for (IntType r = k; r > 1; --r)
+        {
+            IntType t;
+
+            big_integer_interval NR(r, upper);
+
+            t = NR.partition_point(
+                  [m, r](auto x) { return binomial<size_type>(x, r) <= m; }) -
+              1;
+            data[r - 1] = t;
+            upper = t;
+            m -= binomial<size_type>(t, r);
+        }
+        if (k > 0)
+            data[0] = m;
+    }
+
+    ///////////////////////////////////////
+    /// \brief Combination comparison "less than" operator. Assumes lhs and rhs
+    /// have the same size. \return true if lhs would appear before rhs in the
+    /// normal iteration order, false otherwise
+    ///////////////////////////////////////
+    static bool compare(const combination& lhs, const combination& rhs)
+    {
+        assert(lhs.size() == rhs.size());
+        return std::lexicographical_compare(lhs.rbegin(),
+                                            lhs.rend(),
+                                            rhs.rbegin(),
+                                            rhs.rend());
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    /// \brief Returns the ID of the iterator whose value is comb. That is, the
+    /// index of combination comb in the lexicographic order.
+    ///
+    /// Inverse of operator[]. If combination x is the m-th combination, then
+    /// get_index(x) is m. If one has a combinations::iterator, then the member
+    /// function ID() should return the same value. \return the index of
+    /// combination comb, as if Combinations was a proper data structure
+    /// \note This constructs the proper index from scratch. If an iterator is
+    /// already known, calling ID on the iterator is much more efficient.
+    /////////////////////////////////////////////////////////////////////////////
+    static size_type get_index(const combination& comb)
+    {
+        const size_type k = comb.size();
+
+        size_type result = 0;
+
+        for (difference_type i = 0; i < k; ++i)
+            result += binomial<size_type>(comb[i], i + 1);
+
+        return result;
+    }
+
+    // **************** End static functions
 
 private:
     IntType n_;

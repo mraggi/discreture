@@ -7,8 +7,7 @@ namespace discreture
 {
 namespace random
 {
-    // Who came up with C++11's weird way of getting random stuff?
-    // It's obviously missing some utility functions. Here they are.
+    // You'll want to use something else, probably.
 
     /**
      *@brief Just a helper function to get the default random engine

@@ -6,60 +6,12 @@
 #include "Misc.hpp"
 #include "Sequences.hpp"
 #include "VectorHelpers.hpp"
+#include "detail/LexCombinationsDetail.hpp"
 #include <algorithm>
 #include <numeric>
 
 namespace discreture
 {
-
-namespace detail
-{
-    template <class combination, int _size>
-    struct for_each_lex_combinations
-    {
-        using idx = typename combination::value_type;
-
-        template <class Func>
-        static void apply(idx n, Func f)
-        {
-            combination x(_size);
-            for_loop(x, 0, 0, n - _size + 1, f);
-        }
-
-        template <class Func>
-        static void for_loop(combination& x, idx i, idx a, idx b, Func f)
-        {
-            for (x[i] = a; x[i] < b; ++x[i])
-            {
-                for_each_lex_combinations<combination, _size - 1>::for_loop(
-                  x, i + 1, x[i] + 1, b + 1, f);
-            }
-        }
-    };
-
-    template <class combination>
-    struct for_each_lex_combinations<combination, 0>
-    {
-        using idx = typename combination::value_type;
-
-        template <class Func>
-        static void apply(idx n, Func f)
-        {
-            combination x(0);
-            for_loop(x, 0, 0, n, f);
-        }
-
-        template <class Func>
-        static void for_loop(combination& x, idx i, idx a, idx b, Func f)
-        {
-            UNUSED(i);
-            UNUSED(a);
-            UNUSED(b);
-            f(x);
-        }
-    };
-} // namespace detail
-
 ////////////////////////////////////////////////////////////
 /// \brief class of all n choose k combinations of size k of the set
 /// {0,1,...,n-1} in lexicographic order. \param IntType should be an integral
@@ -97,121 +49,6 @@ public:
     using const_iterator = iterator;
     class reverse_iterator;
     using const_reverse_iterator = reverse_iterator;
-
-    // **************** Begin static functions
-    static inline bool next_combination(combination& data, IntType n)
-    {
-        const IntType k = data.size();
-        const IntType diff = n - k;
-        return next_combination(data, n, k, diff);
-    }
-
-    static inline bool next_combination(combination& data,
-                                        IntType n,
-                                        IntType k,
-                                        IntType difference)
-    {
-        if (k == 0)
-            return false;
-        assert(difference == n - k);
-        const IntType last = k - 1;
-        if (data[last] + 1 < n)
-        {
-            ++data[last];
-            return true;
-        }
-
-        for (IntType i = k - 2; i >= 0; --i)
-        {
-            if (data[i] != difference + i)
-            {
-                ++data[i];
-                IntType a = data[i] + 1;
-                ++i;
-                for (; i < k; ++i, ++a)
-                {
-                    data[i] = a;
-                }
-
-                return true;
-            }
-        }
-        return false;
-    }
-
-    static inline void prev_combination(combination& data, IntType n)
-    {
-        if (data.empty())
-            return;
-        IntType a = n - 1;
-        for (difference_type i = data.size() - 1; i > 0L; --i, --a)
-        {
-            if (data[i] - 1 != data[i - 1])
-            {
-                --data[i];
-                return;
-            }
-            data[i] = a;
-        }
-        --data[0];
-    }
-
-    static void construct_combination(combination& data, size_type m, IntType n)
-    {
-        IntType k = data.size();
-        m = binomial<size_type>(n, k) - m - 1;
-
-        for (IntType i = 0; i < k; ++i)
-        {
-            IntType r = k - i;
-
-            // i <= n-t-1 <= n-r implies that the range is this
-            big_integer_interval N(r, n - i);
-            auto t = N.partition_point([m, r](auto t) {
-                return binomial<size_type>(t, r) <= m;
-            }) -
-              1;
-
-            data[i] = n - t - 1;
-            m -= binomial<size_type>(t, r);
-        }
-    }
-
-    static size_type get_index(const combination& comb, IntType n) // needs n
-    {
-        size_type k = comb.size();
-
-        size_type result = 0;
-
-        for (difference_type i = 0; i < k; ++i)
-            result += binomial<size_type>(n - comb[k - i - 1] - 1, i + 1);
-
-        return binomial<size_type>(n, k) - result - 1;
-    }
-
-    ///////////////////////////////////////
-    /// \brief Combination comparison "less than" operator. Assumes lhs and rhs
-    /// have the same size. \return true if lhs would appear before rhs in the
-    /// iteration order, false otherwise
-    ///////////////////////////////////////
-    static bool compare(const combination& lhs, const combination& rhs)
-    {
-        assert(lhs.size() == rhs.size());
-        auto itl = lhs.begin();
-        auto itr = rhs.begin();
-
-        for (; itl != lhs.end(); ++itl, ++itr)
-        {
-            if (*itl > *itr)
-                return false;
-
-            if (*itl < *itr)
-                return true;
-        }
-
-        return false;
-    }
-    // **************** End static functions
 
 public:
     ////////////////////////////////////////////////////////////
@@ -657,12 +494,126 @@ public:
         }
     }
 
+    // **************** Begin static functions
+    static inline bool next_combination(combination& data, IntType n)
+    {
+        const IntType k = data.size();
+        const IntType diff = n - k;
+        return next_combination(data, n, k, diff);
+    }
+
+    static inline bool next_combination(combination& data,
+                                        IntType n,
+                                        IntType k,
+                                        IntType difference)
+    {
+        if (k == 0)
+            return false;
+        assert(difference == n - k);
+        const IntType last = k - 1;
+        if (data[last] + 1 < n)
+        {
+            ++data[last];
+            return true;
+        }
+
+        for (IntType i = k - 2; i >= 0; --i)
+        {
+            if (data[i] != difference + i)
+            {
+                ++data[i];
+                IntType a = data[i] + 1;
+                ++i;
+                for (; i < k; ++i, ++a)
+                {
+                    data[i] = a;
+                }
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static inline void prev_combination(combination& data, IntType n)
+    {
+        if (data.empty())
+            return;
+        IntType a = n - 1;
+        for (difference_type i = data.size() - 1; i > 0L; --i, --a)
+        {
+            if (data[i] - 1 != data[i - 1])
+            {
+                --data[i];
+                return;
+            }
+            data[i] = a;
+        }
+        --data[0];
+    }
+
+    static void construct_combination(combination& data, size_type m, IntType n)
+    {
+        IntType k = data.size();
+        m = binomial<size_type>(n, k) - m - 1;
+
+        for (IntType i = 0; i < k; ++i)
+        {
+            IntType r = k - i;
+
+            // i <= n-t-1 <= n-r implies that the range is this
+            big_integer_interval N(r, n - i);
+            auto t = N.partition_point([m, r](auto t) {
+                return binomial<size_type>(t, r) <= m;
+            }) -
+              1;
+
+            data[i] = n - t - 1;
+            m -= binomial<size_type>(t, r);
+        }
+    }
+
+    static size_type get_index(const combination& comb, IntType n) // needs n
+    {
+        size_type k = comb.size();
+
+        size_type result = 0;
+
+        for (difference_type i = 0; i < k; ++i)
+            result += binomial<size_type>(n - comb[k - i - 1] - 1, i + 1);
+
+        return binomial<size_type>(n, k) - result - 1;
+    }
+
+    ///////////////////////////////////////
+    /// \brief Combination comparison "less than" operator. Assumes lhs and rhs
+    /// have the same size. \return true if lhs would appear before rhs in the
+    /// iteration order, false otherwise
+    ///////////////////////////////////////
+    static bool compare(const combination& lhs, const combination& rhs)
+    {
+        assert(lhs.size() == rhs.size());
+        auto itl = lhs.begin();
+        auto itr = rhs.begin();
+
+        for (; itl != lhs.end(); ++itl, ++itr)
+        {
+            if (*itl > *itr)
+                return false;
+
+            if (*itl < *itr)
+                return true;
+        }
+
+        return false;
+    }
+    // **************** End static functions
+
 private:
     IntType n_;
     IntType k_;
     size_type size_;
 
-private:
     template <class P>
     bool augment(combination& comb, P pred, IntType start = 0)
     {

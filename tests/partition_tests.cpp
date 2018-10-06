@@ -67,6 +67,22 @@ TEST(Partitions, ReverseIteration)
         }
     }
 }
+
+TEST(Partitions, ForEach)
+{
+    for (int n = 0; n < 22; ++n)
+    {
+        auto P = partitions(n);
+        auto part = P.begin();
+
+        using partition = partitions::partition;
+        P.for_each([&part](const partition& p) {
+            ASSERT_EQ(*part, p);
+            ++part;
+        });
+    }
+}
+
 TEST(Partitions, WithSpecifiedNumParts)
 {
     for (int n = 1; n < 10; ++n)

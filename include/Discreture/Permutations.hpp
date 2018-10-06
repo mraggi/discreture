@@ -60,44 +60,6 @@ public:
     using const_reverse_iterator = reverse_iterator;
 
 public:
-    // Static functions
-    static void construct_permutation(permutation& data, size_type m)
-    {
-        size_type n = data.size();
-        std::iota(data.begin(), data.end(), 0);
-        size_type start = 0;
-
-        for (; m > 0 && start < n; ++start)
-        {
-            // 					cout << "starting with start = " << start <<
-            // endl;
-            auto f = factorial(n - start - 1);
-
-            // 					int u = 0;
-            if (f > m)
-            {
-                continue;
-            }
-
-            for (size_type u = 1; u < n + 1; ++u)
-            {
-                if (u*f > m)
-                {
-                    --u;
-
-                    m -= u*f;
-
-                    auto temp = data[start];
-                    data[start] = data[u + start];
-                    data[u + start] = temp;
-
-                    std::sort(data.begin() + start + 1, data.end());
-                    break;
-                }
-            }
-        }
-    }
-
     ////////////////////////////////////////////////////////////
     /// \brief Constructor
     ///
@@ -426,6 +388,44 @@ public:
 
         friend class boost::iterator_core_access;
     }; // end class iterator
+
+    // Static functions
+    static void construct_permutation(permutation& data, size_type m)
+    {
+        size_type n = data.size();
+        std::iota(data.begin(), data.end(), 0);
+        size_type start = 0;
+
+        for (; m > 0 && start < n; ++start)
+        {
+            // 					cout << "starting with start = " << start <<
+            // endl;
+            auto f = factorial(n - start - 1);
+
+            // 					int u = 0;
+            if (f > m)
+            {
+                continue;
+            }
+
+            for (size_type u = 1; u < n + 1; ++u)
+            {
+                if (u*f > m)
+                {
+                    --u;
+
+                    m -= u*f;
+
+                    auto temp = data[start];
+                    data[start] = data[u + start];
+                    data[u + start] = temp;
+
+                    std::sort(data.begin() + start + 1, data.end());
+                    break;
+                }
+            }
+        }
+    }
 
 private:
     IntType n_;

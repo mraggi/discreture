@@ -2,58 +2,11 @@
 #include "IntegerInterval.hpp"
 #include "Misc.hpp"
 #include "VectorHelpers.hpp"
+#include "detail/MultisetsDetail.hpp"
 #include <boost/iterator/iterator_facade.hpp>
 
 namespace discreture
 {
-namespace detail
-{
-    template <class multiset, int _size>
-    struct for_each_multiset
-    {
-        using idx = typename multiset::value_type;
-
-        template <class Func>
-        static void apply(const multiset& total, Func f)
-        {
-            multiset x(_size);
-            for_loop(x, total, _size - 1, f);
-        }
-
-        template <class Func>
-        static void for_loop(multiset& x, const multiset& total, idx i, Func f)
-        {
-            for (x[i] = 0; x[i] <= total[i]; ++x[i])
-            {
-                for_each_multiset<multiset, _size - 1>::for_loop(x,
-                                                                 total,
-                                                                 i - 1,
-                                                                 f);
-            }
-        }
-    };
-
-    template <class multiset>
-    struct for_each_multiset<multiset, 0>
-    {
-        using idx = typename multiset::value_type;
-
-        template <class Func>
-        static void apply(const multiset& total, Func f)
-        {
-            multiset x(0);
-            for_loop(x, total, 0, f);
-        }
-
-        template <class Func>
-        static void for_loop(multiset& x, const multiset& total, idx i, Func f)
-        {
-            f(x);
-            UNUSED(total);
-            UNUSED(i);
-        }
-    };
-} // namespace detail
 
 /**
  *@brief Multisets is a container to iterate over all subsets of a multiset.
@@ -110,74 +63,6 @@ public:
     using const_reverse_iterator = reverse_iterator;
 
 public:
-    static void next_multiset(multiset& sub, const multiset& total)
-    {
-        next_multiset(sub, total, total.size());
-    }
-
-    static void next_multiset(multiset& sub, const multiset& total, size_type n)
-    {
-        assert(n == sub.size());
-        assert(n == total.size());
-        for (auto i : NN(n))
-        {
-            if (can_increment(i, sub, total))
-            {
-                ++sub[i];
-
-                return;
-            }
-            sub[i] = 0;
-        }
-    }
-
-    static void prev_multiset(multiset& sub, const multiset& total, size_t n)
-    {
-        assert(n == sub.size());
-        assert(n == total.size());
-
-        for (auto i : NN(n))
-        {
-            if (sub[i] != 0)
-            {
-                --sub[i];
-                return;
-            }
-            sub[i] = total[i];
-        }
-    }
-
-    static void construct_multiset(multiset& sub,
-                                   const multiset& total,
-                                   size_type m)
-    {
-        assert(sub.size() == total.size());
-        size_type n = total.size();
-        if (n == 0)
-            return;
-        for (auto&& s : sub)
-            s = 0;
-        std::vector<size_type> coeffs(n);
-        coeffs[0] = 1;
-        for (auto i : II(1, n))
-        {
-            coeffs[i] = coeffs[i - 1]*(total[i - 1] + 1);
-        }
-
-        for (difference_type i = n - 1; i >= 0; --i)
-        {
-            size_type w = coeffs[i];
-            auto t =
-              big_integer_interval(total[i] + 1)
-                .partition_point([m, w](size_type a) { return a*w <= m; }) -
-              1;
-            sub[i] = t;
-            m -= w*t;
-            if (m <= 0)
-                break;
-        }
-    }
-
     explicit Multisets(const multiset& set) : total_(set), size_(1)
     {
         for (auto x : set)
@@ -397,6 +282,74 @@ public:
             }
 
             break;
+        }
+    }
+
+    static void next_multiset(multiset& sub, const multiset& total)
+    {
+        next_multiset(sub, total, total.size());
+    }
+
+    static void next_multiset(multiset& sub, const multiset& total, size_type n)
+    {
+        assert(n == sub.size());
+        assert(n == total.size());
+        for (auto i : NN(n))
+        {
+            if (can_increment(i, sub, total))
+            {
+                ++sub[i];
+
+                return;
+            }
+            sub[i] = 0;
+        }
+    }
+
+    static void prev_multiset(multiset& sub, const multiset& total, size_t n)
+    {
+        assert(n == sub.size());
+        assert(n == total.size());
+
+        for (auto i : NN(n))
+        {
+            if (sub[i] != 0)
+            {
+                --sub[i];
+                return;
+            }
+            sub[i] = total[i];
+        }
+    }
+
+    static void construct_multiset(multiset& sub,
+                                   const multiset& total,
+                                   size_type m)
+    {
+        assert(sub.size() == total.size());
+        size_type n = total.size();
+        if (n == 0)
+            return;
+        for (auto&& s : sub)
+            s = 0;
+        std::vector<size_type> coeffs(n);
+        coeffs[0] = 1;
+        for (auto i : II(1, n))
+        {
+            coeffs[i] = coeffs[i - 1]*(total[i - 1] + 1);
+        }
+
+        for (difference_type i = n - 1; i >= 0; --i)
+        {
+            size_type w = coeffs[i];
+            auto t =
+              big_integer_interval(total[i] + 1)
+                .partition_point([m, w](size_type a) { return a*w <= m; }) -
+              1;
+            sub[i] = t;
+            m -= w*t;
+            if (m <= 0)
+                break;
         }
     }
 
