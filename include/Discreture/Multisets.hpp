@@ -121,19 +121,14 @@ public:
     }
 
     class iterator
-        : public boost::iterator_facade<iterator,
-                                        const multiset&,
-                                        boost::random_access_traversal_tag>
+        : public boost::iterator_facade<iterator, const multiset&, boost::random_access_traversal_tag>
     {
 
     public:
         iterator() = default;
 
         explicit iterator(const multiset& total)
-            : ID_(0)
-            , n_(total.size())
-            , submulti_(total.size(), 0)
-            , total_(&total)
+            : ID_(0), n_(total.size()), submulti_(total.size(), 0), total_(&total)
         {}
 
         size_type ID() const { return ID_; }
@@ -342,9 +337,9 @@ public:
         for (difference_type i = n - 1; i >= 0; --i)
         {
             size_type w = coeffs[i];
-            auto t =
-              big_integer_interval(total[i] + 1)
-                .partition_point([m, w](size_type a) { return a*w <= m; }) -
+            auto t = big_integer_interval(total[i] + 1)
+                       .partition_point(
+                         [m, w](size_type a) { return a*w <= m; }) -
               1;
             sub[i] = t;
             m -= w*t;

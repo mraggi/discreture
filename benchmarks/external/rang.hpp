@@ -18,8 +18,7 @@
 #elif defined(OS_WIN)
 
 #if defined(_WIN32_WINNT) && (_WIN32_WINNT < 0x0600)
-#error                                                                         \
-  "Please include rang.hpp before any windows system headers or set _WIN32_WINNT at least to _WIN32_WINNT_VISTA"
+#error "Please include rang.hpp before any windows system headers or set _WIN32_WINNT at least to _WIN32_WINNT_VISTA"
 #elif !defined(_WIN32_WINNT)
 #define _WIN32_WINNT _WIN32_WINNT_VISTA
 #endif
@@ -373,10 +372,8 @@ namespace rang_implementation
         static const SGR defaultSgr = []() -> SGR {
             CONSOLE_SCREEN_BUFFER_INFO info;
             WORD attrib = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
-            if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),
-                                           &info) ||
-                GetConsoleScreenBufferInfo(GetStdHandle(STD_ERROR_HANDLE),
-                                           &info))
+            if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info) ||
+                GetConsoleScreenBufferInfo(GetStdHandle(STD_ERROR_HANDLE), &info))
             {
                 attrib = info.wAttributes;
             }
@@ -555,8 +552,7 @@ namespace rang_implementation
 } // namespace rang_implementation
 
 template <typename T>
-inline rang_implementation::enableStd<T> operator<<(std::ostream& os,
-                                                    const T value)
+inline rang_implementation::enableStd<T> operator<<(std::ostream& os, const T value)
 {
     const control option = rang_implementation::controlMode();
     switch (option)

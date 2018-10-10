@@ -121,9 +121,7 @@ public:
     /// \brief Bidirectional iterator class.
     ////////////////////////////////////////////////////////////
     class iterator
-        : public boost::iterator_facade<iterator,
-                                        const partition&,
-                                        boost::bidirectional_traversal_tag>
+        : public boost::iterator_facade<iterator, const partition&, boost::bidirectional_traversal_tag>
     {
     public:
         iterator() : n_(0), data_() {}
@@ -297,9 +295,7 @@ public:
             if (can_increase(data, i))
             {
                 ++data[i];
-                distribute_evenly(data.begin() + i + 1,
-                                  data.end(),
-                                  suffixSum - 1);
+                distribute_evenly(data.begin() + i + 1, data.end(), suffixSum - 1);
                 return;
             }
             suffixSum += data[i];
@@ -374,9 +370,7 @@ private:
         return partition_number(n, numparts);
     }
 
-    static size_type calc_size(IntType n,
-                               IntType minnumparts,
-                               IntType maxnumparts)
+    static size_type calc_size(IntType n, IntType minnumparts, IntType maxnumparts)
     {
         size_type toReturn = 0;
         for (size_type k = minnumparts; k <= maxnumparts; ++k)

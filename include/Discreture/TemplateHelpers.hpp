@@ -29,9 +29,8 @@ using const_reference_t = typename const_reference<T>::type;
 template <class T>
 struct add_const_to_value
 {
-    using type = std::conditional_t<std::is_lvalue_reference<T>::value,
-                                    const_reference_t<T>,
-                                    const T>;
+    using type =
+      std::conditional_t<std::is_lvalue_reference<T>::value, const_reference_t<T>, const T>;
 };
 
 template <class T>

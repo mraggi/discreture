@@ -110,9 +110,7 @@ public:
     /// \brief Forward iterator class.
     ////////////////////////////////////////////////////////////
     class iterator
-        : public boost::iterator_facade<iterator,
-                                        const motzkin_path&,
-                                        boost::forward_traversal_tag>
+        : public boost::iterator_facade<iterator, const motzkin_path&, boost::forward_traversal_tag>
     {
     public:
         iterator() : data_(), comb_(), dyck_() {} // empty initializer

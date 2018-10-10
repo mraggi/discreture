@@ -165,9 +165,7 @@ public:
     }
 
     class iterator
-        : public boost::iterator_facade<iterator,
-                                        const set_partition&,
-                                        boost::forward_traversal_tag>
+        : public boost::iterator_facade<iterator, const set_partition&, boost::forward_traversal_tag>
     {
     public:
         iterator() : ID_(0), data_(), n_(0) {}
@@ -223,9 +221,7 @@ private:
 
 private:
     // Private static functions
-    static size_type calc_size(IntType n,
-                               IntType minnumparts,
-                               IntType maxnumparts)
+    static size_type calc_size(IntType n, IntType minnumparts, IntType maxnumparts)
     {
         size_type toReturn = 0;
 

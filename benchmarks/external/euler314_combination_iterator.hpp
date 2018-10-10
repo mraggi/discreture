@@ -22,9 +22,7 @@
 
 template <typename T>
 class combination_iterator
-    : public boost::iterator_facade<combination_iterator<T>,
-                                    const std::vector<T>&,
-                                    boost::forward_traversal_tag>
+    : public boost::iterator_facade<combination_iterator<T>, const std::vector<T>&, boost::forward_traversal_tag>
 {
 public:
     combination_iterator() : comb_() {}

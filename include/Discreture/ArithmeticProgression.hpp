@@ -80,9 +80,7 @@ public:
     /// \brief Random access iterator class.
     ////////////////////////////////////////////////////////////
     class iterator
-        : public boost::iterator_facade<iterator,
-                                        const IntType&,
-                                        boost::random_access_traversal_tag>
+        : public boost::iterator_facade<iterator, const IntType&, boost::random_access_traversal_tag>
     {
     public:
         explicit iterator(size_type t_from = 0, size_type t_step = 1)

@@ -164,9 +164,7 @@ public:
     /// \brief Forward iterator class.
     ////////////////////////////////////////////////////////////
     class iterator
-        : public boost::iterator_facade<iterator,
-                                        const dyck_path&,
-                                        boost::forward_traversal_tag>
+        : public boost::iterator_facade<iterator, const dyck_path&, boost::forward_traversal_tag>
     {
     public:
         iterator() = default; // empty initializer

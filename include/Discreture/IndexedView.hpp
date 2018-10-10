@@ -40,9 +40,7 @@ public:
     }
 
     class iterator
-        : public boost::iterator_facade<iterator,
-                                        const value_type&,
-                                        boost::random_access_traversal_tag>
+        : public boost::iterator_facade<iterator, const value_type&, boost::random_access_traversal_tag>
     {
     public:
         using index_iter =

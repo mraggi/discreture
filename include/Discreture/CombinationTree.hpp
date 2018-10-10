@@ -60,9 +60,7 @@ public:
     /// certain predicate one by one
     ////////////////////////////////////////////////////////////
     class iterator
-        : public boost::iterator_facade<iterator,
-                                        const combination&,
-                                        boost::forward_traversal_tag>
+        : public boost::iterator_facade<iterator, const combination&, boost::forward_traversal_tag>
     {
     public:
         iterator(Predicate p, bool last)

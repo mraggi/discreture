@@ -40,10 +40,7 @@ auto divide_work_in_equal_parts(const Container& C, size_t num_processors)
 }
 
 template <class RAIter, class Function>
-void parallel_for_each(RAIter first,
-                       RAIter last,
-                       Function f,
-                       size_t num_processors)
+void parallel_for_each(RAIter first, RAIter last, Function f, size_t num_processors)
 {
     Chronometer C;
     auto work = divide_work_in_equal_parts(first, last, num_processors);

@@ -113,9 +113,7 @@ public:
     /// bidirectional iterator than purely random access.
     ////////////////////////////////////////////////////////////
     class iterator
-        : public boost::iterator_facade<iterator,
-                                        const combination&,
-                                        boost::random_access_traversal_tag>
+        : public boost::iterator_facade<iterator, const combination&, boost::random_access_traversal_tag>
     {
     public:
         iterator()

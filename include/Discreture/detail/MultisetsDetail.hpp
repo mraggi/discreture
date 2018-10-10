@@ -24,10 +24,7 @@ namespace detail
         {
             for (x[i] = 0; x[i] <= total[i]; ++x[i])
             {
-                for_each_multiset<multiset, _size - 1>::for_loop(x,
-                                                                 total,
-                                                                 i - 1,
-                                                                 f);
+                for_each_multiset<multiset, _size - 1>::for_loop(x, total, i - 1, f);
             }
         }
     };

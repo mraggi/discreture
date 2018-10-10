@@ -23,7 +23,7 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& V)
 }
 
 ////////////////////////////////////
-/// \brief prints out a matrix
+/// \brief prints out a vector of vector's as a matrix
 ////////////////////////////////////
 template <class T>
 std::ostream& operator<<(std::ostream& os, const std::vector<std::vector<T>>& V)
@@ -37,11 +37,10 @@ std::ostream& operator<<(std::ostream& os, const std::vector<std::vector<T>>& V)
 
 /////////////////////////////
 /// \brief Specialization for std::vector printouts for std::vector<bool> so
-/// that it doesn't print out spaces
+/// that it doesn't print out spaces between 0's and 1's
 /////////////////////////////
 inline std::ostream& operator<<(std::ostream& os, const std::vector<bool>& V)
 {
-
     for (bool v : V)
         os << v;
 

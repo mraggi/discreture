@@ -188,9 +188,7 @@ public:
     /// bidirectional iterator than purely random access.
     ////////////////////////////////////////////////////////////
     class iterator
-        : public boost::iterator_facade<iterator,
-                                        const permutation&,
-                                        boost::random_access_traversal_tag>
+        : public boost::iterator_facade<iterator, const permutation&, boost::random_access_traversal_tag>
     {
     public:
         explicit iterator(IntType n = 0) : ID_(0), last_(n - 1), data_(n)

@@ -13,8 +13,7 @@ inline void BM_CombinationsNAP(int n, int k)
     do
     {
         DoNotOptimize(comb);
-    } while (
-      discreture::Combinations<int>::next_combination(n, comb, hint, last));
+    } while (discreture::Combinations<int>::next_combination(n, comb, hint, last));
 }
 
 inline void BM_combinationsIterator(int n, int k, std::int64_t size)

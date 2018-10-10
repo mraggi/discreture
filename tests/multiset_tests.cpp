@@ -8,8 +8,7 @@
 using namespace std;
 using namespace discreture;
 
-void check_multiset(const multisets::multiset& x,
-                    const multisets::multiset& total)
+void check_multiset(const multisets::multiset& x, const multisets::multiset& total)
 {
     ASSERT_EQ(x.size(), total.size());
     for (size_t i = 0; i < x.size(); ++i)

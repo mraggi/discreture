@@ -43,9 +43,7 @@ public:
     IntType operator[](size_type i) const { return first_ + i; }
 
     class iterator
-        : public boost::iterator_facade<iterator,
-                                        const IntType&,
-                                        boost::random_access_traversal_tag>
+        : public boost::iterator_facade<iterator, const IntType&, boost::random_access_traversal_tag>
     {
     public:
         explicit iterator(IntType t = 0) : value_(t) {}

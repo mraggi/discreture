@@ -227,8 +227,7 @@ inline BigIntType generalized_pentagonal(llint n)
 template <class BigIntType>
 inline BigIntType partition_number(llint n)
 {
-    static std::vector<llint> P =
-      {1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77, 101};
+    static std::vector<llint> P = {1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77, 101};
 
     llint oldsize = P.size();
 
