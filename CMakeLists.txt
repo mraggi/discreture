@@ -162,3 +162,5 @@ endif()
 include(CodeCoverage)
 
 set( CMAKE_EXPORT_COMPILE_COMMANDS 1 )
+
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
