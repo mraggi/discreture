@@ -53,7 +53,7 @@ namespace random
     FloatType random_real(FloatType from, FloatType upto)
     {
         static std::uniform_real_distribution<> d{};
-        using parm_t = decltype(d)::param_type;
+        using parm_t = typename decltype(d)::param_type;
         return d(random_engine(), parm_t{from, upto});
     }
 
