@@ -21,6 +21,7 @@ function(build_example TEST_SRC)
 		${target}
 		discreture::discreture
 	)
+
 # 	target_compile_options(
 # 		${target}
 # 		PRIVATE
