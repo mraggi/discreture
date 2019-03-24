@@ -37,7 +37,8 @@ set(TEST_MAIN unit_tests.x)
 add_executable(${TEST_MAIN} ${TEST_FILES})
 
 target_link_libraries(
-        ${target}
+        ${TEST_MAIN}
+        ${CMAKE_THREAD_LIBS_INIT}
         discreture::discreture
         gtest
         gmock

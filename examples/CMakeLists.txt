@@ -44,7 +44,7 @@ set(
 	partitions.cpp
 	partitions_reverse.cpp
 	multisets.cpp
-	playground.cpp
+# 	playground.cpp
 	tutorial.cpp
 )
 
