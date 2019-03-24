@@ -82,7 +82,7 @@ brew install gcc cmake git boost
 
 To do a system-wide install, do the standard cmake/make dance:
 ```sh
-git clone https://gitlab.com/miguelraggi/discreture.git
+git clone --recursive https://gitlab.com/miguelraggi/discreture.git
 cd discreture
 mkdir build
 cd build
