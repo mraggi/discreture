@@ -38,7 +38,6 @@ add_executable(${TEST_MAIN} ${TEST_FILES})
 
 target_link_libraries(
         ${target}
-        ${CMAKE_THREAD_LIBS_INIT}
         discreture::discreture
         gtest
         gmock
