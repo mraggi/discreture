@@ -11,44 +11,44 @@ notifications:
 
 before_install:
   # C++17
-  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  #- sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo add-apt-repository -y ppa:sickpig/boost
   - sudo apt-get update -qq
-  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+  #- echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 install: 
   # C++17
   - sudo apt-get install -qq g++-7 build-essential cmake wget libboost-dev
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
-  - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 90
+  #- sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 90
    
   # install newer LCOV (apt version outdated and fails for new gcov).
-  - wget http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.11.orig.tar.gz
-  - tar xf lcov_1.11.orig.tar.gz
-  - sudo make -C lcov-1.11/ install  
-  - which lcov 
+  #- wget http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.11.orig.tar.gz
+  #- tar xf lcov_1.11.orig.tar.gz
+  #- sudo make -C lcov-1.11/ install  
+  #- which lcov 
 
   # Install coverals gem for uploading coverage to coveralls.
-  - gem install coveralls-lcov
+  #- gem install coveralls-lcov
 
 before_script:
-  - lcov --version
-  - gcov --version
-  - g++ --version
+  #- lcov --version
+  #- gcov --version
+  #- g++ --version
   - PARENTDIR=$(pwd)
   - mkdir $PARENTDIR/build && cd $PARENTDIR/build
 
 script:
   - cd $PARENTDIR/build
-  - cmake -DCMAKE_BUILD_TYPE=Coverage -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DBUILD_BENCHMARKS=OFF $PARENTDIR
+  #- cmake -DCMAKE_BUILD_TYPE=Coverage -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DBUILD_BENCHMARKS=OFF $PARENTDIR
+  - cmake -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON $PARENTDIR
   - make
-  - make gtest
-  - make coverage
+  - ./tests/unit_tests.x
 
-after_success:
-  - cd $PARENTDIR/build
-  - lcov --list coverage_out.info.cleaned  # Show test report in travis log.
-  - coveralls-lcov coverage_out.info.cleaned  # uploads to coveralls
+#after_success:
+  #- cd $PARENTDIR/build
+  #- lcov --list coverage_out.info.cleaned  # Show test report in travis log.
+  #- coveralls-lcov coverage_out.info.cleaned  # uploads to coveralls
 
 #addons:
   #coverity_scan:
