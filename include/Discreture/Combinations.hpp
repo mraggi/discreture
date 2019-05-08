@@ -11,6 +11,7 @@
 #include "Sequences.hpp"
 #include "VectorHelpers.hpp"
 #include "detail/CombinationsDetail.hpp"
+#include "hedley.h"
 
 namespace discreture
 {
@@ -579,7 +580,7 @@ public:
     //* Use this one for best speed */
     static void next_combination(combination& data, size_type& hint, IntType last)
     {
-        if (hint > 0)
+        if (HEDLEY_LIKELY(hint > 0))
         {
             ++data[--hint];
             return;
@@ -587,9 +588,9 @@ public:
 
         assert(last + 1 == std::int64_t(data.size()));
 
-        if (last > 0)
+        if (HEDLEY_LIKELY(last > 0))
         {
-            if (data[0] + 1 != data[1])
+            if (HEDLEY_UNLIKELY(data[0] + 1 != data[1]))
             {
                 ++data[0];
                 return;
@@ -608,7 +609,7 @@ public:
             return;
         }
 
-        if (last == 0)
+        if (HEDLEY_UNLIKELY(last == 0))
             ++data[0];
     } // next_combination data, hint, last
 

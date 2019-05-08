@@ -11,12 +11,12 @@ void bench_permutations()
     constexpr int construct = 1000000;
 
     auto P = discreture::permutations(nperm);
-    auto PF = discreture::permutations_stack(nperm);
+    //     auto PF = discreture::permutations_stack(nperm);
 
     cout << ProduceRowForward("Permutations", P);
-    cout << ProduceRowForward("Permutations Stack", PF);
+    //     cout << ProduceRowForward("Permutations Stack", PF);
     cout << ProduceRowReverse("Permutations", P);
-    cout << ProduceRowReverse("Permutations Stack", PF);
+    //     cout << ProduceRowReverse("Permutations Stack", PF);
     cout << ProduceRowConstruct("Permutations", P, construct);
-    cout << ProduceRowConstruct("Permutations Stack", PF, construct);
+    //     cout << ProduceRowConstruct("Permutations Stack", PF, construct);
 }

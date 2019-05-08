@@ -10,11 +10,11 @@ using namespace discreture::detail; // NOLINT
 int main()
 {
     std::string X = "Hello world!";
-	std::string_view A(X);
-	std::cout << A << std::endl;
-	
-	for (auto&& a : discreture::combinations(A,3))
-		cout << a << endl;
+    std::string_view A(X);
+    std::cout << A << std::endl;
+
+    for (auto&& a : discreture::combinations(A, 3))
+        cout << a << endl;
 
     return 0;
 }

@@ -450,12 +450,6 @@ private:
         case 14: detail::for_each_partition<part, 14>::apply(n_, f); break;
         case 15: detail::for_each_partition<part, 15>::apply(n_, f); break;
         case 16: detail::for_each_partition<part, 16>::apply(n_, f); break;
-        case 17: detail::for_each_partition<part, 17>::apply(n_, f); break;
-        case 18: detail::for_each_partition<part, 18>::apply(n_, f); break;
-        case 19: detail::for_each_partition<part, 19>::apply(n_, f); break;
-        case 20: detail::for_each_partition<part, 20>::apply(n_, f); break;
-        case 21: detail::for_each_partition<part, 21>::apply(n_, f); break;
-        case 22: detail::for_each_partition<part, 22>::apply(n_, f); break;
 
             // clang-format on
 

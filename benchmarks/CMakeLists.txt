@@ -23,14 +23,15 @@ target_link_libraries(
     PRIVATE discreture::discreture
 )
 
-find_package(GSL)
-
 if (NOT CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     target_compile_options(
         benchmark_discreture
-        PRIVATE "-mtune=native"
+        PRIVATE "-mtune=native" "-Ofast"
     )
+    message("Using compiler: " ${CMAKE_CXX_COMPILER_ID})
 endif()
+
+find_package(GSL)
 
 if (GSL_FOUND)
 
@@ -50,11 +51,11 @@ if (GSL_FOUND)
     )
 
 endif()
-
+find_package(Threads)
 if (${CMAKE_USE_PTHREADS_INIT})
     add_executable(
         benchmark_parallel 
-        benchmarks/parallel/parallel_benchmarks.cpp)
+        parallel/parallel_benchmarks.cpp)
     target_link_libraries(
         benchmark_parallel 
         PRIVATE ${CMAKE_THREAD_LIBS_INIT})

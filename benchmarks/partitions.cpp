@@ -10,14 +10,14 @@ void bench_partitions()
 {
     constexpr int npart = 70;
     auto PT = discreture::partitions(npart);
-    auto PTF = discreture::partitions_stack(npart);
+    //     auto PTF = discreture::partitions_stack(npart);
 
-    cout << ProduceRowForEach("Partitions", PT);
-    cout << ProduceRowForEach("Partitions Stack", PTF);
+    //     cout << ProduceRowForEach("Partitions", PT);
+    //     cout << ProduceRowForEach("Partitions Stack", PTF);
     cout << ProduceRowForward("Partitions", PT);
-    cout << ProduceRowForward("Partitions Stack", PTF);
+    //     cout << ProduceRowForward("Partitions Stack", PTF);
     cout << ProduceRowReverse("Partitions", PT);
-    cout << ProduceRowReverse("Partitions Stack", PTF);
+    //     cout << ProduceRowReverse("Partitions Stack", PTF);
 }
 
 void bench_set_partitions()
