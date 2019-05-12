@@ -36,7 +36,7 @@ double FWIterationBenchmark(const Container& A)
 }
 
 template <class Container>
-double ParallelBenchmark(const Container& X, int num_processors)
+double ParallelBenchmark(const Container& X, size_t num_processors)
 {
     return Benchmark([&X, num_processors]() {
         auto work = discreture::divide_work_in_equal_parts(X.begin(),

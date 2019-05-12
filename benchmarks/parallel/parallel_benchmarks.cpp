@@ -8,31 +8,31 @@ using std::endl;
 constexpr int n = 45;
 constexpr int k = 10;
 
-void parallel_combinations(int num_processors)
+void parallel_combinations(size_t num_processors)
 {
     auto C = discreture::combinations(n, k);
     cout << ProduceRowParallelForward("Combs", C, num_processors);
 }
 
-void parallel_lex_combinations(int num_processors)
+void parallel_lex_combinations(size_t num_processors)
 {
     auto C = discreture::lex_combinations(n, k);
     cout << ProduceRowParallelForward("Lex Combs", C, num_processors);
 }
 
-void parallel_permutations(int num_processors)
+void parallel_permutations(size_t num_processors)
 {
     auto C = discreture::permutations(12);
     cout << ProduceRowParallelForward("Perms", C, num_processors);
 }
 
-void parallel_multisets(int num_processors)
+void parallel_multisets(size_t num_processors)
 {
     auto C = discreture::multisets(31, 1);
     cout << ProduceRowParallelForward("Multisets", C, num_processors);
 }
 
-// void parallel_permutations(int num_processors)
+// void parallel_permutations(size_t num_processors)
 // {
 //     auto P = discreture::permutations(14);
 //     cout << ProduceRowParallelForward("Permutations", P, num_processors);

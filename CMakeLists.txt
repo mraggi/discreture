@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.0)
 ##
 ## PROJECT
 ## name and version
-project(discreture VERSION 1.7 LANGUAGES CXX)
+project(discreture VERSION 1.8 LANGUAGES CXX)
 
 ##
 ## INCLUDE

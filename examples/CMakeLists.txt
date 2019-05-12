@@ -10,8 +10,15 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 find_package(Threads)
 
-set(RELEASE_COMPILE_FLAGS "-Ofast -DNDEBUG -ffast-math")
-set(DEBUG_COMPILE_FLAGS "-g -O1 -Wall -Wextra -Wpedantic -Wno-unused -Wno-sign-compare")
+if (NOT CMAKE_BUILD_TYPE)
+    message("CMAKE_BUILD_TYPE not specified! Setting to Release.")
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
+# set(RELEASE_COMPILE_FLAGS "-Ofast -DNDEBUG -ffast-math")
+# set(DEBUG_COMPILE_FLAGS "-g -O1 -Wall -Wextra -Wpedantic -Wno-unused -Wno-sign-compare")
+
+
 
 function(build_example TEST_SRC)
 	get_filename_component(test_src_we ${TEST_SRC} NAME_WE)

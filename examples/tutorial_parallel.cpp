@@ -28,9 +28,9 @@ int main()
 
     int n = 40;
     int k = 10;
-    int max_num_processors = 8;
+    size_t max_num_processors = 8;
 
-    for (int num_processors = 1; num_processors <= max_num_processors;
+    for (size_t num_processors = 1; num_processors <= max_num_processors;
          ++num_processors)
     {
         Chronometer C;

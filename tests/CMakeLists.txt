@@ -10,8 +10,14 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 find_package(Threads REQUIRED)
 
-set(RELEASE_COMPILE_FLAGS "-Ofast -DNDEBUG -ffast-math")
-set(DEBUG_COMPILE_FLAGS "-g -O1 -Wall -Wextra -Wpedantic -Wno-unused -Wno-sign-compare")
+
+if (NOT CMAKE_BUILD_TYPE)
+    message("CMAKE_BUILD_TYPE not specified! Setting to Release.")
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
+# set(RELEASE_COMPILE_FLAGS "-Ofast -DNDEBUG -ffast-math")
+# set(DEBUG_COMPILE_FLAGS "-g -O1 -Wall -Wextra -Wpedantic -Wno-unused -Wno-sign-compare")
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/external/googletest "external/googletest")
 
