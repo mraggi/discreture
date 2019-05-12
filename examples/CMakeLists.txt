@@ -47,7 +47,7 @@ set(
 	motzkin.cpp
 	permutations.cpp
 	arithmetic_progression.cpp
-	setpartitions.cpp
+	set_partitions.cpp
 	partitions.cpp
 	partitions_reverse.cpp
 	multisets.cpp
