@@ -23,11 +23,11 @@ bench = executable('discreture_benchmark',
            'main.cpp',
            'multisets.cpp',
            'partitions.cpp',
-           'perms.cpp', dependencies : [gsl_dep,boost_dep], cpp_args: cpp_add_gsl_if_found + cpp_optimization_args)
+           'perms.cpp', dependencies : [gsl_dep,boost_dep,discreture_dep], cpp_args: cpp_add_gsl_if_found + cpp_optimization_args)
 benchmark('bench', bench)
 
 threads_dep = dependency('threads', required : false)
 if threads_dep.found()
-    bench_par = executable('parallel_benchmark', 'parallel/parallel_benchmarks.cpp', dependencies : [boost_dep,threads_dep])
+    bench_par = executable('parallel_benchmark', 'parallel/parallel_benchmarks.cpp', dependencies : [boost_dep,threads_dep,discreture_dep])
     benchmark('bench_par', bench_par)
 endif

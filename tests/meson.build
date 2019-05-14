@@ -17,6 +17,6 @@ if gtest_dep.found()
                           'reversed_tests.cpp', 
                           'sequence_tests.cpp', 
                           'set_partition_tests.cpp', 
-                          dependencies : [boost_dep,gtest_dep])
+                          dependencies : [boost_dep,gtest_dep,discreture_dep])
     test('gtest test', test_exe)
 endif
