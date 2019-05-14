@@ -24,24 +24,24 @@ using discreture::operator<<;
 
 int main()
 {
-	for (auto&& x : discreture::combinations(5,3))
-		std::cout << x << std::endl;
-	
-	return 0;
+    for (auto&& x : discreture::combinations(5,3))
+        std::cout << x << std::endl;
+    
+    return 0;
 }
 ```
 The above code would produce the following output:
 
-	0 1 2
-	0 1 3
-	0 2 3
-	1 2 3
-	0 1 4
-	0 2 4
-	1 2 4
-	0 3 4
-	1 3 4
-	2 3 4
+    0 1 2
+    0 1 3
+    0 2 3
+    1 2 3
+    0 1 4
+    0 2 4
+    1 2 4
+    0 3 4
+    1 3 4
+    2 3 4
 
 You need to compile with the `-std=c++14` flag:
 `g++ -std=c++14 -O3 main.cpp`
@@ -57,19 +57,22 @@ To use, simply make sure your programs have access to the .hpp files (all files 
 Nothing needs to be compiled. But if you wish to build examples, benchmarks and tests, these are the pre-requisites.
 - A C++ compiler (*i.e.* gcc or clang)
 - [boost](http://www.boost.org) (header files. Specifically: iterator_facade)
-- [cmake](https://cmake.org/)
+- [cmake](https://cmake.org/) or [meson](https://mesonbuild.com/)
 - [git](https://git-scm.com/) (only for downloading the directory. You can also download it directly from gitlab/github)
 - [Google's Test Framework](https://github.com/google/googletest) (for building unit tests only).
 
+Starting from v1.9 we also support the much faster meson build system instead of cmake, but shall continue to maintain support for cmake.
+
 ### Installing pre-requisites in Ubuntu Linux and derivatives
 ```sh
-sudo apt-get install libboost-all-dev cmake git build-essential
+sudo apt-get install libboost-all-dev git build-essential cmake
 ```
 
 ### Installing pre-requisites in Arch Linux and derivatives
 ```sh
-sudo pacman -S boost cmake git gcc
+sudo pacman -S boost git gcc cmake
 ```
+
 
 ### Installing pre-requisites in mac OS
 First, make sure [HomeBrew](https://brew.sh/) is installed. Then in a terminal do:
@@ -98,22 +101,23 @@ There are three options: BUILD_EXAMPLES, BUILD_TESTS and BUILD_BENCHMARKS. **To 
 cmake .. -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DBUILD_BENCHMARKS=ON
 ```
 
-By default, examples are built but tests and benchmarks are not. You may disable them with `-DBUILD_EXAMPLES=OFF`.
+By default, nothing is built, as discreture is a header-only library.
 
 ### Trying the examples
 After compiling the examples (with `cmake .. -DBUILD_EXAMPLES=ON`), try for example running:
 ```sh
 ./combinations 5 3
 ```
-will output all combinations of size 3 from the set {0,1,2,3,4}.
 
-Or
+This will output all combinations of size 3 from the set {0,1,2,3,4}.
+
+Or try for example
 ```sh
 ./combinations "abcde" 3
 ```
 will output all subsets of size 3 of "abcde".
 
-There are many other programs there. Play with them.
+There are many other example programs there. Play with them.
 
 # How to start using the library
 To use the library, after compiling, just add `#include <discreture.hpp>` to your project and make sure you are compiling in `c++14` mode (or later). With the GCC compiler this can be done by compiling like this: `g++ -std=c++14 myfile.cpp`. You can include only part of the library, say, combinations, by adding `#include <Discreture/Combinations.hpp>` for example.
@@ -144,7 +148,7 @@ Within this library, one can construct a few combinatorial objects, such as:
 
 All follow the same design principle: The templated class is called `SomethingOrOther<...>`, with CamelCase notation, and there is either a function or a typedef for the simplest template parameters. However, most of the time you'll be using the `small_case_notation` version, which either is a typedef or a function with sensible parameters.
 
-For example, `partitions` is a typedef of `Partitions<int, vector<int>>`, but `combinations` is a function with two versions, depending on the arguments. It returns either an object of type `Combinations<T, vector<T>>` or `CompoundContainer</*some template parameters*/>`, depending on which arguments are passed. Note that there is currently no support for detecting repeats. So `combinations("aabc"s,2)` has `ab` two times.
+For example, `partitions` is a typedef of `Partitions<int, vector<int>>`, but `combinations` is a function with two versions, depending on the arguments. It returns either an object of type `Combinations<T, vector<T>>` or `IndexedViewContainer</*some template parameters*/>`, depending on which arguments are passed. Note that there is currently no support for detecting repeats, so `combinations("aabc"s,2)` has `ab` two times. If you need this functionality, let me know and I'll do my best to implement it quickly.
 
 Some tests show that on different machines different types produce faster code, so even if you don't need numbers bigger than 127 it might be a good idea to use `int` or `long` rather than `char`. 
 
@@ -154,8 +158,8 @@ Some tests show that on different machines different types produce faster code, 
 auto X = discreture::combinations(30,10); //all subsets of size 10 of {0,1,2,...,29}
 for (auto&& x : X) 
 { 
-	// x is of type const vector<int>&, so anything that works with 
-	// const vector references also works on x, such as indexing, iterating, etc. x[3], etc.
+    // x is of type const vector<int>&, so anything that works with 
+    // const vector references also works on x, such as indexing, iterating, etc. x[3], etc.
 }
 ```
 
@@ -164,7 +168,7 @@ Reverse iterators are defined too.
 discreture::Combinations<short> X(30,10);
 for (auto it = X.rbegin(); it != X.rend(); ++it) 
 { 
-	auto& x = *it;
+    auto& x = *it;
 }
 ```
 
@@ -187,7 +191,7 @@ auto comb = X[10000]; //produces the 10,000-th combination.
 ```c++
 for (int i = 0; i < X.size(); ++i)
 { 
-	// use X[i] 
+    // use X[i] 
 }
 ```
 so don't do that.
@@ -205,7 +209,7 @@ This is also useful to use many processors at once. See tutorial_parallel.cpp un
 
 ## Tutorial
 
-Here is a quick mini-tutorial. See the examples for more on usage. Check the files under `examples` for a more complete tutorial on how to use the library. Maybe start with the file called "tutorial.cpp" and then read the others in any order.
+Here is a quick mini-tutorial. See the examples for more on usage. Check the files under `examples` for a more complete tutorial on how to use the library. Maybe start with the file called `tutorial.cpp` and then read the others in any order.
 
 ### Combinations example
 After installing, let's start by creating a file called "combinations.cpp" and adding the following content:
@@ -251,35 +255,35 @@ using discreture::operator<<;
 
 bool is_perfect_square(int n) 
 {
-	if (n < 0)
-		return false;
-	int r = round(sqrt(n));
-	return n == r*r;
+    if (n < 0)
+        return false;
+    int r = round(sqrt(n));
+    return n == r*r;
 }
 
 int main()
 {
-	auto X = discreture::partitions(20,1,6);
-	for (auto&& x : X)
-	{
-		if (std::all_of(x.begin(), x.end(), is_perfect_square))
-			std::cout << x << std::endl;
-	}
-	
-	return 0;
+    auto X = discreture::partitions(20,1,6);
+    for (auto&& x : X)
+    {
+        if (std::all_of(x.begin(), x.end(), is_perfect_square))
+            std::cout << x << std::endl;
+    }
+    
+    return 0;
 }
 ```
 
 Then compile with the command `g++ -O2 -std=C++14 main.cpp -o out` and run `./out`. It should produce the following output:
 
-	9 4 4 1 1 1
-	16 1 1 1 1
-	4 4 4 4 4
-	9 9 1 1
-	16 4
+    9 4 4 1 1 1
+    16 1 1 1 1
+    4 4 4 4 4
+    9 9 1 1
+    16 4
 
 ## Combinations find_if and find_all
-Combinations is the most mature part of the library, and some backtracking functions to find a specific combination are implemented:
+Combinations is the most mature part of the library, and some tree-prunning (backtracking) functions to find a specific combination have been implemented:
 
 ```c++
 #include <iostream>
@@ -290,42 +294,41 @@ using discreture::operator<<;
 
 int main()
 {
-	auto X = discreture::combinations(10,3);
-	
-	// T will be an iterable object whose elements are the combinations that satisfy the predicate specified by the lambda function.
-	// In this case, the lambda checks that the next to last element divides the last element.
-	// The elements of T will therefore be the combinations for which every element is a divisor of the next element.
-	auto T = X.find_all([](const auto& comb) -> bool
-	{
-		int k = comb.size();
-		
-		if (k <= 1) return true;
-		
-		if (comb[k-2] == 0) return false;
-	
-		return (comb[k-1]%comb[k-2] == 0);
-	});
-	for (auto&& t : T)
-		std::cout << t << std::endl;
+    auto X = discreture::combinations(10,3);
+    
+    // T will be an iterable object whose elements are the combinations that satisfy the predicate specified by the lambda function.
+    // In this case, the lambda checks that the next to last element divides the last element.
+    // The elements of T will therefore be the combinations for which every element is a divisor of the next element.
+    auto T = X.find_all([](const auto& comb) -> bool
+    {
+        int k = comb.size();
+        
+        if (k <= 1) return true;
+        
+        if (comb[k-2] == 0) return false;
+    
+        return (comb[k-1]%comb[k-2] == 0);
+    });
+    for (auto&& t : T)
+        std::cout << t << std::endl;
 }
 ```
 
 Prints out:
 
-	1 2 4
-	1 2 6
-	1 2 8
-	1 3 6
-	1 3 9
-	2 4 8
+    1 2 4
+    1 2 6
+    1 2 8
+    1 3 6
+    1 3 9
+    2 4 8
 
 
 These are all combinations for which every element is a divisor of the next element. This is *not* merely a filter: only combinations which satisfy the partial predicate (given by a lambda function) are further explored, in a branch-and-cut way.
 
-
 ### Getting that last drop of speed
 
-By default, `Combinations<T>::combination` (and many others) is a typedef of `std::vector<T>`, which allocates memory on the free store. If you really need the utmost performance, this may be changed to any random access container with the same interface as vector. A good choice is `boost::containter::static_vector<T,K>` (or even `boost::containter::small_vector<T,K>`), where `K` is the biggest size you'll need.
+By default, `Combinations<T>::combination` (and many others) is a typedef of `std::vector<T>`, which allocates memory on the free store. If you really need the utmost performance (although tests show meager gains at best), this may be changed to any random access container with the same interface as vector. A good choice is `boost::containter::static_vector<T,K>` (or even `boost::containter::small_vector<T,K>`), where `K` is the biggest size you'll need.
 
 Some sane defaults for `K` have been set in `combinations_stack`, `permutations_stack`, `dyck_paths_stack`, which are just typedef's of `basic_combinations<int,boost::containter::static_vector<int,K>>` and so on.
 
@@ -335,10 +338,10 @@ So for example, the following code iterates over all combinations of size 3 of `
 
 int main()
 {
-	for (auto&& x : discreture::combinations_stack(7,3))
-	{
-		//do stuff with x
-	}
+    for (auto&& x : discreture::combinations_stack(7,3))
+    {
+        //do stuff with x
+    }
 }
 ```
 
@@ -348,36 +351,36 @@ This only works if combination size (*e.g.* 3) is less than 32. If for some reas
 
 int main()
 {
-	using my_fast_big_combinations = discreture::basic_combinations<int,boost::containter::static_vector<int,50>>;
-	for (auto& x : my_fast_big_combinations(52,50))
-	{
-		//do stuff with x
-	}
+    using my_fast_big_combinations = discreture::basic_combinations<int,boost::containter::static_vector<int,50>>;
+    for (auto& x : my_fast_big_combinations(52,50))
+    {
+        //do stuff with x
+    }
 }
 ```
 
-Each of `permutations`, `dyck_paths`, etc. has its corresponding "stack memory" version: `permutations_stack`, `dyck_paths_stack`, etc. with their own custom set limits. If you are going to need monstrous objects (like permutations of size 17 or more (why?!)), just typedef as in the previous example or use regular old fashioned `permutations`.
+Each of `permutations`, `dyck_paths`, etc. has its corresponding "stack memory" version: `permutations_stack`, `dyck_paths_stack`, etc. with their own custom set limits. If you are going to need monstrous objects (like permutations of size 17 or more (why?!)) and for some reason can't allocate a few more bytes (again: why?!), just typedef as in the previous example (or use regular old fashioned `permutations`).
 
-#### combinations::for_each
+#### combinations::for_each and multisets::for_each
 
-For combinations in particular, there is one last possible speedup: use for_each, like in the following example.
+For combinations and multisets in particular, there is one last possible speedup: use for_each, like in the following example.
 
 ```c++
 #include <Discreture/Combinations.hpp>
 
 void f(const discreture::combinations_stack::combination& x)
 {
-	// Do stuff to x
+    // Do stuff to x
 }
 
 int main()
 {
-	discreture::combinations_stack X(34,17);
-	X.for_each(f);
+    discreture::combinations_stack X(34,17);
+    X.for_each(f);
 }
 ```
 
-This code applies `f` to every element of `X`, and it's almost twice as fast (see benchmarks) as doing manual iteration, up to size 17. More than that and `for_each` falls back on manual iteration. Of course, `f` can be a lambda or a functor too.
+This code applies `f` to every element of `X`, and it's about 30% faster (see benchmarks) as doing iteration, up to size 17. More than that and `for_each` falls back on manual iteration. Of course, `f` can be a lambda or a functor too.
 
 # Benchmarks.
 
@@ -402,10 +405,10 @@ gsl_combination * c;
 c = gsl_combination_calloc (n, n/2);
 do
 {
-	DoNotOptimize(*c);
+    DoNotOptimize(*c);
 }
 while (gsl_combination_next (c) == GSL_SUCCESS);
-gsl_combination_free (c);	
+gsl_combination_free (c);    
 ```
 
 The same code using euler314's library:
@@ -415,7 +418,7 @@ auto end = combination_iterator<int>();
 
 for (auto it = combination_iterator<int>(n, n/2); it != end; ++it)
 {
-	DoNotOptimize(*it);
+    DoNotOptimize(*it);
 }
 ```
 
@@ -423,7 +426,7 @@ Compare to the following (beautiful) code, using discreture:
 ```c++
 for (auto&& x : combinations(n,n/2))
 {
-	DoNotOptimize(x);
+    DoNotOptimize(x);
 }
 ```
 
@@ -432,12 +435,12 @@ Or the for_each variant of discreture:
 auto X = combinations(n,n/2);
 X.for_each([](const combinations::combination& x)
 {
-	DoNotOptimize(x);
+    DoNotOptimize(x);
 });
 ```
 
 
-**Note 1**: GSL and euler314 iterates in the same order as `combinations_tree`. Not really sure why euler314's (yellow) is a tiny bit faster than `combinations_tree`. The code does essentially the same thing (although it was written independently).
+**Note 1**: GSL and euler314 iterates in the same order as `lex_combinations`. Not really sure why euler314's (yellow) is a tiny bit faster than `lex_combinations`. The code does essentially the same thing (although it was written independently).
 
 **Note 2**: `DoNotOptimize(x)` is just a way to tell the compiler to not optimize away the empty loop. Taken from [google benchmarking tools](https://github.com/google/benchmark). 
 
@@ -495,26 +498,26 @@ First: If you use discreture for your own purposes, let us know!
 Optimizations, suggestions, feature requests, etc. are very welcome too.
 
 Otherwise, you can contribute in many ways:
-	
- - Provide bug reports if you encounter them, or do some feature requests.
+    
+ - Provide bug reports if you encounter them, or even request some features if you'd find them helpful. We'll do our best to provide them.
  - Help us package for the various distros (maybe even other OS's).
  - If you are a developer (or aspiring developer) looking to get your feet wet, here is the current status of the project.
 
 | Container | Forward Iteration? | Reverse Iteration? | Random Access? |
 |:----------|:------------------:|:------------------:|:--------------:|
-| Combinations 	| ✓✓ | ✓ | ✓ |
-| Permutations 	| ✓  | ✓ | ✓ |
-| Multisets 	| ✓  | ✓ | ✓ |
-| Dyck Paths 	| ✓  | 	 | 	 |
-| Motzkin Paths | ✓  | 	 | 	 |
-| Partitions 	| ✓  | ✓ | 	 |
-| Set Partitions| ✓  | 	 |	 |
+| Combinations     | ✓✓ | ✓ | ✓ |
+| Permutations     | ✓  | ✓ | ✓ |
+| Multisets     | ✓  | ✓ | ✓ |
+| Dyck Paths     | ✓  |      |      |
+| Motzkin Paths | ✓  |      |      |
+| Partitions     | ✓  | ✓ |      |
+| Set Partitions| ✓  |      |     |
 
 Just let us know which algorithm you'd like to implement for something that is missing a checkmark ✓. 
 
 Or choose another combinatorial object of your liking.
 
-For example, two (likely) easy ones to implement would be "non-decreasing sequences" (also known as combinations with repetition) and [compositions](https://en.wikipedia.org/wiki/Composition_(combinatorics)) are probably pretty easy to implement, if you wish to get your hands wet.
+For example, two (likely) easy ones to implement would be "non-decreasing sequences" (also known as combinations with repetition) and [compositions](https://en.wikipedia.org/wiki/Composition_(combinatorics)), which are probably pretty easy to implement if you wish to get your hands wet.
 
 We'll even help you set up all the boilerplate code. You just need to say what `next` means for your combinatorial object.
 
