@@ -8,14 +8,15 @@ build:
   # instead of calling g++ directly you can also use some build toolkit like make
   # install the necessary build tools when needed
   before_script: 
-    - apt update && apt install -y -qq make autoconf cmake build-essential libboost-dev
+    - apt update && apt install -y -qq make autoconf cmake build-essential libboost-dev python3 python3-pip ninja-build
+    - pip3 install --user meson
   script: 
-    - mkdir build && cd build
-    - cmake .. -DBUILD_TESTS=ON -DBUILD_EXAMPLES=ON -DBUILD_BENCHMARKS=ON
-    - make
-    - make gtest
-    - ./benchmark_discreture
-    - ./benchmark_parallel
+    - meson setup build_release
+    - cd build_release
+    - ninja
+    - ninja test
+    - ./benchmarks/benchmark_discreture
+    - ./benchmarks/benchmark_parallel
   # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
   # cache:
   #   paths:
