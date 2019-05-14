@@ -17,7 +17,7 @@ if compiler.get_id() == 'msvc'
     cpp_optimization_args = []
 endif
 
-bench = executable('discreture_benchmark',
+bench = executable('benchmark_discreture',
            'combs.cpp',
            'dyckmotzkin.cpp',
            'main.cpp',
@@ -28,6 +28,6 @@ benchmark('bench', bench)
 
 threads_dep = dependency('threads', required : false)
 if threads_dep.found()
-    bench_par = executable('parallel_benchmark', 'parallel/parallel_benchmarks.cpp', dependencies : [boost_dep,threads_dep,discreture_dep])
+    bench_par = executable('benchmark_parallel', 'parallel/parallel_benchmarks.cpp', dependencies : [boost_dep,threads_dep,discreture_dep])
     benchmark('bench_par', bench_par)
 endif

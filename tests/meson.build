@@ -2,7 +2,7 @@
 gtest_dep = dependency('gtest', main : false, required : false)
 
 if gtest_dep.found()
-    test_exe = executable('unittests.x', 
+    test_exe = executable('test_discreture', 
                           'arithmetic_progression_tests.cpp', 
                           'combination_tests.cpp', 
                           'dyck_tests.cpp', 
