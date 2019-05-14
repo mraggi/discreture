@@ -6,10 +6,8 @@ gsl_dep = dependency('gsl', required: false)
 
 if gsl_dep.found()
     cpp_add_gsl_if_found = ['-DTEST_GSL_COMBINATIONS']
-    deps = gsl_dep
 else
     cpp_add_gsl_if_found = []
-    deps = ''
 endif
 
 compiler = meson.get_compiler('cpp')
@@ -25,7 +23,7 @@ bench = executable('discreture_benchmark',
            'main.cpp',
            'multisets.cpp',
            'partitions.cpp',
-           'perms.cpp', dependencies : [deps,boost_dep], cpp_args: cpp_add_gsl_if_found + cpp_optimization_args)
+           'perms.cpp', dependencies : [gsl_dep,boost_dep], cpp_args: cpp_add_gsl_if_found + cpp_optimization_args)
 benchmark('bench', bench)
 
 threads_dep = dependency('threads', required : false)
