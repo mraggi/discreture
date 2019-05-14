@@ -8,6 +8,8 @@ build*
 Makefile
 *include/Discreture/old*
 .project
+subprojects/googletest-release*
+subprojects/packagecache
 
 # Prerequisites
 *.d

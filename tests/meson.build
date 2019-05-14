@@ -1,5 +1,7 @@
 
-gtest_dep = dependency('gtest', main : false, required : false)
+
+gtest_proj = subproject('gtest')
+gtest_dep = dependency('gtest', main: false, required: true)
 
 if gtest_dep.found()
     test_exe = executable('test_discreture', 
