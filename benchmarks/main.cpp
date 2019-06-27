@@ -13,9 +13,6 @@ using std::endl;
 
 int main()
 {
-    using std::cout;
-    using std::endl;
-
     using discreture::binomial;
     using std::operator""s;
     std::ios_base::sync_with_stdio(false);
