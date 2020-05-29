@@ -10,6 +10,7 @@ Makefile
 .project
 subprojects/googletest-release*
 subprojects/packagecache
+.vscode
 
 # Prerequisites
 *.d
