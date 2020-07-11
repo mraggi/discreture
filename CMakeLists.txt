@@ -11,7 +11,7 @@ project(discreture VERSION 1.9 LANGUAGES CXX)
 option(BUILD_EXAMPLES "Build examples" OFF)
 option(BUILD_BENCHMARKS "Build benchmarks" OFF)
 option(BUILD_TESTS "Build unit tests" OFF)
-option(USE_COVERAGE "Build using coverage" ON)
+
 
 ##
 ## INCLUDE
@@ -19,9 +19,13 @@ option(USE_COVERAGE "Build using coverage" ON)
 ##
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 include(ExternalProject)
-if (USE_COVERAGE)
+
+
+string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_tolower)
+if (cmake_build_type_tolower STREQUAL "coverage")
 	include(CodeCoverage)
 endif()
+
 include(ConfigSafeGuards)
 include(Colors)
 

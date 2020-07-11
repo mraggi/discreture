@@ -8,4 +8,4 @@ export CC=gcc
 cmake .. -DCMAKE_BUILD_TYPE=Coverage
 make
 make coverage
-google-chrome-stable ./coverage_out/index.html
+#firefox ./coverage_out/index.html
