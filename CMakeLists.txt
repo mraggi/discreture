@@ -6,21 +6,24 @@ cmake_minimum_required(VERSION 3.0)
 project(discreture VERSION 1.9 LANGUAGES CXX)
 
 ##
-## INCLUDE
-##
-##
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
-include(ExternalProject)
-include(CodeCoverage)
-include(ConfigSafeGuards)
-include(Colors)
-
-##
 ## OPTIONS
 ##
 option(BUILD_EXAMPLES "Build examples" OFF)
 option(BUILD_BENCHMARKS "Build benchmarks" OFF)
 option(BUILD_TESTS "Build unit tests" OFF)
+option(USE_COVERAGE "Build using coverage" ON)
+
+##
+## INCLUDE
+##
+##
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
+include(ExternalProject)
+if (USE_COVERAGE)
+	include(CodeCoverage)
+endif()
+include(ConfigSafeGuards)
+include(Colors)
 
 ##
 ## CONFIGURATION
