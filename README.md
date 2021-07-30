@@ -51,6 +51,9 @@ You need to compile with the `-std=c++14` flag:
 Discreture is a header-only library and its only dependency is boost. Programs using it need to be compiled with `c++14` or later. Tested with gcc 5.4.0 and clang 3.9.0 and up. Other compilers might work too.
 
 To use, simply make sure your programs have access to the .hpp files (all files inside "include" dir). Just copy them to your project's include folders or tell your compiler where to look.
+    
+## Install with package manager
+For easy integration, Discreture can be installed through [VCPKG](https://github.com/microsoft/vcpkg). Simply run `vcpkg install discreture`.
 
 ## Pre-requisites for compiling
 
