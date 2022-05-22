@@ -1,6 +1,6 @@
 project('discreture','cpp', 
         version : '1.9',
-        default_options : ['warning_level=3', 'cpp_std=c++14', 'optimization=3', 'buildtype=release', 'b_ndebug=if-release'])
+        default_options : ['warning_level=3', 'cpp_std=c++17', 'optimization=3', 'buildtype=release', 'b_ndebug=if-release'])
 
 boost_dep = dependency('boost')
 

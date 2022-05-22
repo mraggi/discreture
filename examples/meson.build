@@ -9,7 +9,12 @@ executable('multisets', 'multisets.cpp',dependencies: [discreture_dep, boost_dep
 executable('partitions_reverse', 'partitions_reverse.cpp',dependencies: [discreture_dep, boost_dep])
 executable('partitions', 'partitions.cpp',dependencies: [discreture_dep, boost_dep])
 executable('permutations', 'permutations.cpp',dependencies: [discreture_dep, boost_dep])
-#executable('playground', 'playground.cpp',dependencies: [discreture_dep, boost_dep])
+
+compiler = meson.get_compiler('cpp')
+message('COMPILER: ', compiler.get_id())
+
+tbb_dep = meson.get_compiler('cpp').find_library('tbb',required:true)
+executable('playground', 'playground.cpp',dependencies: [discreture_dep, boost_dep,tbb_dep])
 executable('set_partitions', 'set_partitions.cpp',dependencies: [discreture_dep, boost_dep])
 executable('tutorial', 'tutorial.cpp',dependencies: [discreture_dep, boost_dep])
 
